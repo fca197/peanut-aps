@@ -41,19 +41,26 @@
       <version>1.6.3</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>9.1.0</version>
+    </dependency>
   </dependencies>
 
 
   <build>
-    <finalName>app</finalName>
+    <finalName>peanut-aps</finalName>
     <plugins>
-      <plugin>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <includeSystemScope>true</includeSystemScope>
-        </configuration>
-        <groupId>org.springframework.boot</groupId>
-      </plugin>
+
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
@@ -95,4 +102,10 @@
     </plugins>
   </build>
 
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <version>3.2.0</version>
+    <!--        <version>3.4.3</version>-->
+  </parent>
 </project>
