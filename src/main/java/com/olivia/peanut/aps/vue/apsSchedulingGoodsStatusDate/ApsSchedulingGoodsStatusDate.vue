@@ -1,0 +1,350 @@
+<template>
+  <div class="app-container">
+    <el-form v-show="showSearch" ref="queryForm" :inline="true" :model="queryParams" label-width="88px" size="small">
+      <el-form-item label="排产ID" prop="schedulingId">
+        <el-input v-model="queryParams.data.schedulingId" clearable placeholder="请输入排产ID"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="订单ID" prop="orderId">
+        <el-input v-model="queryParams.data.orderId" clearable placeholder="请输入订单ID"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="商品ID" prop="goodsId">
+        <el-input v-model="queryParams.data.goodsId" clearable placeholder="请输入商品ID"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="订单状态" prop="goodsStatusId">
+        <el-input v-model="queryParams.data.goodsStatusId" clearable placeholder="请输入订单状态"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="期望制造时间" prop="expectMakeTime">
+        <el-input v-model="queryParams.data.expectMakeTime" clearable placeholder="请输入期望制造时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="实际制造时间" prop="actualMakeTime">
+        <el-input v-model="queryParams.data.actualMakeTime" clearable placeholder="请输入实际制造时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="工厂ID" prop="factoryId">
+        <el-input v-model="queryParams.data.factoryId" clearable placeholder="请输入工厂ID"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="状态索引" prop="statusIndex">
+        <el-input v-model="queryParams.data.statusIndex" clearable placeholder="请输入状态索引"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="预计开始时间" prop="expectMakeBeginTime">
+        <el-input v-model="queryParams.data.expectMakeBeginTime" clearable placeholder="请输入预计开始时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="预计结束时间" prop="expectMakeEndTime">
+        <el-input v-model="queryParams.data.expectMakeEndTime" clearable placeholder="请输入预计结束时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="实际开始时间" prop="actualMakeBeginTime">
+        <el-input v-model="queryParams.data.actualMakeBeginTime" clearable placeholder="请输入实际开始时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+      <el-form-item label="实际结束时间" prop="actualMakeEndTime">
+        <el-input v-model="queryParams.data.actualMakeEndTime" clearable placeholder="请输入实际结束时间"
+                  @keyup.enter.native="handleQuery"/>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button icon="el-icon-plus" plain size="mini" type="primary" @click="handleAdd"></el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button :disabled="multiple" icon="el-icon-delete" plain size="mini" type="danger"
+                   @click="handleDelete"></el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
+
+    <el-table v-loading="loading" :data="apsSchedulingGoodsStatusDateList" @selection-change="handleSelectionChange">
+      <el-table-column align="center" label="全选" prop="id" type="selection" width="50"/>
+      <el-table-column v-for="(item,index) in  tableHeaderList" :key="index" :label="item.showName"
+                       :prop="item.fieldName" :width="item.width+'px'" align="center"/>
+      <el-table-column align="center" class-name="small-padding fixed-width" label="操作">
+        <template slot-scope="scope">
+          <el-button icon="el-icon-edit" size="mini" type="text" @click="handleUpdate(scope.row)">修改</el-button>
+          <el-button icon="el-icon-delete" size="mini" type="text" @click="handleDelete(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination
+        v-show="total>0"
+        :limit.sync="queryParams.pageSize"
+        :page.sync="queryParams.pageNum"
+        :total="total"
+        @pagination="getList"
+    />
+
+    <!-- 添加或修改参数配置对话框 -->
+    <el-dialog :title="title" :visible.sync="open" append-to-body width="500px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+
+        <el-form-item label="排产ID" prop="schedulingId">
+          <el-input v-model="form.schedulingId" clearable placeholder="请输入排产ID"/>
+        </el-form-item>
+        <el-form-item label="订单ID" prop="orderId">
+          <el-input v-model="form.orderId" clearable placeholder="请输入订单ID"/>
+        </el-form-item>
+        <el-form-item label="商品ID" prop="goodsId">
+          <el-input v-model="form.goodsId" clearable placeholder="请输入商品ID"/>
+        </el-form-item>
+        <el-form-item label="订单状态" prop="goodsStatusId">
+          <el-input v-model="form.goodsStatusId" clearable placeholder="请输入订单状态"/>
+        </el-form-item>
+        <el-form-item label="期望制造时间" prop="expectMakeTime">
+          <el-input v-model="form.expectMakeTime" clearable placeholder="请输入期望制造时间"/>
+        </el-form-item>
+        <el-form-item label="实际制造时间" prop="actualMakeTime">
+          <el-input v-model="form.actualMakeTime" clearable placeholder="请输入实际制造时间"/>
+        </el-form-item>
+        <el-form-item label="工厂ID" prop="factoryId">
+          <el-input v-model="form.factoryId" clearable placeholder="请输入工厂ID"/>
+        </el-form-item>
+        <el-form-item label="状态索引" prop="statusIndex">
+          <el-input v-model="form.statusIndex" clearable placeholder="请输入状态索引"/>
+        </el-form-item>
+        <el-form-item label="预计开始时间" prop="expectMakeBeginTime">
+          <el-input v-model="form.expectMakeBeginTime" clearable placeholder="请输入预计开始时间"/>
+        </el-form-item>
+        <el-form-item label="预计结束时间" prop="expectMakeEndTime">
+          <el-input v-model="form.expectMakeEndTime" clearable placeholder="请输入预计结束时间"/>
+        </el-form-item>
+        <el-form-item label="实际开始时间" prop="actualMakeBeginTime">
+          <el-input v-model="form.actualMakeBeginTime" clearable placeholder="请输入实际开始时间"/>
+        </el-form-item>
+        <el-form-item label="实际结束时间" prop="actualMakeEndTime">
+          <el-input v-model="form.actualMakeEndTime" clearable placeholder="请输入实际结束时间"/>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+
+<script>
+
+import {deleteList, getById, insetOrUpdate, queryPageList} from '@/api/common'
+
+export default {
+  name: 'tenantName',
+  data() {
+
+    return {
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: false,
+      // 总条数
+      total: 0,
+      apsSchedulingGoodsStatusDateList: [],
+      // 弹出层标题
+      title: '',
+      // 是否显示弹出层
+      open: false,
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        data: {}
+      },
+      // 表单参数
+      form: {
+        schedulingId: undefined,
+        orderId: undefined,
+        goodsId: undefined,
+        goodsStatusId: undefined,
+        expectMakeTime: undefined,
+        actualMakeTime: undefined,
+        factoryId: undefined,
+        statusIndex: undefined,
+        expectMakeBeginTime: undefined,
+        expectMakeEndTime: undefined,
+        actualMakeBeginTime: undefined,
+        actualMakeEndTime: undefined,
+        id: undefined
+      },
+      // 表单校验
+      rules: {
+        schedulingId: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        orderId: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        goodsId: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        goodsStatusId: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        expectMakeTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        actualMakeTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        factoryId: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        statusIndex: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        expectMakeBeginTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        expectMakeEndTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        actualMakeBeginTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+        actualMakeEndTime: [{required: true, message: "不能为空", trigger: "blur"}, {
+          min: 5,
+          max: 20,
+          message: '长度在 5 到 20 个字符',
+          trigger: 'blur'
+        }],
+      },
+      tableHeaderList: []
+    }
+  },
+  created() {
+    document['pagePath'] = '/apsSchedulingGoodsStatusDate'
+    this.getList()
+  },
+  methods: {
+    /** 查询公告列表 */
+    getList() {
+      this.loading = true
+      queryPageList(this.queryParams).then(response => {
+        response = response.data
+        this.tableHeaderList = response.headerList
+        this.apsSchedulingGoodsStatusDateList = response.dataList
+        this.total = parseInt(response.total)
+        this.loading = false
+      })
+    },
+    cancel() {
+      this.open = false
+      this.reset()
+    },
+    // 表单重置
+    reset() {
+      let fid = this.form.id
+      this.form = {
+        schedulingId: undefined,
+        orderId: undefined,
+        goodsId: undefined,
+        goodsStatusId: undefined,
+        expectMakeTime: undefined,
+        actualMakeTime: undefined,
+        factoryId: undefined,
+        statusIndex: undefined,
+        expectMakeBeginTime: undefined,
+        expectMakeEndTime: undefined,
+        actualMakeBeginTime: undefined,
+        actualMakeEndTime: undefined,
+        id: fid
+      }
+      this.resetForm('form')
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1
+      this.getList()
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm('queryForm')
+      this.handleQuery()
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.id)
+      this.single = selection.length !== 1
+      this.multiple = !selection.length
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.title = '添加订单商品状态表'
+      this.open = true
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset()
+      let req = {idList: [row.id], pageSize: 1, pageNum: 1}
+      getById(req).then(response => {
+        this.form = response.data.dataList[0]
+        this.title = '修改订单商品状态表'
+        this.open = true
+      })
+
+    },
+
+    /** 提交按钮 */
+    submitForm: function () {
+      insetOrUpdate(this);
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      deleteList(row, this.ids, this.getList());
+    }
+  }
+
+}
+
+
+</script>
+
