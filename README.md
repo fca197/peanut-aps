@@ -1,9 +1,31 @@
 # peanut 门户组成部分
+
 ## aps 高级排产排程模块
+
 1. 产品预测
 2. 订单管理
 3. 订单排产
 4. 订单排程
 
 ## 模块功能如下：
+
 ![aps_model.png](./doc/image/aps_model.png)
+
+# 项目说明
+
+该模块可以单独启动， 也可以配合 peanut-portal增加多个模块一起启动。  
+单APS启动为启动 com.olivia.APSBootstrapApplication
+
+如需单独打包启动，增加spring-boot打包插件
+
+```xml
+
+<plugin>
+    <artifactId>spring-boot-maven-plugin</artifactId>
+    <configuration>
+        <includeSystemScope>true</includeSystemScope>
+    </configuration>
+    <groupId>org.springframework.boot</groupId>
+</plugin>
+
+```
