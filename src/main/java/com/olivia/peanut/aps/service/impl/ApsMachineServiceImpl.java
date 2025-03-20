@@ -97,8 +97,8 @@ public class ApsMachineServiceImpl extends MPJBaseServiceImpl<ApsMachineMapper, 
     if (Objects.nonNull(obj)) {
       q
           .eq(Objects.nonNull(obj.getFactoryId()), ApsMachine::getFactoryId, obj.getFactoryId())
-          .eq(StringUtils.isNoneBlank(obj.getMachineNo()), ApsMachine::getMachineNo, obj.getMachineNo())
-          .eq(StringUtils.isNoneBlank(obj.getMachineName()), ApsMachine::getMachineName, obj.getMachineName())
+          .likeRight(StringUtils.isNoneBlank(obj.getMachineNo()), ApsMachine::getMachineNo, obj.getMachineNo())
+          .likeRight(StringUtils.isNoneBlank(obj.getMachineName()), ApsMachine::getMachineName, obj.getMachineName())
 
       ;
     }

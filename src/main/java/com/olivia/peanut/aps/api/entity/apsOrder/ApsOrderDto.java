@@ -50,9 +50,9 @@ public class ApsOrderDto extends BaseEntityDto {
   private LocalDate schedulingDate;
   private ApsOrderUserDto orderUser;
   private List<ApsOrderGoodsDto> goodsList;
-  private List<ApsOrderGoodsProjectConfigDto> goodsProjectConfigList;
+//  private List<ApsOrderGoodsProjectConfigDto> goodsProjectConfigList;
   private List<ApsOrderGoodsSaleConfigDto> goodsSaleConfigList;
-  private List<ApsOrderGoodsBomDto> apsOrderGoodsBomList;
+//  private List<ApsOrderGoodsBomDto> apsOrderGoodsBomList;
 }
 
 

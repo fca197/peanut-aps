@@ -24,7 +24,7 @@ public class ApsGoodsSaleProjectConfigSale2ProjectReq {
   private String saleConfig;
   @NotNull(message = "转换数量不能为空")
   @Min(value = 1, message = "转换数量不能小于1")
-  @Max(value = 200000, message = "转换数量不能大于200000")
+  @Max(value = 20000, message = "转换数量不能大于20000")
   private Long convertCount;
   private LocalDate bizKey;
   private Long id;

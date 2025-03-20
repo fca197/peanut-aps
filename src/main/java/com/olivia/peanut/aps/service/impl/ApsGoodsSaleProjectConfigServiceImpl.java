@@ -20,6 +20,7 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.JSON;
 import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +103,8 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
   @Override
   @SneakyThrows(value = {ExecutionException.class})
   public ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(ApsGoodsSaleProjectConfigSale2ProjectReq req) {
-//    log.info("Sale2Project {} {}",req.getSaleConfig(),req.getConvertCount());
+    String reqJson = JSON.toJSONString(req);
+    log.info("Sale2Project req {}", reqJson);
     Map<String, ApsSaleConfig> apsSaleConfigMap = saleConfigSaleCodeCache.get("",
         () -> this.apsSaleConfigService.list().stream().collect(Collectors.toMap(ApsSaleConfig::getSaleCode, Function.identity())));
 
@@ -161,7 +163,9 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
 
     ApsGoodsSaleProjectConfigSale2ProjectRes res = new ApsGoodsSaleProjectConfigSale2ProjectRes();
     List<Info> list = result.keySet().stream().sorted().map(t -> new Info().setProjectCode(t).setConvertCount(result.get(t))).toList();
-    return res.setDataList(list).setBizKey(req.getBizKey()).setId(req.getId());
+    res.setDataList(list).setBizKey(req.getBizKey()).setId(req.getId());
+    log.info("sale2project  req {} res {}", reqJson, JSON.toJSONString(res));
+    return res;
   }
 // 以下为私有对象封装
 

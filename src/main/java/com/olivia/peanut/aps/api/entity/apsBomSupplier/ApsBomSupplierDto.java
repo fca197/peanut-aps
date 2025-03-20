@@ -7,7 +7,9 @@ import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.Str;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -46,14 +48,14 @@ public class ApsBomSupplierDto extends BaseEntityDto {
   /***
    *  座机
    */
-  @NotBlank(message = "座机不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "座机不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //@JSONField(label = "bomSupplierTel")
 
   private String bomSupplierTel;
   /***
    *  邮件
    */
-  @NotBlank(message = "邮件不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "邮件不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //@JSONField(label = "bomSupplierEmail")
 
   private String bomSupplierEmail;
@@ -88,14 +90,14 @@ public class ApsBomSupplierDto extends BaseEntityDto {
   /***
    *  备注
    */
-  @NotBlank(message = "备注不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "备注不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //@JSONField(label = "bomSupplierRemark")
 
   private String bomSupplierRemark;
   /***
    *  状态
    */
-  @NotBlank(message = "状态不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "状态不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //@JSONField(label = "supplierStatus")
 
   private Boolean supplierStatus;
