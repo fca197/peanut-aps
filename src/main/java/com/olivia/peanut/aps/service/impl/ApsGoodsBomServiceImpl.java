@@ -92,8 +92,9 @@ public class ApsGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsGoodsBomMapper
   private MPJLambdaWrapper<ApsGoodsBom> getWrapper(ApsGoodsBomDto obj) {
     MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBom.class, ApsGoodsBom::getGoodsId//
-        , BaseEntity::getId, ApsGoodsBom::getBomUseWorkStation, ApsGoodsBom::getBomCode);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBom.class, ApsGoodsBom::getGoodsId,ApsGoodsBom::getBomName,
+        ApsGoodsBom::getGoodsId,
+        ApsGoodsBom::getFactoryId, BaseEntity::getId, ApsGoodsBom::getBomUseWorkStation, ApsGoodsBom::getBomCode);
 
     q.orderByDesc(ApsGoodsBom::getId);
     return q;
