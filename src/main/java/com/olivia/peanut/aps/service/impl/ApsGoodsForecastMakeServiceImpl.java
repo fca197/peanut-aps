@@ -283,7 +283,9 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
           if (k instanceof List<?> kl) {
             for (Object klt : kl) {
               if (klt instanceof String klts) {
-                if (operationSet.contains(klts)) {
+                if ("!".equals(klts)) {
+                  sb.append("false &&");
+                } else if (operationSet.contains(klts)) {
                   sb.append(klts);
                 } else {
                   sb.append(projectSet.contains(klts));
@@ -501,16 +503,17 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
       List<WeekInfo> weekInfoListTmp = weekListMap.get(ym).stream().filter(w -> TRUE.equals(w.getIsWorkDay())).toList();
       saleMap.getOrDefault(year, List.of()).forEach(t -> {
         ApsGoodsForecastMakeQueryUseBomByIdRes queryDataByIdRes = dataListMap.getOrDefault(t.getBomId(), new ApsGoodsForecastMakeQueryUseBomByIdRes());
-        AtomicLong s = new AtomicLong(0);
+        AtomicReference<BigDecimal> s = new AtomicReference<>(BigDecimal.ZERO);
         ApsGoodsBom apsGoodsBom = bomMap.get(t.getBomId());
         queryDataByIdRes.put("bomId", t.getBomId());
         queryDataByIdRes.put("bomName", apsGoodsBom.getBomName());
         queryDataByIdRes.put("bomUnit", apsGoodsBom.getBomUnit());
         weekInfoListTmp.forEach(d -> {
           Field field = getField(t, DAY_NUM_FIELD + d.getCurrentDate().getDayOfYear());
-          Object value = FieldUtils.getFieldValue(t, field);
+          BigDecimal value = FieldUtils.getFieldValue(t, field);
           if (Objects.nonNull(value)) {
-            s.addAndGet((Long) value);
+            // 使用 updateAndGet 方法原子性地更新值
+            s.updateAndGet(current -> current.add(value));
           }
         });
         queryDataByIdRes.put(ym, s.get());

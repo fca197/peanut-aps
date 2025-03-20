@@ -13,8 +13,8 @@ import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderStatusEnum;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigDto;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigExportQueryPageListInfoRes;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDto;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.*;
-import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigItemConfigBizTypeEnum;
 import com.olivia.peanut.aps.mapper.ApsSchedulingDayConfigVersionMapper;
 import com.olivia.peanut.aps.model.*;
 import com.olivia.peanut.aps.service.*;
@@ -23,6 +23,7 @@ import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.process.ProduceProcessUtils;
 import com.olivia.peanut.aps.utils.process.entity.*;
 import com.olivia.peanut.aps.utils.scheduling.ApsSchedulingDayUtils;
+import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigItemConfigBizTypeEnum;
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigVersionDetailDto;
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayOrderRoomReq;
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingIssueItemDto;
@@ -127,6 +128,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     log.info("le {} itemList :{}", req.getSchedulingDay(), itemList.size());
     List<ApsSchedulingIssueItem> issueItemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
+         .selectAll(ApsSchedulingIssueItem.class)
         .eq(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay()).eq(ApsSchedulingIssueItem::getFactoryId, req.getFactoryId())
         .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId).in(ApsOrderGoods::getGoodsId, apsGoodsIdList)
     );
@@ -182,8 +184,9 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     $.requireNonNullCanIgnoreException(apsSchedulingDayConfigExportQueryPageListInfoResDynamicsPage.getDataList(), "排程配置不能为空");
     ApsSchedulingDayConfigExportQueryPageListInfoRes apsSchedulingDayConfigDto = apsSchedulingDayConfigExportQueryPageListInfoResDynamicsPage.getDataList().getFirst();
 
-
     $.requireNonNullCanIgnoreException(issueItemList, "当天排产订单不能为空");
+
+    log.info("apsSchedulingDayConfigDto getConfigBizType: {}", apsSchedulingDayConfigDto.getSchedulingDayConfigItemDtoList().stream().map(ApsSchedulingDayConfigItemDto::getConfigBizType).collect(Collectors.toSet()));
 
     List<Long> orderIdList = issueItemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList();
     Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleMap = apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId));
@@ -196,7 +199,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     });
 
 
-    Map<String, List<ApsSchedulingDayConfigVersionDetailDto>> orderRoomResMap = ApsSchedulingDayUtils.orderRoomStatusMap(new ApsSchedulingDayOrderRoomReq().setIssueItemList($.copyList(issueItemList, ApsSchedulingIssueItemDto.class)).setSchedulingDayId(dayConfigVersion.getId()).setSchedulingDayConfigDto($.copy(apsSchedulingDayConfigDto, com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigDto.class)));
+    Map<String, List<ApsSchedulingDayConfigVersionDetailDto>> orderRoomResMap = ApsSchedulingDayUtils.orderRoomStatusMap(new ApsSchedulingDayOrderRoomReq()
+        .setIssueItemList($.copyList(issueItemList, ApsSchedulingIssueItemDto.class)).setSchedulingDayId(dayConfigVersion.getId()).setSchedulingDayConfigDto($.copy(apsSchedulingDayConfigDto, com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigDto.class)));
 //    apsSchedulingDayConfigDto.getSchedulingDayConfigItemDtoList()
 
     List<List<Long>> headerIdList = apsSchedulingDayConfigDto.getSchedulingDayConfigItemDtoList().stream().map(t -> List.of(t.getRoomId(), t.getStatusId())).toList();
