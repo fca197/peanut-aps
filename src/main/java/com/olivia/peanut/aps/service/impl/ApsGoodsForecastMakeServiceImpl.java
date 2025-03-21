@@ -284,7 +284,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
             for (Object klt : kl) {
               if (klt instanceof String klts) {
                 if ("!".equals(klts)) {
-                  sb.append("false &&");
+                  sb.append("!");
                 } else if (operationSet.contains(klts)) {
                   sb.append(klts);
                 } else {

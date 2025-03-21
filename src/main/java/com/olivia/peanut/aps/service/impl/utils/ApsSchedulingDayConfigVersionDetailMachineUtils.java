@@ -27,6 +27,7 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class ApsSchedulingDayConfigVersionDetailMachineUtils {
@@ -54,7 +55,9 @@ public class ApsSchedulingDayConfigVersionDetailMachineUtils {
 
     List<String> orderNoList = list.stream().map(ApsSchedulingDayConfigVersionDetailMachineDto::getOrderNo).toList();
     Map<String, CellStyle> orderStyleMap = new HashMap<>();
-    List<IndexedColors> colorsList = Arrays.asList(IndexedColors.values());
+
+    // 颜色对照组， 删除部分深色 https://blog.csdn.net/sinat_38560284/article/details/132618899
+    List<IndexedColors> colorsList = Stream.of(3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 23, 24, 25, 26, 27, 29, 30, 31,  40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54).map(IndexedColors::fromInt).toList();
 
     int ci = 0;
     for (String orderNo : orderNoList) {
