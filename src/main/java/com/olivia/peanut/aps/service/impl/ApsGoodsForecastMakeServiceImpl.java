@@ -13,7 +13,6 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Lists;
-import com.googlecode.aviator.AviatorEvaluator;
 import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.*;
 import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectReq;
 import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectRes;
@@ -47,6 +46,7 @@ import jakarta.annotation.Resource;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +57,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -207,7 +206,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
           apsProcessPathInfoMap.put(weekInfo.getCurrentDate(), ProcessUtils.apsProcessPathInfo(apsProcessPathVo, weekList, weekInfo.getCurrentDate(), dayWorkSecond));
 
           if (TRUE.equals(weekInfo.getIsWorkDay())) {
-            Long ct = dayCount.remove(0);
+            Long ct = dayCount.removeFirst();
             runnableList.add(() -> {
               sale2ProjectResList.add(apsGoodsSaleProjectConfigService.sale2project(new ApsGoodsSaleProjectConfigSale2ProjectReq().setGoodsId(forecastMain.getGoodsId()).setSaleConfig(makeSaleData.getSaleConfigCode()).setConvertCount(ct).setBizKey(weekInfo.getCurrentDate())).setId(makeSaleData.getId()));
             });
@@ -244,94 +243,81 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     boolean bool = RunUtils.run("销售转规划 " + req.getId(), runnableList);
     $.assertTrueCanIgnoreException(bool, "销售转规划失败");
     runnableList.clear();
-    Map<String, ApsGoodsForecastMakeProjectData> projectDataMap = new HashMap<>();
+    Map<String, ApsGoodsForecastMakeProjectData> projectDataMap = Collections.synchronizedMap(new HashMap<>());
     Map<BomUseDate, BigDecimal> bomUseLongHashMap = new HashMap<>();
-    for (ApsGoodsSaleProjectConfigSale2ProjectRes projectRes : sale2ProjectResList) {
-      for (Info p : projectRes.getDataList()) {
 
-        LocalDate bizKey = projectRes.getBizKey();
-        if (Objects.isNull(bomMaxDate.get())) {
-          bomMaxDate.set(bizKey);
-        }
-        if (bizKey.isAfter(bomMaxDate.get())) {
-          bomMaxDate.set(bizKey);
-        }
-        int year = bizKey.getYear();
-        ApsGoodsForecastMakeProjectData projectData = projectDataMap.get(p.getProjectCode() + year);
-        if (Objects.isNull(projectData)) {
-          projectData = new ApsGoodsForecastMakeProjectData().setProjectConfigCode(p.getProjectCode()).setMakeMonthId(apsGoodsForecastMake.getId()).setMakeSaleConfigId(projectRes.getId()).setYear((long) year);
-          projectData.setProjectConfigCode(p.getProjectCode()).setId(IdWorker.getId());
-          ReflectUtil.setFieldValue(projectData, DAY_NUM_FIELD + bizKey.getDayOfYear(), p.getConvertCount());
-          ProjectConfig projectConfig = new ProjectConfig();
-          projectConfig.setProjectId(projectData.getId()).setCalendarList(Lists.newArrayList(bizKey));
-        } else {
-          ReflectUtil.setFieldValue(projectData, DAY_NUM_FIELD + bizKey.getDayOfYear(), p.getConvertCount());
-        }
-        projectDataMap.put(p.getProjectCode() + year, projectData);
+    Lists.partition(sale2ProjectResList, 10).forEach(tl -> {
+      runnableList.add(() -> {
+        for (ApsGoodsSaleProjectConfigSale2ProjectRes projectRes : tl) {
+          for (Info p : projectRes.getDataList()) {
 
-        log.info("开始获取零件 :{}", p.getProjectCode());
-        Map<Object, List<ApsGoodsBom>> bomListMap = new HashMap<>(goodsBomCache.get(forecastMain.getGoodsId(), () -> apsGoodsBomService.list(new LambdaQueryWrapper<ApsGoodsBom>().eq(ApsGoodsBom::getGoodsId, forecastMain.getGoodsId())).stream().collect(Collectors.groupingBy(t -> bomExpression2List(t.getBomUseExpression())))));
-        List<ApsGoodsBom> useBomList = new ArrayList<>();
-        List<ApsGoodsBom> remove = bomListMap.remove(".");
-        if (CollUtil.isNotEmpty(remove)) {
-          useBomList.addAll(remove);
-        }
-        Set<String> projectSet = new HashSet<>(List.of(projectData.getProjectConfigCode().split(",")));
-        ApsGoodsForecastMakeProjectData finalProjectData = projectData;
-        bomListMap.forEach((k, value) -> {
-          StringBuilder sb = new StringBuilder();
-          if (k instanceof List<?> kl) {
-            for (Object klt : kl) {
-              if (klt instanceof String klts) {
-                if ("!".equals(klts)) {
-                  sb.append("!");
-                } else if (operationSet.contains(klts)) {
-                  sb.append(klts);
-                } else {
-                  sb.append(projectSet.contains(klts));
-                }
-              }
+            LocalDate bizKey = projectRes.getBizKey();
+            if (Objects.isNull(bomMaxDate.get())) {
+              bomMaxDate.set(bizKey);
             }
-          }
-          String bomExp = sb.toString();
-          log.info("project code {} ,bom sb : {}", finalProjectData.getProjectConfigCode(), bomExp);
-          boolean boolBom = (Boolean) AviatorEvaluator.execute(bomExp);
-          if (boolBom) {
-            useBomList.addAll(value);
-          }
-        });
-        ApsProcessPathInfo apsProcessPathInfo = apsProcessPathInfoMap.get(projectRes.getBizKey());
-        log.info("apsProcessPathInfo :{} {}", projectRes.getBizKey(), JSON.toJSONString(apsProcessPathInfo));
-        if (Objects.isNull(apsProcessPathInfo)) {
-          return;
-        }
-        Map<Long, List<ApsGoodsBom>> bomStationMap = useBomList.stream().collect(Collectors.groupingBy(ApsGoodsBom::getBomUseWorkStation));
-        apsProcessPathInfo.getDataList().forEach(b -> {
-          List<ApsGoodsBom> bomList = bomStationMap.get(b.getStationId());
-          if (CollUtil.isNotEmpty(bomList)) {
-            bomList.forEach(bt -> {
-              BomUseDate key = new BomUseDate().setBomId(bt.getId()).setCurrentDate(b.getBeginLocalDate());
-              BigDecimal c = bomUseLongHashMap.getOrDefault(key, new BigDecimal(0));
-              c = c.add(bt.getBomUsage().multiply(p.getConvertCount()));
-              bomUseLongHashMap.put(key, c);
-              if (Objects.isNull(bomMinDate.get())) {
-                bomMinDate.set(b.getBeginLocalDate());
-              }
-              LocalDate localDate = bomMinDate.get();
-              if (b.getBeginLocalDate().isBefore(localDate)) {
-                bomMinDate.set(b.getBeginLocalDate());
+            if (bizKey.isAfter(bomMaxDate.get())) {
+              bomMaxDate.set(bizKey);
+            }
+            int year = bizKey.getYear();
+            ApsGoodsForecastMakeProjectData projectData = projectDataMap.get(p.getProjectCode() + year);
+            if (Objects.isNull(projectData)) {
+              projectData = new ApsGoodsForecastMakeProjectData().setProjectConfigCode(p.getProjectCode()).setMakeMonthId(apsGoodsForecastMake.getId()).setMakeSaleConfigId(projectRes.getId()).setYear((long) year);
+              projectData.setProjectConfigCode(p.getProjectCode()).setId(IdWorker.getId());
+              ReflectUtil.setFieldValue(projectData, DAY_NUM_FIELD + bizKey.getDayOfYear(), p.getConvertCount());
+              ProjectConfig projectConfig = new ProjectConfig();
+              projectConfig.setProjectId(projectData.getId()).setCalendarList(Lists.newArrayList(bizKey));
+            } else {
+              ReflectUtil.setFieldValue(projectData, DAY_NUM_FIELD + bizKey.getDayOfYear(), p.getConvertCount());
+            }
+            projectDataMap.put(p.getProjectCode() + year, projectData);
+
+            log.info("开始获取零件 :{}", p.getProjectCode());
+            Map<Object, List<ApsGoodsBom>> objectListMap;
+            try {
+              objectListMap = goodsBomCache.get(forecastMain.getGoodsId(), () -> apsGoodsBomService.list(new LambdaQueryWrapper<ApsGoodsBom>().eq(ApsGoodsBom::getGoodsId, forecastMain.getGoodsId())).stream().collect(Collectors.groupingBy(t -> bomExpression2List(t.getBomUseExpression()))));
+            } catch (Exception e) {
+              log.error("goodsBomCache 获取零件失败 id: {} goodsId: {}", req.getId(), forecastMain.getGoodsId());
+              return;
+            }
+            List<ApsGoodsBom> useBomList = getApsGoodsBoms(objectListMap, projectData);
+            ApsProcessPathInfo apsProcessPathInfo = apsProcessPathInfoMap.get(projectRes.getBizKey());
+            log.info("apsProcessPathInfo :{} {}", projectRes.getBizKey(), JSON.toJSONString(apsProcessPathInfo));
+            if (Objects.isNull(apsProcessPathInfo)) {
+              return;
+            }
+            Map<Long, List<ApsGoodsBom>> bomStationMap = useBomList.stream().collect(Collectors.groupingBy(ApsGoodsBom::getBomUseWorkStation));
+            apsProcessPathInfo.getDataList().forEach(b -> {
+              List<ApsGoodsBom> bomList = bomStationMap.get(b.getStationId());
+              if (CollUtil.isNotEmpty(bomList)) {
+                bomList.forEach(bt -> {
+                  BomUseDate key = new BomUseDate().setBomId(bt.getId()).setCurrentDate(b.getBeginLocalDate());
+                  BigDecimal c = bomUseLongHashMap.getOrDefault(key, new BigDecimal(0));
+                  c = c.add(bt.getBomUsage().multiply(p.getConvertCount()));
+                  bomUseLongHashMap.put(key, c);
+                  if (Objects.isNull(bomMinDate.get())) {
+                    bomMinDate.set(b.getBeginLocalDate());
+                  }
+                  LocalDate localDate = bomMinDate.get();
+                  if (b.getBeginLocalDate().isBefore(localDate)) {
+                    bomMinDate.set(b.getBeginLocalDate());
+                  }
+                });
               }
             });
           }
-        });
+        }
+      });
+    });
 
-      }
-    }
+
+    RunUtils.run("解析零件 " + req.getId(), runnableList);
+
     if (CollUtil.isEmpty(projectDataMap)) {
       return;
     }
     List<ApsGoodsForecastMakeProjectData> projectDataList = new ArrayList<>(projectDataMap.values());
     projectDataList.sort(Comparator.comparing(ApsGoodsForecastMakeProjectData::getProjectConfigCode));
+    projectDataList.forEach(t -> t.setGoodsId(req.getGoodsId()));
     apsGoodsForecastMakeProjectDataService.saveBatch(projectDataList);
 
     // 规划转BOM
@@ -354,6 +340,19 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     });
     apsGoodsForecastMakeBomUseService.saveBatch(bomUseDateApsGoodsForecastMakeBomUseMap.values());
     this.update(new LambdaUpdateWrapper<ApsGoodsForecastMake>().eq(ApsGoodsForecastMake::getId, apsGoodsForecastMake.getId()).set(ApsGoodsForecastMake::getBomUseBeginDate, bomMinDate.get().format(DateTimeFormatter.ofPattern("yyyy-MM"))).set(ApsGoodsForecastMake::getBomUseEndDate, bomMaxDate.get().format(DateTimeFormatter.ofPattern("yyyy-MM"))));
+  }
+
+  private static @NotNull List<ApsGoodsBom> getApsGoodsBoms(Map<Object, List<ApsGoodsBom>> objectListMap, ApsGoodsForecastMakeProjectData projectData) {
+    Map<Object, List<ApsGoodsBom>> bomListMap = new HashMap<>(objectListMap);
+    List<ApsGoodsBom> useBomList = new ArrayList<>();
+    Set<String> projectSet = new HashSet<>(List.of(projectData.getProjectConfigCode().split(",")));
+    ApsGoodsForecastMakeProjectData finalProjectData = projectData;
+    bomListMap.forEach((k, value) -> {
+      if (BomUtils.isMatch(k, finalProjectData.getProjectConfigCode(), projectSet)) {
+        useBomList.addAll(value);
+      }
+    });
+    return useBomList;
   }
 
   @Override
