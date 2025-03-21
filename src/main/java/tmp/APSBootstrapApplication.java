@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @MapperScan(basePackages = {"com.olivia.peanut.*.mapper", "com.olivia.sdk.mapper"})
 //@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.olivia")
 @EnableTransactionManagement
 public class APSBootstrapApplication {
 
