@@ -24,10 +24,19 @@ public class ApsSchedulingDayConfig extends BaseEntity {
    *  工厂ID
    */
   private Long factoryId;
+
+  private String schedulingType;
   /***
    *  工艺路径ID
    */
   private Long processId;
+
+
+  /****
+   * 制造路径ID
+   */
+  private Long makeProcessId;
+
   /***
    *  排程版本号
    */

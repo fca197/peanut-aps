@@ -60,25 +60,33 @@ public class ApsSchedulingDayConfigServiceImpl extends MPJBaseServiceImpl<ApsSch
   public ApsSchedulingDayConfigInsertRes save(ApsSchedulingDayConfigInsertReq req) {
     ApsSchedulingDayConfig config = $.copy(req, ApsSchedulingDayConfig.class);
     config.setId(IdWorker.getId());
+    if ("make".equals(req.getSchedulingType())) {
+      req.setSchedulingDayConfigItemDtoList(List.of());
+    }
     req.getSchedulingDayConfigItemDtoList().forEach(t -> {
       t.setSchedulingDayId(config.getId());
       t.setProcessId(req.getProcessId());
     });
     this.save(config);
+
     this.apsSchedulingDayConfigItemService.saveBatch($.copyList(req.getSchedulingDayConfigItemDtoList(), ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigInsertRes().setId(config.getId());
   }
 
   @Override
   public ApsSchedulingDayConfigUpdateByIdRes updateById(ApsSchedulingDayConfigUpdateByIdReq req) {
+    Long reqId = req.getId();
     ApsSchedulingDayConfig config = $.copy(req, ApsSchedulingDayConfig.class);
     req.getSchedulingDayConfigItemDtoList().forEach(t -> {
-      t.setSchedulingDayId(config.getId());
+      t.setSchedulingDayId(reqId);
       t.setProcessId(req.getProcessId());
       t.setId(IdWorker.getId());
     });
     this.updateById(config);
-    this.apsSchedulingDayConfigItemService.remove(new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().eq(ApsSchedulingDayConfigItem::getSchedulingDayId, req.getId()));
+    if ("make".equals(req.getSchedulingType())) {
+      req.setSchedulingDayConfigItemDtoList(List.of());
+    }
+    this.apsSchedulingDayConfigItemService.remove(new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().eq(ApsSchedulingDayConfigItem::getSchedulingDayId, reqId));
     this.apsSchedulingDayConfigItemService.saveBatch($.copyList(req.getSchedulingDayConfigItemDtoList(), ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigUpdateByIdRes();
   }
@@ -141,7 +149,8 @@ public class ApsSchedulingDayConfigServiceImpl extends MPJBaseServiceImpl<ApsSch
     MPJLambdaWrapper<ApsSchedulingDayConfig> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
-      q.eq(Objects.nonNull(obj.getFactoryId()), ApsSchedulingDayConfig::getFactoryId, obj.getFactoryId())
+      q.eq(Objects.nonNull(obj.getId()), ApsSchedulingDayConfig::getId, obj.getId())
+          .eq(Objects.nonNull(obj.getFactoryId()), ApsSchedulingDayConfig::getFactoryId, obj.getFactoryId())
           .eq(Objects.nonNull(obj.getProcessId()), ApsSchedulingDayConfig::getProcessId, obj.getProcessId())
           .eq(StringUtils.isNoneBlank(obj.getSchedulingDayNo()), ApsSchedulingDayConfig::getSchedulingDayNo, obj.getSchedulingDayNo())
           .eq(StringUtils.isNoneBlank(obj.getSchedulingDayName()), ApsSchedulingDayConfig::getSchedulingDayName, obj.getSchedulingDayName())

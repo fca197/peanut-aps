@@ -7,7 +7,6 @@ import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.Str;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,12 +30,23 @@ public class ApsSchedulingDayConfigDto extends BaseEntityDto {
   @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long factoryId;
   private String factoryName;
+
+  @NotNull(groups = {InsertCheck.class, UpdateCheck.class}, message = "排程类型不能为空")
+  private String schedulingType;
+
   /***
    *  工艺路径ID
    */
-  @NotNull(message = "工艺路径ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotNull(message = "工艺路径ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long processId;
   private String processName;
+
+
+  /****
+   * 制造路径ID
+   */
+  private Long makeProcessId;
+  private String makeProcessName;
   /***
    *  排程版本号
    */
@@ -53,8 +63,8 @@ public class ApsSchedulingDayConfigDto extends BaseEntityDto {
   @NotNull(message = "是否默认不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Boolean isDefault;
 
-  @NotNull(message = "排程版本明细不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  @Size(min = 1, message = "排程版本明细不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  //  @NotNull(message = "排程版本明细不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @Size(min = 1, message = "排程版本明细不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private List<ApsSchedulingDayConfigItemDto> schedulingDayConfigItemDtoList;
 
   public String getIsDefaultStr() {

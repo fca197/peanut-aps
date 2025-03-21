@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
@@ -190,7 +191,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     List<Long> orderIdList = issueItemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList();
     Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleMap = apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId));
-    Map<Long, List<ApsOrderGoodsProjectConfig>> orderProjectMap = this.apsOrderGoodsProjectConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsProjectConfig>().in(ApsOrderGoodsProjectConfig::getOrderId, orderSaleMap)).stream().collect(Collectors.groupingBy(ApsOrderGoodsProjectConfig::getOrderId));
+    Map<Long, List<ApsOrderGoodsProjectConfig>> orderProjectMap = this.apsOrderGoodsProjectConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsProjectConfig>().in(ApsOrderGoodsProjectConfig::getOrderId, orderSaleMap.keySet())).stream().collect(Collectors.groupingBy(ApsOrderGoodsProjectConfig::getOrderId));
     Map<Long, List<ApsOrderGoodsBom>> orderBomMap = this.apsOrderGoodsBomService.list(new LambdaQueryWrapper<ApsOrderGoodsBom>().in(ApsOrderGoodsBom::getOrderId, orderIdList)).stream().collect(Collectors.groupingBy(ApsOrderGoodsBom::getOrderId));
     issueItemList.forEach(order -> {
       order.setSaleConfigIdList(orderSaleMap.getOrDefault(order.getOrderId(), List.of()).stream().map(ApsOrderGoodsSaleConfig::getConfigId).toList());
@@ -200,7 +201,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
 
     Map<String, List<ApsSchedulingDayConfigVersionDetailDto>> orderRoomResMap = ApsSchedulingDayUtils.orderRoomStatusMap(new ApsSchedulingDayOrderRoomReq()
-        .setIssueItemList($.copyList(issueItemList, ApsSchedulingIssueItemDto.class)).setSchedulingDayId(dayConfigVersion.getId()).setSchedulingDayConfigDto($.copy(apsSchedulingDayConfigDto, com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigDto.class)));
+        .setIssueItemList($.copyList(issueItemList, ApsSchedulingIssueItemDto.class)).setSchedulingDayId(dayConfigVersion.getId())
+        .setSchedulingDayConfigDto($.copy(apsSchedulingDayConfigDto, com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigDto.class)));
 //    apsSchedulingDayConfigDto.getSchedulingDayConfigItemDtoList()
 
     List<List<Long>> headerIdList = apsSchedulingDayConfigDto.getSchedulingDayConfigItemDtoList().stream().map(t -> List.of(t.getRoomId(), t.getStatusId())).toList();
@@ -301,7 +303,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<Header> headerList = new ArrayList<>();
     if (StringUtils.isNoneBlank(headerListStr)) {
 
-      List<List<Long>> roomDtoList = JSON.readValue(headerListStr);
+      List<List<Long>> roomDtoList = JSON.getMapper().readValue(headerListStr, new TypeReference<>() {
+      });
 
       Map<Long, String> statusNameMap = this.apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));
       Map<Long, String> roomNameMap = this.apsRoomService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsRoom::getRoomName));
