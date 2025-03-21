@@ -4,7 +4,7 @@
 
   <groupId>cn.solveplan</groupId>
   <artifactId>peanut-aps</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
+  <version>1.5.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>peanut-aps</name>
@@ -69,6 +69,13 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
+          <excludes>
+            <!-- 排除 src/main/resources 目录下的所有 .properties 和 .xml 文件 -->
+            <!--              <exclude>**/*.properties</exclude>-->
+            <exclude>**/*.yml</exclude>
+            <!--              <exclude>**/*.yaml</exclude>-->
+            <exclude>**/*.xml</exclude>
+          </excludes>
           <archive>
             <manifest>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -80,7 +87,6 @@
             </manifestEntries>
           </archive>
         </configuration>
-        <version>3.2.0</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
