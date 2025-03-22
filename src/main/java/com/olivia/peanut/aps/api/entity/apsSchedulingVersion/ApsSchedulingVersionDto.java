@@ -72,6 +72,9 @@ public class ApsSchedulingVersionDto extends BaseEntityDto {
    */
 //  //@JSONField(serializeUsing = Boolean2StrFeature.class, deserializeUsing = Str2BooleanConverter.class)
   private Boolean useProjectConfigMakeCapacity;
+
+  private List<Long> factoryIdList;
+  private List<Long> goodsIdList;
 }
 
 

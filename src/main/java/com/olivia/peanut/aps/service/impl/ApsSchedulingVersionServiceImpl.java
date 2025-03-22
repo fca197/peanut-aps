@@ -228,7 +228,9 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
   @Override
   @Transactional
   public ApsSchedulingVersionUseConstraintsRes useConstraints(ApsSchedulingVersionUseConstraintsReq req) {
-    ApsSchedulingVersion schedulingVersion = this.getById(req.getId());
+
+    ApsSchedulingVersion schedulingVersion = this.page( new Page<>(1,1),
+        new MPJLambdaWrapper<ApsSchedulingVersion>().eq(BaseEntity::getId,req.getId())).getRecords().getFirst();
     $.requireNonNullCanIgnoreException(schedulingVersion, "排产版本为空");
     try {
       ApsSchedulingConstraints schedulingConstraints = this.apsSchedulingConstraintsService.getById(schedulingVersion.getSchedulingConstraintsId());
@@ -236,6 +238,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
 
       // 获取数据
       List<ApsOrder> orderList = apsOrderService.list(new LambdaQueryWrapper<ApsOrder>()
+          .in(ApsOrder::getFactoryId, schedulingVersion.getFactoryIdList())
           .in(ApsOrder::getOrderStatus, Stream.of(ApsOrderStatusEnum.INIT).map(ApsOrderStatusEnum::getCode).toList()
           ));
       Map<Long, ApsSaleConfig> saleConfigMap = new HashMap<>();
@@ -245,15 +248,16 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
       $.requireNonNullCanIgnoreException(orderIdList, "订单为空");
       if (hasSale(constrainedList, SALE)) {
         saleConfigMap.putAll(apsSaleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
-        saleMap.putAll(apsOrderGoodsSaleConfigService.list(
-                new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream()
+        saleMap.putAll(apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>()
+                .in(ApsOrderGoodsSaleConfig::getGoodsId, schedulingVersion.getGoodsIdList())
+                .in(ApsOrderGoodsSaleConfig::getFactoryId, schedulingVersion.getFactoryIdList())
+                .in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream()
             .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId)));
       }
 
       Map<Long, String> orderIdNoMap = orderList.stream().collect(Collectors.toMap(BaseEntity::getId, ApsOrder::getOrderNo));
 
-      List<ApsOrderGoods> goodsList = this.apsOrderGoodsService.list(
-          new LambdaQueryWrapper<ApsOrderGoods>().in(ApsOrderGoods::getOrderId, orderIdList));
+      List<ApsOrderGoods> goodsList = this.apsOrderGoodsService.list(new LambdaQueryWrapper<ApsOrderGoods>().in(ApsOrderGoods::getOrderId, orderIdList));
       Map<Long, ApsOrder> oMap = orderList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
       // 分组排序
       List<Map<String, Object>> orgList = goodsList.stream().map(t -> {

@@ -1,13 +1,17 @@
 package com.olivia.peanut.aps.model;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * (ApsSchedulingVersion)表实体类
@@ -56,5 +60,9 @@ public class ApsSchedulingVersion extends BaseEntity {
    * 使用工程配置产能约束
    */
   private Boolean useProjectConfigMakeCapacity;
+  @TableField(typeHandler = ListLongTypeHandler.class, javaType = true ,jdbcType = JdbcType.ARRAY)
+  private List<Long> factoryIdList;
+  @TableField(typeHandler = ListLongTypeHandler.class, javaType = true,jdbcType = JdbcType.ARRAY)
+  private List<Long> goodsIdList;
 }
 
