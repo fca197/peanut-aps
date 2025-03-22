@@ -71,4 +71,8 @@ public interface ApsGoodsBomApi {
   ApsGoodsBomQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsBomQueryByIdListReq req);
 
 
+
+  @PostMapping("/apsGoodsBom/check/bomUseExpression")
+
+  CheckBomUseExpressionRes checkBomUseExpression(@Valid @RequestBody CheckBomUseExpressionReq req);
 }

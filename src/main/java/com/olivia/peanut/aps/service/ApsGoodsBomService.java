@@ -21,5 +21,7 @@ public interface ApsGoodsBomService extends MPJBaseService<ApsGoodsBom> {
 
 
   void setName(List<? extends ApsGoodsBomDto> apsGoodsBomDtoList);
+
+  CheckBomUseExpressionRes checkBomUseExpression(CheckBomUseExpressionReq req);
 }
 

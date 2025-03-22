@@ -1,5 +1,6 @@
 package com.olivia.peanut.aps.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -8,7 +9,9 @@ import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsGoodsBom.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsBomMapper;
 import com.olivia.peanut.aps.model.ApsGoodsBom;
+import com.olivia.peanut.aps.model.ApsProjectConfig;
 import com.olivia.peanut.aps.service.ApsGoodsBomService;
+import com.olivia.peanut.aps.service.ApsProjectConfigService;
 import com.olivia.peanut.aps.service.ApsWorkshopStationService;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -85,6 +89,20 @@ public class ApsGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsGoodsBomMapper
         OP_USER_NAME, new SetNamePojo().setNameFieldName("stationName").setServiceName(ApsWorkshopStationService.class).setNameConfigList(List.of(new NameConfig().setIdField("bomUseWorkStation").setNameFieldList(List.of("bomUseWorkStationName"))))));
   }
 
+  @Resource
+  ApsProjectConfigService apsProjectConfigService;
+
+  @Override
+  public CheckBomUseExpressionRes checkBomUseExpression(CheckBomUseExpressionReq req) {
+    if (".".equals(req.getBomUseExpression().trim())) {
+      return new CheckBomUseExpressionRes().setIsSuccess(Boolean.TRUE);
+    }
+    Set<String> proectConfigSet = apsProjectConfigService.list(new LambdaQueryWrapper<ApsProjectConfig>().select(ApsProjectConfig::getSaleCode).eq(ApsProjectConfig::getIsValue, 1)).stream()
+        .map(ApsProjectConfig::getSaleCode).collect(Collectors.toSet());
+    boolean checkBomUseExpression = BomUtils.isMatch(BomUtils.bomExpression2List(req.getBomUseExpression()), "checkBomUseExpression", proectConfigSet);
+    return new CheckBomUseExpressionRes().setIsSuccess(checkBomUseExpression);
+  }
+
   // 以下为私有对象封装
 
 
@@ -92,7 +110,7 @@ public class ApsGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsGoodsBomMapper
   private MPJLambdaWrapper<ApsGoodsBom> getWrapper(ApsGoodsBomDto obj) {
     MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBom.class, ApsGoodsBom::getGoodsId,ApsGoodsBom::getBomName,
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBom.class, ApsGoodsBom::getGoodsId, ApsGoodsBom::getBomName,
         ApsGoodsBom::getGoodsId,
         ApsGoodsBom::getFactoryId, BaseEntity::getId, ApsGoodsBom::getBomUseWorkStation, ApsGoodsBom::getBomCode);
 

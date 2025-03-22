@@ -279,7 +279,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
               log.error("goodsBomCache 获取零件失败 id: {} goodsId: {}", req.getId(), forecastMain.getGoodsId());
               return;
             }
-            List<ApsGoodsBom> useBomList = getApsGoodsBoms(objectListMap, projectData);
+            List<ApsGoodsBom> useBomList = getApsGoodsBomList(objectListMap, projectData);
             ApsProcessPathInfo apsProcessPathInfo = apsProcessPathInfoMap.get(projectRes.getBizKey());
             log.info("apsProcessPathInfo :{} {}", projectRes.getBizKey(), JSON.toJSONString(apsProcessPathInfo));
             if (Objects.isNull(apsProcessPathInfo)) {
@@ -342,13 +342,12 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     this.update(new LambdaUpdateWrapper<ApsGoodsForecastMake>().eq(ApsGoodsForecastMake::getId, apsGoodsForecastMake.getId()).set(ApsGoodsForecastMake::getBomUseBeginDate, bomMinDate.get().format(DateTimeFormatter.ofPattern("yyyy-MM"))).set(ApsGoodsForecastMake::getBomUseEndDate, bomMaxDate.get().format(DateTimeFormatter.ofPattern("yyyy-MM"))));
   }
 
-  private static @NotNull List<ApsGoodsBom> getApsGoodsBoms(Map<Object, List<ApsGoodsBom>> objectListMap, ApsGoodsForecastMakeProjectData projectData) {
+  private static @NotNull List<ApsGoodsBom> getApsGoodsBomList(Map<Object, List<ApsGoodsBom>> objectListMap, ApsGoodsForecastMakeProjectData projectData) {
     Map<Object, List<ApsGoodsBom>> bomListMap = new HashMap<>(objectListMap);
     List<ApsGoodsBom> useBomList = new ArrayList<>();
     Set<String> projectSet = new HashSet<>(List.of(projectData.getProjectConfigCode().split(",")));
-    ApsGoodsForecastMakeProjectData finalProjectData = projectData;
     bomListMap.forEach((k, value) -> {
-      if (BomUtils.isMatch(k, finalProjectData.getProjectConfigCode(), projectSet)) {
+      if (BomUtils.isMatch(k, projectData.getProjectConfigCode(), projectSet)) {
         useBomList.addAll(value);
       }
     });

@@ -92,4 +92,9 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
     List<ApsGoodsBomDto> dataList = $.copyList(list, ApsGoodsBomDto.class);
     return new ApsGoodsBomQueryByIdListRes().setDataList(dataList);
   }
+
+  @Override
+  public CheckBomUseExpressionRes checkBomUseExpression(CheckBomUseExpressionReq req) {
+    return this.apsGoodsBomService.checkBomUseExpression(req);
+  }
 }
