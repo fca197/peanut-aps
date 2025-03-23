@@ -32,3 +32,7 @@
 
 # 项目技术/文档
 [项目文档/技术框架等](https://gitee.com/slsplatform/aps-end/blob/master/README.md)
+
+
+# 变更记录  
+## 1.5.2

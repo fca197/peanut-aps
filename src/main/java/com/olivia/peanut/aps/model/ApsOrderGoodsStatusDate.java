@@ -33,6 +33,8 @@ public class ApsOrderGoodsStatusDate extends BaseEntity {
    */
   private Long goodsStatusId;
 
+  private String goodsStatusName;
+
   /***
    *  工厂ID
    */
