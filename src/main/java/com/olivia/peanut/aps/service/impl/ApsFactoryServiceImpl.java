@@ -1,12 +1,16 @@
 package com.olivia.peanut.aps.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListReq;
+import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.peanut.aps.service.ApsFactoryService;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
+import com.olivia.peanut.aps.service.ApsProduceProcessItemService;
+import com.olivia.peanut.aps.service.ApsProduceProcessService;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.model.ShiftItemVo;
@@ -27,10 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -56,6 +57,11 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
   ShiftItemService shiftItemService;
   @Resource
   ApsProcessPathService apsProcessPathService;
+
+  @Resource
+  private ApsProduceProcessService apsProduceProcessService;
+  @Resource
+  private ApsProduceProcessItemService apsProduceProcessItemService;
 
   @Override
   public FactoryConfigRes getFactoryConfig(FactoryConfigReq req) {
@@ -115,6 +121,17 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
 
       });
     }
+    if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
+      req.getApsProduceProcessIdList().removeIf(Objects::isNull);
+      if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
+        runnableList.add(() -> {
+          Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(new LambdaQueryWrapper<ApsProduceProcessItem>().in(ApsProduceProcessItem::getProduceProcessId, req.getApsProduceProcessIdList()))
+              .stream().collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
+          res.setApsProduceProcessItemMap(apsProduceProcessItemMap);
+        });
+      }
+    }
+
     RunUtils.run("getFactoryConfig " + factoryId, runnableList);
     return res;
   }

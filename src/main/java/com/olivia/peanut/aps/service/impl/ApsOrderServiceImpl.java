@@ -35,6 +35,10 @@ import com.olivia.peanut.aps.utils.model.ApsProcessPathInfo;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathInfo.Info;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
+import com.olivia.peanut.aps.utils.process.ProduceStatusUtils;
+import com.olivia.peanut.aps.utils.process.entity.ApsProduceProcessItemPojo;
+import com.olivia.peanut.aps.utils.process.entity.ComputeStatusReq;
+import com.olivia.peanut.aps.utils.process.entity.ComputeStatusRes;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
@@ -42,6 +46,7 @@ import com.olivia.sdk.config.PeanutProperties;
 import com.olivia.sdk.utils.*;
 import com.olivia.sdk.utils.model.UserInfo;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -56,6 +61,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -66,6 +72,7 @@ import java.util.stream.IntStream;
  * @author peanut
  * @since 2024-04-09 13:19:36
  */
+@Slf4j
 @Service("apsOrderService")
 @Transactional
 public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsOrder> implements ApsOrderService {
@@ -334,7 +341,14 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
     LocalDate now = LocalDate.now();
     Long factoryId = orderGoods.getFactoryId();
-    FactoryConfigRes factoryConfig = this.apsFactoryService.getFactoryConfig(new FactoryConfigReq().setFactoryId(factoryId).setGetPath(Objects.nonNull(apsGoods.getProcessPathId())).setWeekBeginDate(now).setWeekEndDate(now.plusDays(peanutProperties.getOrderStatusUpdateNeedDayCount())).setGetWeek(Boolean.TRUE).setGetShift(Boolean.TRUE).setNowDateTime(LocalDateTime.now()));
+    FactoryConfigReq factoryConfigReq = new FactoryConfigReq().setFactoryId(factoryId)
+        .setGetPath(Objects.nonNull(apsGoods.getProcessPathId())).setWeekBeginDate(now).
+        setWeekEndDate(now.plusDays(peanutProperties.getOrderStatusUpdateNeedDayCount()))
+        .setGetWeek(Boolean.TRUE).setGetShift(Boolean.TRUE).setNowDateTime(LocalDateTime.now());
+    if (Objects.nonNull(apsGoods.getProduceProcessId())){
+      factoryConfigReq .setApsProduceProcessIdList(CollUtil.toList(apsGoods.getProduceProcessId()));
+    }
+    FactoryConfigRes factoryConfig = this.apsFactoryService.getFactoryConfig(factoryConfigReq);
     Long dayWorkSecond = factoryConfig.getDayWorkSecond();
     Long dayWorkLastSecond = factoryConfig.getDayWorkLastSecond();
 
@@ -344,7 +358,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     if (Objects.nonNull(apsGoods.getProcessPathId())) {
       useProcessPath(req, factoryConfig, apsGoods, dayWorkLastSecond, dayWorkSecond, statusDateMap, updateList, factoryId, apsStatusMap, insertList);
     } else if (Objects.nonNull(apsGoods.getProduceProcessId())) {
-      useMakeProcess(req, factoryConfig, apsGoods, dayWorkLastSecond, dayWorkSecond, statusDateMap, updateList, factoryId, apsStatusMap, insertList);
+      useMakeProcess(req, factoryConfig, apsGoods, statusDateMap, updateList, apsStatusMap, insertList);
     }
     if (CollUtil.isNotEmpty(insertList)) {
       this.apsOrderGoodsStatusDateService.saveBatch(insertList);
@@ -361,8 +375,47 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     return new ApsOrderUpdateOrderStatusRes();
   }
 
-  private void useMakeProcess(ApsOrderUpdateOrderStatusReq req, FactoryConfigRes factoryConfig, ApsGoods apsGoods, Long dayWorkLastSecond, Long dayWorkSecond, Map<Long, ApsOrderGoodsStatusDate> statusDateMap, List<ApsOrderGoodsStatusDate> updateList, Long factoryId, Map<Long, String> apsStatusMap, List<ApsOrderGoodsStatusDate> insertList) {
-    RunUtils.noImpl("该商品暂不支持，敬请期待后续");
+  private void useMakeProcess(ApsOrderUpdateOrderStatusReq req, FactoryConfigRes factoryConfig, ApsGoods apsGoods,
+                              Map<Long, ApsOrderGoodsStatusDate> statusDateMap, List<ApsOrderGoodsStatusDate> updateList,
+                              Map<Long, String> apsStatusMap, List<ApsOrderGoodsStatusDate> insertList) {
+
+
+    List<ApsProduceProcessItem> apsProduceProcessItems = factoryConfig.getApsProduceProcessItemMap().get(apsGoods.getProduceProcessId());
+    if (CollUtil.isEmpty(apsProduceProcessItems)) {
+      log.error("制造路径不存在 id {}", apsGoods.getProduceProcessId());
+      return;
+    }
+    ComputeStatusReq computeStatusReq = new ComputeStatusReq();
+    computeStatusReq.setBeginLocalDateTime(LocalDateTime.now());
+    computeStatusReq.setWeekInfoList(factoryConfig.getWeekList())
+        .setApsProduceProcessItemPojoList($.copyList(factoryConfig.getApsProduceProcessItemMap().get(apsGoods.getProduceProcessId()), ApsProduceProcessItemPojo.class))
+        .setDayWorkLastSecond(factoryConfig.getDayWorkLastSecond()).setDayWorkSecond(factoryConfig.getDayWorkSecond()).setCurrentGoodsStatusId(req.getGoodsStatusId());
+    ComputeStatusRes computeStatusRes = ProduceStatusUtils.computeStatusTime(computeStatusReq);
+    List<ApsProduceProcessItemPojo> apsProduceProcessItemPojoList = computeStatusRes.getApsProduceProcessItemPojoList();
+    if (CollUtil.isEmpty(apsProduceProcessItemPojoList)) {
+      return;
+    }
+    AtomicInteger atomicInteger = new AtomicInteger(0);
+    apsProduceProcessItemPojoList.forEach(apsProduceProcessItemPojo -> {
+      ApsOrderGoodsStatusDate apsOrderGoodsStatusDate = statusDateMap.get(apsProduceProcessItemPojo.getStatusId());
+      if (Objects.isNull(apsOrderGoodsStatusDate)) {
+        ApsOrderGoodsStatusDate statusDate = new ApsOrderGoodsStatusDate();
+        statusDate.setId(IdWorker.getId());
+        statusDate.setOrderId(req.getOrderId());
+        statusDate.setGoodsId(apsGoods.getId());
+        statusDate.setGoodsStatusId(apsProduceProcessItemPojo.getStatusId());
+        statusDate.setGoodsStatusName(apsStatusMap.get(apsProduceProcessItemPojo.getStatusId()));
+        statusDate.setExpectMakeBeginTime(apsProduceProcessItemPojo.getStatusLocalDate());
+        statusDate.setStatusIndex(atomicInteger.incrementAndGet());
+        insertList.add(statusDate);
+      } else {
+        apsOrderGoodsStatusDate.setExpectMakeBeginTime(apsProduceProcessItemPojo.getStatusLocalDate());
+        updateList.add(apsOrderGoodsStatusDate);
+      }
+
+    });
+
+//    RunUtils.noImpl("该商品暂不支持，敬请期待后续");
   }
 
   private static void useProcessPath(ApsOrderUpdateOrderStatusReq req, FactoryConfigRes factoryConfig, ApsGoods apsGoods, Long dayWorkLastSecond, Long dayWorkSecond, Map<Long, ApsOrderGoodsStatusDate> statusDateMap, List<ApsOrderGoodsStatusDate> updateList, Long factoryId, Map<Long, String> apsStatusMap, List<ApsOrderGoodsStatusDate> insertList) {

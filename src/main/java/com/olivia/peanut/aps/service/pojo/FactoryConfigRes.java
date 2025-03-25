@@ -1,6 +1,7 @@
 package com.olivia.peanut.aps.service.pojo;
 
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
+import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.peanut.base.model.ShiftItem;
 import com.olivia.sdk.utils.model.WeekInfo;
 import lombok.Getter;
@@ -22,8 +23,16 @@ public class FactoryConfigRes {
   private String factoryName;
   private List<WeekInfo> weekList;
   private List<ShiftItem> shiftItemList;
-  private Long dayWorkSecond;
   private Map<Long, ApsProcessPathDto> pathDtoMap;
   private ApsProcessPathDto defaultApsProcessPathDto;
+  /***
+   * 当天剩余工作时长
+   */
   private Long dayWorkLastSecond;
+  /***
+   * 工作时长
+   */
+  private Long dayWorkSecond;
+  private Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap;
+
 }

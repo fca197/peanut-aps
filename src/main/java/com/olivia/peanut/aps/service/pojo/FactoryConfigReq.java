@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /***
  *
@@ -25,6 +26,7 @@ public class FactoryConfigReq {
   private Boolean getPath;
   private Long getPathId;
   private Boolean getPathDefault;
+  private List<Long> apsProduceProcessIdList;
 
   private LocalDateTime nowDateTime;
 }
