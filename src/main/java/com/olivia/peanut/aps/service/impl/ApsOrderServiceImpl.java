@@ -451,14 +451,14 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   @Override
   public StatusCountRes statusCount(StatusCountReq req) {
 //    List<Long> statusIdList = Stream.of(ApsOrderStatusEnum.INIT, ApsOrderStatusEnum.CANCELLED, ApsOrderStatusEnum.FINISHED, ApsOrderStatusEnum.MAKE_OK).map(ApsOrderStatusEnum::getCode).toList();
-    List<ApsStatus> apsStatusList = this.apsStatusService.list();
+    List<ApsStatus> apsStatusList = this.apsStatusService.list(new LambdaQueryWrapper<ApsStatus>()
+        .orderByAsc(ApsStatus::getSortIndex));
     //.stream().filter(t -> !statusIdList.contains(t.getOrderStatusId())).toList();
     apsStatusList.forEach(t -> {
       if (Objects.nonNull(t.getOrderStatusId())) {
         t.setId(t.getOrderStatusId());
       }
     });
-    apsStatusList.sort(Comparator.comparing(ApsStatus::getSortIndex));
     List<Long> searchStatusIdList = apsStatusList.stream().map(BaseEntity::getId).toList();
     List<ApsOrder> listedObjs = this.list(Wrappers.<ApsOrder>query()
         .select("order_status", Str.ROW_TOTAL).lambda().in(ApsOrder::getOrderStatus, searchStatusIdList)
