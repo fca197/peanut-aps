@@ -89,5 +89,7 @@ public interface ApsOrderApi {
   @PostMapping("/apsOrder/statusList")
   OrderStatusListRes orderStatusList(@RequestBody @Valid OrderStatusListReq req);
 
+  @PostMapping("/apsOrder/status/count")
+  StatusCountRes  statusCount(@RequestBody  @Valid StatusCountReq req);
 
 }

@@ -125,4 +125,9 @@ public class ApsOrderApiImpl implements ApsOrderApi {
     return new OrderStatusListRes().setDataList(Arrays.stream(ApsOrderStatusEnum.values())
         .map(t -> new OrderStatusListRes.Info().setCode(t.getCode()).setDesc(t.getDesc())).toList());
   }
+
+  @Override
+  public StatusCountRes statusCount(StatusCountReq req) {
+    return this.apsOrderService.statusCount(req);
+  }
 }

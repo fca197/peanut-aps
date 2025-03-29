@@ -83,15 +83,13 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
   private MPJLambdaWrapper<ApsStatus> getWrapper(ApsStatusDto obj) {
     MPJLambdaWrapper<ApsStatus> q = new MPJLambdaWrapper<>();
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsStatus.class, BaseEntity::getId, ApsStatus::getStatusName, ApsStatus::getStatusCode);
-    q.orderByDesc(ApsStatus::getId);
+    q.orderByDesc(ApsStatus::getSortIndex);
     return q;
 
   }
 
   private void setQueryListHeader(DynamicsPage<ApsStatus> page) {
-
     ServiceComment.header(page, "ApsStatusService#queryPageList");
-
   }
 
 

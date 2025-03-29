@@ -25,6 +25,10 @@ public class ApsStatus extends BaseEntity {
   private Integer factoryId;
   //  private Boolean isOrderGoodsInit;
   private Long orderStatusId;
+  /****
+   * 正排 0在前, 99在后
+   */
+  private Long sortIndex;
 
 }
 
