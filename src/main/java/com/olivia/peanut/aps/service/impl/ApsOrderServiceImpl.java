@@ -442,15 +442,18 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   @Override
   public OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req) {
     LocalDateTime now = LocalDateTime.now();
-    LocalDateTime beginLocalDate = now.plusMonths(1);
-    LocalDateTime endLocalDate = now.minusMonths(12);
-    List<OrderCreateDayCountRes.Info> list = this.listMaps(new QueryWrapper<ApsOrder>()
+    LocalDateTime endLocalDate = now.plusMonths(1);
+    LocalDateTime beginLocalDate = now.minusMonths(12);
+    Map<String, Number> dayCountMap = this.listMaps(new QueryWrapper<ApsOrder>()
             .select("date_format(create_time,'%Y-%m') date ,count(1) c ").groupBy("date")
             .lambda().between(BaseEntity::getCreateTime, beginLocalDate, endLocalDate))
-        .stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c"))).toList();
+        .stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c")))
+        .collect(StreamUtils.toMapWithNullKeys(OrderCreateDayCountRes.Info::getDate, OrderCreateDayCountRes.Info::getCount));
     OrderCreateDayCountRes res = new OrderCreateDayCountRes();
-    res.setXAxis(new EChartResDto.XAxis().setData(list.stream().map(OrderCreateDayCountRes.Info::getDate).toList()));
-    res.setSeries(new EChartResDto.Series().setData(list.stream().map(OrderCreateDayCountRes.Info::getCount).toList()));
+    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), endLocalDate.toLocalDate());
+    List<String> dateList = localDateBetween.stream().map(t -> t.toString().substring(0, 7)).distinct().sorted().toList();
+    res.setXAxis(new EChartResDto.XAxis().setData(dateList));
+    res.setSeries(new EChartResDto.Series().setData(dateList.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()));
     res.setYAxis(new EChartResDto.YAxis());
     return res;
   }
