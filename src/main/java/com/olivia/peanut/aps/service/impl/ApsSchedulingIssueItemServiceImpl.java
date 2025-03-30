@@ -1,6 +1,7 @@
 package com.olivia.peanut.aps.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
@@ -9,20 +10,25 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingIssueItemMapper;
+import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.model.ApsSchedulingIssueItem;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
+import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.peanut.aps.service.ApsSchedulingIssueItemService;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionCapacityService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.base.service.FactoryService;
+import com.olivia.peanut.portal.api.entity.EChartResDto;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -47,6 +53,10 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
   SetNameService setNameService;
   @Resource
   ApsSchedulingVersionCapacityService apsSchedulingVersionCapacityService;
+  @Resource
+  FactoryService factoryService;
+  @Resource
+  ApsGoodsService apsGoodsService;
 
   @Override
   @Transactional
@@ -101,6 +111,36 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
     return DynamicsPage.init(page, listInfoRes);
   }
 
+  @Override
+  @SuppressWarnings("uncheck")
+  public QueryDayCountRes queryDayCount(QueryDayCountReq req) {
+//    List<Factory> factoryList = this.factoryService.list();
+    List<ApsGoods> apsGoodsList = apsGoodsService.list();
+
+    LocalDate now = LocalDate.now();
+    LocalDate beginDate = now.minusDays(7);
+    LocalDate endDate = now.plusDays(7);
+    List<ApsSchedulingIssueItem> apsSchedulingIssueItemList = this.list(new QueryWrapper<ApsSchedulingIssueItem>().select("goods_id", "current_day", Str.ROW_TOTAL)
+        .lambda().between(ApsSchedulingIssueItem::getCurrentDay, beginDate, endDate)
+        .groupBy(ApsSchedulingIssueItem::getCurrentDay, ApsSchedulingIssueItem::getGoodsId));
+
+    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginDate, endDate);
+    List<String> xDataList = localDateBetween.stream().map(LocalDate::toString).toList();
+
+    List<EChartResDto.Series> seriesList = new ArrayList<>(apsGoodsList.size());
+    apsGoodsList.forEach(g -> {
+      Map<String, Long> dayCountMap = apsSchedulingIssueItemList.stream().filter(t -> Objects.equals(t.getGoodsId(), g.getId()))
+          .collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
+      seriesList.add(new EChartResDto.Series().setData(xDataList.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()).setName(g.getGoodsName()));
+    });
+
+//    Map<String, Long> dayCountMap = apsSchedulingIssueItemList.stream().collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
+    QueryDayCountRes res = new QueryDayCountRes();
+    res.setXAxis(new EChartResDto.XAxis().setData(xDataList));
+    res.setYAxis(new EChartResDto.YAxis());
+    res.setSeries(seriesList);
+    return res;
+  }
   // 以下为私有对象封装
 
   public @Override void setName(List<? extends ApsSchedulingIssueItemDto> list) {

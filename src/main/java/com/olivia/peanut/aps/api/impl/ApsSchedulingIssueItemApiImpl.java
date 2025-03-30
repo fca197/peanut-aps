@@ -92,4 +92,9 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
     this.apsSchedulingIssueItemService.setName(dataList);
     return new ApsSchedulingIssueItemQueryByIdListRes().setDataList(dataList);
   }
+
+  @Override
+  public QueryDayCountRes queryDayCount(QueryDayCountReq req) {
+    return this.apsSchedulingIssueItemService.queryDayCount(req);
+  }
 }
