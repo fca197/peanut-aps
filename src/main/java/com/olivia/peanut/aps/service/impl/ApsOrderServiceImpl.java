@@ -441,14 +441,13 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
   @Override
   public OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req) {
-    int year = Objects.isNull(req.getYear()) ? LocalDate.now().getYear() : req.getYear();
-    LocalDateTime beginLocalDate = LocalDateTime.of(year, 1, 1, 0, 0, 0);
-    LocalDateTime endLocalDate = LocalDateTime.of(year + 1, 1, 1, 0, 0, 0);
+    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime beginLocalDate = now.plusMonths(1);
+    LocalDateTime endLocalDate = now.minusMonths(12);
     List<OrderCreateDayCountRes.Info> list = this.listMaps(new QueryWrapper<ApsOrder>()
             .select("date_format(create_time,'%Y-%m') date ,count(1) c ").groupBy("date")
             .lambda().between(BaseEntity::getCreateTime, beginLocalDate, endLocalDate))
         .stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c"))).toList();
-
     OrderCreateDayCountRes res = new OrderCreateDayCountRes();
     res.setXAxis(new EChartResDto.XAxis().setData(list.stream().map(OrderCreateDayCountRes.Info::getDate).toList()));
     res.setSeries(new EChartResDto.Series().setData(list.stream().map(OrderCreateDayCountRes.Info::getCount).toList()));
