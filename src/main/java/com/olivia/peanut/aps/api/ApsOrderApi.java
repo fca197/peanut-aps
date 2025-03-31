@@ -92,4 +92,7 @@ public interface ApsOrderApi {
   @PostMapping("/apsOrder/status/count")
   StatusCountRes  statusCount(@RequestBody  @Valid StatusCountReq req);
 
+  @PostMapping("/apsOrder")
+  FinishOrderTotalDayRes  finishOrderTotalDay(@RequestBody FinishOrderTotalDayReq req);
+
 }

@@ -130,4 +130,9 @@ public class ApsOrderApiImpl implements ApsOrderApi {
   public StatusCountRes statusCount(StatusCountReq req) {
     return this.apsOrderService.statusCount(req);
   }
+
+  @Override
+  public FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req) {
+    return this.apsOrderService.finishOrderTotalDay(req);
+  }
 }

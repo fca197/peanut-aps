@@ -40,6 +40,8 @@ import com.olivia.peanut.aps.utils.process.ProduceStatusUtils;
 import com.olivia.peanut.aps.utils.process.entity.ApsProduceProcessItemPojo;
 import com.olivia.peanut.aps.utils.process.entity.ComputeStatusReq;
 import com.olivia.peanut.aps.utils.process.entity.ComputeStatusRes;
+import com.olivia.peanut.base.model.Factory;
+import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.peanut.portal.api.entity.EChartResDto;
 import com.olivia.sdk.ann.SetUserName;
@@ -113,6 +115,8 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   @Resource
   ApsGoodsBomService apsGoodsBomService;
 
+  @Resource
+  FactoryService factoryService;
   @Resource
   ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
 
@@ -364,10 +368,16 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       this.apsOrderGoodsStatusDateService.updateBatchById(updateList);
     }
     if (Objects.nonNull(apsStatus.getOrderStatusId())) {
-      this.update(new LambdaUpdateWrapper<ApsOrder>().eq(BaseEntity::getId, apsOrder.getId()).set(ApsOrder::getOrderStatus, apsStatus.getOrderStatusId()));
+
+      LambdaUpdateWrapper<ApsOrder> lambdaUpdateWrapper = new LambdaUpdateWrapper<ApsOrder>().eq(BaseEntity::getId, apsOrder.getId()).set(ApsOrder::getOrderStatus, apsStatus.getOrderStatusId());
+      if (Objects.equals(ApsOrderStatusEnum.FINISHED.getCode(), apsStatus.getOrderStatusId())) {
+        lambdaUpdateWrapper.set(ApsOrder::getActMakeFinishDate, now);
+      }
+      this.update(lambdaUpdateWrapper);
     }
     this.apsOrderGoodsService.update(new LambdaUpdateWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, req.getOrderId()).set(ApsOrderGoods::getApsStatusId, req.getGoodsStatusId()));
     this.apsOrderGoodsStatusDateService.update(new LambdaUpdateWrapper<ApsOrderGoodsStatusDate>().eq(ApsOrderGoodsStatusDate::getOrderId, req.getOrderId()).eq(ApsOrderGoodsStatusDate::getGoodsStatusId, req.getGoodsStatusId()).eq(ApsOrderGoodsStatusDate::getGoodsId, orderGoods.getGoodsId()).set(Boolean.TRUE.equals(req.getIsBeginTime()), ApsOrderGoodsStatusDate::getActualMakeBeginTime, LocalDateTime.now()).set(Boolean.FALSE.equals(req.getIsBeginTime()), ApsOrderGoodsStatusDate::getActualMakeEndTime, LocalDateTime.now()));
+
 
     return new ApsOrderUpdateOrderStatusRes();
   }
@@ -444,11 +454,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     LocalDateTime now = LocalDateTime.now();
     LocalDateTime endLocalDate = now.plusMonths(1);
     LocalDateTime beginLocalDate = now.minusMonths(12);
-    Map<String, Number> dayCountMap = this.listMaps(new QueryWrapper<ApsOrder>()
-            .select("date_format(create_time,'%Y-%m') date ,count(1) c ").groupBy("date")
-            .lambda().between(BaseEntity::getCreateTime, beginLocalDate, endLocalDate))
-        .stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c")))
-        .collect(StreamUtils.toMapWithNullKeys(OrderCreateDayCountRes.Info::getDate, OrderCreateDayCountRes.Info::getCount));
+    Map<String, Number> dayCountMap = this.listMaps(new QueryWrapper<ApsOrder>().select("date_format(create_time,'%Y-%m') date ,count(1) c ").groupBy("date").lambda().between(BaseEntity::getCreateTime, beginLocalDate, endLocalDate)).stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c"))).collect(StreamUtils.toMapWithNullKeys(OrderCreateDayCountRes.Info::getDate, OrderCreateDayCountRes.Info::getCount));
     OrderCreateDayCountRes res = new OrderCreateDayCountRes();
     List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), endLocalDate.toLocalDate());
     List<String> dateList = localDateBetween.stream().map(t -> t.toString().substring(0, 7)).distinct().sorted().toList();
@@ -461,8 +467,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   @Override
   public StatusCountRes statusCount(StatusCountReq req) {
 //    List<Long> statusIdList = Stream.of(ApsOrderStatusEnum.INIT, ApsOrderStatusEnum.CANCELLED, ApsOrderStatusEnum.FINISHED, ApsOrderStatusEnum.MAKE_OK).map(ApsOrderStatusEnum::getCode).toList();
-    List<ApsStatus> apsStatusList = this.apsStatusService.list(new LambdaQueryWrapper<ApsStatus>()
-        .orderByAsc(ApsStatus::getSortIndex));
+    List<ApsStatus> apsStatusList = this.apsStatusService.list(new LambdaQueryWrapper<ApsStatus>().orderByAsc(ApsStatus::getSortIndex));
     //.stream().filter(t -> !statusIdList.contains(t.getOrderStatusId())).toList();
     apsStatusList.forEach(t -> {
       if (Objects.nonNull(t.getOrderStatusId())) {
@@ -470,20 +475,38 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       }
     });
     List<Long> searchStatusIdList = apsStatusList.stream().map(BaseEntity::getId).toList();
-    List<ApsOrder> listedObjs = this.list(Wrappers.<ApsOrder>query()
-        .select("order_status", Str.ROW_TOTAL).lambda().in(ApsOrder::getOrderStatus, searchStatusIdList)
-        .groupBy(ApsOrder::getOrderStatus));
+    List<ApsOrder> listedObjs = this.list(Wrappers.<ApsOrder>query().select("order_status", Str.ROW_TOTAL).lambda().in(ApsOrder::getOrderStatus, searchStatusIdList).groupBy(ApsOrder::getOrderStatus));
     Map<Long, Long> statusTotalMap = listedObjs.stream().collect(StreamUtils.toMapWithNullKeys(ApsOrder::getOrderStatus, BaseEntity::getRowTotal));
 //    log.info("searchStatusIdList {} listedObjs {}", searchStatusIdList, JSON.toJSONString(listedObjs));
 //    List<ApsStatusDto> apsStatusDtoList = ApsStatusConverter.INSTANCE.queryListRes(apsStatusList);
 //    List<StatusCountRes.Info> infoList = listedObjs.stream().map(t -> new StatusCountRes.Info(t.getApsStatusId(), t.getRowTotal())).toList();
     StatusCountRes statusCountRes = new StatusCountRes();
-    statusCountRes.setYAxis(new EChartResDto.YAxis())
-        .setXAxis(new EChartResDto.XAxis().setData(apsStatusList.stream().map(ApsStatus::getStatusName).toList()))
-        .setSeries(new EChartResDto.Series().setData(apsStatusList.stream().map(t -> statusTotalMap.getOrDefault(t.getId(), 0L)).toList()));
+    statusCountRes.setYAxis(new EChartResDto.YAxis()).setXAxis(new EChartResDto.XAxis().setData(apsStatusList.stream().map(ApsStatus::getStatusName).toList())).setSeries(new EChartResDto.Series().setData(apsStatusList.stream().map(t -> statusTotalMap.getOrDefault(t.getId(), 0L)).toList()));
 //    return statusCountRes.setApsStatusDtoList(apsStatusDtoList).setDataInfoList(infoList);
     return statusCountRes;
   }
+
+  @Override
+  public FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req) {
+    List<Factory> factoryList = this.factoryService.list();
+    LocalDate endDate = LocalDate.now();
+    LocalDate beginDate = endDate.minusMonths(1);
+    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>().select(Str.ROW_TOTAL, "date_format(act_make_finish_date,'%Y-%m') date", "factory_id").select().groupBy("day", "factory_id").lambda().eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.FINISHED.getCode()).between(ApsOrder::getActMakeFinishDate, beginDate, endDate));
+    FinishOrderTotalDayRes res = new FinishOrderTotalDayRes();
+    res.setYAxis(new EChartResDto.YAxis());
+    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginDate, endDate);
+    List<String> dayList = localDateBetween.stream().map(String::valueOf).toList();
+    EChartResDto.XAxis xAxis = new EChartResDto.XAxis().setData(dayList);
+    res.setXAxis(xAxis);
+    ArrayList<EChartResDto.Series> seriesArrayList = new ArrayList<>();
+    factoryList.forEach(f -> {
+      Map<LocalDate, Long> dayCountMap = apsOrderList.stream().filter(o -> Objects.equals(o.getFactoryId(), f.getId())).collect(Collectors.toMap(ApsOrder::getActMakeFinishDate, BaseEntity::getRowTotal));
+      seriesArrayList.add(new EChartResDto.Series().setData(localDateBetween.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()).setName(f.getFactoryName()));
+    });
+    res.setSeries(seriesArrayList);
+    return res;
+  }
+
 
   // 以下为私有对象封装
 
