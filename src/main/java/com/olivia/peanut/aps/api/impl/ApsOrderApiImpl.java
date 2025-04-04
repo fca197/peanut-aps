@@ -116,8 +116,8 @@ public class ApsOrderApiImpl implements ApsOrderApi {
   }
 
   @Override
-  public OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req) {
-    return this.apsOrderService.orderCreateDayCount(req);
+  public OrderCreateByMonthCountRes orderCreateByMonth(OrderCreateByMonthCountReq req) {
+    return this.apsOrderService.orderCreateByMonth(req);
   }
 
   @Override

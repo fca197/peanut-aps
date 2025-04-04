@@ -34,7 +34,7 @@ public interface ApsOrderService extends MPJBaseService<ApsOrder> {
 
   ApsOrderUpdateSchedulingDateRes updateSchedulingDate(ApsOrderUpdateSchedulingDateReq req);
 
-  OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req);
+  OrderCreateByMonthCountRes orderCreateByMonth(OrderCreateByMonthCountReq req);
 
   StatusCountRes statusCount(StatusCountReq req);
 

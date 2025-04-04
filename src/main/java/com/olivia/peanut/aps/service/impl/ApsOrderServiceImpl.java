@@ -79,6 +79,7 @@ import java.util.stream.IntStream;
 @Slf4j
 @Service("apsOrderService")
 @Transactional
+@SuppressWarnings("unchecked")
 public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsOrder> implements ApsOrderService {
 
   final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
@@ -450,16 +451,40 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   }
 
   @Override
-  public OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req) {
+  public OrderCreateByMonthCountRes orderCreateByMonth(OrderCreateByMonthCountReq req) {
     LocalDateTime now = LocalDateTime.now();
-    LocalDateTime endLocalDate = now.plusMonths(1);
+//    LocalDateTime endLocalDate = now.plusMonths(1);
     LocalDateTime beginLocalDate = now.minusMonths(12);
-    Map<String, Number> dayCountMap = this.listMaps(new QueryWrapper<ApsOrder>().select("date_format(create_time,'%Y-%m') date ,count(1) c ").groupBy("date").lambda().between(BaseEntity::getCreateTime, beginLocalDate, endLocalDate)).stream().map(t -> new OrderCreateDayCountRes.Info().setDate((String) t.get("date")).setCount((Number) t.get("c"))).collect(StreamUtils.toMapWithNullKeys(OrderCreateDayCountRes.Info::getDate, OrderCreateDayCountRes.Info::getCount));
-    OrderCreateDayCountRes res = new OrderCreateDayCountRes();
-    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), endLocalDate.toLocalDate());
-    List<String> dateList = localDateBetween.stream().map(t -> t.toString().substring(0, 7)).distinct().sorted().toList();
+    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>()
+        .select("create_time total_date ,count(1) row_total  ,goods_id")
+            .groupBy("total_date","goods_id")
+        .lambda()
+        .between(BaseEntity::getCreateTime, beginLocalDate, now.toLocalDate())
+//        .groupBy(BaseEntity::getTotalDate, ApsOrder::getGoodsId)
+    );
+    OrderCreateByMonthCountRes res = new OrderCreateByMonthCountRes();
+    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), now.toLocalDate());
+    List<String> dateList = localDateBetween.stream().map(DateUtils::localDate2Month).distinct().sorted().toList();
     res.setXAxis(new EChartResDto.XAxis().setData(dateList));
-    res.setSeries(new EChartResDto.Series().setData(dateList.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()));
+
+    // 总数
+    Map<String, Long> allCountMap = apsOrderList.stream().collect(Collectors.groupingBy(t -> DateUtils.localDate2Month(t.getTotalDate()),
+        Collectors.collectingAndThen(Collectors.<ApsOrder>toList(), l -> l.stream().mapToLong(BaseEntity::getRowTotal).sum())));
+
+    List<EChartResDto.Series> seriesList = new ArrayList<>();
+    List<String> monthList = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), now.toLocalDate()).stream().map(DateUtils::localDate2Month).distinct().sorted().toList();
+    seriesList.add(new EChartResDto.Series().setData(monthList.stream().map(t->allCountMap.getOrDefault(t,0L)).toList()).setName("当月总量"));
+
+
+    List<ApsGoods> apsGoodsList = this.apsGoodsService.list();
+
+    apsGoodsList.forEach(g -> {
+      Map<String, Long> goodsTotalMap = apsOrderList.stream().filter(o -> Objects.equals(o.getGoodsId(), g.getId())).collect(StreamUtils.toMapWithNullKeys(t -> DateUtils.localDate2Month(t.getTotalDate()), BaseEntity::getRowTotal));
+      seriesList.add(new EChartResDto.Series().setName(g.getGoodsName()).setData(monthList.stream().map(t->goodsTotalMap.getOrDefault(t,0L)).toList()));
+    });
+
+
+    res.setSeries(seriesList);
     res.setYAxis(new EChartResDto.YAxis());
     return res;
   }
@@ -488,6 +513,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   }
 
   @Override
+
   public FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req) {
     List<Factory> factoryList = this.factoryService.list();
     LocalDate endDate = LocalDate.now();
@@ -522,7 +548,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
     Map<Long, String> stautsNameMap = this.apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));
     Map<Long, List<ApsOrderGoodsSaleConfig>> saleListMap = this.apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, oidSet)).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId));
-    Map<Long, List<ApsOrderGoodsProjectConfig>> projectListMap = this.apsOrderGoodsProjectConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsProjectConfig>().in(ApsOrderGoodsProjectConfig::getOrderId, oidSet)).stream().collect(Collectors.groupingBy(ApsOrderGoodsProjectConfig::getOrderId));
+//    Map<Long, List<ApsOrderGoodsProjectConfig>> projectListMap = this.apsOrderGoodsProjectConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsProjectConfig>().in(ApsOrderGoodsProjectConfig::getOrderId, oidSet)).stream().collect(Collectors.groupingBy(ApsOrderGoodsProjectConfig::getOrderId));
     Map<Long, List<ApsOrderGoods>> goodsListMap = this.apsOrderGoodsService.list(new LambdaQueryWrapper<ApsOrderGoods>().in(ApsOrderGoods::getOrderId, oidSet)).stream().collect(Collectors.groupingBy(ApsOrderGoods::getOrderId));
     Map<Long, ApsOrderUser> userMap = this.apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, oidSet)).stream().collect(Collectors.toMap(ApsOrderUser::getOrderId, Function.identity()));
     apsOrderDtoList.forEach(t -> {

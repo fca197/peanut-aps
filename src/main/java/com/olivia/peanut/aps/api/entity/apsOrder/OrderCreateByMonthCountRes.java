@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @Accessors(chain = true)
-public class OrderCreateDayCountRes extends EChartResDto {
+public class OrderCreateByMonthCountRes extends EChartResDto {
   private List<Info> dataList;
 
   @Setter
