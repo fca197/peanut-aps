@@ -135,4 +135,9 @@ public class ApsOrderApiImpl implements ApsOrderApi {
   public FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req) {
     return this.apsOrderService.finishOrderTotalDay(req);
   }
+
+  @Override
+  public OrderFieldListRes orderFieldList(OrderFieldListReq req) {
+    return this.apsOrderService.orderFieldList(req);
+  }
 }

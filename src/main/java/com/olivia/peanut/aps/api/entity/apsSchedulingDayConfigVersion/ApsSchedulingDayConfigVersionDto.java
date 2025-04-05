@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)查询对象返回
@@ -57,11 +58,22 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
   @NotNull(message = "生产方式不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private ApsSchedulingDayConfigVersionProductType productType;
 
+
+  private List<Long> goodsIdList;
+
+
+  private List<Long> saleConfigIdList;
+  private List<String> orderFieldList;
+  private List<String> orderUserFieldList;
+
+
   public String getIsIssuedThirdStr() {
 
     return Str.booleanToStr(isIssuedThird);
 //    return Boolean.TRUE.equals(isIssuedThird) ? "是" : "否";
   }
+
+
 }
 
 

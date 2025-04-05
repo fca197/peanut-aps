@@ -38,6 +38,11 @@ public class ApsSchedulingDayConfigVersionApiImpl implements ApsSchedulingDayCon
 //    return new ApsSchedulingDayConfigVersionInsertRes().setCount(1);
   }
 
+  @Override
+  public CanSchedulingOrderListRes canSchedulingOrderList(CanSchedulingOrderListReq req) {
+    return this.apsSchedulingDayConfigVersionService.canSchedulingOrderList(req);
+  }
+
   /****
    * deleteByIds
    *

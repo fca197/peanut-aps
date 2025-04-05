@@ -21,5 +21,7 @@ public interface ApsOrderUserService extends MPJBaseService<ApsOrderUser> {
 
 
   void setName(List<? extends ApsOrderUserDto> apsOrderUserDtoList);
+
+  OrderUserFieldListRes orderUserFieldList(OrderUserFieldListReq req);
 }
 

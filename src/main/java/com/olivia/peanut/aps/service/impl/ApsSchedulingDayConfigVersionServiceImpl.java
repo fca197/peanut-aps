@@ -114,10 +114,15 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
   @RedissonLockAnn(lockPrefix = "sc:day", lockBizKeyFlag = "v", keyExpression = "#req.factoryId")
   public ApsSchedulingDayConfigVersionInsertRes save(ApsSchedulingDayConfigVersionInsertReq req) {
 
+
+    ApsSchedulingDayConfigVersion dayConfigVersion = $.copy(req, ApsSchedulingDayConfigVersion.class);
+    dayConfigVersion.setId(IdWorker.getId());
+
     List<ApsGoods> apsGoodsList = this.apsGoodsService.list(new LambdaQueryWrapper<ApsGoods>() //
 //        .in(BaseEntity::getId, issueItemList.stream().map(ApsSchedulingIssueItem::getGoodsId).collect(Collectors.toSet())) //
         .isNotNull(MAKE.equals(req.getProductType()), ApsGoods::getProduceProcessId)//
         .isNotNull(PROCESS.equals(req.getProductType()), ApsGoods::getProcessPathId));
+
     $.requireNonNullCanIgnoreException(apsGoodsList, "没有合适的商品进行排程");
     List<Long> apsGoodsIdList = apsGoodsList.stream().map(BaseEntity::getId).toList();
     List<ApsSchedulingIssueItem> itemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
@@ -139,11 +144,6 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
       issueItemList.addAll(0, itemList);
     }
     $.requireNonNullCanIgnoreException(issueItemList, "当天排产订单不能为空");
-
-
-    ApsSchedulingDayConfigVersion dayConfigVersion = $.copy(req, ApsSchedulingDayConfigVersion.class);
-    dayConfigVersion.setId(IdWorker.getId());
-
     if (MAKE.equals(req.getProductType())) {
       insertMake(req, apsGoodsList, issueItemList, dayConfigVersion);
     } else {
@@ -331,6 +331,11 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     }).toList();
     boolean b = this.apsSchedulingDayConfigVersionDetailService.updateBatchById(detailList);
     return new ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes().setSc(b);
+  }
+
+  @Override
+  public CanSchedulingOrderListRes canSchedulingOrderList(CanSchedulingOrderListReq req) {
+    return null;
   }
   // 以下为私有对象封装
 

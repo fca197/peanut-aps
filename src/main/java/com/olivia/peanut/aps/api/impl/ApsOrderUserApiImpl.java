@@ -93,4 +93,9 @@ public class ApsOrderUserApiImpl implements ApsOrderUserApi {
     this.apsOrderUserService.setName(dataList);
     return new ApsOrderUserQueryByIdListRes().setDataList(dataList);
   }
+
+  @Override
+  public OrderUserFieldListRes orderUserFieldList(OrderUserFieldListReq req) {
+    return apsOrderUserService.orderUserFieldList(req);
+  }
 }

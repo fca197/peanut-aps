@@ -1,14 +1,18 @@
 package com.olivia.peanut.aps.model;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
+import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
+import com.olivia.sdk.mybatis.type.ListStringTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)表实体类
@@ -46,7 +50,14 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
 
   // 生产方式  ， 工艺路径， 制造路径
   private ApsSchedulingDayConfigVersionProductType productType;
-
+  @TableField(javaType = true, typeHandler = ListLongTypeHandler.class)
+  private List<Long> goodsIdList;
+  @TableField(javaType = true, typeHandler = ListLongTypeHandler.class)
+  private List<Long> saleConfigIdList;
+  @TableField(javaType = true, typeHandler = ListStringTypeHandler.class)
+  private List<String> orderFieldList;
+  @TableField(javaType = true, typeHandler = ListStringTypeHandler.class)
+  private List<String> orderUserFieldList;
 
 }
 

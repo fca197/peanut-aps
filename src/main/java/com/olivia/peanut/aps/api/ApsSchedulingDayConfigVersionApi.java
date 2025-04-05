@@ -28,6 +28,12 @@ public interface ApsSchedulingDayConfigVersionApi {
   ApsSchedulingDayConfigVersionInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionInsertReq req);
 
   /**
+   * 保存 排程版本
+   */
+  @PostMapping("/apsSchedulingDayConfigVersion/canSchedulingOrderList")
+  CanSchedulingOrderListRes canSchedulingOrderList(@RequestBody @Validated(InsertCheck.class) CanSchedulingOrderListReq req);
+
+  /**
    * 根据ID 删除 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/deleteByIdList")
