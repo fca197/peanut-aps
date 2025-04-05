@@ -117,6 +117,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     ApsSchedulingDayConfigVersion dayConfigVersion = $.copy(req, ApsSchedulingDayConfigVersion.class);
     dayConfigVersion.setId(IdWorker.getId());
+    this.save(dayConfigVersion);
 
     List<ApsGoods> apsGoodsList = this.apsGoodsService.list(new LambdaQueryWrapper<ApsGoods>() //
 //        .in(BaseEntity::getId, issueItemList.stream().map(ApsSchedulingIssueItem::getGoodsId).collect(Collectors.toSet())) //
@@ -149,7 +150,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     } else {
       insertProcess(req, dayConfigVersion, apsGoodsList, issueItemList);
     }
-    this.save(dayConfigVersion);
+
     return new ApsSchedulingDayConfigVersionInsertRes().setId(dayConfigVersion.getId());
   }
 
