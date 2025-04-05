@@ -83,11 +83,17 @@ public interface ApsOrderApi {
   @PostMapping("/apsOrder/updateSchedulingDate")
   ApsOrderUpdateSchedulingDateRes updateSchedulingDate(@RequestBody @Valid ApsOrderUpdateSchedulingDateReq req);
 
-  @PostMapping("/apsOrder/orderCreateDayCount")
-  OrderCreateDayCountRes orderCreateDayCount(@RequestBody @Valid OrderCreateDayCountReq req);
+  @PostMapping("/apsOrder/orderCreateByMonth")
+  OrderCreateByMonthCountRes orderCreateByMonth(@RequestBody @Valid OrderCreateByMonthCountReq req);
 
   @PostMapping("/apsOrder/statusList")
   OrderStatusListRes orderStatusList(@RequestBody @Valid OrderStatusListReq req);
+
+  @PostMapping("/apsOrder/status/count")
+  StatusCountRes  statusCount(@RequestBody  @Valid StatusCountReq req);
+
+  @PostMapping("/apsOrder/finishOrderTotalDay")
+  FinishOrderTotalDayRes  finishOrderTotalDay(@RequestBody FinishOrderTotalDayReq req);
 
 
 }

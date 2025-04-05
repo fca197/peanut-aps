@@ -27,6 +27,10 @@ public class ApsStatusDto extends BaseEntityDto {
 //  private Boolean isOrderGoodsInit;
 
   private Long orderStatusId;
+
+
+  @NotBlank(message = "排序", groups = {InsertCheck.class, UpdateCheck.class})
+  private Long sortIndex;
 }
 
 

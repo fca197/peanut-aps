@@ -4,7 +4,7 @@
 
   <groupId>cn.solveplan</groupId>
   <artifactId>peanut-aps</artifactId>
-  <version>1.5.3-SNAPSHOT</version>
+  <version>1.5.4-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>peanut-aps</name>
@@ -32,13 +32,18 @@
     </dependency>
     <dependency>
       <groupId>cn.solveplan</groupId>
+      <artifactId>peanut-portal-model</artifactId>
+      <version>1.5.4-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.solveplan</groupId>
       <artifactId>peanut-base</artifactId>
-      <version>1.5.2-SNAPSHOT</version>
+      <version>1.5.4-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>cn.solveplan</groupId>
       <artifactId>peanut-sdk</artifactId>
-      <version>1.5.3-SNAPSHOT</version>
+      <version>1.5.4-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>

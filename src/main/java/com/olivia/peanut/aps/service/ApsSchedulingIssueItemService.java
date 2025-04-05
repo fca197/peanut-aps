@@ -23,5 +23,7 @@ public interface ApsSchedulingIssueItemService extends MPJBaseService<ApsSchedul
   void setName(List<? extends ApsSchedulingIssueItemDto> apsSchedulingIssueItemDtoList);
 
   ApsSchedulingIssueItemInsertRes save(ApsSchedulingIssueItemInsertReq req);
+
+  QueryDayCountRes queryDayCount(QueryDayCountReq req);
 }
 

@@ -63,6 +63,9 @@ public interface ApsSchedulingIssueItemApi {
   @PostMapping("/apsSchedulingIssueItem/importData")
   ApsSchedulingIssueItemImportRes importData(@RequestParam("file") MultipartFile file);
 
+  @PostMapping("/apsSchedulingIssueItem/queryDayCount")
+  QueryDayCountRes queryDayCount(@RequestBody QueryDayCountReq req);
+
 
   /**
    * 根据ID 批量查询

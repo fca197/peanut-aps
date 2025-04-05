@@ -42,6 +42,8 @@ public class ApsOrder extends BaseEntity {
   private BigDecimal finishPayedAmount;
   private LocalDateTime finishPayedDatetime;
   private LocalDate makeFinishDate;
+
+  private LocalDate actMakeFinishDate;
   private LocalDate deliveryDate;
   private Long factoryId;
   private Long goodsId;

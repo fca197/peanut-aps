@@ -116,13 +116,23 @@ public class ApsOrderApiImpl implements ApsOrderApi {
   }
 
   @Override
-  public OrderCreateDayCountRes orderCreateDayCount(OrderCreateDayCountReq req) {
-    return this.apsOrderService.orderCreateDayCount(req);
+  public OrderCreateByMonthCountRes orderCreateByMonth(OrderCreateByMonthCountReq req) {
+    return this.apsOrderService.orderCreateByMonth(req);
   }
 
   @Override
   public OrderStatusListRes orderStatusList(OrderStatusListReq req) {
     return new OrderStatusListRes().setDataList(Arrays.stream(ApsOrderStatusEnum.values())
         .map(t -> new OrderStatusListRes.Info().setCode(t.getCode()).setDesc(t.getDesc())).toList());
+  }
+
+  @Override
+  public StatusCountRes statusCount(StatusCountReq req) {
+    return this.apsOrderService.statusCount(req);
+  }
+
+  @Override
+  public FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req) {
+    return this.apsOrderService.finishOrderTotalDay(req);
   }
 }
