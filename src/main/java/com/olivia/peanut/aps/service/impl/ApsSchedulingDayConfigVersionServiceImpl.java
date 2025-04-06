@@ -117,15 +117,26 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     ApsSchedulingDayConfigVersion dayConfigVersion = $.copy(req, ApsSchedulingDayConfigVersion.class);
     dayConfigVersion.setId(IdWorker.getId());
+
     this.save(dayConfigVersion);
+    insertOrderList(req,  dayConfigVersion);
+
+    return new ApsSchedulingDayConfigVersionInsertRes().setId(dayConfigVersion.getId());
+  }
+
+  private void insertOrderList(ApsSchedulingDayConfigVersionInsertReq req,  ApsSchedulingDayConfigVersion dayConfigVersion) {
+
 
     List<ApsGoods> apsGoodsList = this.apsGoodsService.list(new LambdaQueryWrapper<ApsGoods>() //
+        .in(CollUtil.isNotEmpty(req.getGoodsIdList()), ApsGoods::getId,req.getGoodsIdList())
 //        .in(BaseEntity::getId, issueItemList.stream().map(ApsSchedulingIssueItem::getGoodsId).collect(Collectors.toSet())) //
         .isNotNull(MAKE.equals(req.getProductType()), ApsGoods::getProduceProcessId)//
         .isNotNull(PROCESS.equals(req.getProductType()), ApsGoods::getProcessPathId));
 
     $.requireNonNullCanIgnoreException(apsGoodsList, "没有合适的商品进行排程");
+
     List<Long> apsGoodsIdList = apsGoodsList.stream().map(BaseEntity::getId).toList();
+
     List<ApsSchedulingIssueItem> itemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
         .selectAll(ApsSchedulingIssueItem.class).innerJoin(ApsOrder.class, ApsOrder::getOrderNo, ApsSchedulingIssueItem::getOrderNo)
         .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId).in(ApsOrderGoods::getGoodsId, apsGoodsIdList)
@@ -150,8 +161,6 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     } else {
       insertProcess(req, dayConfigVersion, apsGoodsList, issueItemList);
     }
-
-    return new ApsSchedulingDayConfigVersionInsertRes().setId(dayConfigVersion.getId());
   }
 
   private void insertMake(ApsSchedulingDayConfigVersionInsertReq req, List<ApsGoods> apsGoodsList, List<ApsSchedulingIssueItem> itemList, ApsSchedulingDayConfigVersion dayConfigVersion) {
