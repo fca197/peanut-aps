@@ -87,6 +87,12 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
    * 是否遗留
    */
   private Boolean legacyOrder;
+
+
+  private String goodsName;
+  private String factoryName;
+
+  private LocalDate oldScheduleDate;
 }
 
 

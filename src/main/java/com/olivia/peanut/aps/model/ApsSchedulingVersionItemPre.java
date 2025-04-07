@@ -64,5 +64,10 @@ public class ApsSchedulingVersionItemPre extends BaseEntity {
    */
   private Boolean legacyOrder;
 
+  private LocalDate oldScheduleDate;
+
+  private String goodsName;
+  private String factoryName;
+
 }
 

@@ -29,7 +29,9 @@ import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigItemCo
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigVersionDetailDto;
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayOrderRoomReq;
 import com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingIssueItemDto;
+import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.model.KVEntity;
@@ -47,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -124,6 +127,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
   @Resource
   ApsSaleConfigService apsSaleConfigService;
+  @Resource
+  FactoryService factoryService;
 
 
   @Override
@@ -147,7 +152,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<Long> apsGoodsIdList = apsGoodsList.stream().map(BaseEntity::getId).toList();
 
     List<ApsSchedulingIssueItem> itemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
-        .selectAll(ApsSchedulingIssueItem.class).innerJoin(ApsOrder.class, ApsOrder::getOrderNo, ApsSchedulingIssueItem::getOrderNo).innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId)
+        .selectAll(ApsSchedulingIssueItem.class).innerJoin(ApsOrder.class, ApsOrder::getOrderNo, ApsSchedulingIssueItem::getOrderNo)
+        .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId)
         .in(ApsOrderGoods::getGoodsId, apsGoodsIdList)
         //  订单状态下单即可排产
         .eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.INIT.getCode()).le(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay()));
@@ -165,10 +171,10 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
 
     List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList = new ArrayList<>();
+    LocalDate nowLocalDate = LocalDate.now();
     AtomicInteger atomicInteger = new AtomicInteger(1);
-
-    itemList2PreList(itemList, id, atomicInteger, Boolean.TRUE, apsSchedulingVersionItemPreList);
-    itemList2PreList(issueItemList, id, atomicInteger, Boolean.FALSE, apsSchedulingVersionItemPreList);
+    itemList2PreList(itemList, id, atomicInteger, Boolean.TRUE, apsSchedulingVersionItemPreList,nowLocalDate);
+    itemList2PreList(issueItemList, id, atomicInteger, Boolean.FALSE, apsSchedulingVersionItemPreList,nowLocalDate);
 
     List<Long> orderIdList = new ArrayList<>(itemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList());
     orderIdList.addAll(issueItemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList());
@@ -185,9 +191,13 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     processSaleConfigList(req, orderIdList, apsSchedulingVersionItemPreList);
 
+    Map<Long, String> goodsNameMap = apsGoodsList.stream().collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName));
+    Map<Long, String> factoryNameMap = this.factoryService.list().stream().collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
+    apsSchedulingVersionItemPreList.forEach(t -> {
+      t.setGoodsName(goodsNameMap.get(t.getGoodsId())).setFactoryName(factoryNameMap.get(t.getFactoryId()));
+    });
 
     this.apsSchedulingVersionItemPreService.saveBatch(apsSchedulingVersionItemPreList);
-//    insertOrderList(req, dayConfigVersion, itemList);
 
     this.save(dayConfigVersion.setStepIndex(1));
 
@@ -237,10 +247,12 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
   }
 
 
-  private static void itemList2PreList(List<ApsSchedulingIssueItem> itemList, long id, AtomicInteger atomicInteger, Boolean bool, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
+  private static void itemList2PreList(List<ApsSchedulingIssueItem> itemList, long id, AtomicInteger atomicInteger, Boolean bool, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList, LocalDate schedulingDate) {
     itemList.forEach(item -> {
-      ApsSchedulingVersionItemPre itemPre = new ApsSchedulingVersionItemPre();
-      itemPre.setSchedulingVersionId(id).setCurrentDay(item.getCurrentDay()).setGoodsId(item.getGoodsId()).setOrderNo(item.getOrderNo()).setOrderId(item.getOrderId()).setNumberIndex(atomicInteger.getAndIncrement()).setFactoryId(item.getFactoryId()).setShowField(new HashMap<>()).setLegacyOrder(bool);
+      ApsSchedulingVersionItemPre itemPre = new ApsSchedulingVersionItemPre().setOldScheduleDate(item.getCurrentDay());
+      itemPre.setSchedulingVersionId(id).setCurrentDay(schedulingDate).setGoodsId(item.getGoodsId())
+          .setOrderNo(item.getOrderNo()).setOrderId(item.getOrderId()).setNumberIndex(atomicInteger.getAndIncrement())
+          .setFactoryId(item.getFactoryId()).setShowField(new HashMap<>()).setLegacyOrder(bool);
       apsSchedulingVersionItemPreList.add(itemPre);
     });
   }
