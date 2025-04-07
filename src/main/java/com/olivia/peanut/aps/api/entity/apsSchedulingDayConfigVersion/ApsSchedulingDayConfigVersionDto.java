@@ -68,6 +68,7 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
   private List<KVEntity> orderFieldList;
   private List<KVEntity> orderUserFieldList;
 
+  private Integer stepIndex;
 
   public String getIsIssuedThirdStr() {
 

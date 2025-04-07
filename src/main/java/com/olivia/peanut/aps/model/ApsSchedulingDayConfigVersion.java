@@ -7,7 +7,6 @@ import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
 import com.olivia.sdk.mybatis.type.ListMapTypeHandler;
-import com.olivia.sdk.mybatis.type.ListStringTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -65,5 +64,10 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
   @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
   private List<KVEntity> orderUserFieldList;
 
+
+  /***
+   * 1 创建，2 确认订单，3 排程结束
+   */
+  private Integer stepIndex;
 }
 

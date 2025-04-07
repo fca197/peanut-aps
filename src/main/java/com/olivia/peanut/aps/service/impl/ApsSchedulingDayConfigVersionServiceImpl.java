@@ -175,12 +175,12 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     // TODO:
     List<KVEntity> orderFieldList = req.getOrderFieldList();
     if (CollUtil.isNotEmpty(orderFieldList)) {
-      processFieldList(orderFieldList, apsSchedulingVersionItemPreList, apsOrderService.listByIds(orderIdList), ApsOrder.class, BaseEntity::getId,"order_");
+      processFieldList(orderFieldList, apsSchedulingVersionItemPreList, apsOrderService.listByIds(orderIdList), ApsOrder.class, BaseEntity::getId, "order_");
     }
     List<KVEntity> orderUserFieldList = req.getOrderUserFieldList();
     if (CollUtil.isNotEmpty(orderUserFieldList)) {
       processFieldList(orderUserFieldList, apsSchedulingVersionItemPreList,
-          apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId,"orderUser_");
+          apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId, "orderUser_");
     }
 
     processSaleConfigList(req, orderIdList, apsSchedulingVersionItemPreList);
@@ -189,7 +189,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     this.apsSchedulingVersionItemPreService.saveBatch(apsSchedulingVersionItemPreList);
 //    insertOrderList(req, dayConfigVersion, itemList);
 
-    this.save(dayConfigVersion);
+    this.save(dayConfigVersion.setStepIndex(1));
 
     return new ApsSchedulingDayConfigVersionInsertRes().setId(dayConfigVersion.getId());
   }
@@ -217,14 +217,14 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
         saleConfigIdList.forEach(st -> {
           ApsSaleConfig apsSaleConfig = apsSaleConfigMapTmp.get(st.getId());
           if (Objects.nonNull(apsSaleConfig))
-            t.getShowField().put("sale_"+apsSaleConfig.getParentId(), apsSaleConfig.getSaleName());
+            t.getShowField().put("sale_" + apsSaleConfig.getParentId(), apsSaleConfig.getSaleName());
         });
       });
     }
   }
 
 
-  private <T extends BaseEntity> void processFieldList(List<KVEntity> fieldList, List<ApsSchedulingVersionItemPre> itemPreList, List<T> entityList, Class<T> entityClass, Function<T, Long> function,String key) {
+  private <T extends BaseEntity> void processFieldList(List<KVEntity> fieldList, List<ApsSchedulingVersionItemPre> itemPreList, List<T> entityList, Class<T> entityClass, Function<T, Long> function, String key) {
     Map<Long, T> entityMap = entityList.stream().collect(Collectors.toMap(function, Function.identity()));
     itemPreList.forEach(item -> {
       T entity = entityMap.get(item.getOrderId());
@@ -232,7 +232,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
         log.warn("{} 不存在 {}", entityClass.getSimpleName(), toJSONString(item));
         return;
       }
-      fieldList.forEach(kv -> item.getShowField().put(key+""+kv.getValue(), getFieldValue(entity, kv.getValue())));
+      fieldList.forEach(kv -> item.getShowField().put(key + "" + kv.getValue(), getFieldValue(entity, kv.getValue())));
     });
   }
 
