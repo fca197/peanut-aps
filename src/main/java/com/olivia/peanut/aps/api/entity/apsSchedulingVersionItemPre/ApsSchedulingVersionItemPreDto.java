@@ -1,25 +1,15 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre;
 
-import java.time.LocalDateTime;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
-import java.util.List;
-
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
-import com.alibaba.excel.annotation.ExcelProperty;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.Map;
 //import com.alibaba.fastjson2.annotation.JSONField;
 
 /**
@@ -47,7 +37,7 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
   @NotBlank(message = "当前日期不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "currentDay")
 
-  private String currentDay;
+  private LocalDate currentDay;
   /***
    *  订单ID
    */
@@ -82,7 +72,7 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
   @NotBlank(message = "显示字段不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "showField")
 
-  private String showField;
+  private Map<String, Object> showField;
   /***
    *  订单号
    */
@@ -91,6 +81,12 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
 
   private String orderNo;
 
+
+
+  /***
+   * 是否遗留
+   */
+  private Boolean legacyOrder;
 }
 
 

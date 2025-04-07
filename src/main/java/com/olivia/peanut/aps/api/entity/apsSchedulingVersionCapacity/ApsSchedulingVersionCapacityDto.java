@@ -4,6 +4,8 @@ import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 /**
  * (ApsSchedulingVersionCapacity)查询对象返回
  *
@@ -18,7 +20,7 @@ public class ApsSchedulingVersionCapacityDto extends BaseEntityDto {
 
 
   private Long schedulingVersionId;
-  private String currentDate;
+  private LocalDate currentDate;
   private Long orderId;
   private Long goodsId;
   private String field0;

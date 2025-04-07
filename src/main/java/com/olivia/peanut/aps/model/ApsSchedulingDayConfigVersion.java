@@ -4,7 +4,9 @@ package com.olivia.peanut.aps.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
+import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
+import com.olivia.sdk.mybatis.type.ListMapTypeHandler;
 import com.olivia.sdk.mybatis.type.ListStringTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
@@ -50,14 +52,18 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
 
   // 生产方式  ， 工艺路径， 制造路径
   private ApsSchedulingDayConfigVersionProductType productType;
+
   @TableField(javaType = true, typeHandler = ListLongTypeHandler.class)
   private List<Long> goodsIdList;
-  @TableField(javaType = true, typeHandler = ListLongTypeHandler.class)
-  private List<Long> saleConfigIdList;
-  @TableField(javaType = true, typeHandler = ListStringTypeHandler.class)
-  private List<String> orderFieldList;
-  @TableField(javaType = true, typeHandler = ListStringTypeHandler.class)
-  private List<String> orderUserFieldList;
+
+  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
+  private List<ApsSaleConfig> saleConfigIdList;
+
+  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
+  private List<KVEntity> orderFieldList;
+
+  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
+  private List<KVEntity> orderUserFieldList;
 
 }
 

@@ -1,9 +1,11 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion;
 
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDto;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.Str;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -62,9 +64,9 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
   private List<Long> goodsIdList;
 
 
-  private List<Long> saleConfigIdList;
-  private List<String> orderFieldList;
-  private List<String> orderUserFieldList;
+  private List<ApsSaleConfigDto> saleConfigIdList;
+  private List<KVEntity> orderFieldList;
+  private List<KVEntity> orderUserFieldList;
 
 
   public String getIsIssuedThirdStr() {

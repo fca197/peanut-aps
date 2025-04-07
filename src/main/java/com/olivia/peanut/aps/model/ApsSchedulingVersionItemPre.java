@@ -3,7 +3,10 @@ package com.olivia.peanut.aps.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.olivia.sdk.mybatis.type.MapTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +32,7 @@ public class ApsSchedulingVersionItemPre extends BaseEntity {
   /***
    *  当前日期
    */
-  private String currentDay;
+  private LocalDate currentDay;
   /***
    *  订单ID
    */
@@ -49,11 +52,17 @@ public class ApsSchedulingVersionItemPre extends BaseEntity {
   /***
    *  显示字段
    */
-  private String showField;
+  @TableField(typeHandler = MapTypeHandler.class)
+  private Map<String,Object> showField;
   /***
    *  订单号
    */
   private String orderNo;
+
+  /***
+   * 是否遗留
+   */
+  private Boolean legacyOrder;
 
 }
 

@@ -158,7 +158,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
         Map<Long, List<ApsGoodsBomVo>> apsGoodsBomVoMap = apsGoodsBomList.keySet().stream()
             .collect(Collectors.toMap(key -> key, vL -> $.copyList(apsGoodsBomList.get(vL), ApsGoodsBomVo.class)));
         ApsProcessPathInfo scheduledPathDate = ProcessUtils.schedulePathDate($.copy(apsProcessPathDto, ApsProcessPathVo.class), weekInfoList, 0L, dayWorkSecond,
-            order.getGoodsStatusId(), apsGoodsBomVoMap, LocalDate.parse(order.getCurrentDay()));
+            order.getGoodsStatusId(), apsGoodsBomVoMap, order.getCurrentDay());
         if (Objects.nonNull(scheduledPathDate)) {
           List<Info> dataList = scheduledPathDate.getDataList();
           AtomicInteger statusIndex = new AtomicInteger(1);
@@ -517,7 +517,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
           .setHasEnough(info.getLimitList().stream().noneMatch(t -> t.getCurrentCount() < t.getMin())));
       mapList.forEach(map -> {
         ApsSchedulingVersionCapacity apsSchedulingVersionCapacity = new ApsSchedulingVersionCapacity();
-        apsSchedulingVersionCapacity.setSchedulingVersionId(req.getId()).setCurrentDay(info.getCurrentDate()).setOrderNo((String) map.get(ApsStr.ORDER_NO));
+        apsSchedulingVersionCapacity.setSchedulingVersionId(req.getId()).setCurrentDay(LocalDate.parse(info.getCurrentDate())).setOrderNo((String) map.get(ApsStr.ORDER_NO));
         apsSchedulingVersionCapacity.setId(IdWorker.getId());
         apsSchedulingVersionCapacity.setGoodsId((Long) map.get(ApsStr.GOODS_ID)).setOrderId((Long) map.get(ApsStr.ORDER_ID)).setFactoryId((Long) map.get(ApsStr.FACTORY_ID))
             .setGoodsStatusId((Long) map.get(GOODS_STATUS_ID));

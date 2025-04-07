@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class ApsSchedulingIssueItem extends BaseEntity {
   /***
    *  当前日期
    */
-  private String currentDay;
+  private LocalDate currentDay;
   /***
    *  订单ID
    */
