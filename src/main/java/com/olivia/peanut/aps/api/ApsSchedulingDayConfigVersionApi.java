@@ -85,4 +85,9 @@ public interface ApsSchedulingDayConfigVersionApi {
   // updateOrderSortIndex
   @PostMapping("/apsSchedulingDayConfigVersion/updateOrderSortIndex")
   ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(@RequestBody @Valid ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
+
+  @PostMapping("/apsSchedulingDayConfigVersion/addOrder")
+  ApsSchedulingDayConfigVersionAddOrderRes  addOrder(@RequestBody @Valid ApsSchedulingDayConfigVersionAddOrderReq req);
+
+
 }

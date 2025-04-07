@@ -112,4 +112,9 @@ public class ApsSchedulingDayConfigVersionApiImpl implements ApsSchedulingDayCon
   public ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req) {
     return this.apsSchedulingDayConfigVersionService.updateOrderSortIndex(req);
   }
+
+  @Override
+  public ApsSchedulingDayConfigVersionAddOrderRes addOrder(ApsSchedulingDayConfigVersionAddOrderReq req) {
+    return this.apsSchedulingDayConfigVersionService.addOrder(req);
+  }
 }

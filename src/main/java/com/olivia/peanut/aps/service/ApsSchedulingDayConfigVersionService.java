@@ -29,5 +29,7 @@ public interface ApsSchedulingDayConfigVersionService extends MPJBaseService<Aps
   ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
 
   CanSchedulingOrderListRes canSchedulingOrderList(CanSchedulingOrderListReq req);
+
+  ApsSchedulingDayConfigVersionAddOrderRes addOrder(ApsSchedulingDayConfigVersionAddOrderReq req);
 }
 

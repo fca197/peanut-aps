@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.service.impl.utils;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierReq;
 import com.olivia.peanut.aps.model.ApsBom;
 import com.olivia.peanut.aps.model.ApsBomSupplier;
@@ -52,7 +53,7 @@ public class ApsBomPlan2Email {
         if (Objects.isNull(fieldValue)) {
           return;
         }
-        Map<String, Object> jsonObject = JSON.readValue(String.valueOf(fieldValue));
+        Map<String, Object> jsonObject = JSON.readValue(String.valueOf(fieldValue), new TypeReference<Map<String, Object>>() {});
         if (TRUE.equals(jsonObject.get("lack"))) {
           buyMap.put(localDate.minusDays(apsBom.getDeliveryCycleDay()), BigDecimal.valueOf((Double) jsonObject.get("buy_inv")).abs());
         }

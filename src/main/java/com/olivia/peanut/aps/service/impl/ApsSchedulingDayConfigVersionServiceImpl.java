@@ -10,6 +10,7 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.gson.Gson;
 import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderStatusEnum;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDto;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigDto;
@@ -151,19 +152,12 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     List<Long> apsGoodsIdList = apsGoodsList.stream().map(BaseEntity::getId).toList();
 
-    List<ApsSchedulingIssueItem> itemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
-        .selectAll(ApsSchedulingIssueItem.class).innerJoin(ApsOrder.class, ApsOrder::getOrderNo, ApsSchedulingIssueItem::getOrderNo)
-        .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId)
-        .in(ApsOrderGoods::getGoodsId, apsGoodsIdList)
+    List<ApsSchedulingIssueItem> itemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>().selectAll(ApsSchedulingIssueItem.class).innerJoin(ApsOrder.class, ApsOrder::getOrderNo, ApsSchedulingIssueItem::getOrderNo).innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId).in(ApsOrderGoods::getGoodsId, apsGoodsIdList)
         //  订单状态下单即可排产
-        .eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.INIT.getCode()).le(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay()));
+        .eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.INIT.getCode()).lt(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay()));
 
     log.info("遗留订单 {} itemList :{}", req.getSchedulingDay(), itemList.size());
-    List<ApsSchedulingIssueItem> issueItemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>()
-        .selectAll(ApsSchedulingIssueItem.class).eq(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay())
-        .eq(ApsSchedulingIssueItem::getFactoryId, req.getFactoryId()).
-        innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrderGoods::getOrderId)
-        .in(ApsOrderGoods::getGoodsId, apsGoodsIdList));
+    List<ApsSchedulingIssueItem> issueItemList = apsSchedulingIssueItemService.list(new MPJLambdaWrapper<ApsSchedulingIssueItem>().selectAll(ApsSchedulingIssueItem.class).eq(ApsSchedulingIssueItem::getCurrentDay, req.getSchedulingDay()).eq(ApsSchedulingIssueItem::getFactoryId, req.getFactoryId()).innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrderGoods::getOrderId).in(ApsOrderGoods::getGoodsId, apsGoodsIdList));
     log.info("当天订单 {} issueItemList :{}", req.getSchedulingDay(), issueItemList.size());
 
 
@@ -173,8 +167,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList = new ArrayList<>();
     LocalDate nowLocalDate = LocalDate.now();
     AtomicInteger atomicInteger = new AtomicInteger(1);
-    itemList2PreList(itemList, id, atomicInteger, Boolean.TRUE, apsSchedulingVersionItemPreList,nowLocalDate);
-    itemList2PreList(issueItemList, id, atomicInteger, Boolean.FALSE, apsSchedulingVersionItemPreList,nowLocalDate);
+    itemList2PreList(itemList, id, atomicInteger, Boolean.TRUE, apsSchedulingVersionItemPreList, nowLocalDate);
+    itemList2PreList(issueItemList, id, atomicInteger, Boolean.FALSE, apsSchedulingVersionItemPreList, nowLocalDate);
 
     List<Long> orderIdList = new ArrayList<>(itemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList());
     orderIdList.addAll(issueItemList.stream().map(ApsSchedulingIssueItem::getOrderId).toList());
@@ -185,17 +179,12 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     }
     List<KVEntity> orderUserFieldList = req.getOrderUserFieldList();
     if (CollUtil.isNotEmpty(orderUserFieldList)) {
-      processFieldList(orderUserFieldList, apsSchedulingVersionItemPreList,
-          apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId, "orderUser_");
+      processFieldList(orderUserFieldList, apsSchedulingVersionItemPreList, apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId, "orderUser_");
     }
 
-    processSaleConfigList(req, orderIdList, apsSchedulingVersionItemPreList);
+    processSaleConfigList(req.getSaleConfigIdList(), orderIdList, apsSchedulingVersionItemPreList);
 
-    Map<Long, String> goodsNameMap = apsGoodsList.stream().collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName));
-    Map<Long, String> factoryNameMap = this.factoryService.list().stream().collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
-    apsSchedulingVersionItemPreList.forEach(t -> {
-      t.setGoodsName(goodsNameMap.get(t.getGoodsId())).setFactoryName(factoryNameMap.get(t.getFactoryId()));
-    });
+    setFactoryGoodsName(apsGoodsList, apsSchedulingVersionItemPreList);
 
     this.apsSchedulingVersionItemPreService.saveBatch(apsSchedulingVersionItemPreList);
 
@@ -204,20 +193,22 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     return new ApsSchedulingDayConfigVersionInsertRes().setId(dayConfigVersion.getId());
   }
 
-  private void processSaleConfigList(ApsSchedulingDayConfigVersionInsertReq req, List<Long> orderIdList, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
-    List<ApsSaleConfigDto> saleConfigIdList = req.getSaleConfigIdList();
+  private void setFactoryGoodsName(List<ApsGoods> apsGoodsList, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
+    Map<Long, String> goodsNameMap = apsGoodsList.stream().collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName));
+    Map<Long, String> factoryNameMap = this.factoryService.list().stream().collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
+    apsSchedulingVersionItemPreList.forEach(t -> {
+      t.setGoodsName(goodsNameMap.get(t.getGoodsId())).setFactoryName(factoryNameMap.get(t.getFactoryId()));
+    });
+  }
+
+  private void processSaleConfigList(List<ApsSaleConfigDto> saleConfigIdList, List<Long> orderIdList, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
+
     if (CollUtil.isNotEmpty(saleConfigIdList)) {
       List<ApsSaleConfig> parentSaleConfigList = this.apsSaleConfigService.listByIds(saleConfigIdList.stream().map(ApsSaleConfigDto::getId).toList());
       List<ApsSaleConfig> apsSaleConfigList = this.apsSaleConfigService.list(new LambdaQueryWrapper<ApsSaleConfig>().in(ApsSaleConfig::getParentId, parentSaleConfigList.stream().map(BaseEntity::getId).toList()));
 //      Map<Long, List<ApsSaleConfig>> saleConfigMap = apsSaleConfigList.stream().collect(Collectors.groupingBy(ApsSaleConfig::getParentId));
       Map<Long, ApsSaleConfig> apsSaleConfigMap = apsSaleConfigList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-      Map<Long, Map<Long, ApsSaleConfig>> apsOrderConfigMap = this.apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)
-              .in(ApsOrderGoodsSaleConfig::getConfigId, apsSaleConfigList.stream().map(BaseEntity::getId).toList())).stream()
-          .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId,
-              Collectors.collectingAndThen(Collectors.<ApsOrderGoodsSaleConfig>toList(),
-                  list -> list.stream().collect(Collectors.toMap(t -> apsSaleConfigMap.get(t.getConfigId()).getParentId(),
-                      v -> apsSaleConfigMap.get(v.getConfigId()))))
-          ));
+      Map<Long, Map<Long, ApsSaleConfig>> apsOrderConfigMap = this.apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList).in(ApsOrderGoodsSaleConfig::getConfigId, apsSaleConfigList.stream().map(BaseEntity::getId).toList())).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId, Collectors.collectingAndThen(Collectors.<ApsOrderGoodsSaleConfig>toList(), list -> list.stream().collect(Collectors.toMap(t -> apsSaleConfigMap.get(t.getConfigId()).getParentId(), v -> apsSaleConfigMap.get(v.getConfigId()))))));
       apsSchedulingVersionItemPreList.forEach(t -> {
         Map<Long, ApsSaleConfig> apsSaleConfigMapTmp = apsOrderConfigMap.get(t.getOrderId());
         if (CollUtil.isEmpty(apsSaleConfigMapTmp)) {
@@ -242,7 +233,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
         log.warn("{} 不存在 {}", entityClass.getSimpleName(), toJSONString(item));
         return;
       }
-      fieldList.forEach(kv -> item.getShowField().put(key + "" + kv.getValue(), getFieldValue(entity, kv.getValue())));
+      fieldList.forEach(kv -> item.getShowField().put(key + kv.getValue(), getFieldValue(entity, kv.getValue())));
     });
   }
 
@@ -250,11 +241,66 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
   private static void itemList2PreList(List<ApsSchedulingIssueItem> itemList, long id, AtomicInteger atomicInteger, Boolean bool, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList, LocalDate schedulingDate) {
     itemList.forEach(item -> {
       ApsSchedulingVersionItemPre itemPre = new ApsSchedulingVersionItemPre().setOldScheduleDate(item.getCurrentDay());
-      itemPre.setSchedulingVersionId(id).setCurrentDay(schedulingDate).setGoodsId(item.getGoodsId())
-          .setOrderNo(item.getOrderNo()).setOrderId(item.getOrderId()).setNumberIndex(atomicInteger.getAndIncrement())
-          .setFactoryId(item.getFactoryId()).setShowField(new HashMap<>()).setLegacyOrder(bool);
+      itemPre.setSchedulingVersionId(id).setCurrentDay(schedulingDate).setGoodsId(item.getGoodsId()).setOrderNo(item.getOrderNo()).setOrderId(item.getOrderId()).setNumberIndex(atomicInteger.getAndIncrement()).setFactoryId(item.getFactoryId()).setShowField(new HashMap<>()).setLegacyOrder(bool);
       apsSchedulingVersionItemPreList.add(itemPre);
     });
+  }
+
+  @Override
+  public ApsSchedulingDayConfigVersionAddOrderRes addOrder(ApsSchedulingDayConfigVersionAddOrderReq req) {
+    List<Long> orderIdList = new ArrayList<>();
+    List<ApsOrder> apsOrderList = new ArrayList<>();
+    List<String> orderNoTmpList = req.getValueList().lines().toList();
+    if (ApsSchedulingDayConfigVersionAddOrderTypeEnum.orderNo.equals(req.getType())) {
+      apsOrderList.addAll(this.apsOrderService.list(new LambdaQueryWrapper<ApsOrder>().in(ApsOrder::getOrderNo, orderNoTmpList)));
+      orderIdList.addAll(apsOrderList.stream().map(BaseEntity::getId).toList());
+    } else if (ApsSchedulingDayConfigVersionAddOrderTypeEnum.orderNoParent.equals(req.getType())) {
+      List<ApsOrder> orderList = this.apsOrderService.list(new LambdaQueryWrapper<ApsOrder>().in(ApsOrder::getOrderNoParent, orderNoTmpList));
+      apsOrderList.addAll(orderList);
+      orderIdList.addAll(orderList.stream().map(BaseEntity::getId).toList());
+    }
+    $.requireNonNullCanIgnoreException(orderNoTmpList, "订单为空，请检查录入的订单是否存在");
+
+    long c = orderIdList.stream().collect(Collectors.groupingBy(f -> f, Collectors.counting())).values().stream().filter(t -> t > 1).count();
+
+    log.warn("重复订单数 {}", c);
+    $.assertTrueCanIgnoreException(c == 0, "新录入订单存在重复");
+    $.requireNonNullCanIgnoreException(orderIdList, "订单不存在");
+    c = this.apsSchedulingVersionItemPreService.count(new LambdaQueryWrapper<ApsSchedulingVersionItemPre>().eq(ApsSchedulingVersionItemPre::getSchedulingVersionId, req.getSchedulingVersionId()).in(ApsSchedulingVersionItemPre::getOrderId, orderIdList));
+    $.assertTrueCanIgnoreException(c == 0, "新旧订单存在重复");
+
+    Map<String, Object> objectMap = this.listMaps(new LambdaQueryWrapper<ApsSchedulingDayConfigVersion>().eq(BaseEntity::getId, req.getSchedulingVersionId())).getFirst();
+//    Page<ApsSchedulingDayConfigVersion> configVersionPage = this.page(new Page<ApsSchedulingDayConfigVersion>(1, 10), new LambdaQueryWrapper<ApsSchedulingDayConfigVersion>().eq(BaseEntity::getId, req.getSchedulingVersionId()));
+    ApsSchedulingDayConfigVersion version = this.getById(req.getSchedulingVersionId());
+
+    Gson gson = GSON.getGson();
+    String sale_config_id_list = objectMap.getOrDefault("sale_config_id_list", "[]").toString();
+    version.setSaleConfigIdList(gson.fromJson(sale_config_id_list, new TypeReference<List<ApsSaleConfig>>() {
+    }.getType()));
+    version.setOrderFieldList(gson.fromJson(objectMap.getOrDefault("order_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
+    }.getType()));
+    version.setOrderUserFieldList(gson.fromJson(objectMap.getOrDefault("order_user_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
+    }.getType()));
+
+    List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList = new ArrayList<>();
+    apsOrderList.forEach(apsOrder -> {
+      ApsSchedulingVersionItemPre itemPre = new ApsSchedulingVersionItemPre();
+      itemPre.setSchedulingVersionId(req.getSchedulingVersionId()).setCurrentDay(version.getSchedulingDay()).setGoodsId(apsOrder.getGoodsId()).setOrderNo(apsOrder.getOrderNo()).setOrderId(apsOrder.getId()).setNumberIndex(0).setFactoryId(apsOrder.getFactoryId()).setShowField(new HashMap<>()).setLegacyOrder(Boolean.FALSE);
+      apsSchedulingVersionItemPreList.add(itemPre);
+    });
+
+    List<KVEntity> orderFieldList = version.getOrderFieldList();
+    if (CollUtil.isNotEmpty(orderFieldList)) {
+      processFieldList(orderFieldList, apsSchedulingVersionItemPreList, apsOrderService.list(new LambdaQueryWrapper<ApsOrder>().in(ApsOrder::getId, orderIdList)), ApsOrder.class, ApsOrder::getId, "orderUser_");
+    }
+    List<KVEntity> orderUserFieldList = version.getOrderUserFieldList();
+    if (CollUtil.isNotEmpty(orderUserFieldList)) {
+      processFieldList(orderUserFieldList, apsSchedulingVersionItemPreList, apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId, "orderUser_");
+    }
+    processSaleConfigList($.copyList(version.getSaleConfigIdList(), ApsSaleConfigDto.class), orderIdList, apsSchedulingVersionItemPreList);
+    setFactoryGoodsName(apsGoodsService.list(), apsSchedulingVersionItemPreList);
+    this.apsSchedulingVersionItemPreService.saveBatch(apsSchedulingVersionItemPreList);
+    return new ApsSchedulingDayConfigVersionAddOrderRes();
   }
 
   private void insertOrderList(ApsSchedulingDayConfigVersionInsertReq req, ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsSchedulingIssueItem> issueItemList, List<ApsGoods> apsGoodsList) {
@@ -413,7 +459,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<Header> headerList = new ArrayList<>();
     if (StringUtils.isNoneBlank(headerListStr)) {
 
-      List<List<Long>> roomDtoList = JSON.getMapper().readValue(headerListStr, new TypeReference<>() {
+      List<List<Long>> roomDtoList = JSON.readValue(headerListStr, new TypeReference<>() {
       });
 
       Map<Long, String> statusNameMap = this.apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));

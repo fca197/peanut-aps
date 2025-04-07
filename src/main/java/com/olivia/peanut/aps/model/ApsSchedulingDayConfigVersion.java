@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.mybatis.type.ListKVTypeHandler;
 import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
 import com.olivia.sdk.mybatis.type.ListMapTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
@@ -58,10 +59,10 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
   @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
   private List<ApsSaleConfig> saleConfigIdList;
 
-  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
+  @TableField(javaType = true, typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> orderFieldList;
 
-  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
+  @TableField(javaType = true, typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> orderUserFieldList;
 
 
