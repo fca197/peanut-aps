@@ -20,5 +20,7 @@ public interface ApsSchedulingDayConfigVersionConverter {
   List<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingDayConfigVersion> list);
 
   List<ApsSchedulingDayConfigVersion> importReq(List<ApsSchedulingDayConfigVersionImportReq> reqList);
+
+  ApsSchedulingDayConfigVersion dto2Model(ApsSchedulingDayConfigVersionDto req);
 }
 

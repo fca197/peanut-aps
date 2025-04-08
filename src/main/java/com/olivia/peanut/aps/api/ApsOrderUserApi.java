@@ -70,5 +70,8 @@ public interface ApsOrderUserApi {
   @PostMapping("/apsOrderUser/queryByIdList")
   ApsOrderUserQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderUserQueryByIdListReq req);
 
+  @PostMapping("/apsOrderUser/orderUserFieldList")
+  OrderUserFieldListRes orderUserFieldList(@RequestBody @Valid OrderUserFieldListReq req);
+
 
 }

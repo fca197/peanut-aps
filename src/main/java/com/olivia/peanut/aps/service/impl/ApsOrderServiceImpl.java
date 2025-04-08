@@ -455,11 +455,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     LocalDateTime now = LocalDateTime.now();
 //    LocalDateTime endLocalDate = now.plusMonths(1);
     LocalDateTime beginLocalDate = now.minusMonths(12);
-    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>()
-        .select("create_time total_date ,count(1) row_total  ,goods_id")
-            .groupBy("total_date","goods_id")
-        .lambda()
-        .between(BaseEntity::getCreateTime, beginLocalDate, now.toLocalDate())
+    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>().select("create_time total_date ,count(1) row_total  ,goods_id").groupBy("total_date", "goods_id").lambda().between(BaseEntity::getCreateTime, beginLocalDate, now.toLocalDate())
 //        .groupBy(BaseEntity::getTotalDate, ApsOrder::getGoodsId)
     );
     OrderCreateByMonthCountRes res = new OrderCreateByMonthCountRes();
@@ -468,19 +464,18 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     res.setXAxis(new EChartResDto.XAxis().setData(dateList));
 
     // 总数
-    Map<String, Long> allCountMap = apsOrderList.stream().collect(Collectors.groupingBy(t -> DateUtils.localDate2Month(t.getTotalDate()),
-        Collectors.collectingAndThen(Collectors.<ApsOrder>toList(), l -> l.stream().mapToLong(BaseEntity::getRowTotal).sum())));
+    Map<String, Long> allCountMap = apsOrderList.stream().collect(Collectors.groupingBy(t -> DateUtils.localDate2Month(t.getTotalDate()), Collectors.collectingAndThen(Collectors.<ApsOrder>toList(), l -> l.stream().mapToLong(BaseEntity::getRowTotal).sum())));
 
     List<EChartResDto.Series> seriesList = new ArrayList<>();
     List<String> monthList = DateUtils.getLocalDateBetween(beginLocalDate.toLocalDate(), now.toLocalDate()).stream().map(DateUtils::localDate2Month).distinct().sorted().toList();
-    seriesList.add(new EChartResDto.Series().setData(monthList.stream().map(t->allCountMap.getOrDefault(t,0L)).toList()).setName("当月总量"));
+    seriesList.add(new EChartResDto.Series().setData(monthList.stream().map(t -> allCountMap.getOrDefault(t, 0L)).toList()).setName("当月总量"));
 
 
     List<ApsGoods> apsGoodsList = this.apsGoodsService.list();
 
     apsGoodsList.forEach(g -> {
       Map<String, Long> goodsTotalMap = apsOrderList.stream().filter(o -> Objects.equals(o.getGoodsId(), g.getId())).collect(StreamUtils.toMapWithNullKeys(t -> DateUtils.localDate2Month(t.getTotalDate()), BaseEntity::getRowTotal));
-      seriesList.add(new EChartResDto.Series().setName(g.getGoodsName()).setData(monthList.stream().map(t->goodsTotalMap.getOrDefault(t,0L)).toList()));
+      seriesList.add(new EChartResDto.Series().setName(g.getGoodsName()).setData(monthList.stream().map(t -> goodsTotalMap.getOrDefault(t, 0L)).toList()));
     });
 
 
@@ -506,8 +501,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 //    List<ApsStatusDto> apsStatusDtoList = ApsStatusConverter.INSTANCE.queryListRes(apsStatusList);
 //    List<StatusCountRes.Info> infoList = listedObjs.stream().map(t -> new StatusCountRes.Info(t.getApsStatusId(), t.getRowTotal())).toList();
     StatusCountRes statusCountRes = new StatusCountRes();
-    statusCountRes.setYAxis(new EChartResDto.YAxis()).setXAxis(new EChartResDto.XAxis().setData(apsStatusList.stream().map(ApsStatus::getStatusName).toList()))
-        .setSeries(new EChartResDto.Series().setData(apsStatusList.stream().map(t -> statusTotalMap.getOrDefault(t.getId(), 0L)).toList()).setType("line"));
+    statusCountRes.setYAxis(new EChartResDto.YAxis()).setXAxis(new EChartResDto.XAxis().setData(apsStatusList.stream().map(ApsStatus::getStatusName).toList())).setSeries(new EChartResDto.Series().setData(apsStatusList.stream().map(t -> statusTotalMap.getOrDefault(t.getId(), 0L)).toList()).setType("line"));
 //    return statusCountRes.setApsStatusDtoList(apsStatusDtoList).setDataInfoList(infoList);
     return statusCountRes;
   }
@@ -518,8 +512,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     List<Factory> factoryList = this.factoryService.list();
     LocalDate endDate = LocalDate.now();
     LocalDate beginDate = endDate.minusMonths(1);
-    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>().select(Str.ROW_TOTAL, "act_make_finish_date", "factory_id").lambda()
-        .groupBy(ApsOrder::getActMakeFinishDate, ApsOrder::getFactoryId).eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.FINISHED.getCode()).between(ApsOrder::getActMakeFinishDate, beginDate, endDate));
+    List<ApsOrder> apsOrderList = this.list(new QueryWrapper<ApsOrder>().select(Str.ROW_TOTAL, "act_make_finish_date", "factory_id").lambda().groupBy(ApsOrder::getActMakeFinishDate, ApsOrder::getFactoryId).eq(ApsOrder::getOrderStatus, ApsOrderStatusEnum.FINISHED.getCode()).between(ApsOrder::getActMakeFinishDate, beginDate, endDate));
     FinishOrderTotalDayRes res = new FinishOrderTotalDayRes();
     res.setYAxis(new EChartResDto.YAxis());
     List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginDate, endDate);
@@ -535,7 +528,10 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     return res;
   }
 
-
+  @Override
+  public OrderFieldListRes orderFieldList(OrderFieldListReq req) {
+    return new OrderFieldListRes().setDataList(FieldUtils.getFieldExtList(ApsOrder.class));
+  }
   // 以下为私有对象封装
 
   @SetUserName

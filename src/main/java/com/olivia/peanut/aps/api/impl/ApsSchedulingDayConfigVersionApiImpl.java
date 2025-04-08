@@ -38,6 +38,11 @@ public class ApsSchedulingDayConfigVersionApiImpl implements ApsSchedulingDayCon
 //    return new ApsSchedulingDayConfigVersionInsertRes().setCount(1);
   }
 
+  @Override
+  public CanSchedulingOrderListRes canSchedulingOrderList(CanSchedulingOrderListReq req) {
+    return this.apsSchedulingDayConfigVersionService.canSchedulingOrderList(req);
+  }
+
   /****
    * deleteByIds
    *
@@ -106,5 +111,20 @@ public class ApsSchedulingDayConfigVersionApiImpl implements ApsSchedulingDayCon
   @Override
   public ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req) {
     return this.apsSchedulingDayConfigVersionService.updateOrderSortIndex(req);
+  }
+
+  @Override
+  public ApsSchedulingDayConfigVersionAddOrderRes addOrder(ApsSchedulingDayConfigVersionAddOrderReq req) {
+    return this.apsSchedulingDayConfigVersionService.addOrder(req);
+  }
+
+  @Override
+  public void apsSchedulingDayConfigVersionOrderExport(ApsSchedulingDayConfigVersionOrderExportReq req) {
+    this.apsSchedulingDayConfigVersionService.apsSchedulingDayConfigVersionOrderExport(req);
+  }
+
+  @Override
+  public void schedulingOrderList(ApsSchedulingDayConfigVersionDto req) {
+    this.apsSchedulingDayConfigVersionService.schedulingOrderList(req);
   }
 }

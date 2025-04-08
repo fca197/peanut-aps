@@ -4,6 +4,7 @@ import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.Str;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)查询对象返回
@@ -57,11 +59,31 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
   @NotNull(message = "生产方式不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private ApsSchedulingDayConfigVersionProductType productType;
 
+
+  private List<Long> goodsIdList;
+
+
+  private List<KVEntity> saleConfigIdList;
+
+  private List<KVEntity> orderFieldList;
+
+  private List<KVEntity> orderUserFieldList;
+
+  private Integer stepIndex;
+
+
+  /**
+   * 查询旧订单
+   */
+  private Boolean searchOld;
+
   public String getIsIssuedThirdStr() {
 
     return Str.booleanToStr(isIssuedThird);
 //    return Boolean.TRUE.equals(isIssuedThird) ? "是" : "否";
   }
+
+
 }
 
 

@@ -96,4 +96,7 @@ public interface ApsOrderApi {
   FinishOrderTotalDayRes  finishOrderTotalDay(@RequestBody FinishOrderTotalDayReq req);
 
 
+  @PostMapping("/apsOrder/orderFieldList")
+  OrderFieldListRes orderFieldList (@RequestBody OrderFieldListReq req);
+
 }

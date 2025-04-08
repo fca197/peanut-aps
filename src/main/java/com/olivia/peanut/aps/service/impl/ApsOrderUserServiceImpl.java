@@ -14,6 +14,7 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.FieldUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,11 @@ public class ApsOrderUserServiceImpl extends MPJBaseServiceImpl<ApsOrderUserMapp
     ((ApsOrderUserServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
+  }
+
+  @Override
+  public OrderUserFieldListRes orderUserFieldList(OrderUserFieldListReq req) {
+    return new OrderUserFieldListRes().setDataList(FieldUtils.getFieldExtList(ApsOrderUser.class));
   }
 
   // 以下为私有对象封装

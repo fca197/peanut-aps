@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 /**
  * 排产下发详情(ApsSchedulingIssueItem)查询对象返回
  *
@@ -25,7 +27,7 @@ public class ApsSchedulingIssueItemDto extends BaseEntityDto {
    *  当前日期
    */
 //  @NotBlank(message = "当前日期不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  private String currentDay;
+  private LocalDate currentDay;
 
   /***
    *  订单ID

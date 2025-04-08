@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
+
 /**
  * (ApsSchedulingVersionCapacity)表实体类
  *
@@ -21,7 +23,7 @@ import lombok.experimental.Accessors;
 public class ApsSchedulingVersionCapacity extends BaseEntity {
 
   private Long schedulingVersionId;
-  private String currentDay;
+  private LocalDate currentDay;
   private Long orderId;
   private String orderNo;
   private Long factoryId;

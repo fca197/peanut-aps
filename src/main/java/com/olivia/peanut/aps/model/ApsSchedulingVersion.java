@@ -13,6 +13,8 @@ import org.apache.ibatis.type.JdbcType;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.apache.ibatis.type.JdbcType.ARRAY;
+
 /**
  * (ApsSchedulingVersion)表实体类
  *
@@ -60,9 +62,14 @@ public class ApsSchedulingVersion extends BaseEntity {
    * 使用工程配置产能约束
    */
   private Boolean useProjectConfigMakeCapacity;
-  @TableField(typeHandler = ListLongTypeHandler.class, javaType = true ,jdbcType = JdbcType.ARRAY)
+
+  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = ARRAY)
+
+//  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = JdbcType.)
   private List<Long> factoryIdList;
-  @TableField(typeHandler = ListLongTypeHandler.class, javaType = true,jdbcType = JdbcType.ARRAY)
+
+  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = ARRAY)
+//  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = JdbcType.ARRAY)
   private List<Long> goodsIdList;
 }
 

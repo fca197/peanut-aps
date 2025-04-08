@@ -40,6 +40,7 @@ truncate table aps_scheduling_version;
 truncate table aps_scheduling_version_capacity;
 truncate table aps_scheduling_version_day;
 truncate table aps_scheduling_version_item;
+truncate  table aps_scheduling_version_item_pre;
 truncate table aps_scheduling_version_limit;
 truncate table aps_goods_bom_buy_plan;
 truncate table aps_goods_bom_buy_plan_item;

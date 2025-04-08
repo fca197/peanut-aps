@@ -112,7 +112,7 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
   }
 
   @Override
-  @SuppressWarnings("uncheck")
+  @SuppressWarnings("unchecked")
   public QueryDayCountRes queryDayCount(QueryDayCountReq req) {
 //    List<Factory> factoryList = this.factoryService.list();
     List<ApsGoods> apsGoodsList = apsGoodsService.list();
@@ -129,9 +129,9 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
 
     List<EChartResDto.Series> seriesList = new ArrayList<>(apsGoodsList.size());
     apsGoodsList.forEach(g -> {
-      Map<String, Long> dayCountMap = apsSchedulingIssueItemList.stream().filter(t -> Objects.equals(t.getGoodsId(), g.getId()))
+      Map<LocalDate, Long> dayCountMap = apsSchedulingIssueItemList.stream().filter(t -> Objects.equals(t.getGoodsId(), g.getId()))
           .collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
-      seriesList.add(new EChartResDto.Series().setData(xDataList.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()).setName(g.getGoodsName()));
+      seriesList.add(new EChartResDto.Series().setData(localDateBetween.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()).setName(g.getGoodsName()));
     });
 
 //    Map<String, Long> dayCountMap = apsSchedulingIssueItemList.stream().collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
@@ -155,7 +155,7 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
 
     if (Objects.nonNull(obj)) {
       q
-          .eq(StringUtils.isNoneBlank(obj.getCurrentDay()), ApsSchedulingIssueItem::getCurrentDay, obj.getCurrentDay())
+          .eq(Objects.nonNull(obj.getCurrentDay()), ApsSchedulingIssueItem::getCurrentDay, obj.getCurrentDay())
           .eq(Objects.nonNull(obj.getOrderId()), ApsSchedulingIssueItem::getOrderId, obj.getOrderId())
           .eq(Objects.nonNull(obj.getGoodsId()), ApsSchedulingIssueItem::getGoodsId, obj.getGoodsId())
           .eq(Objects.nonNull(obj.getNumberIndex()), ApsSchedulingIssueItem::getNumberIndex, obj.getNumberIndex())

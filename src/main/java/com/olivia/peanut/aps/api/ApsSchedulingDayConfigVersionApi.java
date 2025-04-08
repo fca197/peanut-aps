@@ -28,6 +28,13 @@ public interface ApsSchedulingDayConfigVersionApi {
   ApsSchedulingDayConfigVersionInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionInsertReq req);
 
   /**
+   * 保存 排程版本
+   */
+  @PostMapping("/apsSchedulingDayConfigVersion/canSchedulingOrderList")
+  CanSchedulingOrderListRes canSchedulingOrderList(@RequestBody @Validated(InsertCheck.class) CanSchedulingOrderListReq req);
+
+
+  /**
    * 根据ID 删除 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/deleteByIdList")
@@ -79,4 +86,14 @@ public interface ApsSchedulingDayConfigVersionApi {
   // updateOrderSortIndex
   @PostMapping("/apsSchedulingDayConfigVersion/updateOrderSortIndex")
   ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(@RequestBody @Valid ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
+
+  @PostMapping("/apsSchedulingDayConfigVersion/addOrder")
+  ApsSchedulingDayConfigVersionAddOrderRes  addOrder(@RequestBody @Valid ApsSchedulingDayConfigVersionAddOrderReq req);
+
+  @PostMapping("/apsSchedulingDayConfigVersion/export")
+  void  apsSchedulingDayConfigVersionOrderExport(@RequestBody @Valid ApsSchedulingDayConfigVersionOrderExportReq req);
+
+  @PostMapping("/apsSchedulingDayConfigVersion/schedulingOrderList")
+  void schedulingOrderList(@RequestBody @Valid ApsSchedulingDayConfigVersionDto req);
+
 }

@@ -24,6 +24,8 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ApsSchedulingDayConfigDto extends BaseEntityDto {
 
+
+  private Long schedulingDayConfigId;
   /***
    *  工厂ID
    */

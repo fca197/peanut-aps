@@ -39,5 +39,7 @@ public interface ApsOrderService extends MPJBaseService<ApsOrder> {
   StatusCountRes statusCount(StatusCountReq req);
 
   FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req);
+
+  OrderFieldListRes orderFieldList(OrderFieldListReq req);
 }
 

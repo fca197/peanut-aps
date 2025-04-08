@@ -6,6 +6,7 @@ import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Options;
 import com.olivia.sdk.config.ServiceNotice;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,6 +34,7 @@ public class APSBootstrapApplication {
     if (Boolean.FALSE.equals(SystemUtil.getOsInfo().isWindows())) {
       Loader.loadNativeLibraries();
     }
+//    TypeHandlerRegistry
 
     AviatorEvaluator.getInstance().setOption(Options.OPTIMIZE_LEVEL, AviatorEvaluator.COMPILE);
   }
