@@ -71,6 +71,12 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
 
   private Integer stepIndex;
 
+
+  /**
+   * 查询旧订单
+   */
+  private Boolean searchOld;
+
   public String getIsIssuedThirdStr() {
 
     return Str.booleanToStr(isIssuedThird);

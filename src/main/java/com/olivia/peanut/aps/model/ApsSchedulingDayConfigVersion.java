@@ -73,5 +73,12 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
    * 1 创建，2 确认订单，3 排程结束
    */
   private Integer stepIndex;
+
+  /**
+   * 查询旧订单
+   */
+  private Boolean searchOld;
+
+
 }
 
