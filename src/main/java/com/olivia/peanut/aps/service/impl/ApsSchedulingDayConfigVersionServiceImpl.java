@@ -10,7 +10,6 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.gson.Gson;
 import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderStatusEnum;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDto;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigDto;
@@ -201,22 +200,22 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     });
   }
 
-  private void processSaleConfigList(List<ApsSaleConfigDto> saleConfigIdList, List<Long> orderIdList, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
+  private void processSaleConfigList(List<KVEntity> saleConfigIdList, List<Long> orderIdList, List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList) {
 
     if (CollUtil.isNotEmpty(saleConfigIdList)) {
-      List<ApsSaleConfig> parentSaleConfigList = this.apsSaleConfigService.listByIds(saleConfigIdList.stream().map(ApsSaleConfigDto::getId).toList());
+      List<ApsSaleConfig> parentSaleConfigList = this.apsSaleConfigService.listByIds(saleConfigIdList.stream().map(KVEntity::getValue).toList());
       List<ApsSaleConfig> apsSaleConfigList = this.apsSaleConfigService.list(new LambdaQueryWrapper<ApsSaleConfig>().in(ApsSaleConfig::getParentId, parentSaleConfigList.stream().map(BaseEntity::getId).toList()));
 //      Map<Long, List<ApsSaleConfig>> saleConfigMap = apsSaleConfigList.stream().collect(Collectors.groupingBy(ApsSaleConfig::getParentId));
       Map<Long, ApsSaleConfig> apsSaleConfigMap = apsSaleConfigList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-      Map<Long, Map<Long, ApsSaleConfig>> apsOrderConfigMap = this.apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList).in(ApsOrderGoodsSaleConfig::getConfigId, apsSaleConfigList.stream().map(BaseEntity::getId).toList())).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId, Collectors.collectingAndThen(Collectors.<ApsOrderGoodsSaleConfig>toList(), list -> list.stream().collect(Collectors.toMap(t -> apsSaleConfigMap.get(t.getConfigId()).getParentId(), v -> apsSaleConfigMap.get(v.getConfigId()))))));
+      Map<Long, Map<String, ApsSaleConfig>> apsOrderConfigMap = this.apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList).in(ApsOrderGoodsSaleConfig::getConfigId, apsSaleConfigList.stream().map(BaseEntity::getId).toList())).stream().collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId, Collectors.collectingAndThen(Collectors.<ApsOrderGoodsSaleConfig>toList(), list -> list.stream().collect(Collectors.toMap(t -> String.valueOf(apsSaleConfigMap.get(t.getConfigId()).getParentId()), v -> apsSaleConfigMap.get(v.getConfigId()))))));
       apsSchedulingVersionItemPreList.forEach(t -> {
-        Map<Long, ApsSaleConfig> apsSaleConfigMapTmp = apsOrderConfigMap.get(t.getOrderId());
+        Map<String, ApsSaleConfig> apsSaleConfigMapTmp = apsOrderConfigMap.get(t.getOrderId());
         if (CollUtil.isEmpty(apsSaleConfigMapTmp)) {
           log.warn("订单销售配置不存在 {}", JSON.toJSONString(t));
           return;
         }
         saleConfigIdList.forEach(st -> {
-          ApsSaleConfig apsSaleConfig = apsSaleConfigMapTmp.get(st.getId());
+          ApsSaleConfig apsSaleConfig = apsSaleConfigMapTmp.get(st.getValue());
           if (Objects.nonNull(apsSaleConfig))
             t.getShowField().put("sale_" + apsSaleConfig.getParentId(), apsSaleConfig.getSaleName());
         });
@@ -264,23 +263,21 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     long c = orderIdList.stream().collect(Collectors.groupingBy(f -> f, Collectors.counting())).values().stream().filter(t -> t > 1).count();
 
     log.warn("重复订单数 {}", c);
-    $.assertTrueCanIgnoreException(c == 0, "新录入订单存在重复");
-    $.requireNonNullCanIgnoreException(orderIdList, "订单不存在");
+//    $.assertTrueCanIgnoreException(c == 0, "新录入订单存在重复");
+//    $.requireNonNullCanIgnoreException(orderIdList, "订单不存在");
     c = this.apsSchedulingVersionItemPreService.count(new LambdaQueryWrapper<ApsSchedulingVersionItemPre>().eq(ApsSchedulingVersionItemPre::getSchedulingVersionId, req.getSchedulingVersionId()).in(ApsSchedulingVersionItemPre::getOrderId, orderIdList));
-    $.assertTrueCanIgnoreException(c == 0, "新旧订单存在重复");
+//    $.assertTrueCanIgnoreException(c == 0, "新旧订单存在重复");
 
-    Map<String, Object> objectMap = this.listMaps(new LambdaQueryWrapper<ApsSchedulingDayConfigVersion>().eq(BaseEntity::getId, req.getSchedulingVersionId())).getFirst();
-//    Page<ApsSchedulingDayConfigVersion> configVersionPage = this.page(new Page<ApsSchedulingDayConfigVersion>(1, 10), new LambdaQueryWrapper<ApsSchedulingDayConfigVersion>().eq(BaseEntity::getId, req.getSchedulingVersionId()));
-    ApsSchedulingDayConfigVersion version = this.getById(req.getSchedulingVersionId());
+    ApsSchedulingDayConfigVersion version = this.baseMapper.selectById(req.getSchedulingVersionId());
 
-    Gson gson = GSON.getGson();
-    String sale_config_id_list = objectMap.getOrDefault("sale_config_id_list", "[]").toString();
-    version.setSaleConfigIdList(gson.fromJson(sale_config_id_list, new TypeReference<List<ApsSaleConfig>>() {
-    }.getType()));
-    version.setOrderFieldList(gson.fromJson(objectMap.getOrDefault("order_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
-    }.getType()));
-    version.setOrderUserFieldList(gson.fromJson(objectMap.getOrDefault("order_user_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
-    }.getType()));
+//    Gson gson = GSON.getGson();
+//    String sale_config_id_list = objectMap.getOrDefault("sale_config_id_list", "[]").toString();
+//    version.setSaleConfigIdList(gson.fromJson(sale_config_id_list, new TypeReference<List<ApsSaleConfig>>() {
+//    }.getType()));
+//    version.setOrderFieldList(gson.fromJson(objectMap.getOrDefault("order_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
+//    }.getType()));
+//    version.setOrderUserFieldList(gson.fromJson(objectMap.getOrDefault("order_user_field_list", "[]").toString(), new TypeReference<List<KVEntity>>() {
+//    }.getType()));
 
     List<ApsSchedulingVersionItemPre> apsSchedulingVersionItemPreList = new ArrayList<>();
     apsOrderList.forEach(apsOrder -> {
@@ -297,7 +294,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     if (CollUtil.isNotEmpty(orderUserFieldList)) {
       processFieldList(orderUserFieldList, apsSchedulingVersionItemPreList, apsOrderUserService.list(new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)), ApsOrderUser.class, ApsOrderUser::getOrderId, "orderUser_");
     }
-    processSaleConfigList($.copyList(version.getSaleConfigIdList(), ApsSaleConfigDto.class), orderIdList, apsSchedulingVersionItemPreList);
+    processSaleConfigList(version.getSaleConfigIdList(), orderIdList, apsSchedulingVersionItemPreList);
     setFactoryGoodsName(apsGoodsService.list(), apsSchedulingVersionItemPreList);
     this.apsSchedulingVersionItemPreService.saveBatch(apsSchedulingVersionItemPreList);
     return new ApsSchedulingDayConfigVersionAddOrderRes();

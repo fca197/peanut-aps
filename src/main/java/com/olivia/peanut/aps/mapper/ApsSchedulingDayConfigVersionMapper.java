@@ -3,6 +3,9 @@ package com.olivia.peanut.aps.mapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersion;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.io.Serializable;
 
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)表数据库访问层
@@ -13,5 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ApsSchedulingDayConfigVersionMapper extends MPJBaseMapper<ApsSchedulingDayConfigVersion> {
 
+//  @Override
+//  ApsSchedulingDayConfigVersion selectById(@Param("id") Serializable id);
 }
 

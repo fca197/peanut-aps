@@ -1,6 +1,5 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion;
 
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDto;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
@@ -64,8 +63,10 @@ public class ApsSchedulingDayConfigVersionDto extends BaseEntityDto {
   private List<Long> goodsIdList;
 
 
-  private List<ApsSaleConfigDto> saleConfigIdList;
+  private List<KVEntity> saleConfigIdList;
+
   private List<KVEntity> orderFieldList;
+
   private List<KVEntity> orderUserFieldList;
 
   private Integer stepIndex;

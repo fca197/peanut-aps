@@ -16,6 +16,8 @@ import lombok.experimental.Accessors;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.apache.ibatis.type.JdbcType.ARRAY;
+
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)表实体类
  *
@@ -26,7 +28,8 @@ import java.util.List;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_scheduling_day_config_version")
+@TableName(value = "aps_scheduling_day_config_version", autoResultMap = true)
+
 public class ApsSchedulingDayConfigVersion extends BaseEntity {
 
   /***
@@ -53,16 +56,16 @@ public class ApsSchedulingDayConfigVersion extends BaseEntity {
   // 生产方式  ， 工艺路径， 制造路径
   private ApsSchedulingDayConfigVersionProductType productType;
 
-  @TableField(javaType = true, typeHandler = ListLongTypeHandler.class)
+  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = ARRAY)
   private List<Long> goodsIdList;
 
-  @TableField(javaType = true, typeHandler = ListMapTypeHandler.class)
-  private List<ApsSaleConfig> saleConfigIdList;
+  @TableField(typeHandler = ListKVTypeHandler.class, jdbcType = ARRAY)
+  private List<KVEntity> saleConfigIdList;
 
-  @TableField(javaType = true, typeHandler = ListKVTypeHandler.class)
+  @TableField(typeHandler = ListKVTypeHandler.class, jdbcType = ARRAY)
   private List<KVEntity> orderFieldList;
 
-  @TableField(javaType = true, typeHandler = ListKVTypeHandler.class)
+  @TableField(typeHandler = ListKVTypeHandler.class, jdbcType = ARRAY)
   private List<KVEntity> orderUserFieldList;
 
 
