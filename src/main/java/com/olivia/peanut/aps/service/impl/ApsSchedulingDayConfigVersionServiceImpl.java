@@ -366,6 +366,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     machineUseTimeList.forEach(t -> t.setUseUsageRate(ObjectUtils.allNotNull(t.getUseTime(), computeRes.getMaxUseSecond()) && ObjectUtils.notEqual(computeRes.getMaxUseSecond(), 0) && ObjectUtils.notEqual(t.getUseTime(), 0) ? new BigDecimal(t.getUseTime()).divide(new BigDecimal(computeRes.getMaxUseSecond()), 8, RoundingMode.HALF_DOWN).multiply(new BigDecimal(100)) : new BigDecimal(0)));
     apsSchedulingDayConfigVersionDetailMachineUseTimeService.saveBatch(machineUseTimeList);
     apsSchedulingDayConfigVersionDetailMachineService.saveBatch(detailMachineList);
+//    this.updateById(dayConfigVersion);
   }
 
   private void insertProcess(ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsSchedulingIssueItem> issueItemList) {
@@ -426,6 +427,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     versionDetails.forEach(t -> t.setSchedulingDayId(dayConfigVersion.getId()));
     dayConfigVersion.setHeaderList(toJSONString(headerList));
     this.apsSchedulingDayConfigVersionDetailService.saveBatch($.copyList(versionDetails, ApsSchedulingDayConfigVersionDetail.class));
+    this.updateById(dayConfigVersion);
   }
 
   public @Override ApsSchedulingDayConfigVersionQueryListRes queryList(ApsSchedulingDayConfigVersionQueryListReq req) {
