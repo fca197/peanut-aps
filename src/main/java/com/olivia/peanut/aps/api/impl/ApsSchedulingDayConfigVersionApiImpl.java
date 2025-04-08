@@ -120,6 +120,11 @@ public class ApsSchedulingDayConfigVersionApiImpl implements ApsSchedulingDayCon
 
   @Override
   public void apsSchedulingDayConfigVersionOrderExport(ApsSchedulingDayConfigVersionOrderExportReq req) {
-      this.apsSchedulingDayConfigVersionService.apsSchedulingDayConfigVersionOrderExport(req);
+    this.apsSchedulingDayConfigVersionService.apsSchedulingDayConfigVersionOrderExport(req);
+  }
+
+  @Override
+  public void schedulingOrderList(ApsSchedulingDayConfigVersionDto req) {
+    this.apsSchedulingDayConfigVersionService.schedulingOrderList(req);
   }
 }

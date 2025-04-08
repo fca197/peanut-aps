@@ -3,6 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -324,17 +325,29 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     }
   }
 
-  private void insertOrderList(ApsSchedulingDayConfigVersionInsertReq req, ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsSchedulingIssueItem> issueItemList, List<ApsGoods> apsGoodsList) {
-
-
-    if (MAKE.equals(req.getProductType())) {
-      insertMake(req, apsGoodsList, issueItemList, dayConfigVersion);
-    } else {
-      insertProcess(req, dayConfigVersion, apsGoodsList, issueItemList);
+  public void schedulingOrderList(ApsSchedulingDayConfigVersionDto req) {
+//    ApsSchedulingDayConfigVersion  version=ApsSchedulingDayConfigVersionConverter.INSTANCE.dto2Model(req);
+    ApsSchedulingDayConfigVersion version = this.getById(req.getId());
+    List<ApsSchedulingVersionItemPre> itemPreList = this.apsSchedulingVersionItemPreService.list(new LambdaQueryWrapper<ApsSchedulingVersionItemPre>().eq(ApsSchedulingVersionItemPre::getSchedulingVersionId, req.getId()));
+    List<ApsSchedulingIssueItem> issueItemList = new ArrayList<>();
+    while (CollUtil.isNotEmpty(itemPreList)){
+      ApsSchedulingVersionItemPre itemPre = itemPreList.removeFirst();
+      ApsSchedulingIssueItem item = new ApsSchedulingIssueItem();
+      item.setOrderNo(itemPre.getOrderNo()).setOrderId(itemPre.getOrderId()).setSchedulingVersionId(itemPre.getSchedulingVersionId())
+              .setCurrentDay(itemPre.getCurrentDay()).setGoodsId(itemPre.getGoodsId());
+      issueItemList.add(item);
     }
+
+    if (MAKE.equals(version.getProductType())) {
+      List<ApsGoods> apsGoodsList = this.apsGoodsService.list();
+      insertMake(version, apsGoodsList, issueItemList);
+    } else {
+      insertProcess(version, issueItemList);
+    }
+    this.update(new LambdaUpdateWrapper<ApsSchedulingDayConfigVersion>().set(ApsSchedulingDayConfigVersion::getStepIndex,2).eq(BaseEntity::getId,req.getId()));
   }
 
-  private void insertMake(ApsSchedulingDayConfigVersionInsertReq req, List<ApsGoods> apsGoodsList, List<ApsSchedulingIssueItem> itemList, ApsSchedulingDayConfigVersion dayConfigVersion) {
+  private void insertMake(ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsGoods> apsGoodsList, List<ApsSchedulingIssueItem> itemList) {
     // 制造路径
     List<ApsProduceProcess> apsProduceProcesses = apsProduceProcessService.listByIds(apsGoodsList.stream().map(ApsGoods::getProduceProcessId).collect(Collectors.toSet()));
     Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(new LambdaQueryWrapper<ApsProduceProcessItem>().in(ApsProduceProcessItem::getProduceProcessId, apsProduceProcesses.stream().map(BaseEntity::getId).collect(Collectors.toSet()))).stream().collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
@@ -355,10 +368,10 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     apsSchedulingDayConfigVersionDetailMachineService.saveBatch(detailMachineList);
   }
 
-  private void insertProcess(ApsSchedulingDayConfigVersionInsertReq req, ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsGoods> apsGoodsList, List<ApsSchedulingIssueItem> issueItemList) {
-    ApsSchedulingDayConfig apsSchedulingDayConfig = this.apsSchedulingDayConfigService.getById(req.getSchedulingDayConfigId());
+  private void insertProcess(ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsSchedulingIssueItem> issueItemList) {
+    ApsSchedulingDayConfig apsSchedulingDayConfig = this.apsSchedulingDayConfigService.getById(dayConfigVersion.getSchedulingDayConfigId());
     ApsSchedulingDayConfigDto dayConfigDto = new ApsSchedulingDayConfigDto();
-    dayConfigDto.setId(req.getSchedulingDayConfigId());
+    dayConfigDto.setId(dayConfigVersion.getSchedulingDayConfigId());
     DynamicsPage<ApsSchedulingDayConfigExportQueryPageListInfoRes> apsSchedulingDayConfigExportQueryPageListInfoResDynamicsPage = apsSchedulingDayConfigService.queryPageList(new ApsSchedulingDayConfigExportQueryPageListReq().setQueryPage(false).setData(dayConfigDto));
     $.requireNonNullCanIgnoreException(apsSchedulingDayConfigExportQueryPageListInfoResDynamicsPage, "排程配置不能为空");
     $.requireNonNullCanIgnoreException(apsSchedulingDayConfigExportQueryPageListInfoResDynamicsPage.getDataList(), "排程配置不能为空");
@@ -390,7 +403,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     List<ApsSchedulingDayConfigVersionDetailDto> tmpList = new ArrayList<>();
 
-    FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(new FactoryConfigReq().setFactoryId(req.getFactoryId()).setFactoryName(req.getFactoryName()).setGetPath(Boolean.TRUE).setGetPathId(apsSchedulingDayConfig.getProcessId()));
+    FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId()).setGetPath(Boolean.TRUE).setGetPathId(apsSchedulingDayConfig.getProcessId()));
     List<List<Long>> headerList = new ArrayList<>();
 
     factoryConfig.getDefaultApsProcessPathDto().getPathRoomList().forEach(room -> {

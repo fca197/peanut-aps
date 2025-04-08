@@ -93,4 +93,7 @@ public interface ApsSchedulingDayConfigVersionApi {
   @PostMapping("/apsSchedulingDayConfigVersion/export")
   void  apsSchedulingDayConfigVersionOrderExport(@RequestBody @Valid ApsSchedulingDayConfigVersionOrderExportReq req);
 
+  @PostMapping("/apsSchedulingDayConfigVersion/schedulingOrderList")
+  void schedulingOrderList(@RequestBody @Valid ApsSchedulingDayConfigVersionDto req);
+
 }

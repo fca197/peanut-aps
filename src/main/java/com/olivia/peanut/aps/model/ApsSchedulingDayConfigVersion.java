@@ -32,6 +32,7 @@ import static org.apache.ibatis.type.JdbcType.ARRAY;
 
 public class ApsSchedulingDayConfigVersion extends BaseEntity {
 
+  private Long schedulingDayConfigId;
   /***
    *  工厂ID
    */
