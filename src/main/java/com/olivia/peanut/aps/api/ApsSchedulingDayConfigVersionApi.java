@@ -33,6 +33,7 @@ public interface ApsSchedulingDayConfigVersionApi {
   @PostMapping("/apsSchedulingDayConfigVersion/canSchedulingOrderList")
   CanSchedulingOrderListRes canSchedulingOrderList(@RequestBody @Validated(InsertCheck.class) CanSchedulingOrderListReq req);
 
+
   /**
    * 根据ID 删除 排程版本
    */
@@ -89,5 +90,7 @@ public interface ApsSchedulingDayConfigVersionApi {
   @PostMapping("/apsSchedulingDayConfigVersion/addOrder")
   ApsSchedulingDayConfigVersionAddOrderRes  addOrder(@RequestBody @Valid ApsSchedulingDayConfigVersionAddOrderReq req);
 
+  @PostMapping("/apsSchedulingDayConfigVersion/export")
+  void  apsSchedulingDayConfigVersionOrderExport(@RequestBody @Valid ApsSchedulingDayConfigVersionOrderExportReq req);
 
 }

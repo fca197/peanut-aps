@@ -108,7 +108,7 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
     );
 
 
-    q.orderByDesc(ApsSchedulingVersionItemPre::getId);
+//    q.orderByDesc(ApsSchedulingVersionItemPre::getId);
     return q;
 
   }

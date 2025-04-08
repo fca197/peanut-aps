@@ -289,6 +289,41 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     return new ApsSchedulingDayConfigVersionAddOrderRes();
   }
 
+  @Override
+  public void apsSchedulingDayConfigVersionOrderExport(ApsSchedulingDayConfigVersionOrderExportReq req) {
+    ApsSchedulingDayConfigVersion version = this.getById(req.getSchedulingVersionId());
+    $.requireNonNullCanIgnoreException(version, "排程版本为空");
+    List<ApsSchedulingVersionItemPre> versionItemPreList = apsSchedulingVersionItemPreService.list(new LambdaQueryWrapper<ApsSchedulingVersionItemPre>().eq(ApsSchedulingVersionItemPre::getSchedulingVersionId, req.getSchedulingVersionId()));
+    EasyExcelUtilExportMultipleData exportMultipleData = new EasyExcelUtilExportMultipleData().setFileName("排程订单-" + version.getSchedulingDayVersionNo());
+    List<EasyExcelUtilExportMultipleData.SheetHeader> headerList = new ArrayList<>();
+    headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName("currentDay").setShowName("排程日期"));
+    headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName("orderNo").setShowName("订单号"));
+    headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName("factoryName").setShowName("工厂名称"));
+    headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName("goodsName").setShowName("商品名称"));
+    headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName("oldScheduleDate").setShowName("上次排程"));
+
+    setHeaderFormKvList(version.getOrderFieldList(), headerList, "order_");
+    setHeaderFormKvList(version.getOrderUserFieldList(), headerList, "orderUser_");
+    setHeaderFormKvList(version.getSaleConfigIdList(), headerList, "sale_");
+
+    List<Map<String, Object>> mapList = new ArrayList<>(versionItemPreList.size());
+    while (CollUtil.isNotEmpty(versionItemPreList)) {
+      ApsSchedulingVersionItemPre itemPre = versionItemPreList.removeFirst();
+      Map<String, Object> mapTmp = BeanUtil.beanToMap(itemPre);
+      mapTmp.putAll(itemPre.getShowField());
+      mapList.add(mapTmp);
+    }
+
+    exportMultipleData.setSheetDataList(List.of(new EasyExcelUtilExportMultipleData.SheetData().setSheetName("订单列表").setHeaderList(headerList).setDataList(mapList)));
+    PoiExcelUtil.exportMultipleData(exportMultipleData);
+  }
+
+  private static void setHeaderFormKvList(List<KVEntity> orderFieldList, List<EasyExcelUtilExportMultipleData.SheetHeader> headerList, String key) {
+    if (CollUtil.isNotEmpty(orderFieldList)) {
+      orderFieldList.forEach(t -> headerList.add(new EasyExcelUtilExportMultipleData.SheetHeader().setFieldName(key + t.getValue()).setShowName(t.getLabel())));
+    }
+  }
+
   private void insertOrderList(ApsSchedulingDayConfigVersionInsertReq req, ApsSchedulingDayConfigVersion dayConfigVersion, List<ApsSchedulingIssueItem> issueItemList, List<ApsGoods> apsGoodsList) {
 
 
