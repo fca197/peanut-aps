@@ -159,6 +159,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
   @Override
   public ApsOrderInsertRes save(ApsOrderInsertReq req) {
+    req.setOrderStatus(ApsOrderStatusEnum.INIT.getCode());
     ApsOrder apsOrder = $.copy(req, ApsOrder.class);
     apsOrder.setOrderNo(IdUtils.getUniqueId());
     apsOrder.setId(IdWorker.getId());
@@ -175,7 +176,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     orderUser.setOrderId(apsOrder.getId());
     ApsOrderGoods goods = goodsList.getFirst();
 
-    List<ApsSaleConfig> apsSaleConfigList = apsSaleConfigService.listByIds(saleConfigList.stream().map(BaseEntity::getId).collect(Collectors.toSet()));
+    List<ApsSaleConfig> apsSaleConfigList = apsSaleConfigService.listByIds(saleConfigList.stream().map(ApsOrderGoodsSaleConfig::getConfigId).collect(Collectors.toSet()));
 
     ApsGoodsSaleProjectConfigSale2ProjectReq sale2ProjectReq = new ApsGoodsSaleProjectConfigSale2ProjectReq();
     sale2ProjectReq.setSaleConfig(apsSaleConfigList.stream().map(ApsSaleConfig::getSaleCode).collect(Collectors.joining(",")));

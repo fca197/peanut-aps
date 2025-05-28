@@ -126,6 +126,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
     IntStream.range(0, req.getConvertCount().intValue()).forEach(index -> {
       List<Long> projectConfigList = new ArrayList<>();
       saleConfigList.forEach(saleCode -> {
+        log.info("SaleCode:{}", saleCode);
         ApsSaleConfig apsSaleConfig = apsSaleConfigMap.get(saleCode);
         List<ApsGoodsSaleProjectConfig> goodsSaleProjectConfigList = projectConfigMap.get(apsSaleConfig.getId());
         if (CollUtil.isEmpty(goodsSaleProjectConfigList)) {
