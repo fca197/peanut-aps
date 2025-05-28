@@ -25,6 +25,7 @@ import com.olivia.peanut.aps.model.*;
 import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.impl.po.BomUseDate;
 import com.olivia.peanut.aps.service.impl.po.ProjectConfig;
+import com.olivia.peanut.aps.utils.BomUtils;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathInfo;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.model.ShiftItemVo;
@@ -61,7 +62,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.olivia.sdk.utils.BomUtils.bomExpression2List;
+import static com.olivia.peanut.aps.utils.BomUtils.bomExpression2List;
 import static com.olivia.sdk.utils.FieldUtils.getField;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;

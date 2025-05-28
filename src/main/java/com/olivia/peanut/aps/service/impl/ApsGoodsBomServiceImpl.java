@@ -13,6 +13,7 @@ import com.olivia.peanut.aps.model.ApsProjectConfig;
 import com.olivia.peanut.aps.service.ApsGoodsBomService;
 import com.olivia.peanut.aps.service.ApsProjectConfigService;
 import com.olivia.peanut.aps.service.ApsWorkshopStationService;
+import com.olivia.peanut.aps.utils.BomUtils;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.service.pojo.NameConfig;

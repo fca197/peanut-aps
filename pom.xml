@@ -12,7 +12,6 @@
 
   <properties>
 
-    <peanut.version>1.5.0-SNAPSHOT</peanut.version>
     <java.version>21</java.version>
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
@@ -43,7 +42,7 @@
     <dependency>
       <groupId>cn.solveplan</groupId>
       <artifactId>peanut-sdk</artifactId>
-      <version>1.5.5-SNAPSHOT</version>
+      <version>2.0.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
