@@ -1,0 +1,58 @@
+{
+  "name": "My Java API",
+  "version": "1.0.0",
+  "description": "API documentation for my Java application",
+  "title": "My Java API Documentation",
+  "url": "https://api.example.com",
+  "sampleUrl": "https://api.example.com",
+  "header": {
+    "title": "API Documentation",
+    "content": "This documentation provides detailed information about the API endpoints available in our application."
+  },
+  "footer": {
+    "title": "Contact Information",
+    "content": "For support, please contact api-support@example.com"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true,
+    "forceLanguage": "en",
+    "collapse": {
+      "endpoints": false,
+      "methods": false
+    }
+  },
+  "markdown": true,
+  "filters": [
+    ".*\\.java$"
+  ],
+  "match": {
+    "pattern": ".*\\.java$"
+  },
+  "parse": {
+    "filters": [
+      {
+        "pattern": ".*",
+        "match": true
+      }
+    ]
+  },
+  "verbose": true,
+  "debug": false,
+  "silent": false,
+  "colorize": true,
+  "markdown": true,
+  "includeFilters": [
+    ".*\\.java$"
+  ],
+  "excludeFilters": [
+    "node_modules",
+    "test",
+    "docs"
+  ],
+  "src": [
+    "src/main/java"
+  ],
+  "dest": "doc/api",
+  "encoding": "utf8"
+}

@@ -8,6 +8,7 @@ import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsGoods.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
+import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem;
 import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.ApsProduceProcessService;
@@ -16,17 +17,19 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.eq;
+import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
 
 /**
  * (ApsGoods)表服务实现类
@@ -82,9 +85,7 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
   public @Override void setName(List<? extends ApsGoodsDto> apsGoodsDtoList) {
 
     setNameService.setName(apsGoodsDtoList,//
-        SetNamePojoUtils.OP_USER_NAME
-        , SetNamePojoUtils.getSetNamePojo(ApsProduceProcessService.class, "produceProcessName", "produceProcessId", "produceProcessName"),
-        SetNamePojoUtils.getSetNamePojo(ApsProcessPathService.class, "processPathName", "processPathId", "processPathName")
+        SetNamePojoUtils.OP_USER_NAME, SetNamePojoUtils.getSetNamePojo(ApsProduceProcessService.class, "produceProcessName", "produceProcessId", "produceProcessName"), SetNamePojoUtils.getSetNamePojo(ApsProcessPathService.class, "processPathName", "processPathId", "processPathName")
 
     );
 
@@ -104,16 +105,10 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
   private MPJLambdaWrapper<ApsGoods> getWrapper(ApsGoodsDto obj) {
     MPJLambdaWrapper<ApsGoods> q = new MPJLambdaWrapper<>();
 
-    if (Objects.nonNull(obj)) {
-      q
-          .eq(Objects.nonNull(obj.getId()), ApsGoods::getId, obj.getId())
-          .eq(StringUtils.isNoneBlank(obj.getGoodsName()), ApsGoods::getGoodsName, obj.getGoodsName())
-          .eq(StringUtils.isNoneBlank(obj.getGoodsRemark()), ApsGoods::getGoodsRemark, obj.getGoodsRemark())
-          .eq(Objects.nonNull(obj.getTenantId()), ApsGoods::getTenantId, obj.getTenantId())
-          .eq(Objects.nonNull(obj.getVersionNum()), ApsGoods::getVersionNum, obj.getVersionNum())
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, eq, ApsGoods::getFactoryId);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, likeRight, ApsGoods::getGoodsName, ApsGoods::getGoodsRemark);
 
-      ;
-    }
+
     q.orderByDesc(ApsGoods::getId);
     return q;
 
