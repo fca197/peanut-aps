@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsGoodsForecastMakeProjectDataApi {
    * 保存
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/insert")
-  ApsGoodsForecastMakeProjectDataInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMakeProjectDataInsertReq req);
+  ApsGoodsForecastMakeProjectDataInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMakeProjectDataInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/deleteByIdList")
-  ApsGoodsForecastMakeProjectDataDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsForecastMakeProjectDataDeleteByIdListReq req);
+  ApsGoodsForecastMakeProjectDataDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsForecastMakeProjectDataDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/queryList")
-  ApsGoodsForecastMakeProjectDataQueryListRes queryList(@RequestBody @Valid ApsGoodsForecastMakeProjectDataQueryListReq req);
+  ApsGoodsForecastMakeProjectDataQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsForecastMakeProjectDataQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/updateById")
-  ApsGoodsForecastMakeProjectDataUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMakeProjectDataUpdateByIdReq req);
+  ApsGoodsForecastMakeProjectDataUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMakeProjectDataUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/queryPageList")
-  DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
 
   /**
    * 导出
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsGoodsForecastMakeProjectDataApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsForecastMakeProjectData/queryByIdList")
-  ApsGoodsForecastMakeProjectDataQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsForecastMakeProjectDataQueryByIdListReq req);
+  ApsGoodsForecastMakeProjectDataQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsForecastMakeProjectDataQueryByIdListReq req);
 
 
 }

@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsProcessPathApi;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.*;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathImportReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathImportRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsProcessPathImportListener;
 import com.olivia.peanut.aps.model.ApsProcessPath;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsProcessPath)表服务实现类
@@ -41,7 +54,8 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
    * deleteByIds
    *
    */
-  public @Override ApsProcessPathDeleteByIdListRes deleteByIdList(ApsProcessPathDeleteByIdListReq req) {
+  public @Override ApsProcessPathDeleteByIdListRes deleteByIdList(
+      ApsProcessPathDeleteByIdListReq req) {
     apsProcessPathService.removeByIds(req.getIdList());
     return new ApsProcessPathDeleteByIdListRes();
   }
@@ -64,7 +78,8 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
 
   }
 
-  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(ApsProcessPathExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
+      ApsProcessPathExportQueryPageListReq req) {
     return apsProcessPathService.queryPageList(req);
   }
 
@@ -72,12 +87,14 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
     DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProcessPathExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProcessPathExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProcessPathExportQueryPageListInfoRes.class);
+    List<ApsProcessPathExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsProcessPathExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsProcessPathExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsProcessPathImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProcessPathImportReq> reqList = PoiExcelUtil.readData(file, new ApsProcessPathImportListener(), ApsProcessPathImportReq.class);
+    List<ApsProcessPathImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsProcessPathImportListener(), ApsProcessPathImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProcessPath> readList = $.copyList(reqList, ApsProcessPath.class);
     boolean bool = apsProcessPathService.saveBatch(readList);
@@ -85,7 +102,8 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
     return new ApsProcessPathImportRes().setCount(c);
   }
 
-  public @Override ApsProcessPathQueryByIdListRes queryByIdListRes(ApsProcessPathQueryByIdListReq req) {
+  public @Override ApsProcessPathQueryByIdListRes queryByIdListRes(
+      ApsProcessPathQueryByIdListReq req) {
     MPJLambdaWrapper<ApsProcessPath> q = new MPJLambdaWrapper<ApsProcessPath>(ApsProcessPath.class)
         .selectAll(ApsProcessPath.class).in(ApsProcessPath::getId, req.getIdList());
     List<ApsProcessPath> list = this.apsProcessPathService.list(q);

@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake;
 
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * 订单商品节点预测表(ApsOrderGoodsForecastMake)查询对象返回

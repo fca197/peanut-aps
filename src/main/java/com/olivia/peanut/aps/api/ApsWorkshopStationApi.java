@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.workshopStation.*;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationImportRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationInsertReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationInsertRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryListReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryListRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsWorkshopStationApi {
    * 保存 工位信息
    */
   @PostMapping("/workshopStation/insert")
-  WorkshopStationInsertRes insert(@RequestBody @Validated(InsertCheck.class) WorkshopStationInsertReq req);
+  WorkshopStationInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) WorkshopStationInsertReq req);
 
   /**
    * 根据ID 删除 工位信息
    */
   @PostMapping("/workshopStation/deleteByIdList")
-  WorkshopStationDeleteByIdListRes deleteByIdList(@RequestBody @Valid WorkshopStationDeleteByIdListReq req);
+  WorkshopStationDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid WorkshopStationDeleteByIdListReq req);
 
   /**
    * 查询 工位信息
@@ -43,13 +57,15 @@ public interface ApsWorkshopStationApi {
    * 根据ID 更新 工位信息
    */
   @PostMapping("/workshopStation/updateById")
-  WorkshopStationUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) WorkshopStationUpdateByIdReq req);
+  WorkshopStationUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) WorkshopStationUpdateByIdReq req);
 
   /**
    * 分页查询 工位信息
    */
   @PostMapping("/workshopStation/queryPageList")
-  DynamicsPage<WorkshopStationExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid WorkshopStationExportQueryPageListReq req);
+  DynamicsPage<WorkshopStationExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid WorkshopStationExportQueryPageListReq req);
 
   /**
    * 导出 工位信息
@@ -68,7 +84,8 @@ public interface ApsWorkshopStationApi {
    * 根据ID 批量查询
    */
   @PostMapping("/workshopStation/queryByIdList")
-  WorkshopStationQueryByIdListRes queryByIdListRes(@RequestBody @Valid WorkshopStationQueryByIdListReq req);
+  WorkshopStationQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid WorkshopStationQueryByIdListReq req);
 
 
 }

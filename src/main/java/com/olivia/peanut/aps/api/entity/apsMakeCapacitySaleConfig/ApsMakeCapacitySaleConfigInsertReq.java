@@ -2,11 +2,10 @@ package com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig;
 
 import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.MakeCapacityConfig;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * (ApsMakeCapacitySaleConfig)保存入参

@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsProcessPathRoomApi;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.*;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDto;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomImportReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomImportRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsProcessPathRoomImportListener;
 import com.olivia.peanut.aps.model.ApsProcessPathRoom;
 import com.olivia.peanut.aps.service.ApsProcessPathRoomService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsProcessPathRoom)表服务实现类
@@ -41,7 +54,8 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
    * deleteByIds
    *
    */
-  public @Override ApsProcessPathRoomDeleteByIdListRes deleteByIdList(ApsProcessPathRoomDeleteByIdListReq req) {
+  public @Override ApsProcessPathRoomDeleteByIdListRes deleteByIdList(
+      ApsProcessPathRoomDeleteByIdListReq req) {
     apsProcessPathRoomService.removeByIds(req.getIdList());
     return new ApsProcessPathRoomDeleteByIdListRes();
   }
@@ -64,7 +78,8 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
 
   }
 
-  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(ApsProcessPathRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(
+      ApsProcessPathRoomExportQueryPageListReq req) {
     return apsProcessPathRoomService.queryPageList(req);
   }
 
@@ -72,12 +87,15 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
     DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProcessPathRoomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProcessPathRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProcessPathRoomExportQueryPageListInfoRes.class);
+    List<ApsProcessPathRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsProcessPathRoomExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsProcessPathRoomExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsProcessPathRoomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProcessPathRoomImportReq> reqList = PoiExcelUtil.readData(file, new ApsProcessPathRoomImportListener(), ApsProcessPathRoomImportReq.class);
+  public @Override ApsProcessPathRoomImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsProcessPathRoomImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsProcessPathRoomImportListener(), ApsProcessPathRoomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProcessPathRoom> readList = $.copyList(reqList, ApsProcessPathRoom.class);
     boolean bool = apsProcessPathRoomService.saveBatch(readList);
@@ -85,8 +103,10 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
     return new ApsProcessPathRoomImportRes().setCount(c);
   }
 
-  public @Override ApsProcessPathRoomQueryByIdListRes queryByIdListRes(ApsProcessPathRoomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProcessPathRoom> q = new MPJLambdaWrapper<ApsProcessPathRoom>(ApsProcessPathRoom.class)
+  public @Override ApsProcessPathRoomQueryByIdListRes queryByIdListRes(
+      ApsProcessPathRoomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProcessPathRoom> q = new MPJLambdaWrapper<ApsProcessPathRoom>(
+        ApsProcessPathRoom.class)
         .selectAll(ApsProcessPathRoom.class).in(ApsProcessPathRoom::getId, req.getIdList());
     List<ApsProcessPathRoom> list = this.apsProcessPathRoomService.list(q);
     List<ApsProcessPathRoomDto> dataList = $.copyList(list, ApsProcessPathRoomDto.class);

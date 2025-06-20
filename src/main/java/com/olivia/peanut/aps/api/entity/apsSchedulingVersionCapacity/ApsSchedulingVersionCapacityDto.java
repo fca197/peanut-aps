@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity;
 
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 /**
  * (ApsSchedulingVersionCapacity)查询对象返回

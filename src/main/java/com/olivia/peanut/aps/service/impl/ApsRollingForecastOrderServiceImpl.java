@@ -1,5 +1,7 @@
 package com.olivia.peanut.aps.service.impl;
 
+import static java.lang.Boolean.TRUE;
+
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,12 +11,23 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.*;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderDto;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsRollingForecastOrderMapper;
 import com.olivia.peanut.aps.model.ApsOrder;
 import com.olivia.peanut.aps.model.ApsRollingForecastOrder;
 import com.olivia.peanut.aps.model.ApsRollingForecastOrderItem;
-import com.olivia.peanut.aps.service.*;
+import com.olivia.peanut.aps.service.ApsFactoryService;
+import com.olivia.peanut.aps.service.ApsOrderService;
+import com.olivia.peanut.aps.service.ApsRollingForecastFactoryCapacityService;
+import com.olivia.peanut.aps.service.ApsRollingForecastOrderItemService;
+import com.olivia.peanut.aps.service.ApsRollingForecastOrderService;
+import com.olivia.peanut.aps.service.ApsStatusService;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
@@ -31,17 +44,19 @@ import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.RunUtils;
 import jakarta.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-import static java.lang.Boolean.TRUE;
 
 /**
  * 滚动预测(ApsRollingForecastOrder)表服务实现类
@@ -52,9 +67,12 @@ import static java.lang.Boolean.TRUE;
 @Slf4j
 @Service("apsRollingForecastOrderService")
 @Transactional
-public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRollingForecastOrderMapper, ApsRollingForecastOrder> implements ApsRollingForecastOrderService {
+public class ApsRollingForecastOrderServiceImpl extends
+    MPJBaseServiceImpl<ApsRollingForecastOrderMapper, ApsRollingForecastOrder> implements
+    ApsRollingForecastOrderService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -69,17 +87,20 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsRollingForecastOrderQueryListRes queryList(ApsRollingForecastOrderQueryListReq req) {
+  public @Override ApsRollingForecastOrderQueryListRes queryList(
+      ApsRollingForecastOrderQueryListReq req) {
 
     MPJLambdaWrapper<ApsRollingForecastOrder> q = getWrapper(req.getData());
     List<ApsRollingForecastOrder> list = this.list(q);
 
-    List<ApsRollingForecastOrderDto> dataList = list.stream().map(t -> $.copy(t, ApsRollingForecastOrderDto.class)).collect(Collectors.toList());
+    List<ApsRollingForecastOrderDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsRollingForecastOrderDto.class)).collect(Collectors.toList());
     ((ApsRollingForecastOrderService) AopContext.currentProxy()).setName(dataList);
     return new ApsRollingForecastOrderQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(ApsRollingForecastOrderExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(
+      ApsRollingForecastOrderExportQueryPageListReq req) {
 
     DynamicsPage<ApsRollingForecastOrder> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -88,7 +109,8 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
     List<ApsRollingForecastOrderExportQueryPageListInfoRes> records;
     if (TRUE.equals(req.getQueryPage())) {
       IPage<ApsRollingForecastOrder> list = this.page(page, q);
-      IPage<ApsRollingForecastOrderExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsRollingForecastOrderExportQueryPageListInfoRes.class));
+      IPage<ApsRollingForecastOrderExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsRollingForecastOrderExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsRollingForecastOrderExportQueryPageListInfoRes.class);
@@ -96,7 +118,8 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsRollingForecastOrderExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsRollingForecastOrderExportQueryPageListInfoRes.class);
+    List<ApsRollingForecastOrderExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsRollingForecastOrderExportQueryPageListInfoRes.class);
     ((ApsRollingForecastOrderService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -108,24 +131,31 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
   @Transactional
   public ApsRollingForecastOrderInsertRes save(ApsRollingForecastOrderInsertReq req) {
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(//
-        new FactoryConfigReq().setFactoryId(req.getFactoryId()).setGetPath(TRUE).setGetPathDefault(TRUE)//
-            .setGetShift(TRUE).setGetWeek(TRUE).setWeekBeginDate(req.getBeginTime()).setWeekEndDate(req.getEndTime())//
+        new FactoryConfigReq().setFactoryId(req.getFactoryId()).setGetPath(TRUE)
+            .setGetPathDefault(TRUE)//
+            .setGetShift(TRUE).setGetWeek(TRUE).setWeekBeginDate(req.getBeginTime())
+            .setWeekEndDate(req.getEndTime())//
     );
     ApsProcessPathDto defaultApsProcessPathDto = factoryConfig.getDefaultApsProcessPathDto();
     ApsProcessPathVo apsProcessPathVo = $.copy(defaultApsProcessPathDto, ApsProcessPathVo.class);
-    List<Long> allStatusIdList = ProcessUtils.getStatusBetween(apsProcessPathVo, req.getBeginStatusId(), req.getEndStatusId());
+    List<Long> allStatusIdList = ProcessUtils.getStatusBetween(apsProcessPathVo,
+        req.getBeginStatusId(), req.getEndStatusId());
     log.info("factoryId: {} allStatusIdList: {}", req.getFactoryId(), allStatusIdList);
     if (CollUtil.isEmpty(allStatusIdList)) {
       return new ApsRollingForecastOrderInsertRes().setCount(-1);
     }
-    List<ApsOrder> orderList = this.apsOrderService.list(new LambdaQueryWrapper<ApsOrder>().select(BaseEntity::getId, ApsOrder::getUrgencyLevel, ApsOrder::getOrderStatus)//
-        .eq(ApsOrder::getFactoryId, req.getFactoryId()).in(ApsOrder::getOrderStatus, allStatusIdList));
+    List<ApsOrder> orderList = this.apsOrderService.list(
+        new LambdaQueryWrapper<ApsOrder>().select(BaseEntity::getId, ApsOrder::getUrgencyLevel,
+                ApsOrder::getOrderStatus)//
+            .eq(ApsOrder::getFactoryId, req.getFactoryId())
+            .in(ApsOrder::getOrderStatus, allStatusIdList));
     if (CollUtil.isEmpty(orderList)) {
       log.info("factoryId: {} orderList: is null", req.getFactoryId());
       return new ApsRollingForecastOrderInsertRes().setCount(-2);
     }
 
-    List<FactoryCapacityDay> capacityDayList = apsRollingForecastFactoryCapacityService.list(req.getFactoryId(), req.getBeginTime(), req.getEndTime());
+    List<FactoryCapacityDay> capacityDayList = apsRollingForecastFactoryCapacityService.list(
+        req.getFactoryId(), req.getBeginTime(), req.getEndTime());
 
     if (CollUtil.isEmpty(capacityDayList)) {
       log.info("factoryId: {} capacityDayList: is null", req.getFactoryId());
@@ -133,10 +163,11 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
     }
 //    Map<Long, String> statusIdNameMap = apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));
     Map<Long, List<ApsOrder>> orderMap = orderList.stream()
-        .collect(Collectors.groupingBy(ApsOrder::getOrderStatus, Collectors.collectingAndThen(Collectors.<ApsOrder>toList(), list -> {
-          list.sort(Comparator.comparing(ApsOrder::getUrgencyLevel).reversed());
-          return list;
-        })));
+        .collect(Collectors.groupingBy(ApsOrder::getOrderStatus,
+            Collectors.collectingAndThen(Collectors.<ApsOrder>toList(), list -> {
+              list.sort(Comparator.comparing(ApsOrder::getUrgencyLevel).reversed());
+              return list;
+            })));
 
     Long forecastId = IdWorker.getId();
     List<ApsRollingForecastOrderItem> insertList = Collections.synchronizedList(new ArrayList<>());
@@ -158,16 +189,21 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
         for (int i = 0; i < t.getCapacity() && CollUtil.isNotEmpty(apsOrdersTmp); i++) {
           ApsOrder currApsOrder = apsOrdersTmp.remove(0);
           insertList.add(new ApsRollingForecastOrderItem().setFactoryId(req.getFactoryId())//
-              .setForecastId(forecastId).setGoodsStatusId(statusId).setOrderId(currApsOrder.getId()).setStatusBeginDate(t.getLocalDate()));
+              .setForecastId(forecastId).setGoodsStatusId(statusId).setOrderId(currApsOrder.getId())
+              .setStatusBeginDate(t.getLocalDate()));
           runnableList.add(() -> {
-            ApsProcessPathInfo schedulePathDate = ProcessUtils.schedulePathDate(apsProcessPathVo, factoryConfig.getWeekList(), factoryConfig.getDayWorkLastSecond(),
+            ApsProcessPathInfo schedulePathDate = ProcessUtils.schedulePathDate(apsProcessPathVo,
+                factoryConfig.getWeekList(), factoryConfig.getDayWorkLastSecond(),
                 factoryConfig.getDayWorkSecond(), statusId, Map.of(), t.getLocalDate());
-            if (Objects.isNull(schedulePathDate) || CollUtil.isEmpty(schedulePathDate.getDataList())) {
+            if (Objects.isNull(schedulePathDate) || CollUtil.isEmpty(
+                schedulePathDate.getDataList())) {
               return;
             }
             schedulePathDate.getDataList().forEach(info -> {
-              ApsRollingForecastOrderItem item = new ApsRollingForecastOrderItem().setFactoryId(req.getFactoryId())//
-                  .setForecastId(forecastId).setGoodsStatusId(info.getStatusId()).setOrderId(currApsOrder.getId()).setStatusBeginDate(info.getBeginLocalDate());
+              ApsRollingForecastOrderItem item = new ApsRollingForecastOrderItem().setFactoryId(
+                      req.getFactoryId())//
+                  .setForecastId(forecastId).setGoodsStatusId(info.getStatusId())
+                  .setOrderId(currApsOrder.getId()).setStatusBeginDate(info.getBeginLocalDate());
               insertList.add(item);
             });
           });
@@ -183,13 +219,16 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
   }
 
   //  @SetUserName
-  public @Override void setName(List<? extends ApsRollingForecastOrderDto> apsRollingForecastOrderDtoList) {
+  public @Override void setName(
+      List<? extends ApsRollingForecastOrderDto> apsRollingForecastOrderDtoList) {
 
     SetNamePojo statusNamePojo = new SetNamePojo()//
         .setNameFieldName("statusName").setServiceName(ApsStatusService.class) //
-        .setNameConfigList(List.of(new NameConfig().setIdField("beginStatusId").setNameField("beginStatusName"),//
-            new NameConfig().setIdField("endStatusId").setNameField("endStatusName")));
-    setNameService.setName(apsRollingForecastOrderDtoList, SetNamePojoUtils.FACTORY, statusNamePojo, SetNamePojoUtils.OP_USER_NAME);
+        .setNameConfigList(
+            List.of(new NameConfig().setIdField("beginStatusId").setNameField("beginStatusName"),//
+                new NameConfig().setIdField("endStatusId").setNameField("endStatusName")));
+    setNameService.setName(apsRollingForecastOrderDtoList, SetNamePojoUtils.FACTORY, statusNamePojo,
+        SetNamePojoUtils.OP_USER_NAME);
   }
 
 
@@ -197,10 +236,14 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
     MPJLambdaWrapper<ApsRollingForecastOrder> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
-      q.eq(StringUtils.isNoneBlank(obj.getRollCode()), ApsRollingForecastOrder::getRollCode, obj.getRollCode())
-          .eq(StringUtils.isNoneBlank(obj.getRollName()), ApsRollingForecastOrder::getRollName, obj.getRollName())
-          .eq(Objects.nonNull(obj.getBeginTime()), ApsRollingForecastOrder::getBeginTime, obj.getBeginTime())
-          .eq(Objects.nonNull(obj.getEndTime()), ApsRollingForecastOrder::getEndTime, obj.getEndTime())
+      q.eq(StringUtils.isNoneBlank(obj.getRollCode()), ApsRollingForecastOrder::getRollCode,
+              obj.getRollCode())
+          .eq(StringUtils.isNoneBlank(obj.getRollName()), ApsRollingForecastOrder::getRollName,
+              obj.getRollName())
+          .eq(Objects.nonNull(obj.getBeginTime()), ApsRollingForecastOrder::getBeginTime,
+              obj.getBeginTime())
+          .eq(Objects.nonNull(obj.getEndTime()), ApsRollingForecastOrder::getEndTime,
+              obj.getEndTime())
 
       ;
     }

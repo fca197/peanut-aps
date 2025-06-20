@@ -14,12 +14,15 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2024-11-26 15:49:27
  */
 @Slf4j
-public class ApsGoodsForecastMainMakeSaleDataImportListener extends AbstractImportListener<ApsGoodsForecastMainMakeSaleDataImportReq> {
+public class ApsGoodsForecastMainMakeSaleDataImportListener extends
+    AbstractImportListener<ApsGoodsForecastMainMakeSaleDataImportReq> {
 
   @Override
-  public void invoke(ApsGoodsForecastMainMakeSaleDataImportReq data, AnalysisContext analysisContext) {
+  public void invoke(ApsGoodsForecastMainMakeSaleDataImportReq data,
+      AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsGoodsForecastMainMakeSaleDataImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsGoodsForecastMainMakeSaleDataImportListener invoke data:{}",
+        JSON.toJSONString(data));
     checkData(data, analysisContext);
 
   }

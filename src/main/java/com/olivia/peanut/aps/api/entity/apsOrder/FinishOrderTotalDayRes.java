@@ -8,5 +8,6 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @Accessors(chain = true)
-public class FinishOrderTotalDayRes   extends EChartResDto {
+public class FinishOrderTotalDayRes extends EChartResDto {
+
 }

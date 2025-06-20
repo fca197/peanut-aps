@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSaleConfigApi;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.*;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDto;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigImportReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSaleConfigImportListener;
 import com.olivia.peanut.aps.model.ApsSaleConfig;
 import com.olivia.peanut.aps.service.ApsSaleConfigService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsSaleConfig)表服务实现类
@@ -41,7 +54,8 @@ public class ApsSaleConfigApiImpl implements ApsSaleConfigApi {
    * deleteByIds
    *
    */
-  public @Override ApsSaleConfigDeleteByIdListRes deleteByIdList(ApsSaleConfigDeleteByIdListReq req) {
+  public @Override ApsSaleConfigDeleteByIdListRes deleteByIdList(
+      ApsSaleConfigDeleteByIdListReq req) {
     apsSaleConfigService.removeByIds(req.getIdList());
     return new ApsSaleConfigDeleteByIdListRes();
   }
@@ -64,7 +78,8 @@ public class ApsSaleConfigApiImpl implements ApsSaleConfigApi {
 
   }
 
-  public @Override DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsSaleConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(
+      ApsSaleConfigExportQueryPageListReq req) {
     return apsSaleConfigService.queryPageList(req);
   }
 
@@ -72,12 +87,14 @@ public class ApsSaleConfigApiImpl implements ApsSaleConfigApi {
     DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSaleConfigExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSaleConfigExportQueryPageListInfoRes.class);
+    List<ApsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSaleConfigExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSaleConfigExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsSaleConfigImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSaleConfigImportReq> reqList = PoiExcelUtil.readData(file, new ApsSaleConfigImportListener(), ApsSaleConfigImportReq.class);
+    List<ApsSaleConfigImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSaleConfigImportListener(), ApsSaleConfigImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSaleConfig> readList = $.copyList(reqList, ApsSaleConfig.class);
     boolean bool = apsSaleConfigService.saveBatch(readList);
@@ -85,7 +102,8 @@ public class ApsSaleConfigApiImpl implements ApsSaleConfigApi {
     return new ApsSaleConfigImportRes().setCount(c);
   }
 
-  public @Override ApsSaleConfigQueryByIdListRes queryByIdListRes(ApsSaleConfigQueryByIdListReq req) {
+  public @Override ApsSaleConfigQueryByIdListRes queryByIdListRes(
+      ApsSaleConfigQueryByIdListReq req) {
     MPJLambdaWrapper<ApsSaleConfig> q = new MPJLambdaWrapper<ApsSaleConfig>(ApsSaleConfig.class)
         .selectAll(ApsSaleConfig.class).in(ApsSaleConfig::getId, req.getIdList());
     List<ApsSaleConfig> list = this.apsSaleConfigService.list(q);

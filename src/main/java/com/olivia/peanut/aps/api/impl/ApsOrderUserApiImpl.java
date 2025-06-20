@@ -3,19 +3,34 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsOrderUserApi;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserImportReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsOrderUserImportListener;
 import com.olivia.peanut.aps.model.ApsOrderUser;
 import com.olivia.peanut.aps.service.ApsOrderUserService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsOrderUser)表服务实现类
@@ -64,7 +79,8 @@ public class ApsOrderUserApiImpl implements ApsOrderUserApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(ApsOrderUserExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
+      ApsOrderUserExportQueryPageListReq req) {
     return apsOrderUserService.queryPageList(req);
   }
 
@@ -72,12 +88,14 @@ public class ApsOrderUserApiImpl implements ApsOrderUserApi {
     DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderUserExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderUserExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderUserExportQueryPageListInfoRes.class);
+    List<ApsOrderUserExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsOrderUserExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsOrderUserExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsOrderUserImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsOrderUserImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderUserImportListener(), ApsOrderUserImportReq.class);
+    List<ApsOrderUserImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsOrderUserImportListener(), ApsOrderUserImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderUser> readList = $.copyList(reqList, ApsOrderUser.class);
     boolean bool = apsOrderUserService.saveBatch(readList);

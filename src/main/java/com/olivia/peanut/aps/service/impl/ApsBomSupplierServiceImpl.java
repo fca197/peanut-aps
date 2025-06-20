@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsBomSupplier.*;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierDto;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsBomSupplierMapper;
 import com.olivia.peanut.aps.model.ApsBomSupplier;
 import com.olivia.peanut.aps.service.ApsBomSupplierService;
@@ -17,14 +21,13 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 供应商表(ApsBomSupplier)表服务实现类
@@ -34,9 +37,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsBomSupplierService")
 @Transactional
-public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplierMapper, ApsBomSupplier> implements ApsBomSupplierService {
+public class ApsBomSupplierServiceImpl extends
+    MPJBaseServiceImpl<ApsBomSupplierMapper, ApsBomSupplier> implements ApsBomSupplierService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -51,13 +56,15 @@ public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplier
     MPJLambdaWrapper<ApsBomSupplier> q = getWrapper(req.getData());
     List<ApsBomSupplier> list = this.list(q);
 
-    List<ApsBomSupplierDto> dataList = list.stream().map(t -> $.copy(t, ApsBomSupplierDto.class)).collect(Collectors.toList());
+    List<ApsBomSupplierDto> dataList = list.stream().map(t -> $.copy(t, ApsBomSupplierDto.class))
+        .collect(Collectors.toList());
     ((ApsBomSupplierService) AopContext.currentProxy()).setName(dataList);
     return new ApsBomSupplierQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(ApsBomSupplierExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(
+      ApsBomSupplierExportQueryPageListReq req) {
 
     DynamicsPage<ApsBomSupplier> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -66,7 +73,8 @@ public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplier
     List<ApsBomSupplierExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsBomSupplier> list = this.page(page, q);
-      IPage<ApsBomSupplierExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsBomSupplierExportQueryPageListInfoRes.class));
+      IPage<ApsBomSupplierExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsBomSupplierExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsBomSupplierExportQueryPageListInfoRes.class);
@@ -74,17 +82,16 @@ public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplier
 
     // 类型转换，  更换枚举 等操作 
 
-    List<ApsBomSupplierExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsBomSupplierExportQueryPageListInfoRes.class);
+    List<ApsBomSupplierExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsBomSupplierExportQueryPageListInfoRes.class);
     ((ApsBomSupplierService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
   }
 
-
   // 以下为私有对象封装
 
   public @Override void setName(List<? extends ApsBomSupplierDto> list) {
-
 
     districtCodeService.setDistrictName(list, DistrictCodeSelectType.all);
 //    setNameService.setName(list, setNamePojo);
@@ -94,7 +101,6 @@ public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplier
   @SuppressWarnings("unchecked")
   private MPJLambdaWrapper<ApsBomSupplier> getWrapper(ApsBomSupplierDto obj) {
     MPJLambdaWrapper<ApsBomSupplier> q = new MPJLambdaWrapper<>();
-
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsBomSupplier.class
         // 查询条件
@@ -110,7 +116,6 @@ public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplier
         , ApsBomSupplier::getBomSupplierRemark //
         , ApsBomSupplier::getSupplierStatus //
     );
-
 
     q.orderByDesc(ApsBomSupplier::getId);
     return q;

@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.*;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathImportRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsLogisticsPathApi {
    * 保存 物流路径表
    */
   @PostMapping("/apsLogisticsPath/insert")
-  ApsLogisticsPathInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsLogisticsPathInsertReq req);
+  ApsLogisticsPathInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsLogisticsPathInsertReq req);
 
   /**
    * 根据ID 删除 物流路径表
    */
   @PostMapping("/apsLogisticsPath/deleteByIdList")
-  ApsLogisticsPathDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsLogisticsPathDeleteByIdListReq req);
+  ApsLogisticsPathDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsLogisticsPathDeleteByIdListReq req);
 
   /**
    * 查询 物流路径表
@@ -43,13 +57,15 @@ public interface ApsLogisticsPathApi {
    * 根据ID 更新 物流路径表
    */
   @PostMapping("/apsLogisticsPath/updateById")
-  ApsLogisticsPathUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsLogisticsPathUpdateByIdReq req);
+  ApsLogisticsPathUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsLogisticsPathUpdateByIdReq req);
 
   /**
    * 分页查询 物流路径表
    */
   @PostMapping("/apsLogisticsPath/queryPageList")
-  DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsLogisticsPathExportQueryPageListReq req);
+  DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsLogisticsPathExportQueryPageListReq req);
 
   /**
    * 导出 物流路径表
@@ -68,7 +84,8 @@ public interface ApsLogisticsPathApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsLogisticsPath/queryByIdList")
-  ApsLogisticsPathQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsLogisticsPathQueryByIdListReq req);
+  ApsLogisticsPathQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsLogisticsPathQueryByIdListReq req);
 
 
 }

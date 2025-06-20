@@ -1,10 +1,15 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListRes;
 import com.olivia.peanut.aps.model.ApsOrderUser;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +22,8 @@ public interface ApsOrderUserService extends MPJBaseService<ApsOrderUser> {
 
   ApsOrderUserQueryListRes queryList(ApsOrderUserQueryListReq req);
 
-  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(ApsOrderUserExportQueryPageListReq req);
+  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
+      ApsOrderUserExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderUserDto> apsOrderUserDtoList);

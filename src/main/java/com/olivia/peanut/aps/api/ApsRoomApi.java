@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsRoom.*;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomImportRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -43,13 +55,15 @@ public interface ApsRoomApi {
    * 根据ID 更新
    */
   @PostMapping("/apsRoom/updateById")
-  ApsRoomUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsRoomUpdateByIdReq req);
+  ApsRoomUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsRoomUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsRoom/queryPageList")
-  DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsRoomExportQueryPageListReq req);
+  DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsRoomExportQueryPageListReq req);
 
   /**
    * 导出

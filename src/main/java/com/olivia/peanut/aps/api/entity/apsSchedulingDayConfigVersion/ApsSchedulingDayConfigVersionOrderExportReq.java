@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 public class ApsSchedulingDayConfigVersionOrderExportReq {
+
   @NotNull(message = "排产版本不能为空")
   private Long schedulingVersionId;
 }

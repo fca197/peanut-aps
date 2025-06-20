@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsBomGroup.*;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupImportRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupInsertReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupInsertRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -43,13 +55,15 @@ public interface ApsBomGroupApi {
    * 根据ID 更新 零件组配置
    */
   @PostMapping("/apsBomGroup/updateById")
-  ApsBomGroupUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsBomGroupUpdateByIdReq req);
+  ApsBomGroupUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsBomGroupUpdateByIdReq req);
 
   /**
    * 分页查询 零件组配置
    */
   @PostMapping("/apsBomGroup/queryPageList")
-  DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsBomGroupExportQueryPageListReq req);
+  DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsBomGroupExportQueryPageListReq req);
 
   /**
    * 导出 零件组配置

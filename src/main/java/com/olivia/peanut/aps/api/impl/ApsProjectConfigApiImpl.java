@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsProjectConfigApi;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDto;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigImportReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsProjectConfigImportListener;
 import com.olivia.peanut.aps.model.ApsProjectConfig;
 import com.olivia.peanut.aps.service.ApsProjectConfigService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsProjectConfig)表服务实现类
@@ -41,7 +54,8 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
    * deleteByIds
    *
    */
-  public @Override ApsProjectConfigDeleteByIdListRes deleteByIdList(ApsProjectConfigDeleteByIdListReq req) {
+  public @Override ApsProjectConfigDeleteByIdListRes deleteByIdList(
+      ApsProjectConfigDeleteByIdListReq req) {
     apsProjectConfigService.removeByIds(req.getIdList());
     return new ApsProjectConfigDeleteByIdListRes();
   }
@@ -64,7 +78,8 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
 
   }
 
-  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
+      ApsProjectConfigExportQueryPageListReq req) {
     return apsProjectConfigService.queryPageList(req);
   }
 
@@ -72,12 +87,14 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
     DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProjectConfigExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProjectConfigExportQueryPageListInfoRes.class);
+    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsProjectConfigExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsProjectConfigExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsProjectConfigImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file, new ApsProjectConfigImportListener(), ApsProjectConfigImportReq.class);
+    List<ApsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsProjectConfigImportListener(), ApsProjectConfigImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProjectConfig> readList = $.copyList(reqList, ApsProjectConfig.class);
     boolean bool = apsProjectConfigService.saveBatch(readList);
@@ -85,8 +102,10 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
     return new ApsProjectConfigImportRes().setCount(c);
   }
 
-  public @Override ApsProjectConfigQueryByIdListRes queryByIdListRes(ApsProjectConfigQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProjectConfig> q = new MPJLambdaWrapper<ApsProjectConfig>(ApsProjectConfig.class)
+  public @Override ApsProjectConfigQueryByIdListRes queryByIdListRes(
+      ApsProjectConfigQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProjectConfig> q = new MPJLambdaWrapper<ApsProjectConfig>(
+        ApsProjectConfig.class)
         .selectAll(ApsProjectConfig.class).in(ApsProjectConfig::getId, req.getIdList());
     List<ApsProjectConfig> list = this.apsProjectConfigService.list(q);
     List<ApsProjectConfigDto> dataList = $.copyList(list, ApsProjectConfigDto.class);

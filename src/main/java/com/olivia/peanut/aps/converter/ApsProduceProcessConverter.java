@@ -1,14 +1,19 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDto;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsProduceProcess;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsProduceProcessConverter {
+
   ApsProduceProcessConverter INSTANCE = Mappers.getMapper(ApsProduceProcessConverter.class);
 
   ApsProduceProcess insertReq(ApsProduceProcessInsertReq req);

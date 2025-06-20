@@ -14,12 +14,15 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2024-11-26 15:49:31
  */
 @Slf4j
-public class ApsSchedulingDayConfigVersionDetailMachineUseTimeImportListener extends AbstractImportListener<ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq> {
+public class ApsSchedulingDayConfigVersionDetailMachineUseTimeImportListener extends
+    AbstractImportListener<ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq> {
 
   @Override
-  public void invoke(ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq data, AnalysisContext analysisContext) {
+  public void invoke(ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq data,
+      AnalysisContext analysisContext) {
     //  文件校验
-    log.info("ApsSchedulingDayConfigVersionDetailMachineUseTimeImportListener invoke data:{}", JSON.toJSONString(data));
+    log.info("ApsSchedulingDayConfigVersionDetailMachineUseTimeImportListener invoke data:{}",
+        JSON.toJSONString(data));
     checkData(data, analysisContext);
 
   }

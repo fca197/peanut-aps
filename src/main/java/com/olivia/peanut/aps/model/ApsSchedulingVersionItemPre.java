@@ -1,15 +1,13 @@
 package com.olivia.peanut.aps.model;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
+import java.time.LocalDate;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDate;
-import java.util.Map;
 
 /**
  * 排产下发订单预览(ApsSchedulingVersionItemPre)表实体类
@@ -23,6 +21,7 @@ import java.util.Map;
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_version_item_pre")
 public class ApsSchedulingVersionItemPre extends BaseEntity {
+
   /***
    *  排产版本ID
    */
@@ -51,7 +50,7 @@ public class ApsSchedulingVersionItemPre extends BaseEntity {
    *  显示字段
    */
 //  @TableField(typeHandler = MapTypeHandler.class)
-  private Map<String,Object> showField;
+  private Map<String, Object> showField;
   /***
    *  订单号
    */

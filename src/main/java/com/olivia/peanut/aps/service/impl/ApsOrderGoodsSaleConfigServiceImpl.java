@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsSaleConfigMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
 import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
@@ -14,15 +18,14 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BigDecimalUtils;
 import com.olivia.sdk.utils.DynamicsPage;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsOrderGoodsSaleConfig)表服务实现类
@@ -32,17 +35,22 @@ import java.util.stream.Collectors;
  */
 @Service("apsOrderGoodsSaleConfigService")
 @Transactional
-public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsSaleConfigMapper, ApsOrderGoodsSaleConfig> implements ApsOrderGoodsSaleConfigService {
+public class ApsOrderGoodsSaleConfigServiceImpl extends
+    MPJBaseServiceImpl<ApsOrderGoodsSaleConfigMapper, ApsOrderGoodsSaleConfig> implements
+    ApsOrderGoodsSaleConfigService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
-  public @Override ApsOrderGoodsSaleConfigQueryListRes queryList(ApsOrderGoodsSaleConfigQueryListReq req) {
+  public @Override ApsOrderGoodsSaleConfigQueryListRes queryList(
+      ApsOrderGoodsSaleConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsSaleConfig> q = getWrapper(req.getData());
     List<ApsOrderGoodsSaleConfig> list = this.list(q);
 
-    List<ApsOrderGoodsSaleConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsSaleConfigDto.class)).collect(Collectors.toList());
+    List<ApsOrderGoodsSaleConfigDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsOrderGoodsSaleConfigDto.class)).collect(Collectors.toList());
     //  this.setName(dataList);
 
     ((ApsOrderGoodsSaleConfigServiceImpl) AopContext.currentProxy()).setName(dataList);
@@ -50,7 +58,8 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsSaleConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsSaleConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsSaleConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -59,7 +68,8 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
     List<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsOrderGoodsSaleConfig> list = this.page(page, q);
-      IPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsOrderGoodsSaleConfigExportQueryPageListInfoRes.class));
+      IPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsOrderGoodsSaleConfigExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsOrderGoodsSaleConfigExportQueryPageListInfoRes.class);
@@ -67,7 +77,8 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsOrderGoodsSaleConfigExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsOrderGoodsSaleConfigExportQueryPageListInfoRes.class);
     ((ApsOrderGoodsSaleConfigServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -87,9 +98,12 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
 
     if (Objects.nonNull(obj)) {
       q
-          .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsSaleConfig::getOrderId, obj.getOrderId())
-          .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsSaleConfig::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsSaleConfig::getFactoryId, obj.getFactoryId())
+          .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsSaleConfig::getOrderId,
+              obj.getOrderId())
+          .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsSaleConfig::getGoodsId,
+              obj.getGoodsId())
+          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsSaleConfig::getFactoryId,
+              obj.getFactoryId())
 
       ;
     }

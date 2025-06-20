@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsProduceProcess;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * aps 生产路径(ApsProduceProcess)根据ID删除多个入参
@@ -18,6 +17,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsProduceProcessDeleteByIdListReq {
+
   /***
    * 要删除的ID
    */

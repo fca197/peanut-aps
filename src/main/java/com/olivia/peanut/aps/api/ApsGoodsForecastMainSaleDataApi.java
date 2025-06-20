@@ -3,7 +3,19 @@ package com.olivia.peanut.aps.api;
 
 import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.GetDataByGoodsIdReq;
 import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.GetDataByGoodsIdRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainSaleData.ApsGoodsForecastMainSaleDataUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -27,37 +39,43 @@ public interface ApsGoodsForecastMainSaleDataApi {
    * 保存
    */
   @PostMapping("/apsGoodsForecastMainSaleData/insert")
-  ApsGoodsForecastMainSaleDataInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMainSaleDataInsertReq req);
+  ApsGoodsForecastMainSaleDataInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMainSaleDataInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsForecastMainSaleData/deleteByIdList")
-  ApsGoodsForecastMainSaleDataDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsForecastMainSaleDataDeleteByIdListReq req);
+  ApsGoodsForecastMainSaleDataDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsForecastMainSaleDataDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsGoodsForecastMainSaleData/queryList")
-  ApsGoodsForecastMainSaleDataQueryListRes queryList(@RequestBody @Valid ApsGoodsForecastMainSaleDataQueryListReq req);
+  ApsGoodsForecastMainSaleDataQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsForecastMainSaleDataQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsForecastMainSaleData/updateById")
-  ApsGoodsForecastMainSaleDataUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMainSaleDataUpdateByIdReq req);
+  ApsGoodsForecastMainSaleDataUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMainSaleDataUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsForecastMainSaleData/queryPageList")
-  DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsForecastMainSaleDataExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsForecastMainSaleDataExportQueryPageListReq req);
 
   /**
    * 导出
    */
   @PostMapping("/apsGoodsForecastMainSaleData/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsGoodsForecastMainSaleDataExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsGoodsForecastMainSaleDataExportQueryPageListReq req);
 
   /**
    * 导入
@@ -70,7 +88,8 @@ public interface ApsGoodsForecastMainSaleDataApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsForecastMainSaleData/queryByIdList")
-  ApsGoodsForecastMainSaleDataQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsForecastMainSaleDataQueryByIdListReq req);
+  ApsGoodsForecastMainSaleDataQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsForecastMainSaleDataQueryByIdListReq req);
 
 
   @PostMapping("/apsGoodsForecastMainSaleData/getDataByGoodsId")

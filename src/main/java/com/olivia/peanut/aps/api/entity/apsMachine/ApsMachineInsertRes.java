@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @Setter
 @SuppressWarnings("serial")
 public class ApsMachineInsertRes {
+
   /****
    * 写入行数
    */

@@ -6,7 +6,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsSchedulingVersionCapacityMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionCapacityService;
@@ -16,14 +20,13 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import com.olivia.sdk.utils.Str;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsSchedulingVersionCapacity)表服务实现类
@@ -33,18 +36,22 @@ import java.util.stream.Collectors;
  */
 @Service("apsSchedulingVersionCapacityService")
 @Transactional
-public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionCapacityMapper, ApsSchedulingVersionCapacity> implements
+public class ApsSchedulingVersionCapacityServiceImpl extends
+    MPJBaseServiceImpl<ApsSchedulingVersionCapacityMapper, ApsSchedulingVersionCapacity> implements
     ApsSchedulingVersionCapacityService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
-  public @Override ApsSchedulingVersionCapacityQueryListRes queryList(ApsSchedulingVersionCapacityQueryListReq req) {
+  public @Override ApsSchedulingVersionCapacityQueryListRes queryList(
+      ApsSchedulingVersionCapacityQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionCapacity> q = getWrapper(req.getData());
     List<ApsSchedulingVersionCapacity> list = this.list(q);
 
-    List<ApsSchedulingVersionCapacityDto> dataList = list.stream().map(t -> $.copy(t, ApsSchedulingVersionCapacityDto.class)).collect(Collectors.toList());
+    List<ApsSchedulingVersionCapacityDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsSchedulingVersionCapacityDto.class)).collect(Collectors.toList());
 //    this.setName(dataList);
     ((ApsSchedulingVersionCapacityService) AopContext.currentProxy()).setName(dataList);
 
@@ -52,7 +59,8 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionCapacityExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionCapacityExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionCapacity> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -61,15 +69,18 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
     List<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSchedulingVersionCapacity> list = this.page(page, q);
-      IPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class));
+      IPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
-      records = $.copyList(this.list(q), ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class);
+      records = $.copyList(this.list(q),
+          ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class);
     }
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsSchedulingVersionCapacityExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     ((ApsSchedulingVersionCapacityService) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -79,7 +90,8 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
   // 以下为私有对象封装
 
   @SetUserName
-  public @Override void setName(List<? extends ApsSchedulingVersionCapacityDto> apsSchedulingVersionCapacityDtoList) {
+  public @Override void setName(
+      List<? extends ApsSchedulingVersionCapacityDto> apsSchedulingVersionCapacityDtoList) {
 
     if (CollUtil.isEmpty(apsSchedulingVersionCapacityDtoList)) {
     }
@@ -89,11 +101,14 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
 
 
   @SuppressWarnings(Str.UN_CHECKED)
-  private MPJLambdaWrapper<ApsSchedulingVersionCapacity> getWrapper(ApsSchedulingVersionCapacityDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingVersionCapacity> getWrapper(
+      ApsSchedulingVersionCapacityDto obj) {
     MPJLambdaWrapper<ApsSchedulingVersionCapacity> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionCapacity.class, ApsSchedulingVersionCapacity::getSchedulingVersionId//
-        , ApsSchedulingVersionCapacity::getCurrentDay, ApsSchedulingVersionCapacity::getOrderId, ApsSchedulingVersionCapacity::getGoodsId);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionCapacity.class,
+        ApsSchedulingVersionCapacity::getSchedulingVersionId//
+        , ApsSchedulingVersionCapacity::getCurrentDay, ApsSchedulingVersionCapacity::getOrderId,
+        ApsSchedulingVersionCapacity::getGoodsId);
     q.orderByDesc(ApsSchedulingVersionCapacity::getId);
     return q;
 

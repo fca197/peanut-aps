@@ -8,5 +8,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 public class OrderCreateByMonthCountReq {
+
   private Integer year;
 }

@@ -1,15 +1,14 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory;
 
 import com.olivia.sdk.filter.LoginUserContext;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 @Setter
 @Getter
@@ -23,8 +22,10 @@ public class SelectOrder2HistoryReq {
 
   public void setTenantId(Long tenantId) {
     this.tenantId = tenantId;
-    if (Objects.nonNull(this.tenantId))
-      LoginUserContext.setContextThreadLocal(LoginUserContext.getLoginUser().setTenantId(this.tenantId));
+    if (Objects.nonNull(this.tenantId)) {
+      LoginUserContext.setContextThreadLocal(
+          LoginUserContext.getLoginUser().setTenantId(this.tenantId));
+    }
   }
 
   public LocalDateTime getBeginDate() {

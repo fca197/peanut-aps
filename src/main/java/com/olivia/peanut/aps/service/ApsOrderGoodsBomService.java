@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListRes;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsOrderGoodsBomService extends MPJBaseService<ApsOrderGoodsBom
 
   ApsOrderGoodsBomQueryListRes queryList(ApsOrderGoodsBomQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsBomExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderGoodsBomDto> apsOrderGoodsBomDtoList);

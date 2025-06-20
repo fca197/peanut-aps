@@ -6,7 +6,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDto;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsProjectConfigMapper;
 import com.olivia.peanut.aps.model.ApsProjectConfig;
 import com.olivia.peanut.aps.service.ApsProjectConfigService;
@@ -14,17 +18,16 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsProjectConfig)表服务实现类
@@ -34,9 +37,12 @@ import java.util.stream.Collectors;
  */
 @Service("apsProjectConfigService")
 @Transactional
-public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectConfigMapper, ApsProjectConfig> implements ApsProjectConfigService {
+public class ApsProjectConfigServiceImpl extends
+    MPJBaseServiceImpl<ApsProjectConfigMapper, ApsProjectConfig> implements
+    ApsProjectConfigService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsProjectConfigQueryListRes queryList(ApsProjectConfigQueryListReq req) {
@@ -44,13 +50,15 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
     MPJLambdaWrapper<ApsProjectConfig> q = getWrapper(req.getData());
     List<ApsProjectConfig> list = this.list(q);
 
-    List<ApsProjectConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsProjectConfigDto.class)).collect(Collectors.toList());
+    List<ApsProjectConfigDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsProjectConfigDto.class)).collect(Collectors.toList());
 
     return new ApsProjectConfigQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
+      ApsProjectConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsProjectConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -59,7 +67,8 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
     List<ApsProjectConfigExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsProjectConfig> list = this.page(page, q);
-      IPage<ApsProjectConfigExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsProjectConfigExportQueryPageListInfoRes.class));
+      IPage<ApsProjectConfigExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsProjectConfigExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsProjectConfigExportQueryPageListInfoRes.class);
@@ -67,7 +76,8 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsProjectConfigExportQueryPageListInfoRes.class);
+    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsProjectConfigExportQueryPageListInfoRes.class);
 //    setName(listInfoRes);
     ((ApsProjectConfigService) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -81,9 +91,12 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
       return;
     }
     apsProjectConfigDtoList.sort(Comparator.comparing(ApsProjectConfigDto::getSaleCode));
-    List<? extends ApsProjectConfigDto> parentList = apsProjectConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), 0L)).toList();
+    List<? extends ApsProjectConfigDto> parentList = apsProjectConfigDtoList.stream()
+        .filter(t -> Objects.equals(t.getParentId(), 0L)).toList();
     parentList.forEach(p ->
-        p.setChildren(apsProjectConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId())).toList())
+        p.setChildren(
+            apsProjectConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId()))
+                .toList())
     );
     apsProjectConfigDtoList.removeIf(t -> !Objects.equals(t.getParentId(), 0L));
 
@@ -97,9 +110,12 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
 
     if (Objects.nonNull(obj)) {
       q
-          .eq(StringUtils.isNoneBlank(obj.getSaleCode()), ApsProjectConfig::getSaleCode, obj.getSaleCode())
-          .eq(StringUtils.isNoneBlank(obj.getSaleName()), ApsProjectConfig::getSaleName, obj.getSaleName())
-          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsProjectConfig::getSupplierStatus, obj.getSupplierStatus())
+          .eq(StringUtils.isNoneBlank(obj.getSaleCode()), ApsProjectConfig::getSaleCode,
+              obj.getSaleCode())
+          .eq(StringUtils.isNoneBlank(obj.getSaleName()), ApsProjectConfig::getSaleName,
+              obj.getSaleName())
+          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsProjectConfig::getSupplierStatus,
+              obj.getSupplierStatus())
           .eq(Objects.nonNull(obj.getIsValue()), ApsProjectConfig::getIsValue, obj.getIsValue())
           .eq(Objects.nonNull(obj.getParentId()), ApsProjectConfig::getParentId, obj.getParentId())
 

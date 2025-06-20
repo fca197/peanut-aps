@@ -1,7 +1,21 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryDataByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryDataByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMake.ApsGoodsForecastMainMakeUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +39,36 @@ public interface ApsGoodsForecastMainMakeApi {
    * 保存
    */
   @PostMapping("/apsGoodsForecastMainMake/insert")
-  ApsGoodsForecastMainMakeInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMainMakeInsertReq req);
+  ApsGoodsForecastMainMakeInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMainMakeInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsForecastMainMake/deleteByIdList")
-  ApsGoodsForecastMainMakeDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsForecastMainMakeDeleteByIdListReq req);
+  ApsGoodsForecastMainMakeDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsForecastMainMakeDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsGoodsForecastMainMake/queryList")
-  ApsGoodsForecastMainMakeQueryListRes queryList(@RequestBody @Valid ApsGoodsForecastMainMakeQueryListReq req);
+  ApsGoodsForecastMainMakeQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsForecastMainMakeQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsForecastMainMake/updateById")
-  ApsGoodsForecastMainMakeUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMainMakeUpdateByIdReq req);
+  ApsGoodsForecastMainMakeUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMainMakeUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsForecastMainMake/queryPageList")
-  DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsForecastMainMakeExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsForecastMainMakeExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,9 +87,11 @@ public interface ApsGoodsForecastMainMakeApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsForecastMainMake/queryByIdList")
-  ApsGoodsForecastMainMakeQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsForecastMainMakeQueryByIdListReq req);
+  ApsGoodsForecastMainMakeQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsForecastMainMakeQueryByIdListReq req);
 
   @PostMapping("/apsGoodsForecastMainMake/queryDataById")
-  DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(@RequestBody @Valid ApsGoodsForecastMainMakeQueryDataByIdReq req);
+  DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(
+      @RequestBody @Valid ApsGoodsForecastMainMakeQueryDataByIdReq req);
 
 }

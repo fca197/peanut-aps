@@ -1,7 +1,28 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecast.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.UploadTemplateRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -26,13 +47,15 @@ public interface ApsGoodsForecastApi {
    * 保存
    */
   @PostMapping("/apsGoodsForecast/insert")
-  ApsGoodsForecastInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsForecastInsertReq req);
+  ApsGoodsForecastInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsForecastInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsForecast/deleteByIdList")
-  ApsGoodsForecastDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsForecastDeleteByIdListReq req);
+  ApsGoodsForecastDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsForecastDeleteByIdListReq req);
 
   /**
    * 查询
@@ -44,13 +67,15 @@ public interface ApsGoodsForecastApi {
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsForecast/updateById")
-  ApsGoodsForecastUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastUpdateByIdReq req);
+  ApsGoodsForecastUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsForecast/queryPageList")
-  DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsForecastExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsForecastExportQueryPageListReq req);
 
   /**
    * 导出
@@ -69,18 +94,21 @@ public interface ApsGoodsForecastApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsForecast/queryByIdList")
-  ApsGoodsForecastQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsForecastQueryByIdListReq req);
+  ApsGoodsForecastQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsForecastQueryByIdListReq req);
 
 
   @PostMapping("/apsGoodsForecast/downloadTemplate/{id}")
   void downloadTemplate(@PathVariable("id") Long id);
 
   @PostMapping("/apsGoodsForecast/uploadTemplate/{id}")
-  UploadTemplateRes uploadTemplate(@PathVariable("id") Long id, @RequestParam("file") MultipartFile multipartFile);
+  UploadTemplateRes uploadTemplate(@PathVariable("id") Long id,
+      @RequestParam("file") MultipartFile multipartFile);
 
 
   @PostMapping("/apsGoodsForecast/getForecastDataById")
-  DynamicsPage<GetForecastDataByIdRes> getForecastDataById(@RequestBody @Valid GetForecastDataByIdReq req);
+  DynamicsPage<GetForecastDataByIdRes> getForecastDataById(
+      @RequestBody @Valid GetForecastDataByIdReq req);
 
   @PostMapping("/apsGoodsForecast/computeResult")
   DynamicsPage<ComputeResultRes> computeResult(@RequestBody @Valid ComputeResultReq req);

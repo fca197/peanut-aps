@@ -7,7 +7,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoods;
 import com.olivia.peanut.aps.service.ApsOrderGoodsService;
@@ -15,17 +19,16 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
-import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.NonNull;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsOrderGoods)表服务实现类
@@ -35,9 +38,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsOrderGoodsService")
 @Transactional
-public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMapper, ApsOrderGoods> implements ApsOrderGoodsService {
+public class ApsOrderGoodsServiceImpl extends
+    MPJBaseServiceImpl<ApsOrderGoodsMapper, ApsOrderGoods> implements ApsOrderGoodsService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsOrderGoodsQueryListRes queryList(ApsOrderGoodsQueryListReq req) {
@@ -45,7 +50,8 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
     MPJLambdaWrapper<ApsOrderGoods> q = getWrapper(req.getData());
     List<ApsOrderGoods> list = this.list(q);
 
-    List<ApsOrderGoodsDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsDto.class)).collect(Collectors.toList());
+    List<ApsOrderGoodsDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsDto.class))
+        .collect(Collectors.toList());
     //  this.setName(dataList);
     ((ApsOrderGoodsServiceImpl) AopContext.currentProxy()).setName(dataList);
 
@@ -54,7 +60,8 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
 
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoods> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -63,7 +70,8 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
     List<ApsOrderGoodsExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsOrderGoods> list = this.page(page, q);
-      IPage<ApsOrderGoodsExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsOrderGoodsExportQueryPageListInfoRes.class));
+      IPage<ApsOrderGoodsExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsOrderGoodsExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsOrderGoodsExportQueryPageListInfoRes.class);
@@ -71,7 +79,8 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsOrderGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsOrderGoodsExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsOrderGoodsExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     ((ApsOrderGoodsServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -82,13 +91,13 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
   public @Override void setName(List<? extends ApsOrderGoodsDto> apsOrderGoodsDtoList) {
 
     if (CollUtil.isEmpty(apsOrderGoodsDtoList)) {
-      return;
     }
   }
 
   @Override
   public List<ApsOrderGoods> getApsOrderGoodsByOrderId(@NonNull Long orderId) {
-    return this.list(new LambdaQueryWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, orderId));
+    return this.list(
+        new LambdaQueryWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, orderId));
   }
 
   private MPJLambdaWrapper<ApsOrderGoods> getWrapper(ApsOrderGoodsDto obj) {
@@ -98,14 +107,22 @@ public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMa
       q
           .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoods::getOrderId, obj.getOrderId())
           .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoods::getGoodsId, obj.getGoodsId())
-          .eq(StringUtils.isNoneBlank(obj.getGoodsName()), ApsOrderGoods::getGoodsName, obj.getGoodsName())
-          .eq(StringUtils.isNoneBlank(obj.getGoodsRemark()), ApsOrderGoods::getGoodsRemark, obj.getGoodsRemark())
-          .eq(Objects.nonNull(obj.getGoodsAmount()), ApsOrderGoods::getGoodsAmount, obj.getGoodsAmount())
-          .eq(Objects.nonNull(obj.getGoodsPrice()), ApsOrderGoods::getGoodsPrice, obj.getGoodsPrice())
-          .eq(Objects.nonNull(obj.getGoodsTotalPrice()), ApsOrderGoods::getGoodsTotalPrice, obj.getGoodsTotalPrice())
-          .eq(StringUtils.isNoneBlank(obj.getGoodsUnit()), ApsOrderGoods::getGoodsUnit, obj.getGoodsUnit())
-          .eq(Objects.nonNull(obj.getGoodsUnitPrice()), ApsOrderGoods::getGoodsUnitPrice, obj.getGoodsUnitPrice())
-          .eq(Objects.nonNull(obj.getGoodsUnitTotalPrice()), ApsOrderGoods::getGoodsUnitTotalPrice, obj.getGoodsUnitTotalPrice())
+          .eq(StringUtils.isNoneBlank(obj.getGoodsName()), ApsOrderGoods::getGoodsName,
+              obj.getGoodsName())
+          .eq(StringUtils.isNoneBlank(obj.getGoodsRemark()), ApsOrderGoods::getGoodsRemark,
+              obj.getGoodsRemark())
+          .eq(Objects.nonNull(obj.getGoodsAmount()), ApsOrderGoods::getGoodsAmount,
+              obj.getGoodsAmount())
+          .eq(Objects.nonNull(obj.getGoodsPrice()), ApsOrderGoods::getGoodsPrice,
+              obj.getGoodsPrice())
+          .eq(Objects.nonNull(obj.getGoodsTotalPrice()), ApsOrderGoods::getGoodsTotalPrice,
+              obj.getGoodsTotalPrice())
+          .eq(StringUtils.isNoneBlank(obj.getGoodsUnit()), ApsOrderGoods::getGoodsUnit,
+              obj.getGoodsUnit())
+          .eq(Objects.nonNull(obj.getGoodsUnitPrice()), ApsOrderGoods::getGoodsUnitPrice,
+              obj.getGoodsUnitPrice())
+          .eq(Objects.nonNull(obj.getGoodsUnitTotalPrice()), ApsOrderGoods::getGoodsUnitTotalPrice,
+              obj.getGoodsUnitTotalPrice())
           .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoods::getFactoryId, obj.getFactoryId())
 
       ;

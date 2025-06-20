@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsMachine.*;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDto;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListRes;
 import com.olivia.peanut.aps.model.ApsMachine;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -14,9 +17,11 @@ import java.util.List;
  * @since 2024-10-24 16:31:15
  */
 public interface ApsMachineService extends MPJBaseService<ApsMachine> {
+
   ApsMachineQueryListRes queryList(ApsMachineQueryListReq req);
 
-  DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(ApsMachineExportQueryPageListReq req);
+  DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(
+      ApsMachineExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsMachineDto> apsMachineDtoList);

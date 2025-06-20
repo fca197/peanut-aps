@@ -1,14 +1,20 @@
 package com.olivia.peanut.aps.service.impl;
 
+import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.eq;
+import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoods.*;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDto;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsGoodsMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
-import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem;
 import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.ApsProduceProcessService;
@@ -19,17 +25,13 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.eq;
-import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsGoods)表服务实现类
@@ -39,9 +41,11 @@ import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
  */
 @Service("apsGoodsService")
 @Transactional
-public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsGoods> implements ApsGoodsService {
+public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsGoods> implements
+    ApsGoodsService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsProcessPathService apsProcessPathService;
@@ -53,12 +57,14 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
     MPJLambdaWrapper<ApsGoods> q = getWrapper(req.getData());
     List<ApsGoods> list = this.list(q);
 
-    List<ApsGoodsDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsDto.class)).collect(Collectors.toList());
+    List<ApsGoodsDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsDto.class))
+        .collect(Collectors.toList());
 
     return new ApsGoodsQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(ApsGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoods> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -67,14 +73,16 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
     List<ApsGoodsExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsGoods> list = this.page(page, q);
-      IPage<ApsGoodsExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsGoodsExportQueryPageListInfoRes.class));
+      IPage<ApsGoodsExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsGoodsExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsGoodsExportQueryPageListInfoRes.class);
     }
 
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsGoodsExportQueryPageListInfoRes.class);
+    List<ApsGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsGoodsExportQueryPageListInfoRes.class);
     //setName(listInfoRes);
     ((ApsGoodsServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -85,7 +93,11 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
   public @Override void setName(List<? extends ApsGoodsDto> apsGoodsDtoList) {
 
     setNameService.setName(apsGoodsDtoList,//
-        SetNamePojoUtils.OP_USER_NAME, SetNamePojoUtils.getSetNamePojo(ApsProduceProcessService.class, "produceProcessName", "produceProcessId", "produceProcessName"), SetNamePojoUtils.getSetNamePojo(ApsProcessPathService.class, "processPathName", "processPathId", "processPathName")
+        SetNamePojoUtils.OP_USER_NAME,
+        SetNamePojoUtils.getSetNamePojo(ApsProduceProcessService.class, "produceProcessName",
+            "produceProcessId", "produceProcessName"),
+        SetNamePojoUtils.getSetNamePojo(ApsProcessPathService.class, "processPathName",
+            "processPathId", "processPathName")
 
     );
 
@@ -106,8 +118,8 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
     MPJLambdaWrapper<ApsGoods> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, eq, ApsGoods::getFactoryId);
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, likeRight, ApsGoods::getGoodsName, ApsGoods::getGoodsRemark);
-
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, likeRight, ApsGoods::getGoodsName,
+        ApsGoods::getGoodsRemark);
 
     q.orderByDesc(ApsGoods::getId);
     return q;

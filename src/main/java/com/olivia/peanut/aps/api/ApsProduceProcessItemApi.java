@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +37,36 @@ public interface ApsProduceProcessItemApi {
    * 保存 aps 生产机器
    */
   @PostMapping("/apsProduceProcessItem/insert")
-  ApsProduceProcessItemInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProduceProcessItemInsertReq req);
+  ApsProduceProcessItemInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsProduceProcessItemInsertReq req);
 
   /**
    * 根据ID 删除 aps 生产机器
    */
   @PostMapping("/apsProduceProcessItem/deleteByIdList")
-  ApsProduceProcessItemDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProduceProcessItemDeleteByIdListReq req);
+  ApsProduceProcessItemDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsProduceProcessItemDeleteByIdListReq req);
 
   /**
    * 查询 aps 生产机器
    */
   @PostMapping("/apsProduceProcessItem/queryList")
-  ApsProduceProcessItemQueryListRes queryList(@RequestBody @Valid ApsProduceProcessItemQueryListReq req);
+  ApsProduceProcessItemQueryListRes queryList(
+      @RequestBody @Valid ApsProduceProcessItemQueryListReq req);
 
   /**
    * 根据ID 更新 aps 生产机器
    */
   @PostMapping("/apsProduceProcessItem/updateById")
-  ApsProduceProcessItemUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProduceProcessItemUpdateByIdReq req);
+  ApsProduceProcessItemUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsProduceProcessItemUpdateByIdReq req);
 
   /**
    * 分页查询 aps 生产机器
    */
   @PostMapping("/apsProduceProcessItem/queryPageList")
-  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProduceProcessItemExportQueryPageListReq req);
+  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsProduceProcessItemExportQueryPageListReq req);
 
   /**
    * 导出 aps 生产机器
@@ -68,7 +85,8 @@ public interface ApsProduceProcessItemApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProduceProcessItem/queryByIdList")
-  ApsProduceProcessItemQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProduceProcessItemQueryByIdListReq req);
+  ApsProduceProcessItemQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsProduceProcessItemQueryByIdListReq req);
 
 
 }

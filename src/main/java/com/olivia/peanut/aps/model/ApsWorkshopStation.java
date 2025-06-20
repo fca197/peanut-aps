@@ -19,6 +19,7 @@ import lombok.experimental.Accessors;
 //
 @TableName("aps_workshop_station")
 public class ApsWorkshopStation extends BaseEntity {
+
   /***
    *  工位名称
    */

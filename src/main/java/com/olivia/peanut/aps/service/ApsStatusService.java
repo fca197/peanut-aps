@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsStatus.*;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDto;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListRes;
 import com.olivia.peanut.aps.model.ApsStatus;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsStatusService extends MPJBaseService<ApsStatus> {
 
   ApsStatusQueryListRes queryList(ApsStatusQueryListReq req);
 
-  DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req);
+  DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
+      ApsStatusExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsStatusDto> apsStatusDtoList);

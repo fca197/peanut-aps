@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsProduceProcessItem;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * aps 生产机器(ApsProduceProcessItem)保存返回
@@ -17,6 +16,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsProduceProcessItemImportRes {
+
   /****
    * 写入行数
    */

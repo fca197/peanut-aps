@@ -14,7 +14,8 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2024-11-26 15:49:28
  */
 @Slf4j
-public class ApsLogisticsPathImportListener extends AbstractImportListener<ApsLogisticsPathImportReq> {
+public class ApsLogisticsPathImportListener extends
+    AbstractImportListener<ApsLogisticsPathImportReq> {
 
   @Override
   public void invoke(ApsLogisticsPathImportReq data, AnalysisContext analysisContext) {

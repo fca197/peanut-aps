@@ -1,5 +1,7 @@
 package com.olivia.peanut.aps.service.impl;
 
+import static cn.hutool.core.util.NumberUtil.decimalFormat;
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -9,30 +11,54 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsSaleHistoryMapper;
-import com.olivia.peanut.aps.model.*;
-import com.olivia.peanut.aps.service.*;
+import com.olivia.peanut.aps.model.ApsGoods;
+import com.olivia.peanut.aps.model.ApsGoodsSaleItem;
+import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
+import com.olivia.peanut.aps.model.ApsOrderGoodsSaleHistory;
+import com.olivia.peanut.aps.model.ApsSaleConfig;
+import com.olivia.peanut.aps.service.ApsGoodsService;
+import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
+import com.olivia.peanut.aps.service.ApsOrderGoodsSaleHistoryService;
+import com.olivia.peanut.aps.service.ApsOrderGoodsService;
+import com.olivia.peanut.aps.service.ApsSaleConfigService;
 import com.olivia.peanut.aps.service.impl.po.ApsOrderGoodsSaleHistoryCount;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.*;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.BigDecimalUtils;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.FieldUtils;
+import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.RunUtils;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static cn.hutool.core.util.NumberUtil.decimalFormat;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 销售规划订单历史销售占比(ApsOrderGoodsSaleHistory)表服务实现类
@@ -43,9 +69,12 @@ import static cn.hutool.core.util.NumberUtil.decimalFormat;
 @Slf4j
 @Service("apsOrderGoodsSaleHistoryService")
 @Transactional
-public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsSaleHistoryMapper, ApsOrderGoodsSaleHistory> implements ApsOrderGoodsSaleHistoryService {
+public class ApsOrderGoodsSaleHistoryServiceImpl extends
+    MPJBaseServiceImpl<ApsOrderGoodsSaleHistoryMapper, ApsOrderGoodsSaleHistory> implements
+    ApsOrderGoodsSaleHistoryService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -62,18 +91,21 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
   @Resource
   ApsOrderGoodsService apsOrderGoodsService;
 
-  public @Override ApsOrderGoodsSaleHistoryQueryListRes queryList(ApsOrderGoodsSaleHistoryQueryListReq req) {
+  public @Override ApsOrderGoodsSaleHistoryQueryListRes queryList(
+      ApsOrderGoodsSaleHistoryQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsSaleHistory> q = getWrapper(req.getData());
     List<ApsOrderGoodsSaleHistory> list = this.list(q);
 
-    List<ApsOrderGoodsSaleHistoryDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsSaleHistoryDto.class)).collect(Collectors.toList());
+    List<ApsOrderGoodsSaleHistoryDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsOrderGoodsSaleHistoryDto.class)).collect(Collectors.toList());
     ((ApsOrderGoodsSaleHistoryService) AopContext.currentProxy()).setName(dataList);
     return new ApsOrderGoodsSaleHistoryQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsSaleHistoryExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsSaleHistoryExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsSaleHistory> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -82,7 +114,8 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
     List<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsOrderGoodsSaleHistory> list = this.page(page, q);
-      IPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes.class));
+      IPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes.class);
@@ -90,7 +123,8 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
 
     // 类型转换，  更换枚举 等操作 
 
-    List<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes.class);
     ((ApsOrderGoodsSaleHistoryService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -110,7 +144,6 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
     LocalDateTime beginDate = req.getBeginDate();
     LocalDateTime endDate = req.getEndDate();
 
-
     List<ApsOrderGoodsSaleHistory> insertList = new ArrayList<>();
 
     goodsList.forEach(goods -> {
@@ -120,21 +153,26 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
       List<ApsOrderGoodsSaleHistoryCount> apsOrderGoodsSaleConfigList = new ArrayList<>();
       runnableList.add(() -> {
         // 查询订单历史销售配置
-        apsOrderGoodsSaleConfigList.addAll(apsOrderGoodsSaleConfigService.listMaps(new QueryWrapper<ApsOrderGoodsSaleConfig>()//
+        apsOrderGoodsSaleConfigList.addAll(
+            apsOrderGoodsSaleConfigService.listMaps(new QueryWrapper<ApsOrderGoodsSaleConfig>()//
 //        .in(ApsOrderGoodsSaleConfig::getFactoryId, factoryIdList)
-                .select("config_id saleConfigId", "count(1) total").lambda()//
-                .eq(ApsOrderGoodsSaleConfig::getGoodsId, goodsId) //
-                .ge(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate).groupBy(ApsOrderGoodsSaleConfig::getConfigId)) //
-            .stream().map(ApsOrderGoodsSaleHistoryCount::new).toList());
+                    .select("config_id saleConfigId", "count(1) total").lambda()//
+                    .eq(ApsOrderGoodsSaleConfig::getGoodsId, goodsId) //
+                    .ge(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate)
+                    .groupBy(ApsOrderGoodsSaleConfig::getConfigId)) //
+                .stream().map(ApsOrderGoodsSaleHistoryCount::new).toList());
         if (log.isDebugEnabled()) {
-          log.debug("apsOrderGoodsSaleConfigList {}", JSON.toJSONString(apsOrderGoodsSaleConfigList));
+          log.debug("apsOrderGoodsSaleConfigList {}",
+              JSON.toJSONString(apsOrderGoodsSaleConfigList));
         }
       });
       AtomicLong goodsCount = new AtomicLong();
       // 查询总数
       runnableList.add(() -> {
-        long count = this.apsOrderGoodsSaleConfigService.count(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().eq(ApsOrderGoodsSaleConfig::getGoodsId, goodsId)//
-            .gt(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate));
+        long count = this.apsOrderGoodsSaleConfigService.count(
+            new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().eq(
+                    ApsOrderGoodsSaleConfig::getGoodsId, goodsId)//
+                .gt(BaseEntity::getCreateTime, beginDate).le(BaseEntity::getCreateTime, endDate));
         goodsCount.set(count);
         if (log.isDebugEnabled()) {
           log.debug("goodsCount {}", JSON.toJSONString(count));
@@ -142,11 +180,15 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
       });
       // 查询已生成的订单历史销售配置
       runnableList.add(() -> {
-        List<Map<String, Object>> listGoodsSaleMaps = this.listMaps(new QueryWrapper<ApsOrderGoodsSaleHistory>() //
-            .select("factory_id fid ", "goods_id gid", "sale_config_id sid", "count(1) c").lambda()//
-            .eq(ApsOrderGoodsSaleHistory::getGoodsId, goodsId)//
-            .eq(ApsOrderGoodsSaleHistory::getYear, beginDate.getYear())//
-            .groupBy(ApsOrderGoodsSaleHistory::getFactoryId, ApsOrderGoodsSaleHistory::getGoodsId, ApsOrderGoodsSaleHistory::getSaleConfigId));
+        List<Map<String, Object>> listGoodsSaleMaps = this.listMaps(
+            new QueryWrapper<ApsOrderGoodsSaleHistory>() //
+                .select("factory_id fid ", "goods_id gid", "sale_config_id sid", "count(1) c")
+                .lambda()//
+                .eq(ApsOrderGoodsSaleHistory::getGoodsId, goodsId)//
+                .eq(ApsOrderGoodsSaleHistory::getYear, beginDate.getYear())//
+                .groupBy(ApsOrderGoodsSaleHistory::getFactoryId,
+                    ApsOrderGoodsSaleHistory::getGoodsId,
+                    ApsOrderGoodsSaleHistory::getSaleConfigId));
 //        log.info("listGoodsSaleMaps {}", JSON.toJSONString(listGoodsSaleMaps));
         if (log.isDebugEnabled()) {
           log.debug("listGoodsSaleMaps {}", JSON.toJSONString(listGoodsSaleMaps));
@@ -156,9 +198,12 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
       // 查询已生成的订单历史销售配置 查询销售配置ID
       Map<Long, Long> saleHistoryIdMap = new HashMap<>();
       runnableList.add(() -> {
-        Map<Long, Long> tMap = this.lambdaQuery().select(BaseEntity::getId, ApsOrderGoodsSaleHistory::getSaleConfigId)//
-            .eq(ApsOrderGoodsSaleHistory::getGoodsId, goodsId).eq(ApsOrderGoodsSaleHistory::getYear, beginDate.getYear()).list()//
-            .stream().collect(Collectors.toMap(ApsOrderGoodsSaleHistory::getSaleConfigId, BaseEntity::getId));
+        Map<Long, Long> tMap = this.lambdaQuery()
+            .select(BaseEntity::getId, ApsOrderGoodsSaleHistory::getSaleConfigId)//
+            .eq(ApsOrderGoodsSaleHistory::getGoodsId, goodsId)
+            .eq(ApsOrderGoodsSaleHistory::getYear, beginDate.getYear()).list()//
+            .stream().collect(
+                Collectors.toMap(ApsOrderGoodsSaleHistory::getSaleConfigId, BaseEntity::getId));
         saleHistoryIdMap.putAll(tMap);
         if (log.isDebugEnabled()) {
           log.debug("tMap {}", JSON.toJSONString(tMap));
@@ -168,9 +213,12 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
 //      Map<Long, List<ApsSaleConfig>> saleParentMap = new HashMap<>();
       Map<Long, ApsSaleConfig> saleAllMap = new HashMap<>();
       runnableList.add(() -> {
-        Map<Long, ApsSaleConfig> saleParentMapTmp = apsSaleConfigService.list(new MPJLambdaWrapper<ApsSaleConfig>() //
-            .leftJoin(ApsGoodsSaleItem.class, ApsGoodsSaleItem::getSaleConfigId, ApsSaleConfig::getId) //
-            .eq(ApsGoodsSaleItem::getGoodsId, goodsId)).stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
+        Map<Long, ApsSaleConfig> saleParentMapTmp = apsSaleConfigService.list(
+                new MPJLambdaWrapper<ApsSaleConfig>() //
+                    .leftJoin(ApsGoodsSaleItem.class, ApsGoodsSaleItem::getSaleConfigId,
+                        ApsSaleConfig::getId) //
+                    .eq(ApsGoodsSaleItem::getGoodsId, goodsId)).stream()
+            .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
 //            .stream().collect(Collectors.groupingBy(ApsSaleConfig::getParentId,//
 //            Collectors.collectingAndThen(Collectors.<ApsSaleConfig>toList(),//
 //                list -> list.stream().sorted(Comparator.comparing(ApsSaleConfig::getSaleCode)).toList())));
@@ -178,32 +226,43 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
         if (log.isDebugEnabled()) {
           log.debug("saleParentMapTmp {}", JSON.toJSONString(saleParentMapTmp));
         }
-        Set<Long> idSet = saleParentMapTmp.values().stream().map(ApsSaleConfig::getParentId).collect(Collectors.toSet());
+        Set<Long> idSet = saleParentMapTmp.values().stream().map(ApsSaleConfig::getParentId)
+            .collect(Collectors.toSet());
         saleAllMap.putAll(saleParentMapTmp);
-        saleAllMap.putAll(apsSaleConfigService.listByIds(idSet).stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
+        saleAllMap.putAll(apsSaleConfigService.listByIds(idSet).stream()
+            .collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
       });
 
       RunUtils.run("selectOrder2History", runnableList);
 
-
-      Map<Long, ApsOrderGoodsSaleHistoryCount> historyCountMap = apsOrderGoodsSaleConfigList.stream().collect(Collectors.toMap(ApsOrderGoodsSaleHistoryCount::getSaleConfigId, Function.identity()));
-      saleAllMap.values().stream().filter(t -> Objects.equals(t.getIsValue(), 1)).collect(Collectors.groupingBy(ApsSaleConfig::getParentId,//
-          Collectors.collectingAndThen(Collectors.<ApsSaleConfig>toList(),//
-              list -> list.stream().sorted(Comparator.comparing(ApsSaleConfig::getSaleCode)).toList()))).forEach((p, ll) -> {
-        BigDecimal useBigDecimal = new BigDecimal(0);
-        for (int i = 0; i < ll.size() - 1; i++) {
-          ApsSaleConfig saleConfig = ll.get(i);
-          ApsSaleConfig parentSaleConfig = saleAllMap.getOrDefault(saleConfig.getParentId(), new ApsSaleConfig());
-          ApsOrderGoodsSaleHistoryCount historyCount = historyCountMap.getOrDefault(saleConfig.getId(), new ApsOrderGoodsSaleHistoryCount());
-          Long o = $.firstNotNull(historyCount.getTotal(), 0L);
-          BigDecimal tmp = goodsCount.get() != 0 ? BigDecimal.valueOf(o * 1.0 / goodsCount.get()).setScale(4, RoundingMode.HALF_UP) : BigDecimal.ZERO;
-          useBigDecimal = useBigDecimal.add(tmp);
-          sale2history(goods, historyCountMap, saleConfig, saleHistoryIdMap, beginDate, tmp, insertList, parentSaleConfig);
-        }
-        ApsSaleConfig saleConfig = ll.getLast();
-        ApsSaleConfig parentSaleConfig = saleAllMap.getOrDefault(saleConfig.getParentId(), new ApsSaleConfig());
-        sale2history(goods, historyCountMap, saleConfig, saleHistoryIdMap, beginDate, BigDecimal.ONE.subtract(useBigDecimal), insertList, parentSaleConfig);
-      });
+      Map<Long, ApsOrderGoodsSaleHistoryCount> historyCountMap = apsOrderGoodsSaleConfigList.stream()
+          .collect(Collectors.toMap(ApsOrderGoodsSaleHistoryCount::getSaleConfigId,
+              Function.identity()));
+      saleAllMap.values().stream().filter(t -> Objects.equals(t.getIsValue(), 1))
+          .collect(Collectors.groupingBy(ApsSaleConfig::getParentId,//
+              Collectors.collectingAndThen(Collectors.<ApsSaleConfig>toList(),//
+                  list -> list.stream().sorted(Comparator.comparing(ApsSaleConfig::getSaleCode))
+                      .toList()))).forEach((p, ll) -> {
+            BigDecimal useBigDecimal = new BigDecimal(0);
+            for (int i = 0; i < ll.size() - 1; i++) {
+              ApsSaleConfig saleConfig = ll.get(i);
+              ApsSaleConfig parentSaleConfig = saleAllMap.getOrDefault(saleConfig.getParentId(),
+                  new ApsSaleConfig());
+              ApsOrderGoodsSaleHistoryCount historyCount = historyCountMap.getOrDefault(
+                  saleConfig.getId(), new ApsOrderGoodsSaleHistoryCount());
+              Long o = $.firstNotNull(historyCount.getTotal(), 0L);
+              BigDecimal tmp = goodsCount.get() != 0 ? BigDecimal.valueOf(o * 1.0 / goodsCount.get())
+                  .setScale(4, RoundingMode.HALF_UP) : BigDecimal.ZERO;
+              useBigDecimal = useBigDecimal.add(tmp);
+              sale2history(goods, historyCountMap, saleConfig, saleHistoryIdMap, beginDate, tmp,
+                  insertList, parentSaleConfig);
+            }
+            ApsSaleConfig saleConfig = ll.getLast();
+            ApsSaleConfig parentSaleConfig = saleAllMap.getOrDefault(saleConfig.getParentId(),
+                new ApsSaleConfig());
+            sale2history(goods, historyCountMap, saleConfig, saleHistoryIdMap, beginDate,
+                BigDecimal.ONE.subtract(useBigDecimal), insertList, parentSaleConfig);
+          });
 
     });
     this.updateBatchById(insertList.stream().filter(t -> Objects.nonNull(t.getId())).toList());
@@ -212,28 +271,39 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
     return res;
   }
 
-  private void sale2history(ApsGoods goods, Map<Long, ApsOrderGoodsSaleHistoryCount> historyCountMap, ApsSaleConfig saleConfig, //
-                            Map<Long, Long> saleHistoryIdMap, LocalDateTime beginDate, BigDecimal useBigDecimal, List<ApsOrderGoodsSaleHistory> insertList //
+  private void sale2history(ApsGoods goods,
+      Map<Long, ApsOrderGoodsSaleHistoryCount> historyCountMap, ApsSaleConfig saleConfig, //
+      Map<Long, Long> saleHistoryIdMap, LocalDateTime beginDate, BigDecimal useBigDecimal,
+      List<ApsOrderGoodsSaleHistory> insertList //
       , ApsSaleConfig parentSaleConfig) {
-    ApsOrderGoodsSaleHistoryCount historyCount = historyCountMap.getOrDefault(saleConfig.getId(), new ApsOrderGoodsSaleHistoryCount());
+    ApsOrderGoodsSaleHistoryCount historyCount = historyCountMap.getOrDefault(saleConfig.getId(),
+        new ApsOrderGoodsSaleHistoryCount());
     if (Objects.isNull(historyCount)) {
       return;
     }
-    ApsOrderGoodsSaleHistory history = apsOrderGoodsSaleHistory(saleHistoryIdMap, saleConfig, goods, beginDate, parentSaleConfig);
+    ApsOrderGoodsSaleHistory history = apsOrderGoodsSaleHistory(saleHistoryIdMap, saleConfig, goods,
+        beginDate, parentSaleConfig);
     String month = decimalFormat("00", beginDate.getMonthValue());
-    ReflectUtil.setFieldValue(history, FieldUtils.getField(ApsOrderGoodsSaleHistory.class, "monthRatio" + month), useBigDecimal);
-    ReflectUtil.setFieldValue(history, FieldUtils.getField(ApsOrderGoodsSaleHistory.class, "monthCount" + month), historyCount.getTotal());
+    ReflectUtil.setFieldValue(history,
+        FieldUtils.getField(ApsOrderGoodsSaleHistory.class, "monthRatio" + month), useBigDecimal);
+    ReflectUtil.setFieldValue(history,
+        FieldUtils.getField(ApsOrderGoodsSaleHistory.class, "monthCount" + month),
+        historyCount.getTotal());
     insertList.add(history);
   }
 
-  private ApsOrderGoodsSaleHistory apsOrderGoodsSaleHistory(Map<Long, Long> saleHistoryIdMap, ApsSaleConfig apsSaleConfig, ApsGoods apsGoods, LocalDateTime localDateTime, ApsSaleConfig parentSaleConfig) {
+  private ApsOrderGoodsSaleHistory apsOrderGoodsSaleHistory(Map<Long, Long> saleHistoryIdMap,
+      ApsSaleConfig apsSaleConfig, ApsGoods apsGoods, LocalDateTime localDateTime,
+      ApsSaleConfig parentSaleConfig) {
     ApsOrderGoodsSaleHistory history = new ApsOrderGoodsSaleHistory();
     history.setId(saleHistoryIdMap.get(apsSaleConfig.getId()));
-    return history.setSaleConfigId(apsSaleConfig.getId()).setSaleParentId(apsSaleConfig.getParentId()) //
-        .setGoodsId(apsGoods.getId()).setGoodsName(apsGoods.getGoodsName()).setFactoryId(apsGoods.getFactoryId()).setYear(localDateTime.getYear())//
-        .setGoodsName(history.getGoodsName()).setSaleConfigName(apsSaleConfig.getSaleName()).setSaleParentConfigName(parentSaleConfig.getSaleName());
+    return history.setSaleConfigId(apsSaleConfig.getId())
+        .setSaleParentId(apsSaleConfig.getParentId()) //
+        .setGoodsId(apsGoods.getId()).setGoodsName(apsGoods.getGoodsName())
+        .setFactoryId(apsGoods.getFactoryId()).setYear(localDateTime.getYear())//
+        .setGoodsName(history.getGoodsName()).setSaleConfigName(apsSaleConfig.getSaleName())
+        .setSaleParentConfigName(parentSaleConfig.getSaleName());
   }
-
 
   // 以下为私有对象封装
 
@@ -249,7 +319,6 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
   @SuppressWarnings("unchecked")
   private MPJLambdaWrapper<ApsOrderGoodsSaleHistory> getWrapper(ApsOrderGoodsSaleHistoryDto obj) {
     MPJLambdaWrapper<ApsOrderGoodsSaleHistory> q = new MPJLambdaWrapper<>();
-
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsOrderGoodsSaleHistory.class
         // 查询条件
@@ -283,8 +352,8 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsO
         , ApsOrderGoodsSaleHistory::getMonthRatio12 //
     );
 
-
-    q.orderByDesc(ApsOrderGoodsSaleHistory::getGoodsId, ApsOrderGoodsSaleHistory::getSaleParentId, ApsOrderGoodsSaleHistory::getSaleConfigId);
+    q.orderByDesc(ApsOrderGoodsSaleHistory::getGoodsId, ApsOrderGoodsSaleHistory::getSaleParentId,
+        ApsOrderGoodsSaleHistory::getSaleConfigId);
     return q;
 
   }

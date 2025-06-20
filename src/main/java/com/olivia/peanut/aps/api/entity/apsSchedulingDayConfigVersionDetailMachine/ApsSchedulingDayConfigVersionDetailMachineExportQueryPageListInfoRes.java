@@ -14,7 +14,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes extends ApsSchedulingDayConfigVersionDetailMachineDto {
+public class ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes extends
+    ApsSchedulingDayConfigVersionDetailMachineDto {
 
   private Long cellIndex;
   private long colSpan;

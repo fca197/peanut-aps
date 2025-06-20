@@ -1,6 +1,20 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -26,31 +40,36 @@ public interface ApsGoodsBomBuyPlanItemApi {
    * 保存 BOM 购买清单
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/insert")
-  ApsGoodsBomBuyPlanItemInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsBomBuyPlanItemInsertReq req);
+  ApsGoodsBomBuyPlanItemInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsBomBuyPlanItemInsertReq req);
 
   /**
    * 根据ID 删除 BOM 购买清单
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/deleteByIdList")
-  ApsGoodsBomBuyPlanItemDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsBomBuyPlanItemDeleteByIdListReq req);
+  ApsGoodsBomBuyPlanItemDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsBomBuyPlanItemDeleteByIdListReq req);
 
   /**
    * 查询 BOM 购买清单
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/queryList")
-  ApsGoodsBomBuyPlanItemQueryListRes queryList(@RequestBody @Valid ApsGoodsBomBuyPlanItemQueryListReq req);
+  ApsGoodsBomBuyPlanItemQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsBomBuyPlanItemQueryListReq req);
 
   /**
    * 根据ID 更新 BOM 购买清单
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/updateById")
-  ApsGoodsBomBuyPlanItemUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsBomBuyPlanItemUpdateByIdReq req);
+  ApsGoodsBomBuyPlanItemUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsBomBuyPlanItemUpdateByIdReq req);
 
   /**
    * 分页查询 BOM 购买清单
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/queryPageList")
-  DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsBomBuyPlanItemExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsBomBuyPlanItemExportQueryPageListReq req);
 
   /**
    * 导出 BOM 购买清单
@@ -69,7 +88,8 @@ public interface ApsGoodsBomBuyPlanItemApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsBomBuyPlanItem/queryByIdList")
-  ApsGoodsBomBuyPlanItemQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsBomBuyPlanItemQueryByIdListReq req);
+  ApsGoodsBomBuyPlanItemQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsBomBuyPlanItemQueryByIdListReq req);
 
 
   @RequestMapping("/apsGoodsBomBuyPlanItem/sendMail2supplier")

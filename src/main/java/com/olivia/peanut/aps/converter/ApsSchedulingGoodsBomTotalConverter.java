@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsBomTotal;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingGoodsBomTotalConverter {
-  ApsSchedulingGoodsBomTotalConverter INSTANCE = Mappers.getMapper(ApsSchedulingGoodsBomTotalConverter.class);
+
+  ApsSchedulingGoodsBomTotalConverter INSTANCE = Mappers.getMapper(
+      ApsSchedulingGoodsBomTotalConverter.class);
 
   ApsSchedulingGoodsBomTotal insertReq(ApsSchedulingGoodsBomTotalInsertReq req);
 
@@ -17,7 +23,8 @@ public interface ApsSchedulingGoodsBomTotalConverter {
 
   List<ApsSchedulingGoodsBomTotalDto> queryListRes(List<ApsSchedulingGoodsBomTotal> list);
 
-  List<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingGoodsBomTotal> list);
+  List<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsSchedulingGoodsBomTotal> list);
 
   List<ApsSchedulingGoodsBomTotal> importReq(List<ApsSchedulingGoodsBomTotalImportReq> reqList);
 }

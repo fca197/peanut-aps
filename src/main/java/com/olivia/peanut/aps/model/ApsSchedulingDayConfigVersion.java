@@ -1,22 +1,20 @@
 package com.olivia.peanut.aps.model;
 
 
+import static org.apache.ibatis.type.JdbcType.ARRAY;
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.peanut.aps.enums.ApsSchedulingDayConfigVersionProductType;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.ListKVTypeHandler;
 import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
-import com.olivia.sdk.mybatis.type.ListMapTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDate;
-import java.util.List;
-
-import static org.apache.ibatis.type.JdbcType.ARRAY;
 
 /**
  * 排程版本(ApsSchedulingDayConfigVersion)表实体类

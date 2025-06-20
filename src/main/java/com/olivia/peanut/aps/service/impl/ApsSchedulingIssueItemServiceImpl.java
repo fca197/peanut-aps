@@ -8,7 +8,15 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountRes;
 import com.olivia.peanut.aps.mapper.ApsSchedulingIssueItemMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.model.ApsSchedulingIssueItem;
@@ -20,13 +28,13 @@ import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.portal.api.entity.EChartResDto;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.*;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.DateUtils;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.StreamUtils;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +42,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 排产下发详情(ApsSchedulingIssueItem)表服务实现类
@@ -43,9 +54,12 @@ import java.util.stream.Collectors;
  */
 @Service("apsSchedulingIssueItemService")
 @Transactional
-public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSchedulingIssueItemMapper, ApsSchedulingIssueItem> implements ApsSchedulingIssueItemService {
+public class ApsSchedulingIssueItemServiceImpl extends
+    MPJBaseServiceImpl<ApsSchedulingIssueItemMapper, ApsSchedulingIssueItem> implements
+    ApsSchedulingIssueItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -61,9 +75,10 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
   @Override
   @Transactional
   public ApsSchedulingIssueItemInsertRes save(ApsSchedulingIssueItemInsertReq req) {
-    List<ApsSchedulingVersionCapacity> capacityList = this.apsSchedulingVersionCapacityService.list(new LambdaQueryWrapper<ApsSchedulingVersionCapacity>()
-        .eq(ApsSchedulingVersionCapacity::getSchedulingVersionId, req.getSchedulingVersionId())
-        .in(ApsSchedulingVersionCapacity::getCurrentDay, req.getScheduledDayList()));
+    List<ApsSchedulingVersionCapacity> capacityList = this.apsSchedulingVersionCapacityService.list(
+        new LambdaQueryWrapper<ApsSchedulingVersionCapacity>()
+            .eq(ApsSchedulingVersionCapacity::getSchedulingVersionId, req.getSchedulingVersionId())
+            .in(ApsSchedulingVersionCapacity::getCurrentDay, req.getScheduledDayList()));
     $.requireNonNullCanIgnoreException(capacityList, "排产数据为空");
     List<ApsSchedulingIssueItem> issueItemList = capacityList.stream().map(
         t -> new ApsSchedulingIssueItem().setSchedulingVersionId(req.getSchedulingVersionId())
@@ -71,24 +86,29 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
             .setOrderNo(t.getOrderNo())
             .setNumberIndex(t.getNumberIndex()).setFactoryId(t.getFactoryId())
     ).toList();
-    this.remove(new LambdaUpdateWrapper<ApsSchedulingIssueItem>().in(ApsSchedulingIssueItem::getCurrentDay, req.getScheduledDayList()));
+    this.remove(
+        new LambdaUpdateWrapper<ApsSchedulingIssueItem>().in(ApsSchedulingIssueItem::getCurrentDay,
+            req.getScheduledDayList()));
     this.saveBatch(issueItemList);
 
     return new ApsSchedulingIssueItemInsertRes().setCount(issueItemList.size());
   }
 
-  public @Override ApsSchedulingIssueItemQueryListRes queryList(ApsSchedulingIssueItemQueryListReq req) {
+  public @Override ApsSchedulingIssueItemQueryListRes queryList(
+      ApsSchedulingIssueItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingIssueItem> q = getWrapper(req.getData());
     List<ApsSchedulingIssueItem> list = this.list(q);
 
-    List<ApsSchedulingIssueItemDto> dataList = list.stream().map(t -> $.copy(t, ApsSchedulingIssueItemDto.class)).collect(Collectors.toList());
+    List<ApsSchedulingIssueItemDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsSchedulingIssueItemDto.class)).collect(Collectors.toList());
     ((ApsSchedulingIssueItemService) AopContext.currentProxy()).setName(dataList);
     return new ApsSchedulingIssueItemQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingIssueItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingIssueItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingIssueItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -97,7 +117,8 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
     List<ApsSchedulingIssueItemExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSchedulingIssueItem> list = this.page(page, q);
-      IPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSchedulingIssueItemExportQueryPageListInfoRes.class));
+      IPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsSchedulingIssueItemExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsSchedulingIssueItemExportQueryPageListInfoRes.class);
@@ -105,7 +126,8 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsSchedulingIssueItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsSchedulingIssueItemExportQueryPageListInfoRes.class);
+    List<ApsSchedulingIssueItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsSchedulingIssueItemExportQueryPageListInfoRes.class);
     ((ApsSchedulingIssueItemService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -120,18 +142,23 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
     LocalDate now = LocalDate.now();
     LocalDate beginDate = now.minusDays(7);
     LocalDate endDate = now.plusDays(7);
-    List<ApsSchedulingIssueItem> apsSchedulingIssueItemList = this.list(new QueryWrapper<ApsSchedulingIssueItem>().select("goods_id", "current_day", Str.ROW_TOTAL)
-        .lambda().between(ApsSchedulingIssueItem::getCurrentDay, beginDate, endDate)
-        .groupBy(ApsSchedulingIssueItem::getCurrentDay, ApsSchedulingIssueItem::getGoodsId));
+    List<ApsSchedulingIssueItem> apsSchedulingIssueItemList = this.list(
+        new QueryWrapper<ApsSchedulingIssueItem>().select("goods_id", "current_day", Str.ROW_TOTAL)
+            .lambda().between(ApsSchedulingIssueItem::getCurrentDay, beginDate, endDate)
+            .groupBy(ApsSchedulingIssueItem::getCurrentDay, ApsSchedulingIssueItem::getGoodsId));
 
     List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(beginDate, endDate);
     List<String> xDataList = localDateBetween.stream().map(LocalDate::toString).toList();
 
     List<EChartResDto.Series> seriesList = new ArrayList<>(apsGoodsList.size());
     apsGoodsList.forEach(g -> {
-      Map<LocalDate, Long> dayCountMap = apsSchedulingIssueItemList.stream().filter(t -> Objects.equals(t.getGoodsId(), g.getId()))
-          .collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
-      seriesList.add(new EChartResDto.Series().setData(localDateBetween.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList()).setName(g.getGoodsName()));
+      Map<LocalDate, Long> dayCountMap = apsSchedulingIssueItemList.stream()
+          .filter(t -> Objects.equals(t.getGoodsId(), g.getId()))
+          .collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay,
+              BaseEntity::getRowTotal));
+      seriesList.add(new EChartResDto.Series().setData(
+              localDateBetween.stream().map(t -> dayCountMap.getOrDefault(t, 0L)).toList())
+          .setName(g.getGoodsName()));
     });
 
 //    Map<String, Long> dayCountMap = apsSchedulingIssueItemList.stream().collect(StreamUtils.toMapWithNullKeys(ApsSchedulingIssueItem::getCurrentDay, BaseEntity::getRowTotal));
@@ -155,11 +182,16 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
 
     if (Objects.nonNull(obj)) {
       q
-          .eq(Objects.nonNull(obj.getCurrentDay()), ApsSchedulingIssueItem::getCurrentDay, obj.getCurrentDay())
-          .eq(Objects.nonNull(obj.getOrderId()), ApsSchedulingIssueItem::getOrderId, obj.getOrderId())
-          .eq(Objects.nonNull(obj.getGoodsId()), ApsSchedulingIssueItem::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getNumberIndex()), ApsSchedulingIssueItem::getNumberIndex, obj.getNumberIndex())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsSchedulingIssueItem::getFactoryId, obj.getFactoryId())
+          .eq(Objects.nonNull(obj.getCurrentDay()), ApsSchedulingIssueItem::getCurrentDay,
+              obj.getCurrentDay())
+          .eq(Objects.nonNull(obj.getOrderId()), ApsSchedulingIssueItem::getOrderId,
+              obj.getOrderId())
+          .eq(Objects.nonNull(obj.getGoodsId()), ApsSchedulingIssueItem::getGoodsId,
+              obj.getGoodsId())
+          .eq(Objects.nonNull(obj.getNumberIndex()), ApsSchedulingIssueItem::getNumberIndex,
+              obj.getNumberIndex())
+          .eq(Objects.nonNull(obj.getFactoryId()), ApsSchedulingIssueItem::getFactoryId,
+              obj.getFactoryId())
 
       ;
     }

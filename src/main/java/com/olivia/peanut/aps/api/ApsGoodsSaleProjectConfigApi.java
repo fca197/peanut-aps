@@ -1,19 +1,32 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * (ApsGoodsSaleProjectConfig)对外API
@@ -28,34 +41,40 @@ public interface ApsGoodsSaleProjectConfigApi {
    * 保存
    */
   @PostMapping("/apsGoodsSaleProjectConfig/insert")
-  ApsGoodsSaleProjectConfigInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsSaleProjectConfigInsertReq req);
+  ApsGoodsSaleProjectConfigInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsSaleProjectConfigInsertReq req);
 
   @PostMapping("/apsGoodsSaleProjectConfig/insertBatch")
-  ApsGoodsSaleProjectConfigInsertRes insertBatch(@RequestBody @Valid List<ApsGoodsSaleProjectConfigInsertReq> req);
+  ApsGoodsSaleProjectConfigInsertRes insertBatch(
+      @RequestBody @Valid List<ApsGoodsSaleProjectConfigInsertReq> req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsSaleProjectConfig/deleteByIdList")
-  ApsGoodsSaleProjectConfigDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsSaleProjectConfigDeleteByIdListReq req);
+  ApsGoodsSaleProjectConfigDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsSaleProjectConfigDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsGoodsSaleProjectConfig/queryList")
-  ApsGoodsSaleProjectConfigQueryListRes queryList(@RequestBody @Valid ApsGoodsSaleProjectConfigQueryListReq req);
+  ApsGoodsSaleProjectConfigQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsSaleProjectConfigQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsSaleProjectConfig/updateById")
-  ApsGoodsSaleProjectConfigUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsSaleProjectConfigUpdateByIdReq req);
+  ApsGoodsSaleProjectConfigUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsSaleProjectConfigUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsSaleProjectConfig/queryPageList")
-  DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsSaleProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsSaleProjectConfigExportQueryPageListReq req);
 
   /**
    * 导出
@@ -74,10 +93,12 @@ public interface ApsGoodsSaleProjectConfigApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsSaleProjectConfig/queryByIdList")
-  ApsGoodsSaleProjectConfigQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsSaleProjectConfigQueryByIdListReq req);
+  ApsGoodsSaleProjectConfigQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsSaleProjectConfigQueryByIdListReq req);
 
 
   @PostMapping("/apsGoodsSaleProjectConfig/sale2project")
-  ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(@RequestBody @Valid ApsGoodsSaleProjectConfigSale2ProjectReq req) throws ExecutionException;
+  ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(
+      @RequestBody @Valid ApsGoodsSaleProjectConfigSale2ProjectReq req) throws ExecutionException;
 
 }

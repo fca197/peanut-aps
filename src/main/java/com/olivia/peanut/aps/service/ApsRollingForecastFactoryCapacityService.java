@@ -1,11 +1,16 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDto;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListRes;
 import com.olivia.peanut.aps.model.ApsRollingForecastFactoryCapacity;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,14 +20,18 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-14 20:22:23
  */
-public interface ApsRollingForecastFactoryCapacityService extends MPJBaseService<ApsRollingForecastFactoryCapacity> {
+public interface ApsRollingForecastFactoryCapacityService extends
+    MPJBaseService<ApsRollingForecastFactoryCapacity> {
 
-  ApsRollingForecastFactoryCapacityQueryListRes queryList(ApsRollingForecastFactoryCapacityQueryListReq req);
+  ApsRollingForecastFactoryCapacityQueryListRes queryList(
+      ApsRollingForecastFactoryCapacityQueryListReq req);
 
-  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
+  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(
+      ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
 
 
-  void setName(List<? extends ApsRollingForecastFactoryCapacityDto> apsRollingForecastFactoryCapacityDtoList);
+  void setName(
+      List<? extends ApsRollingForecastFactoryCapacityDto> apsRollingForecastFactoryCapacityDtoList);
 
   ApsRollingForecastFactoryCapacityInsertRes save(ApsRollingForecastFactoryCapacityInsertReq req);
 

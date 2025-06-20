@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsGoodsForecastMakeBomUseApi {
    * 保存
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/insert")
-  ApsGoodsForecastMakeBomUseInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMakeBomUseInsertReq req);
+  ApsGoodsForecastMakeBomUseInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsGoodsForecastMakeBomUseInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/deleteByIdList")
-  ApsGoodsForecastMakeBomUseDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsGoodsForecastMakeBomUseDeleteByIdListReq req);
+  ApsGoodsForecastMakeBomUseDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsGoodsForecastMakeBomUseDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/queryList")
-  ApsGoodsForecastMakeBomUseQueryListRes queryList(@RequestBody @Valid ApsGoodsForecastMakeBomUseQueryListReq req);
+  ApsGoodsForecastMakeBomUseQueryListRes queryList(
+      @RequestBody @Valid ApsGoodsForecastMakeBomUseQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/updateById")
-  ApsGoodsForecastMakeBomUseUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMakeBomUseUpdateByIdReq req);
+  ApsGoodsForecastMakeBomUseUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsForecastMakeBomUseUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/queryPageList")
-  DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
 
   /**
    * 导出
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsGoodsForecastMakeBomUseApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsGoodsForecastMakeBomUse/queryByIdList")
-  ApsGoodsForecastMakeBomUseQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsForecastMakeBomUseQueryByIdListReq req);
+  ApsGoodsForecastMakeBomUseQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsGoodsForecastMakeBomUseQueryByIdListReq req);
 
 
 }

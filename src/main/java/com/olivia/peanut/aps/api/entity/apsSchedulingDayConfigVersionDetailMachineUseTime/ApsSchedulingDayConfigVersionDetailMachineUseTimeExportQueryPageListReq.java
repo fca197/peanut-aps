@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @Setter
 @SuppressWarnings("serial")
 public class ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListReq {
+
   private int pageNum;
   private int pageSize;
   private Boolean queryPage = true;

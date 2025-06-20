@@ -18,6 +18,15 @@ import com.olivia.sdk.utils.PoiExcelUtil.CellStyleEnum;
 import com.olivia.sdk.utils.ReqResUtils;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -27,19 +36,11 @@ import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
-import java.net.URLEncoder;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class ApsGoodsForecastUtils {
 
   public static void downloadTemplate(Long id) {
-    ApsGoodsForecastService apsGoodsForecastService = SpringUtil.getBean(ApsGoodsForecastService.class);
+    ApsGoodsForecastService apsGoodsForecastService = SpringUtil.getBean(
+        ApsGoodsForecastService.class);
     ApsGoodsForecast goodsForecast = apsGoodsForecastService.getById(id);
     $.requireNonNullCanIgnoreException(goodsForecast, "未找到数据");
 
@@ -47,7 +48,8 @@ public class ApsGoodsForecastUtils {
     SXSSFWorkbook workbook = new SXSSFWorkbook();
     ApsGoodsService goodsService = SpringUtil.getBean(ApsGoodsService.class);
 
-    ApsGoodsSaleItemService goodsSaleItemService = SpringUtil.getBean(ApsGoodsSaleItemService.class);
+    ApsGoodsSaleItemService goodsSaleItemService = SpringUtil.getBean(
+        ApsGoodsSaleItemService.class);
     try (workbook; ServletOutputStream outputStream = response.getOutputStream()) {
       workbook.setCompressTempFiles(true);
       Map<CellStyleEnum, CellStyle> styleMap = PoiExcelUtil.createStyles(workbook);
@@ -77,14 +79,22 @@ public class ApsGoodsForecastUtils {
         cc.setCellValue("总计");
         cc.setCellStyle(headerCellStyle);
         ApsSaleConfigService apsSaleConfigService = SpringUtil.getBean(ApsSaleConfigService.class);
-        Map<Long, ApsSaleConfig> saleConfigMap = apsSaleConfigService.list().stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-        List<ApsGoodsSaleItem> apsGoodsSaleItemList = goodsSaleItemService.list(new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId, apsGoods.getId()));
+        Map<Long, ApsSaleConfig> saleConfigMap = apsSaleConfigService.list().stream()
+            .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
+        List<ApsGoodsSaleItem> apsGoodsSaleItemList = goodsSaleItemService.list(
+            new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId,
+                apsGoods.getId()));
 
         apsGoodsSaleItemList.forEach(item -> {
-          ApsSaleConfig apsSaleConfig = saleConfigMap.getOrDefault(item.getSaleConfigId(), new ApsSaleConfig());
-          item.setSaleConfigCode(apsSaleConfig.getSaleCode()).setSaleConfigName(apsSaleConfig.getSaleName()).setIsValue(apsSaleConfig.getIsValue());
-          apsSaleConfig = saleConfigMap.getOrDefault(apsSaleConfig.getParentId(), new ApsSaleConfig());
-          item.setParentSaleConfigCode(apsSaleConfig.getSaleCode()).setParentSaleConfigName(apsSaleConfig.getSaleName());
+          ApsSaleConfig apsSaleConfig = saleConfigMap.getOrDefault(item.getSaleConfigId(),
+              new ApsSaleConfig());
+          item.setSaleConfigCode(apsSaleConfig.getSaleCode())
+              .setSaleConfigName(apsSaleConfig.getSaleName())
+              .setIsValue(apsSaleConfig.getIsValue());
+          apsSaleConfig = saleConfigMap.getOrDefault(apsSaleConfig.getParentId(),
+              new ApsSaleConfig());
+          item.setParentSaleConfigCode(apsSaleConfig.getSaleCode())
+              .setParentSaleConfigName(apsSaleConfig.getSaleName());
         });
         apsGoodsSaleItemList.removeIf(t -> !Objects.equals(t.getIsValue(), 1));
         apsGoodsSaleItemList.sort(Comparator.comparing(ApsGoodsSaleItem::getSaleConfigCode));
@@ -98,8 +108,10 @@ public class ApsGoodsForecastUtils {
         IntStream.range(0, apsGoodsSaleItemList.size()).forEach(i -> {
           SXSSFRow rowTmp = sheet.createRow(i + 3);
           ApsGoodsSaleItem apsGoodsSaleItem = apsGoodsSaleItemList.get(i);
-          rowTmp.createCell(0).setCellValue(apsGoodsSaleItem.getParentSaleConfigCode() + "/" + apsGoodsSaleItem.getParentSaleConfigName());
-          rowTmp.createCell(1).setCellValue(apsGoodsSaleItem.getSaleConfigCode() + "/" + apsGoodsSaleItem.getSaleConfigName());
+          rowTmp.createCell(0).setCellValue(apsGoodsSaleItem.getParentSaleConfigCode() + "/"
+              + apsGoodsSaleItem.getParentSaleConfigName());
+          rowTmp.createCell(1).setCellValue(
+              apsGoodsSaleItem.getSaleConfigCode() + "/" + apsGoodsSaleItem.getSaleConfigName());
         });
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 1));
         IntStream.range(0, sheet.getRow(0).getLastCellNum()).forEach(i -> {
@@ -108,7 +120,9 @@ public class ApsGoodsForecastUtils {
       }
       response.reset();
       response.setContentType("application/ms-excel;charset=UTF-8");
-      response.setHeader("Content-Disposition", "attachment;filename=".concat(String.valueOf(URLEncoder.encode(goodsForecast.getForecastName() + ".xls", "UTF-8"))));
+      response.setHeader("Content-Disposition", "attachment;filename=".concat(
+          String.valueOf(URLEncoder.encode(goodsForecast.getForecastName() + ".xls",
+              StandardCharsets.UTF_8))));
       workbook.write(outputStream);
     } catch (Exception e) {
       throw new RuntimeException(e);

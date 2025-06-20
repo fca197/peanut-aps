@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsGoodsForecastMainMapper;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMain;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainService;
@@ -16,16 +20,15 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsGoodsForecastMain)表服务实现类
@@ -35,24 +38,30 @@ import java.util.stream.Collectors;
  */
 @Service("apsGoodsForecastMainService")
 @Transactional
-public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoodsForecastMainMapper, ApsGoodsForecastMain> implements ApsGoodsForecastMainService {
+public class ApsGoodsForecastMainServiceImpl extends
+    MPJBaseServiceImpl<ApsGoodsForecastMainMapper, ApsGoodsForecastMain> implements
+    ApsGoodsForecastMainService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsGoodsForecastMainQueryListRes queryList(ApsGoodsForecastMainQueryListReq req) {
+  public @Override ApsGoodsForecastMainQueryListRes queryList(
+      ApsGoodsForecastMainQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMain> q = getWrapper(req.getData());
     List<ApsGoodsForecastMain> list = this.list(q);
 
-    List<ApsGoodsForecastMainDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsForecastMainDto.class)).collect(Collectors.toList());
+    List<ApsGoodsForecastMainDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsGoodsForecastMainDto.class)).collect(Collectors.toList());
     ((ApsGoodsForecastMainServiceImpl) AopContext.currentProxy()).setName(dataList);
 
     return new ApsGoodsForecastMainQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastMainExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMain> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -61,7 +70,8 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
     List<ApsGoodsForecastMainExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsGoodsForecastMain> list = this.page(page, q);
-      IPage<ApsGoodsForecastMainExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsGoodsForecastMainExportQueryPageListInfoRes.class));
+      IPage<ApsGoodsForecastMainExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsGoodsForecastMainExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsGoodsForecastMainExportQueryPageListInfoRes.class);
@@ -69,7 +79,8 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsGoodsForecastMainExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsGoodsForecastMainExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastMainExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsGoodsForecastMainExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     ((ApsGoodsForecastMainServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -77,9 +88,11 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
   }
 
   @SetUserName
-  public @Override void setName(List<? extends ApsGoodsForecastMainDto> apsGoodsForecastMainDtoList) {
+  public @Override void setName(
+      List<? extends ApsGoodsForecastMainDto> apsGoodsForecastMainDtoList) {
 
-    setNameService.setName(apsGoodsForecastMainDtoList, List.of(SetNamePojoUtils.GOODS, SetNamePojoUtils.FACTORY));
+    setNameService.setName(apsGoodsForecastMainDtoList,
+        List.of(SetNamePojoUtils.GOODS, SetNamePojoUtils.FACTORY));
   }
 
   // 以下为私有对象封装
@@ -91,11 +104,16 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
     if (Objects.nonNull(obj)) {
       q
           .eq(Objects.nonNull(obj.getGoodsId()), ApsGoodsForecastMain::getGoodsId, obj.getGoodsId())
-          .eq(StringUtils.isNoneBlank(obj.getForecastNo()), ApsGoodsForecastMain::getForecastNo, obj.getForecastNo())
-          .likeRight(StringUtils.isNoneBlank(obj.getForecastName()), ApsGoodsForecastMain::getForecastName, obj.getForecastName())
-          .eq(StringUtils.isNoneBlank(obj.getForecastBeginDate()), ApsGoodsForecastMain::getForecastBeginDate, obj.getForecastBeginDate())
-          .eq(StringUtils.isNoneBlank(obj.getForecastEndDate()), ApsGoodsForecastMain::getForecastEndDate, obj.getForecastEndDate())
-          .eq(StringUtils.isNoneBlank(obj.getMonth()), ApsGoodsForecastMain::getMonth, obj.getMonth())
+          .eq(StringUtils.isNoneBlank(obj.getForecastNo()), ApsGoodsForecastMain::getForecastNo,
+              obj.getForecastNo())
+          .likeRight(StringUtils.isNoneBlank(obj.getForecastName()),
+              ApsGoodsForecastMain::getForecastName, obj.getForecastName())
+          .eq(StringUtils.isNoneBlank(obj.getForecastBeginDate()),
+              ApsGoodsForecastMain::getForecastBeginDate, obj.getForecastBeginDate())
+          .eq(StringUtils.isNoneBlank(obj.getForecastEndDate()),
+              ApsGoodsForecastMain::getForecastEndDate, obj.getForecastEndDate())
+          .eq(StringUtils.isNoneBlank(obj.getMonth()), ApsGoodsForecastMain::getMonth,
+              obj.getMonth())
           .eq(Objects.nonNull(obj.getMonths()), ApsGoodsForecastMain::getMonths, obj.getMonths())
 
       ;

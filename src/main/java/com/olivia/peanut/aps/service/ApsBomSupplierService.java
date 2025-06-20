@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsBomSupplier.*;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierDto;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsBomSupplier.ApsBomSupplierQueryListRes;
 import com.olivia.peanut.aps.model.ApsBomSupplier;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -14,9 +17,11 @@ import java.util.List;
  * @since 2024-12-15 14:39:46
  */
 public interface ApsBomSupplierService extends MPJBaseService<ApsBomSupplier> {
+
   ApsBomSupplierQueryListRes queryList(ApsBomSupplierQueryListReq req);
 
-  DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(ApsBomSupplierExportQueryPageListReq req);
+  DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(
+      ApsBomSupplierExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsBomSupplierDto> apsBomSupplierDtoList);

@@ -7,10 +7,9 @@ import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.Str;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 排程版本表(ApsSchedulingDayConfig)查询对象返回

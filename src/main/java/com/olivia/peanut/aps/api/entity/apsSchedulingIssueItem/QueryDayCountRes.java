@@ -9,4 +9,5 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(chain = true)
 public class QueryDayCountRes extends EChartResDto {
+
 }

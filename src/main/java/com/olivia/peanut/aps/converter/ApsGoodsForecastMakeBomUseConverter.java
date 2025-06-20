@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMakeBomUse;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsGoodsForecastMakeBomUseConverter {
-  ApsGoodsForecastMakeBomUseConverter INSTANCE = Mappers.getMapper(ApsGoodsForecastMakeBomUseConverter.class);
+
+  ApsGoodsForecastMakeBomUseConverter INSTANCE = Mappers.getMapper(
+      ApsGoodsForecastMakeBomUseConverter.class);
 
   ApsGoodsForecastMakeBomUse insertReq(ApsGoodsForecastMakeBomUseInsertReq req);
 
@@ -17,7 +23,8 @@ public interface ApsGoodsForecastMakeBomUseConverter {
 
   List<ApsGoodsForecastMakeBomUseDto> queryListRes(List<ApsGoodsForecastMakeBomUse> list);
 
-  List<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastMakeBomUse> list);
+  List<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsGoodsForecastMakeBomUse> list);
 
   List<ApsGoodsForecastMakeBomUse> importReq(List<ApsGoodsForecastMakeBomUseImportReq> reqList);
 }

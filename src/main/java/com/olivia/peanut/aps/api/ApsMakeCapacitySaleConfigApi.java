@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.*;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +37,36 @@ public interface ApsMakeCapacitySaleConfigApi {
    * 保存
    */
   @PostMapping("/apsMakeCapacitySaleConfig/insert")
-  ApsMakeCapacitySaleConfigInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsMakeCapacitySaleConfigInsertReq req);
+  ApsMakeCapacitySaleConfigInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsMakeCapacitySaleConfigInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsMakeCapacitySaleConfig/deleteByIdList")
-  ApsMakeCapacitySaleConfigDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsMakeCapacitySaleConfigDeleteByIdListReq req);
+  ApsMakeCapacitySaleConfigDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsMakeCapacitySaleConfigDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsMakeCapacitySaleConfig/queryList")
-  ApsMakeCapacitySaleConfigQueryListRes queryList(@RequestBody @Valid ApsMakeCapacitySaleConfigQueryListReq req);
+  ApsMakeCapacitySaleConfigQueryListRes queryList(
+      @RequestBody @Valid ApsMakeCapacitySaleConfigQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsMakeCapacitySaleConfig/updateById")
-  ApsMakeCapacitySaleConfigUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsMakeCapacitySaleConfigUpdateByIdReq req);
+  ApsMakeCapacitySaleConfigUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsMakeCapacitySaleConfigUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsMakeCapacitySaleConfig/queryPageList")
-  DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsMakeCapacitySaleConfigExportQueryPageListReq req);
+  DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsMakeCapacitySaleConfigExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +85,8 @@ public interface ApsMakeCapacitySaleConfigApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsMakeCapacitySaleConfig/queryByIdList")
-  ApsMakeCapacitySaleConfigQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsMakeCapacitySaleConfigQueryByIdListReq req);
+  ApsMakeCapacitySaleConfigQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsMakeCapacitySaleConfigQueryByIdListReq req);
 
 
 }

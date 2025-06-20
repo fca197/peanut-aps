@@ -3,7 +3,21 @@ package com.olivia.peanut.aps.api.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsBomGroupApi;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.*;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDto;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupImportReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupImportRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupInsertReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupInsertRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsBomGroupImportListener;
 import com.olivia.peanut.aps.model.ApsBomGroup;
 import com.olivia.peanut.aps.service.ApsBomGroupService;
@@ -11,13 +25,12 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
 import com.olivia.sdk.utils.RunUtils;
+import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * 零件组配置(ApsBomGroup)表服务实现类
@@ -75,7 +88,8 @@ public class ApsBomGroupApiImpl implements ApsBomGroupApi {
 
   }
 
-  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(ApsBomGroupExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(
+      ApsBomGroupExportQueryPageListReq req) {
     return apsBomGroupService.queryPageList(req);
   }
 
@@ -83,13 +97,15 @@ public class ApsBomGroupApiImpl implements ApsBomGroupApi {
     DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsBomGroupExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsBomGroupExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsBomGroupExportQueryPageListInfoRes.class);
+    List<ApsBomGroupExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsBomGroupExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsBomGroupExportQueryPageListInfoRes.class, listInfoRes, "零件组配置");
   }
 
   public @Override ApsBomGroupImportRes importData(@RequestParam("file") MultipartFile file) {
     RunUtils.noImpl();
-    List<ApsBomGroupImportReq> reqList = PoiExcelUtil.readData(file, new ApsBomGroupImportListener(), ApsBomGroupImportReq.class);
+    List<ApsBomGroupImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsBomGroupImportListener(), ApsBomGroupImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsBomGroup> readList = $.copyList(reqList, ApsBomGroup.class);
     boolean bool = apsBomGroupService.saveBatch(readList);

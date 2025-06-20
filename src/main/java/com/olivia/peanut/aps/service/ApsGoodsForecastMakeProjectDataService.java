@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeProjectData.ApsGoodsForecastMakeProjectDataQueryListRes;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMakeProjectData;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,13 +16,17 @@ import java.util.List;
  * @author peanut
  * @since 2024-05-10 13:58:08
  */
-public interface ApsGoodsForecastMakeProjectDataService extends MPJBaseService<ApsGoodsForecastMakeProjectData> {
+public interface ApsGoodsForecastMakeProjectDataService extends
+    MPJBaseService<ApsGoodsForecastMakeProjectData> {
 
-  ApsGoodsForecastMakeProjectDataQueryListRes queryList(ApsGoodsForecastMakeProjectDataQueryListReq req);
+  ApsGoodsForecastMakeProjectDataQueryListRes queryList(
+      ApsGoodsForecastMakeProjectDataQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastMakeProjectDataExportQueryPageListReq req);
 
 
-  void setName(List<? extends ApsGoodsForecastMakeProjectDataDto> apsGoodsForecastMakeProjectDataDtoList);
+  void setName(
+      List<? extends ApsGoodsForecastMakeProjectDataDto> apsGoodsForecastMakeProjectDataDtoList);
 }
 

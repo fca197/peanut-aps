@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsMakeCapacityFactoryApi;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.*;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDto;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryImportReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryImportRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsMakeCapacityFactoryImportListener;
 import com.olivia.peanut.aps.model.ApsMakeCapacityFactory;
 import com.olivia.peanut.aps.service.ApsMakeCapacityFactoryService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsMakeCapacityFactory)表服务实现类
@@ -41,7 +54,8 @@ public class ApsMakeCapacityFactoryApiImpl implements ApsMakeCapacityFactoryApi 
    * deleteByIds
    *
    */
-  public @Override ApsMakeCapacityFactoryDeleteByIdListRes deleteByIdList(ApsMakeCapacityFactoryDeleteByIdListReq req) {
+  public @Override ApsMakeCapacityFactoryDeleteByIdListRes deleteByIdList(
+      ApsMakeCapacityFactoryDeleteByIdListReq req) {
     apsMakeCapacityFactoryService.removeByIds(req.getIdList());
     return new ApsMakeCapacityFactoryDeleteByIdListRes();
   }
@@ -50,7 +64,8 @@ public class ApsMakeCapacityFactoryApiImpl implements ApsMakeCapacityFactoryApi 
    * queryList
    *
    */
-  public @Override ApsMakeCapacityFactoryQueryListRes queryList(ApsMakeCapacityFactoryQueryListReq req) {
+  public @Override ApsMakeCapacityFactoryQueryListRes queryList(
+      ApsMakeCapacityFactoryQueryListReq req) {
     return apsMakeCapacityFactoryService.queryList(req);
   }
 
@@ -58,13 +73,15 @@ public class ApsMakeCapacityFactoryApiImpl implements ApsMakeCapacityFactoryApi 
    * updateById
    *
    */
-  public @Override ApsMakeCapacityFactoryUpdateByIdRes updateById(ApsMakeCapacityFactoryUpdateByIdReq req) {
+  public @Override ApsMakeCapacityFactoryUpdateByIdRes updateById(
+      ApsMakeCapacityFactoryUpdateByIdReq req) {
     apsMakeCapacityFactoryService.updateById($.copy(req, ApsMakeCapacityFactory.class));
     return new ApsMakeCapacityFactoryUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsMakeCapacityFactoryExportQueryPageListInfoRes> queryPageList(ApsMakeCapacityFactoryExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMakeCapacityFactoryExportQueryPageListInfoRes> queryPageList(
+      ApsMakeCapacityFactoryExportQueryPageListReq req) {
     return apsMakeCapacityFactoryService.queryPageList(req);
   }
 
@@ -72,12 +89,15 @@ public class ApsMakeCapacityFactoryApiImpl implements ApsMakeCapacityFactoryApi 
     DynamicsPage<ApsMakeCapacityFactoryExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsMakeCapacityFactoryExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsMakeCapacityFactoryExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsMakeCapacityFactoryExportQueryPageListInfoRes.class);
+    List<ApsMakeCapacityFactoryExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsMakeCapacityFactoryExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsMakeCapacityFactoryExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsMakeCapacityFactoryImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsMakeCapacityFactoryImportReq> reqList = PoiExcelUtil.readData(file, new ApsMakeCapacityFactoryImportListener(), ApsMakeCapacityFactoryImportReq.class);
+  public @Override ApsMakeCapacityFactoryImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsMakeCapacityFactoryImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsMakeCapacityFactoryImportListener(), ApsMakeCapacityFactoryImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsMakeCapacityFactory> readList = $.copyList(reqList, ApsMakeCapacityFactory.class);
     boolean bool = apsMakeCapacityFactoryService.saveBatch(readList);
@@ -85,8 +105,10 @@ public class ApsMakeCapacityFactoryApiImpl implements ApsMakeCapacityFactoryApi 
     return new ApsMakeCapacityFactoryImportRes().setCount(c);
   }
 
-  public @Override ApsMakeCapacityFactoryQueryByIdListRes queryByIdListRes(ApsMakeCapacityFactoryQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsMakeCapacityFactory> q = new MPJLambdaWrapper<ApsMakeCapacityFactory>(ApsMakeCapacityFactory.class)
+  public @Override ApsMakeCapacityFactoryQueryByIdListRes queryByIdListRes(
+      ApsMakeCapacityFactoryQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsMakeCapacityFactory> q = new MPJLambdaWrapper<ApsMakeCapacityFactory>(
+        ApsMakeCapacityFactory.class)
         .selectAll(ApsMakeCapacityFactory.class).in(ApsMakeCapacityFactory::getId, req.getIdList());
     List<ApsMakeCapacityFactory> list = this.apsMakeCapacityFactoryService.list(q);
     List<ApsMakeCapacityFactoryDto> dataList = $.copyList(list, ApsMakeCapacityFactoryDto.class);

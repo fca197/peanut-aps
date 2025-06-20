@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsOrderGoodsProjectConfigApi {
    * 保存
    */
   @PostMapping("/apsOrderGoodsProjectConfig/insert")
-  ApsOrderGoodsProjectConfigInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsProjectConfigInsertReq req);
+  ApsOrderGoodsProjectConfigInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsProjectConfigInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsOrderGoodsProjectConfig/deleteByIdList")
-  ApsOrderGoodsProjectConfigDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsProjectConfigDeleteByIdListReq req);
+  ApsOrderGoodsProjectConfigDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsProjectConfigDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsOrderGoodsProjectConfig/queryList")
-  ApsOrderGoodsProjectConfigQueryListRes queryList(@RequestBody @Valid ApsOrderGoodsProjectConfigQueryListReq req);
+  ApsOrderGoodsProjectConfigQueryListRes queryList(
+      @RequestBody @Valid ApsOrderGoodsProjectConfigQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsOrderGoodsProjectConfig/updateById")
-  ApsOrderGoodsProjectConfigUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsProjectConfigUpdateByIdReq req);
+  ApsOrderGoodsProjectConfigUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsProjectConfigUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsOrderGoodsProjectConfig/queryPageList")
-  DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsProjectConfigExportQueryPageListReq req);
 
   /**
    * 导出
    */
   @PostMapping("/apsOrderGoodsProjectConfig/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsOrderGoodsProjectConfigExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsOrderGoodsProjectConfigExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsOrderGoodsProjectConfigApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsProjectConfig/queryByIdList")
-  ApsOrderGoodsProjectConfigQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsProjectConfigQueryByIdListReq req);
+  ApsOrderGoodsProjectConfigQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsProjectConfigQueryByIdListReq req);
 
 
 }

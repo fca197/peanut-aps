@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItem.ApsSchedulingVersionItemUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +37,36 @@ public interface ApsSchedulingVersionItemApi {
    * 保存
    */
   @PostMapping("/apsSchedulingVersionItem/insert")
-  ApsSchedulingVersionItemInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionItemInsertReq req);
+  ApsSchedulingVersionItemInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionItemInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsSchedulingVersionItem/deleteByIdList")
-  ApsSchedulingVersionItemDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingVersionItemDeleteByIdListReq req);
+  ApsSchedulingVersionItemDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingVersionItemDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsSchedulingVersionItem/queryList")
-  ApsSchedulingVersionItemQueryListRes queryList(@RequestBody @Valid ApsSchedulingVersionItemQueryListReq req);
+  ApsSchedulingVersionItemQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingVersionItemQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsSchedulingVersionItem/updateById")
-  ApsSchedulingVersionItemUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionItemUpdateByIdReq req);
+  ApsSchedulingVersionItemUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionItemUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsSchedulingVersionItem/queryPageList")
-  DynamicsPage<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingVersionItemExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingVersionItemExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +85,8 @@ public interface ApsSchedulingVersionItemApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingVersionItem/queryByIdList")
-  ApsSchedulingVersionItemQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingVersionItemQueryByIdListReq req);
+  ApsSchedulingVersionItemQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingVersionItemQueryByIdListReq req);
 
 
 }

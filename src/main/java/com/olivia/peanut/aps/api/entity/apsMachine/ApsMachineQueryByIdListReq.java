@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsMachine;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * aps 生产机器(ApsMachine)查询对象入参
@@ -17,6 +16,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsMachineQueryByIdListReq {
+
   private List<Long> idList;
 
 

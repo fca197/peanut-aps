@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListRes;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersionDetailMachine;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,12 +16,17 @@ import java.util.List;
  * @author makejava
  * @since 2024-10-27 00:12:55
  */
-public interface ApsSchedulingDayConfigVersionDetailMachineService extends MPJBaseService<ApsSchedulingDayConfigVersionDetailMachine> {
-  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
+public interface ApsSchedulingDayConfigVersionDetailMachineService extends
+    MPJBaseService<ApsSchedulingDayConfigVersionDetailMachine> {
 
-  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
+  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
+      ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
+
+  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
 
 
-  void setName(List<? extends ApsSchedulingDayConfigVersionDetailMachineDto> apsSchedulingDayConfigVersionDetailMachineDtoList);
+  void setName(
+      List<? extends ApsSchedulingDayConfigVersionDetailMachineDto> apsSchedulingDayConfigVersionDetailMachineDtoList);
 }
 

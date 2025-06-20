@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,50 +37,58 @@ public interface ApsSchedulingDayConfigVersionDetailMachineApi {
    * 保存 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/insert")
-  ApsSchedulingDayConfigVersionDetailMachineInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionDetailMachineInsertReq req);
+  ApsSchedulingDayConfigVersionDetailMachineInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionDetailMachineInsertReq req);
 
   /**
    * 根据ID 删除 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/deleteByIdList")
-  ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListReq req);
+  ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListReq req);
 
   /**
    * 查询 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/queryList")
-  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
+  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
 
   /**
    * 根据ID 更新 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/updateById")
-  ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionDetailMachineUpdateByIdReq req);
+  ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionDetailMachineUpdateByIdReq req);
 
   /**
    * 分页查询 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/queryPageList")
-  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
 
   /**
    * 导出 排程版本详情_机器
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
 
   /**
    * 导入
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/importData")
-  ApsSchedulingDayConfigVersionDetailMachineImportRes importData(@RequestParam("file") MultipartFile file);
+  ApsSchedulingDayConfigVersionDetailMachineImportRes importData(
+      @RequestParam("file") MultipartFile file);
 
 
   /**
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetailMachine/queryByIdList")
-  ApsSchedulingDayConfigVersionDetailMachineQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineQueryByIdListReq req);
+  ApsSchedulingDayConfigVersionDetailMachineQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailMachineQueryByIdListReq req);
 
 
 }

@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.ApsGoodsSaleItemDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.ApsGoodsSaleItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.ApsGoodsSaleItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.ApsGoodsSaleItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleItem.ApsGoodsSaleItemQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsGoodsSaleItemMapper;
 import com.olivia.peanut.aps.model.ApsGoodsSaleItem;
 import com.olivia.peanut.aps.service.ApsGoodsSaleItemService;
@@ -13,14 +17,13 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsGoodsSaleItem)表服务实现类
@@ -30,9 +33,12 @@ import java.util.stream.Collectors;
  */
 @Service("apsGoodsSaleItemService")
 @Transactional
-public class ApsGoodsSaleItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsSaleItemMapper, ApsGoodsSaleItem> implements ApsGoodsSaleItemService {
+public class ApsGoodsSaleItemServiceImpl extends
+    MPJBaseServiceImpl<ApsGoodsSaleItemMapper, ApsGoodsSaleItem> implements
+    ApsGoodsSaleItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsGoodsSaleItemQueryListRes queryList(ApsGoodsSaleItemQueryListReq req) {
@@ -40,13 +46,15 @@ public class ApsGoodsSaleItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsSale
     MPJLambdaWrapper<ApsGoodsSaleItem> q = getWrapper(req.getData());
     List<ApsGoodsSaleItem> list = this.list(q);
 
-    List<ApsGoodsSaleItemDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsSaleItemDto.class)).collect(Collectors.toList());
+    List<ApsGoodsSaleItemDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsGoodsSaleItemDto.class)).collect(Collectors.toList());
 
     return new ApsGoodsSaleItemQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(ApsGoodsSaleItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsSaleItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsSaleItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -55,7 +63,8 @@ public class ApsGoodsSaleItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsSale
     List<ApsGoodsSaleItemExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsGoodsSaleItem> list = this.page(page, q);
-      IPage<ApsGoodsSaleItemExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsGoodsSaleItemExportQueryPageListInfoRes.class));
+      IPage<ApsGoodsSaleItemExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsGoodsSaleItemExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsGoodsSaleItemExportQueryPageListInfoRes.class);
@@ -63,7 +72,8 @@ public class ApsGoodsSaleItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsSale
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsGoodsSaleItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsGoodsSaleItemExportQueryPageListInfoRes.class);
+    List<ApsGoodsSaleItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsGoodsSaleItemExportQueryPageListInfoRes.class);
 
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -82,8 +92,10 @@ public class ApsGoodsSaleItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsSale
 
     if (Objects.nonNull(obj)) {
       q.eq(Objects.nonNull(obj.getGoodsId()), ApsGoodsSaleItem::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getUseForecast()), ApsGoodsSaleItem::getUseForecast, obj.getUseForecast())
-          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsGoodsSaleItem::getSupplierStatus, obj.getSupplierStatus())
+          .eq(Objects.nonNull(obj.getUseForecast()), ApsGoodsSaleItem::getUseForecast,
+              obj.getUseForecast())
+          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsGoodsSaleItem::getSupplierStatus,
+              obj.getSupplierStatus())
 
       ;
     }

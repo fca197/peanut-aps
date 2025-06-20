@@ -1,5 +1,8 @@
 package com.olivia.peanut.aps.service.impl.utils;
 
+import static com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem.fieldName;
+import static java.lang.Boolean.TRUE;
+
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -16,52 +19,62 @@ import com.olivia.sdk.filter.LoginUserContext;
 import com.olivia.sdk.utils.DateUtils;
 import com.olivia.sdk.utils.FieldUtils;
 import com.olivia.sdk.utils.JSON;
-import lombok.extern.slf4j.Slf4j;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-
-import static com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem.fieldName;
-import static java.lang.Boolean.TRUE;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 public class ApsBomPlan2Email {
-  public static void sendMail(SendMail2supplierReq req, Long id, ApsBomSupplier apsBomSupplier, List<ApsBom> apsBomList, Map<Long, List<ApsGoodsBomBuyPlanItem>> planBomMap) {
+
+  public static void sendMail(SendMail2supplierReq req, Long id, ApsBomSupplier apsBomSupplier,
+      List<ApsBom> apsBomList, Map<Long, List<ApsGoodsBomBuyPlanItem>> planBomMap) {
     if (Objects.isNull(apsBomSupplier)) {
       log.error("供应商为空 id:{}", id);
       return;
     }
 
     List<ApsBomEmail> apsBomEmailList = new ArrayList<>();
-    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(req.getBeginDate(), req.getEndDate());
+    List<LocalDate> localDateBetween = DateUtils.getLocalDateBetween(req.getBeginDate(),
+        req.getEndDate());
     AtomicInteger maxDay = new AtomicInteger(0);
     apsBomList.forEach(apsBom -> {
-      Map<Integer, List<ApsGoodsBomBuyPlanItem>> listMap = planBomMap.get(apsBom.getId()).stream().collect(Collectors.groupingBy(ApsGoodsBomBuyPlanItem::getYear));
+      Map<Integer, List<ApsGoodsBomBuyPlanItem>> listMap = planBomMap.get(apsBom.getId()).stream()
+          .collect(Collectors.groupingBy(ApsGoodsBomBuyPlanItem::getYear));
       ApsBomEmail apsBomEmail = new ApsBomEmail();
       HashMap<LocalDate, Object> buyMap = new HashMap<>();
-      apsBomEmail.setBomName(apsBom.getBomName()).setBomCostPriceUnit(apsBom.getBomCostPriceUnit()).setBuyMap(buyMap);
+      apsBomEmail.setBomName(apsBom.getBomName()).setBomCostPriceUnit(apsBom.getBomCostPriceUnit())
+          .setBuyMap(buyMap);
       apsBomEmailList.add(apsBomEmail);
       maxDay.set(Math.max(maxDay.get(), apsBom.getDeliveryCycleDay()));
       localDateBetween.forEach(localDate -> {
         ApsGoodsBomBuyPlanItem planItem = listMap.get(localDate.getYear()).getFirst();
-        Object fieldValue = FieldUtils.getFieldValue(planItem, FieldUtils.getField(planItem, fieldName + localDate.getDayOfYear()));
+        Object fieldValue = FieldUtils.getFieldValue(planItem,
+            FieldUtils.getField(planItem, fieldName + localDate.getDayOfYear()));
 
         if (Objects.isNull(fieldValue)) {
           return;
         }
-        Map<String, Object> jsonObject = JSON.readValue(String.valueOf(fieldValue), new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> jsonObject = JSON.readValue(String.valueOf(fieldValue),
+            new TypeReference<Map<String, Object>>() {
+            });
         if (TRUE.equals(jsonObject.get("lack"))) {
-          buyMap.put(localDate.minusDays(apsBom.getDeliveryCycleDay()), BigDecimal.valueOf((Double) jsonObject.get("buy_inv")).abs());
+          buyMap.put(localDate.minusDays(apsBom.getDeliveryCycleDay()),
+              BigDecimal.valueOf((Double) jsonObject.get("buy_inv")).abs());
         }
       });
     });
     log.info("apsBomEmailList {}", JSON.toJSONString(apsBomEmailList));
     StringBuilder content = new StringBuilder();
-    List<LocalDate> localDateBetweenEmail = DateUtils.getLocalDateBetween(req.getBeginDate().minusDays(maxDay.get()), req.getEndDate());
+    List<LocalDate> localDateBetweenEmail = DateUtils.getLocalDateBetween(
+        req.getBeginDate().minusDays(maxDay.get()), req.getEndDate());
     localDateBetweenEmail.removeIf(t -> {
       AtomicInteger atomicInteger = new AtomicInteger();
 
@@ -83,39 +96,42 @@ public class ApsBomPlan2Email {
       }
       AtomicInteger count = new AtomicInteger(0);
       localDateBetweenEmail.forEach(d -> {
-        if (Objects.isNull(buyMap.get(d))) count.incrementAndGet();
+        if (Objects.isNull(buyMap.get(d))) {
+          count.incrementAndGet();
+        }
       });
       return count.get() == localDateBetweenEmail.size();
     });
     TenantInfoService tenantInfoService = SpringUtil.getBean(TenantInfoService.class);
-    TenantInfo tenantInfo = tenantInfoService.getById(LoginUserContext.getLoginUser().getTenantId());
+    TenantInfo tenantInfo = tenantInfoService.getById(
+        LoginUserContext.getLoginUser().getTenantId());
 
     content.append("""
         <html>
         <style type="text/css">html,body {padding:0;margin:0;overflow:auto;overflow-x:hidden;}html {height:100%;}#mainFrame{position:absolute;_position:relative;}
-                
+        
         table {
             border-collapse: collapse;
         }
-                
+        
         table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-                
+        
         table tr:nth-child(odd) {
             background-color: white;
         }
-                
+        
         table tr td {
             border: 1px solid #ddd;
             padding: 10px;
         }
-                
-                
+        
+        
         </style>
         <body>
         <div>
-              
+        
         """);
     content.append("尊敬的").append(apsBomSupplier.getBomSupplierName()).append("团队：");
     content.append("""
@@ -132,9 +148,9 @@ public class ApsBomPlan2Email {
                     <br/>
         """);
 
-
     content.append("<table >  ");
-    content.append("<tr> <td  style='width:200px' >零件名称</td> <td style='width:200px'> 规格</td>");
+    content.append(
+        "<tr> <td  style='width:200px' >零件名称</td> <td style='width:200px'> 规格</td>");
     localDateBetweenEmail.forEach(d -> {
       content.append("<td style='width:150px'>").append(d).append("</td>");
     });
@@ -147,7 +163,6 @@ public class ApsBomPlan2Email {
         content.append("<td>").append(b.getBuyMap().getOrDefault(d, "")).append("</td>");
       });
     });
-
 
     content.append("</table>");
     content.append("<br/>");
@@ -183,6 +198,8 @@ public class ApsBomPlan2Email {
     content.append("</body>");
     content.append("</html>");
     MailService mailService = SpringUtil.getBean(MailService.class);
-    mailService.sendMail(new SendMailReq().setTo(apsBomSupplier.getBomSupplierEmail()).setSubject("零件采购通知函").setContent(content.toString()));
+    mailService.sendMail(
+        new SendMailReq().setTo(apsBomSupplier.getBomSupplierEmail()).setSubject("零件采购通知函")
+            .setContent(content.toString()));
   }
 }

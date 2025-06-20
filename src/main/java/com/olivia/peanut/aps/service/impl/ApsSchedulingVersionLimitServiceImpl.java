@@ -6,20 +6,27 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsSchedulingVersionLimitMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionLimit;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionLimitService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.*;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.Str;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsSchedulingVersionLimit)表服务实现类
@@ -29,24 +36,29 @@ import java.util.stream.Collectors;
  */
 @Service("apsSchedulingVersionLimitService")
 @Transactional
-public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionLimitMapper, ApsSchedulingVersionLimit> implements
+public class ApsSchedulingVersionLimitServiceImpl extends
+    MPJBaseServiceImpl<ApsSchedulingVersionLimitMapper, ApsSchedulingVersionLimit> implements
     ApsSchedulingVersionLimitService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
-  public @Override ApsSchedulingVersionLimitQueryListRes queryList(ApsSchedulingVersionLimitQueryListReq req) {
+  public @Override ApsSchedulingVersionLimitQueryListRes queryList(
+      ApsSchedulingVersionLimitQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionLimit> q = getWrapper(req.getData());
     List<ApsSchedulingVersionLimit> list = this.list(q);
 
-    List<ApsSchedulingVersionLimitDto> dataList = list.stream().map(t -> $.copy(t, ApsSchedulingVersionLimitDto.class)).collect(Collectors.toList());
+    List<ApsSchedulingVersionLimitDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsSchedulingVersionLimitDto.class)).collect(Collectors.toList());
     //  this.setName(dataList);
     return new ApsSchedulingVersionLimitQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionLimitExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionLimitExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionLimit> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -55,7 +67,8 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
     List<ApsSchedulingVersionLimitExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSchedulingVersionLimit> list = this.page(page, q);
-      IPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSchedulingVersionLimitExportQueryPageListInfoRes.class));
+      IPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsSchedulingVersionLimitExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsSchedulingVersionLimitExportQueryPageListInfoRes.class);
@@ -63,7 +76,8 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsSchedulingVersionLimitExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsSchedulingVersionLimitExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionLimitExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsSchedulingVersionLimitExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -71,7 +85,8 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
   // 以下为私有对象封装
 
   @SetUserName
-  public @Override void setName(List<? extends ApsSchedulingVersionLimitDto> apsSchedulingVersionLimitDtoList) {
+  public @Override void setName(
+      List<? extends ApsSchedulingVersionLimitDto> apsSchedulingVersionLimitDtoList) {
 
     if (CollUtil.isEmpty(apsSchedulingVersionLimitDtoList)) {
     }
@@ -85,7 +100,8 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
     MPJLambdaWrapper<ApsSchedulingVersionLimit> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionLimit.class, BaseEntity::getId,
-        ApsSchedulingVersionLimit::getShowName, ApsSchedulingVersionLimit::getFieldName, ApsSchedulingVersionLimit::getFieldValue);
+        ApsSchedulingVersionLimit::getShowName, ApsSchedulingVersionLimit::getFieldName,
+        ApsSchedulingVersionLimit::getFieldValue);
     q.orderByDesc(ApsSchedulingVersionLimit::getId);
     return q;
 

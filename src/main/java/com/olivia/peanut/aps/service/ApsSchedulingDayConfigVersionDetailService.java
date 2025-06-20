@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListRes;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersionDetail;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,13 +16,17 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-19 19:19:58
  */
-public interface ApsSchedulingDayConfigVersionDetailService extends MPJBaseService<ApsSchedulingDayConfigVersionDetail> {
+public interface ApsSchedulingDayConfigVersionDetailService extends
+    MPJBaseService<ApsSchedulingDayConfigVersionDetail> {
 
-  ApsSchedulingDayConfigVersionDetailQueryListRes queryList(ApsSchedulingDayConfigVersionDetailQueryListReq req);
+  ApsSchedulingDayConfigVersionDetailQueryListRes queryList(
+      ApsSchedulingDayConfigVersionDetailQueryListReq req);
 
-  DynamicsPage<ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
 
 
-  void setName(List<? extends ApsSchedulingDayConfigVersionDetailDto> apsSchedulingDayConfigVersionDetailDtoList);
+  void setName(
+      List<? extends ApsSchedulingDayConfigVersionDetailDto> apsSchedulingDayConfigVersionDetailDtoList);
 }
 

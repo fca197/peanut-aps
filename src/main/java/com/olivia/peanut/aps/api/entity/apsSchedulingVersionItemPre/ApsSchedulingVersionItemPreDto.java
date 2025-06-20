@@ -5,11 +5,10 @@ import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 //import com.alibaba.fastjson2.annotation.JSONField;
 
 /**
@@ -80,7 +79,6 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
   //  @JSONField(label = "orderNo")
 
   private String orderNo;
-
 
 
   /***

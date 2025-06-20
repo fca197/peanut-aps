@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListRes;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsBom;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsSchedulingGoodsBomService extends MPJBaseService<ApsScheduli
 
   ApsSchedulingGoodsBomQueryListRes queryList(ApsSchedulingGoodsBomQueryListReq req);
 
-  DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingGoodsBomExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingGoodsBomDto> apsSchedulingGoodsBomDtoList);

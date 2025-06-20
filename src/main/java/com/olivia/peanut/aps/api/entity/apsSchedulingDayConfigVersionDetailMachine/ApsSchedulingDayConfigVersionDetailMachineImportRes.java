@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 排程版本详情_机器(ApsSchedulingDayConfigVersionDetailMachine)保存返回
@@ -17,6 +16,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsSchedulingDayConfigVersionDetailMachineImportRes {
+
   /****
    * 写入行数
    */

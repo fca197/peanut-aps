@@ -6,7 +6,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsStatusDateMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsStatusDate;
 import com.olivia.peanut.aps.service.ApsOrderGoodsStatusDateService;
@@ -17,15 +21,14 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 订单商品状态表(ApsOrderGoodsStatusDate)表服务实现类
@@ -35,19 +38,24 @@ import java.util.stream.Collectors;
  */
 @Service("apsOrderGoodsStatusDateService")
 @Transactional
-public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsStatusDateMapper, ApsOrderGoodsStatusDate> implements ApsOrderGoodsStatusDateService {
+public class ApsOrderGoodsStatusDateServiceImpl extends
+    MPJBaseServiceImpl<ApsOrderGoodsStatusDateMapper, ApsOrderGoodsStatusDate> implements
+    ApsOrderGoodsStatusDateService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(ApsOrderGoodsStatusDateQueryListReq req) {
+  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(
+      ApsOrderGoodsStatusDateQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsStatusDate> q = getWrapper(req.getData());
     List<ApsOrderGoodsStatusDate> list = this.list(q);
 
-    List<ApsOrderGoodsStatusDateDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsStatusDateDto.class)).collect(Collectors.toList());
+    List<ApsOrderGoodsStatusDateDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsOrderGoodsStatusDateDto.class)).collect(Collectors.toList());
     //  this.setName(dataList);
     ((ApsOrderGoodsStatusDateService) AopContext.currentProxy()).setName(dataList);
 
@@ -55,7 +63,8 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
   }
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsStatusDateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsStatusDateExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsStatusDate> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -64,7 +73,8 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
     List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsOrderGoodsStatusDate> list = this.page(page, q);
-      IPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class));
+      IPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class);
@@ -72,7 +82,8 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     ((ApsOrderGoodsStatusDateService) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -80,12 +91,14 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
   }
 
   //  @SetUserName
-  public @Override void setName(List<? extends ApsOrderGoodsStatusDateDto> apsOrderGoodsStatusDateDtoList) {
+  public @Override void setName(
+      List<? extends ApsOrderGoodsStatusDateDto> apsOrderGoodsStatusDateDtoList) {
 
     setNameService.setName(apsOrderGoodsStatusDateDtoList,
 //        SetNamePojoUtils.OP_USER_NAME,
         SetNamePojoUtils.GOODS,//
-        SetNamePojoUtils.getSetNamePojo(ApsStatusService.class, "statusName", "goodsStatusId", "goodsStatusName")
+        SetNamePojoUtils.getSetNamePojo(ApsStatusService.class, "statusName", "goodsStatusId",
+            "goodsStatusName")
     );
 
 //    if (CollUtil.isEmpty(apsOrderGoodsStatusDateDtoList)) {
@@ -102,7 +115,9 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
 
   @Override
   public List<ApsOrderGoodsStatusDate> listByOrderIdGoodsId(Long orderId, Long goodsId) {
-    return this.list(new LambdaQueryWrapper<ApsOrderGoodsStatusDate>().eq(ApsOrderGoodsStatusDate::getOrderId, orderId).eq(ApsOrderGoodsStatusDate::getGoodsId, goodsId));
+    return this.list(
+        new LambdaQueryWrapper<ApsOrderGoodsStatusDate>().eq(ApsOrderGoodsStatusDate::getOrderId,
+            orderId).eq(ApsOrderGoodsStatusDate::getGoodsId, goodsId));
   }
 
   private MPJLambdaWrapper<ApsOrderGoodsStatusDate> getWrapper(ApsOrderGoodsStatusDateDto obj) {
@@ -110,10 +125,14 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
 
     if (Objects.nonNull(obj)) {
       q
-          .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsStatusDate::getOrderId, obj.getOrderId())
-          .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsStatusDate::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getGoodsStatusId()), ApsOrderGoodsStatusDate::getGoodsStatusId, obj.getGoodsStatusId())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsStatusDate::getFactoryId, obj.getFactoryId())
+          .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsStatusDate::getOrderId,
+              obj.getOrderId())
+          .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsStatusDate::getGoodsId,
+              obj.getGoodsId())
+          .eq(Objects.nonNull(obj.getGoodsStatusId()), ApsOrderGoodsStatusDate::getGoodsStatusId,
+              obj.getGoodsStatusId())
+          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsStatusDate::getFactoryId,
+              obj.getFactoryId())
 
       ;
     }

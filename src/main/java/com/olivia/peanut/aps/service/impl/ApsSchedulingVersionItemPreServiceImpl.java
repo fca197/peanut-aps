@@ -1,35 +1,31 @@
 package com.olivia.peanut.aps.service.impl;
 
-import org.springframework.aop.framework.AopContext;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import jakarta.annotation.Resource;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.DynamicsPage;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListRes;
+import com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConverter;
 import com.olivia.peanut.aps.mapper.ApsSchedulingVersionItemPreMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionItemPre;
-import com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConverter;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionItemPreService;
-import cn.hutool.core.collection.CollUtil;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.*;
-import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 排产下发订单预览(ApsSchedulingVersionItemPre)表服务实现类
@@ -39,9 +35,12 @@ import com.olivia.sdk.service.SetNameService;
  */
 @Service("apsSchedulingVersionItemPreService")
 @Transactional
-public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionItemPreMapper, ApsSchedulingVersionItemPre> implements ApsSchedulingVersionItemPreService {
+public class ApsSchedulingVersionItemPreServiceImpl extends
+    MPJBaseServiceImpl<ApsSchedulingVersionItemPreMapper, ApsSchedulingVersionItemPre> implements
+    ApsSchedulingVersionItemPreService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -49,18 +48,21 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
   SetNameService setNameService;
 
 
-  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(ApsSchedulingVersionItemPreQueryListReq req) {
+  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(
+      ApsSchedulingVersionItemPreQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = getWrapper(req.getData());
     List<ApsSchedulingVersionItemPre> list = this.list(q);
 
-    List<ApsSchedulingVersionItemPreDto> dataList = ApsSchedulingVersionItemPreConverter.INSTANCE.queryListRes(list);
+    List<ApsSchedulingVersionItemPreDto> dataList = ApsSchedulingVersionItemPreConverter.INSTANCE.queryListRes(
+        list);
     ((ApsSchedulingVersionItemPreService) AopContext.currentProxy()).setName(dataList);
     return new ApsSchedulingVersionItemPreQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionItemPreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionItemPreExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionItemPre> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -69,7 +71,8 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
     List<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSchedulingVersionItemPre> list = this.page(page, q);
-      IPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSchedulingVersionItemPreExportQueryPageListInfoRes.class));
+      IPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsSchedulingVersionItemPreExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = ApsSchedulingVersionItemPreConverter.INSTANCE.queryPageListRes(this.list(q));
@@ -91,9 +94,9 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
 
 
   @SuppressWarnings("unchecked")
-  private MPJLambdaWrapper<ApsSchedulingVersionItemPre> getWrapper(ApsSchedulingVersionItemPreDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingVersionItemPre> getWrapper(
+      ApsSchedulingVersionItemPreDto obj) {
     MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = new MPJLambdaWrapper<>();
-
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionItemPre.class
         // 查询条件
@@ -106,7 +109,6 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
         , ApsSchedulingVersionItemPre::getShowField //
         , ApsSchedulingVersionItemPre::getOrderNo //
     );
-
 
 //    q.orderByDesc(ApsSchedulingVersionItemPre::getId);
     return q;

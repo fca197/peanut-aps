@@ -1,14 +1,19 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsStatus.*;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDto;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusImportReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusInsertReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsStatus;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsStatusConverter {
+
   ApsStatusConverter INSTANCE = Mappers.getMapper(ApsStatusConverter.class);
 
   ApsStatus insertReq(ApsStatusInsertReq req);

@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.*;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDto;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListRes;
 import com.olivia.peanut.aps.model.ApsProcessPathRoom;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsProcessPathRoomService extends MPJBaseService<ApsProcessPath
 
   ApsProcessPathRoomQueryListRes queryList(ApsProcessPathRoomQueryListReq req);
 
-  DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(ApsProcessPathRoomExportQueryPageListReq req);
+  DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(
+      ApsProcessPathRoomExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsProcessPathRoomDto> apsProcessPathRoomDtoList);

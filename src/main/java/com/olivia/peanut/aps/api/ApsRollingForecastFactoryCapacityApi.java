@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityImportRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsRollingForecastFactoryCapacityApi {
    * 保存 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/insert")
-  ApsRollingForecastFactoryCapacityInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsRollingForecastFactoryCapacityInsertReq req);
+  ApsRollingForecastFactoryCapacityInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsRollingForecastFactoryCapacityInsertReq req);
 
   /**
    * 根据ID 删除 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/deleteByIdList")
-  ApsRollingForecastFactoryCapacityDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsRollingForecastFactoryCapacityDeleteByIdListReq req);
+  ApsRollingForecastFactoryCapacityDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsRollingForecastFactoryCapacityDeleteByIdListReq req);
 
   /**
    * 查询 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/queryList")
-  ApsRollingForecastFactoryCapacityQueryListRes queryList(@RequestBody @Valid ApsRollingForecastFactoryCapacityQueryListReq req);
+  ApsRollingForecastFactoryCapacityQueryListRes queryList(
+      @RequestBody @Valid ApsRollingForecastFactoryCapacityQueryListReq req);
 
   /**
    * 根据ID 更新 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/updateById")
-  ApsRollingForecastFactoryCapacityUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsRollingForecastFactoryCapacityUpdateByIdReq req);
+  ApsRollingForecastFactoryCapacityUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsRollingForecastFactoryCapacityUpdateByIdReq req);
 
   /**
    * 分页查询 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/queryPageList")
-  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
+  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
 
   /**
    * 导出 滚动预测
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsRollingForecastFactoryCapacityApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsRollingForecastFactoryCapacity/queryByIdList")
-  ApsRollingForecastFactoryCapacityQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsRollingForecastFactoryCapacityQueryByIdListReq req);
+  ApsRollingForecastFactoryCapacityQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsRollingForecastFactoryCapacityQueryByIdListReq req);
 
 
 }

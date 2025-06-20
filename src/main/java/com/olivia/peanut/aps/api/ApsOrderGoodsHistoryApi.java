@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryUpdateByIdRes;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
 import com.olivia.sdk.ann.InsertCheck;
@@ -27,31 +39,36 @@ public interface ApsOrderGoodsHistoryApi {
    * 保存 历史订单记录
    */
   @PostMapping("/apsOrderGoodsHistory/insert")
-  ApsOrderGoodsHistoryInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsHistoryInsertReq req);
+  ApsOrderGoodsHistoryInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsHistoryInsertReq req);
 
   /**
    * 根据ID 删除 历史订单记录
    */
   @PostMapping("/apsOrderGoodsHistory/deleteByIdList")
-  ApsOrderGoodsHistoryDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsHistoryDeleteByIdListReq req);
+  ApsOrderGoodsHistoryDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsHistoryDeleteByIdListReq req);
 
   /**
    * 查询 历史订单记录
    */
   @PostMapping("/apsOrderGoodsHistory/queryList")
-  ApsOrderGoodsHistoryQueryListRes queryList(@RequestBody @Valid ApsOrderGoodsHistoryQueryListReq req);
+  ApsOrderGoodsHistoryQueryListRes queryList(
+      @RequestBody @Valid ApsOrderGoodsHistoryQueryListReq req);
 
   /**
    * 根据ID 更新 历史订单记录
    */
   @PostMapping("/apsOrderGoodsHistory/updateById")
-  ApsOrderGoodsHistoryUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsHistoryUpdateByIdReq req);
+  ApsOrderGoodsHistoryUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsHistoryUpdateByIdReq req);
 
   /**
    * 分页查询 历史订单记录
    */
   @PostMapping("/apsOrderGoodsHistory/queryPageList")
-  DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsHistoryExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsHistoryExportQueryPageListReq req);
 
   /**
    * 导出 历史订单记录
@@ -70,7 +87,8 @@ public interface ApsOrderGoodsHistoryApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsHistory/queryByIdList")
-  ApsOrderGoodsHistoryQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsHistoryQueryByIdListReq req);
+  ApsOrderGoodsHistoryQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsHistoryQueryByIdListReq req);
 
 
   /***

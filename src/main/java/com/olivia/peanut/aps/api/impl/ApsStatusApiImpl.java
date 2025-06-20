@@ -4,7 +4,21 @@ package com.olivia.peanut.aps.api.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsStatusApi;
-import com.olivia.peanut.aps.api.entity.apsStatus.*;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDto;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusImportReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusImportRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusInsertReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusInsertRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsStatusImportListener;
 import com.olivia.peanut.aps.model.ApsStatus;
 import com.olivia.peanut.aps.service.ApsStatusService;
@@ -12,12 +26,11 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsStatus)表服务实现类
@@ -63,12 +76,14 @@ public class ApsStatusApiImpl implements ApsStatusApi {
   public @Override ApsStatusUpdateByIdRes updateById(ApsStatusUpdateByIdReq req) {
     apsStatusService.updateById($.copy(req, ApsStatus.class));
     apsStatusService.update(new LambdaUpdateWrapper<ApsStatus>() //
-        .eq(BaseEntity::getId, req.getId()).set(ApsStatus::getOrderStatusId, req.getOrderStatusId()));
+        .eq(BaseEntity::getId, req.getId())
+        .set(ApsStatus::getOrderStatusId, req.getOrderStatusId()));
     return new ApsStatusUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
+      ApsStatusExportQueryPageListReq req) {
     return apsStatusService.queryPageList(req);
   }
 
@@ -76,12 +91,14 @@ public class ApsStatusApiImpl implements ApsStatusApi {
     DynamicsPage<ApsStatusExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsStatusExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsStatusExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsStatusExportQueryPageListInfoRes.class);
+    List<ApsStatusExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsStatusExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsStatusExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsStatusImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsStatusImportReq> reqList = PoiExcelUtil.readData(file, new ApsStatusImportListener(), ApsStatusImportReq.class);
+    List<ApsStatusImportReq> reqList = PoiExcelUtil.readData(file, new ApsStatusImportListener(),
+        ApsStatusImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsStatus> readList = $.copyList(reqList, ApsStatus.class);
     boolean bool = apsStatusService.saveBatch(readList);

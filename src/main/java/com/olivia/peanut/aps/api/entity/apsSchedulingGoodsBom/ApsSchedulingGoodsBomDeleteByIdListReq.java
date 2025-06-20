@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 订单商品零件表(ApsSchedulingGoodsBom)根据ID删除多个入参

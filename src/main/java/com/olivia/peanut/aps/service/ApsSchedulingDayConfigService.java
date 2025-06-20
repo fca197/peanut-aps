@@ -1,10 +1,17 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigUpdateByIdRes;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfig;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +24,8 @@ public interface ApsSchedulingDayConfigService extends MPJBaseService<ApsSchedul
 
   ApsSchedulingDayConfigQueryListRes queryList(ApsSchedulingDayConfigQueryListReq req);
 
-  DynamicsPage<ApsSchedulingDayConfigExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingDayConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingDayConfigDto> apsSchedulingDayConfigDtoList);

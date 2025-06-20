@@ -14,7 +14,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes extends ApsSchedulingDayConfigVersionDetailMachineUseTimeDto {
+public class ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes extends
+    ApsSchedulingDayConfigVersionDetailMachineUseTimeDto {
 
 }
 

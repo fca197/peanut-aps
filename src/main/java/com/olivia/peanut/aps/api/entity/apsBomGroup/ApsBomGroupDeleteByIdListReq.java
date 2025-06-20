@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsBomGroup;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 零件组配置(ApsBomGroup)根据ID删除多个入参

@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsProduceProcessItemApi;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDto;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsProduceProcessItemImportListener;
 import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.peanut.aps.service.ApsProduceProcessItemService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * aps 生产机器(ApsProduceProcessItem)表服务实现类
@@ -40,7 +53,8 @@ public class ApsProduceProcessItemApiImpl implements ApsProduceProcessItemApi {
    * deleteByIds
    *
    */
-  public @Override ApsProduceProcessItemDeleteByIdListRes deleteByIdList(ApsProduceProcessItemDeleteByIdListReq req) {
+  public @Override ApsProduceProcessItemDeleteByIdListRes deleteByIdList(
+      ApsProduceProcessItemDeleteByIdListReq req) {
     apsProduceProcessItemService.removeByIds(req.getIdList());
     return new ApsProduceProcessItemDeleteByIdListRes();
   }
@@ -49,7 +63,8 @@ public class ApsProduceProcessItemApiImpl implements ApsProduceProcessItemApi {
    * queryList
    *
    */
-  public @Override ApsProduceProcessItemQueryListRes queryList(ApsProduceProcessItemQueryListReq req) {
+  public @Override ApsProduceProcessItemQueryListRes queryList(
+      ApsProduceProcessItemQueryListReq req) {
     return apsProduceProcessItemService.queryList(req);
   }
 
@@ -57,13 +72,15 @@ public class ApsProduceProcessItemApiImpl implements ApsProduceProcessItemApi {
    * updateById
    *
    */
-  public @Override ApsProduceProcessItemUpdateByIdRes updateById(ApsProduceProcessItemUpdateByIdReq req) {
+  public @Override ApsProduceProcessItemUpdateByIdRes updateById(
+      ApsProduceProcessItemUpdateByIdReq req) {
     apsProduceProcessItemService.updateById($.copy(req, ApsProduceProcessItem.class));
     return new ApsProduceProcessItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(ApsProduceProcessItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(
+      ApsProduceProcessItemExportQueryPageListReq req) {
     return apsProduceProcessItemService.queryPageList(req);
   }
 
@@ -71,12 +88,16 @@ public class ApsProduceProcessItemApiImpl implements ApsProduceProcessItemApi {
     DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProduceProcessItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProduceProcessItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProduceProcessItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsProduceProcessItemExportQueryPageListInfoRes.class, listInfoRes, "aps 生产机器");
+    List<ApsProduceProcessItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsProduceProcessItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsProduceProcessItemExportQueryPageListInfoRes.class, listInfoRes,
+        "aps 生产机器");
   }
 
-  public @Override ApsProduceProcessItemImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProduceProcessItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsProduceProcessItemImportListener(), ApsProduceProcessItemImportReq.class);
+  public @Override ApsProduceProcessItemImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsProduceProcessItemImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsProduceProcessItemImportListener(), ApsProduceProcessItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProduceProcessItem> readList = $.copyList(reqList, ApsProduceProcessItem.class);
     boolean bool = apsProduceProcessItemService.saveBatch(readList);
@@ -84,8 +105,10 @@ public class ApsProduceProcessItemApiImpl implements ApsProduceProcessItemApi {
     return new ApsProduceProcessItemImportRes().setCount(c);
   }
 
-  public @Override ApsProduceProcessItemQueryByIdListRes queryByIdListRes(ApsProduceProcessItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProduceProcessItem> q = new MPJLambdaWrapper<ApsProduceProcessItem>(ApsProduceProcessItem.class)
+  public @Override ApsProduceProcessItemQueryByIdListRes queryByIdListRes(
+      ApsProduceProcessItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProduceProcessItem> q = new MPJLambdaWrapper<ApsProduceProcessItem>(
+        ApsProduceProcessItem.class)
         .selectAll(ApsProduceProcessItem.class).in(ApsProduceProcessItem::getId, req.getIdList());
     List<ApsProduceProcessItem> list = this.apsProduceProcessItemService.list(q);
     List<ApsProduceProcessItemDto> dataList = $.copyList(list, ApsProduceProcessItemDto.class);

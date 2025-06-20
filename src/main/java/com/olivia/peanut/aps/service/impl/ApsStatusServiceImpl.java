@@ -5,20 +5,27 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsStatus.*;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDto;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsStatusMapper;
 import com.olivia.peanut.aps.model.ApsStatus;
 import com.olivia.peanut.aps.service.ApsStatusService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.*;
-import lombok.SneakyThrows;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.Str;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsStatus)表服务实现类
@@ -28,9 +35,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsStatusService")
 @Transactional
-public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, ApsStatus> implements ApsStatusService {
+public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, ApsStatus> implements
+    ApsStatusService {
 
-  final static Cache<String, List<ApsStatus>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, List<ApsStatus>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsStatusQueryListRes queryList(ApsStatusQueryListReq req) {
@@ -38,13 +47,15 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
     MPJLambdaWrapper<ApsStatus> q = getWrapper(req.getData());
     List<ApsStatus> list = this.list(q);
 
-    List<ApsStatusDto> dataList = list.stream().map(t -> $.copy(t, ApsStatusDto.class)).collect(Collectors.toList());
+    List<ApsStatusDto> dataList = list.stream().map(t -> $.copy(t, ApsStatusDto.class))
+        .collect(Collectors.toList());
 
     return new ApsStatusQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
+      ApsStatusExportQueryPageListReq req) {
 
     DynamicsPage<ApsStatus> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -53,7 +64,8 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
     List<ApsStatusExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsStatus> list = this.page(page, q);
-      IPage<ApsStatusExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsStatusExportQueryPageListInfoRes.class));
+      IPage<ApsStatusExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsStatusExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsStatusExportQueryPageListInfoRes.class);
@@ -61,7 +73,8 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsStatusExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsStatusExportQueryPageListInfoRes.class);
+    List<ApsStatusExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsStatusExportQueryPageListInfoRes.class);
 
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -82,7 +95,8 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
   @SuppressWarnings(Str.UN_CHECKED)
   private MPJLambdaWrapper<ApsStatus> getWrapper(ApsStatusDto obj) {
     MPJLambdaWrapper<ApsStatus> q = new MPJLambdaWrapper<>();
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsStatus.class, BaseEntity::getId, ApsStatus::getStatusName, ApsStatus::getStatusCode);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsStatus.class, BaseEntity::getId,
+        ApsStatus::getStatusName, ApsStatus::getStatusCode);
     q.orderByDesc(ApsStatus::getSortIndex);
     return q;
 

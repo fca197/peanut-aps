@@ -1,12 +1,18 @@
 package com.olivia.peanut.aps.service.impl;
 
+import static com.olivia.sdk.utils.Str.UN_CHECKED;
+
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsGoodsForecastMainMakeSaleDataMapper;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMainMakeSaleData;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainMakeSaleDataService;
@@ -15,15 +21,12 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static com.olivia.sdk.utils.Str.UN_CHECKED;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsGoodsForecastMainMakeSaleData)表服务实现类
@@ -33,18 +36,23 @@ import static com.olivia.sdk.utils.Str.UN_CHECKED;
  */
 @Service("apsGoodsForecastMainMakeSaleDataService")
 @Transactional
-public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends MPJBaseServiceImpl<ApsGoodsForecastMainMakeSaleDataMapper, ApsGoodsForecastMainMakeSaleData> implements
+public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends
+    MPJBaseServiceImpl<ApsGoodsForecastMainMakeSaleDataMapper, ApsGoodsForecastMainMakeSaleData> implements
     ApsGoodsForecastMainMakeSaleDataService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
-  public @Override ApsGoodsForecastMainMakeSaleDataQueryListRes queryList(ApsGoodsForecastMainMakeSaleDataQueryListReq req) {
+  public @Override ApsGoodsForecastMainMakeSaleDataQueryListRes queryList(
+      ApsGoodsForecastMainMakeSaleDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMainMakeSaleData> q = getWrapper(req.getData());
     List<ApsGoodsForecastMainMakeSaleData> list = this.list(q);
 
-    List<ApsGoodsForecastMainMakeSaleDataDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsForecastMainMakeSaleDataDto.class)).collect(Collectors.toList());
+    List<ApsGoodsForecastMainMakeSaleDataDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsGoodsForecastMainMakeSaleDataDto.class))
+        .collect(Collectors.toList());
     //  this.setName(dataList);
 
 //    ((ApsGoodsForecastMainMakeSaleDataServiceImpl) AopContext.currentProxy()).setName(dataList);
@@ -52,7 +60,8 @@ public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends MPJBaseServiceI
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainMakeSaleDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastMainMakeSaleDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMainMakeSaleData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -61,15 +70,18 @@ public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends MPJBaseServiceI
     List<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsGoodsForecastMainMakeSaleData> list = this.page(page, q);
-      IPage<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class));
+      IPage<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
-      records = $.copyList(this.list(q), ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class);
+      records = $.copyList(this.list(q),
+          ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class);
     }
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(
+        records, ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
 //    ((ApsGoodsForecastMainMakeSaleDataServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -79,7 +91,8 @@ public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends MPJBaseServiceI
   // 以下为私有对象封装
 
   @SetUserName
-  public @Override void setName(List<? extends ApsGoodsForecastMainMakeSaleDataDto> apsGoodsForecastMainMakeSaleDataDtoList) {
+  public @Override void setName(
+      List<? extends ApsGoodsForecastMainMakeSaleDataDto> apsGoodsForecastMainMakeSaleDataDtoList) {
 
     if (CollUtil.isEmpty(apsGoodsForecastMainMakeSaleDataDtoList)) {
     }
@@ -89,11 +102,15 @@ public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends MPJBaseServiceI
 
 
   @SuppressWarnings(UN_CHECKED)
-  private MPJLambdaWrapper<ApsGoodsForecastMainMakeSaleData> getWrapper(ApsGoodsForecastMainMakeSaleDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastMainMakeSaleData> getWrapper(
+      ApsGoodsForecastMainMakeSaleDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastMainMakeSaleData> q = new MPJLambdaWrapper<>();
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsForecastMainMakeSaleData.class, ApsGoodsForecastMainMakeSaleData::getGoodsId, //
-        ApsGoodsForecastMainMakeSaleData::getMainMakeId, ApsGoodsForecastMainMakeSaleData::getYear,//
-        ApsGoodsForecastMainMakeSaleData::getSaleConfigCode, ApsGoodsForecastMainMakeSaleData::getFactoryId);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsForecastMainMakeSaleData.class,
+        ApsGoodsForecastMainMakeSaleData::getGoodsId, //
+        ApsGoodsForecastMainMakeSaleData::getMainMakeId, ApsGoodsForecastMainMakeSaleData::getYear,
+//
+        ApsGoodsForecastMainMakeSaleData::getSaleConfigCode,
+        ApsGoodsForecastMainMakeSaleData::getFactoryId);
     q.orderByDesc(ApsGoodsForecastMainMakeSaleData::getId);
     return q;
 

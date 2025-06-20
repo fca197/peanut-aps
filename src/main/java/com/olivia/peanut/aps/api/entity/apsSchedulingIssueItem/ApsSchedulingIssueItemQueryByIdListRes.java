@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 排产下发详情(ApsSchedulingIssueItem)查询对象返回

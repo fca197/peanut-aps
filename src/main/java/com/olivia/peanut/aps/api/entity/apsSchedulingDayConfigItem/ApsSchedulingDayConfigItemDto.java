@@ -43,7 +43,8 @@ public class ApsSchedulingDayConfigItemDto extends BaseEntityDto {
   /***
    *  配置类型 sale,part,bom ,sleep
    */
-  @NotBlank(message = "配置类型 sale,project,bom ,sleep不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotBlank(message = "配置类型 sale,project,bom ,sleep不能为空", groups = {InsertCheck.class,
+      UpdateCheck.class})
   private String configBizType;
   /***
    *  配置业务ID

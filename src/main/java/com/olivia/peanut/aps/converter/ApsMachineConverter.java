@@ -1,14 +1,19 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsMachine.*;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDto;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineImportReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsMachine;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsMachineConverter {
+
   ApsMachineConverter INSTANCE = Mappers.getMapper(ApsMachineConverter.class);
 
   ApsMachine insertReq(ApsMachineInsertReq req);

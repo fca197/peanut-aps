@@ -1,22 +1,35 @@
 package com.olivia.peanut.aps.api.impl;
 
+import static com.olivia.sdk.utils.RunUtils.noImpl;
+
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsBomBuyPlanApi;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsGoodsBomBuyPlanImportListener;
 import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlan;
 import com.olivia.peanut.aps.service.ApsGoodsBomBuyPlanService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import static com.olivia.sdk.utils.RunUtils.noImpl;
 
 /**
  * BOM 购买计划(ApsGoodsBomBuyPlan)表服务实现类
@@ -42,7 +55,8 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsBomBuyPlanDeleteByIdListRes deleteByIdList(ApsGoodsBomBuyPlanDeleteByIdListReq req) {
+  public @Override ApsGoodsBomBuyPlanDeleteByIdListRes deleteByIdList(
+      ApsGoodsBomBuyPlanDeleteByIdListReq req) {
     apsGoodsBomBuyPlanService.removeByIds(req.getIdList());
     return new ApsGoodsBomBuyPlanDeleteByIdListRes();
   }
@@ -65,7 +79,8 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsBomBuyPlanExportQueryPageListReq req) {
     return apsGoodsBomBuyPlanService.queryPageList(req);
   }
 
@@ -73,13 +88,17 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
     DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsBomBuyPlanExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsGoodsBomBuyPlanExportQueryPageListInfoRes.class, listInfoRes, "BOM 购买计划");
+    List<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsGoodsBomBuyPlanExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsGoodsBomBuyPlanExportQueryPageListInfoRes.class, listInfoRes,
+        "BOM 购买计划");
   }
 
-  public @Override ApsGoodsBomBuyPlanImportRes importData(@RequestParam("file") MultipartFile file) {
+  public @Override ApsGoodsBomBuyPlanImportRes importData(
+      @RequestParam("file") MultipartFile file) {
     noImpl();
-    List<ApsGoodsBomBuyPlanImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsBomBuyPlanImportListener(), ApsGoodsBomBuyPlanImportReq.class);
+    List<ApsGoodsBomBuyPlanImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsGoodsBomBuyPlanImportListener(), ApsGoodsBomBuyPlanImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsBomBuyPlan> readList = $.copyList(reqList, ApsGoodsBomBuyPlan.class);
     boolean bool = apsGoodsBomBuyPlanService.saveBatch(readList);
@@ -87,8 +106,10 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
     return new ApsGoodsBomBuyPlanImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsBomBuyPlanQueryByIdListRes queryByIdListRes(ApsGoodsBomBuyPlanQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsBomBuyPlan> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlan>(ApsGoodsBomBuyPlan.class)
+  public @Override ApsGoodsBomBuyPlanQueryByIdListRes queryByIdListRes(
+      ApsGoodsBomBuyPlanQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsBomBuyPlan> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlan>(
+        ApsGoodsBomBuyPlan.class)
         .selectAll(ApsGoodsBomBuyPlan.class).in(ApsGoodsBomBuyPlan::getId, req.getIdList());
     List<ApsGoodsBomBuyPlan> list = this.apsGoodsBomBuyPlanService.list(q);
     List<ApsGoodsBomBuyPlanDto> dataList = $.copyList(list, ApsGoodsBomBuyPlanDto.class);

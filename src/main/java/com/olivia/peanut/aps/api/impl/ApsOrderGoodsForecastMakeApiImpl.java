@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsOrderGoodsForecastMakeApi;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeImportReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsOrderGoodsForecastMakeImportListener;
 import com.olivia.peanut.aps.model.ApsOrderGoodsForecastMake;
 import com.olivia.peanut.aps.service.ApsOrderGoodsForecastMakeService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 订单商品节点预测表(ApsOrderGoodsForecastMake)表服务实现类
@@ -31,7 +44,8 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
    * insert
    *
    */
-  public @Override ApsOrderGoodsForecastMakeInsertRes insert(ApsOrderGoodsForecastMakeInsertReq req) {
+  public @Override ApsOrderGoodsForecastMakeInsertRes insert(
+      ApsOrderGoodsForecastMakeInsertReq req) {
     this.apsOrderGoodsForecastMakeService.save($.copy(req, ApsOrderGoodsForecastMake.class));
     return new ApsOrderGoodsForecastMakeInsertRes().setCount(1);
   }
@@ -40,7 +54,8 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsForecastMakeDeleteByIdListRes deleteByIdList(ApsOrderGoodsForecastMakeDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsForecastMakeDeleteByIdListRes deleteByIdList(
+      ApsOrderGoodsForecastMakeDeleteByIdListReq req) {
     apsOrderGoodsForecastMakeService.removeByIds(req.getIdList());
     return new ApsOrderGoodsForecastMakeDeleteByIdListRes();
   }
@@ -49,7 +64,8 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
    * queryList
    *
    */
-  public @Override ApsOrderGoodsForecastMakeQueryListRes queryList(ApsOrderGoodsForecastMakeQueryListReq req) {
+  public @Override ApsOrderGoodsForecastMakeQueryListRes queryList(
+      ApsOrderGoodsForecastMakeQueryListReq req) {
     return apsOrderGoodsForecastMakeService.queryList(req);
   }
 
@@ -57,13 +73,15 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
    * updateById
    *
    */
-  public @Override ApsOrderGoodsForecastMakeUpdateByIdRes updateById(ApsOrderGoodsForecastMakeUpdateByIdReq req) {
+  public @Override ApsOrderGoodsForecastMakeUpdateByIdRes updateById(
+      ApsOrderGoodsForecastMakeUpdateByIdReq req) {
     apsOrderGoodsForecastMakeService.updateById($.copy(req, ApsOrderGoodsForecastMake.class));
     return new ApsOrderGoodsForecastMakeUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsForecastMakeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsForecastMakeExportQueryPageListReq req) {
     return apsOrderGoodsForecastMakeService.queryPageList(req);
   }
 
@@ -71,12 +89,16 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
     DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsForecastMakeExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsOrderGoodsForecastMakeExportQueryPageListInfoRes.class, listInfoRes, "订单商品节点预测表");
+    List<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsOrderGoodsForecastMakeExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsOrderGoodsForecastMakeExportQueryPageListInfoRes.class, listInfoRes,
+        "订单商品节点预测表");
   }
 
-  public @Override ApsOrderGoodsForecastMakeImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsForecastMakeImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsForecastMakeImportListener(), ApsOrderGoodsForecastMakeImportReq.class);
+  public @Override ApsOrderGoodsForecastMakeImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsForecastMakeImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsOrderGoodsForecastMakeImportListener(), ApsOrderGoodsForecastMakeImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsForecastMake> readList = $.copyList(reqList, ApsOrderGoodsForecastMake.class);
     boolean bool = apsOrderGoodsForecastMakeService.saveBatch(readList);
@@ -84,11 +106,15 @@ public class ApsOrderGoodsForecastMakeApiImpl implements ApsOrderGoodsForecastMa
     return new ApsOrderGoodsForecastMakeImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsForecastMakeQueryByIdListRes queryByIdListRes(ApsOrderGoodsForecastMakeQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsForecastMake> q = new MPJLambdaWrapper<ApsOrderGoodsForecastMake>(ApsOrderGoodsForecastMake.class)
-        .selectAll(ApsOrderGoodsForecastMake.class).in(ApsOrderGoodsForecastMake::getId, req.getIdList());
+  public @Override ApsOrderGoodsForecastMakeQueryByIdListRes queryByIdListRes(
+      ApsOrderGoodsForecastMakeQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsForecastMake> q = new MPJLambdaWrapper<ApsOrderGoodsForecastMake>(
+        ApsOrderGoodsForecastMake.class)
+        .selectAll(ApsOrderGoodsForecastMake.class)
+        .in(ApsOrderGoodsForecastMake::getId, req.getIdList());
     List<ApsOrderGoodsForecastMake> list = this.apsOrderGoodsForecastMakeService.list(q);
-    List<ApsOrderGoodsForecastMakeDto> dataList = $.copyList(list, ApsOrderGoodsForecastMakeDto.class);
+    List<ApsOrderGoodsForecastMakeDto> dataList = $.copyList(list,
+        ApsOrderGoodsForecastMakeDto.class);
     this.apsOrderGoodsForecastMakeService.setName(dataList);
     return new ApsOrderGoodsForecastMakeQueryByIdListRes().setDataList(dataList);
   }

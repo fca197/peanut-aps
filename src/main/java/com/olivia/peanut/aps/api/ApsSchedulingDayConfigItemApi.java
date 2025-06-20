@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsSchedulingDayConfigItemApi {
    * 保存 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/insert")
-  ApsSchedulingDayConfigItemInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigItemInsertReq req);
+  ApsSchedulingDayConfigItemInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigItemInsertReq req);
 
   /**
    * 根据ID 删除 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/deleteByIdList")
-  ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingDayConfigItemDeleteByIdListReq req);
+  ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingDayConfigItemDeleteByIdListReq req);
 
   /**
    * 查询 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/queryList")
-  ApsSchedulingDayConfigItemQueryListRes queryList(@RequestBody @Valid ApsSchedulingDayConfigItemQueryListReq req);
+  ApsSchedulingDayConfigItemQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingDayConfigItemQueryListReq req);
 
   /**
    * 根据ID 更新 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/updateById")
-  ApsSchedulingDayConfigItemUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigItemUpdateByIdReq req);
+  ApsSchedulingDayConfigItemUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigItemUpdateByIdReq req);
 
   /**
    * 分页查询 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/queryPageList")
-  DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingDayConfigItemExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingDayConfigItemExportQueryPageListReq req);
 
   /**
    * 导出 排程版本配置表
    */
   @PostMapping("/apsSchedulingDayConfigItem/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsSchedulingDayConfigItemExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsSchedulingDayConfigItemExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsSchedulingDayConfigItemApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingDayConfigItem/queryByIdList")
-  ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingDayConfigItemQueryByIdListReq req);
+  ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingDayConfigItemQueryByIdListReq req);
 
 
 }

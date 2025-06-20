@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderStatusEnum;
 import com.olivia.sdk.ann.FieldExt;
 import com.olivia.sdk.utils.BaseEntity;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * (ApsOrder)表实体类

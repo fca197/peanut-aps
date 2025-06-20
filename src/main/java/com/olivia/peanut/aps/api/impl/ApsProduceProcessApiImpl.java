@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsProduceProcessApi;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDto;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsProduceProcessImportListener;
 import com.olivia.peanut.aps.model.ApsProduceProcess;
 import com.olivia.peanut.aps.service.ApsProduceProcessService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * aps 生产路径(ApsProduceProcess)表服务实现类
@@ -40,7 +53,8 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
    * deleteByIds
    *
    */
-  public @Override ApsProduceProcessDeleteByIdListRes deleteByIdList(ApsProduceProcessDeleteByIdListReq req) {
+  public @Override ApsProduceProcessDeleteByIdListRes deleteByIdList(
+      ApsProduceProcessDeleteByIdListReq req) {
     apsProduceProcessService.removeByIds(req.getIdList());
     return new ApsProduceProcessDeleteByIdListRes();
   }
@@ -63,7 +77,8 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
 
   }
 
-  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(ApsProduceProcessExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(
+      ApsProduceProcessExportQueryPageListReq req) {
     return apsProduceProcessService.queryPageList(req);
   }
 
@@ -71,12 +86,15 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
     DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProduceProcessExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProduceProcessExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsProduceProcessExportQueryPageListInfoRes.class, listInfoRes, "aps 生产路径");
+    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsProduceProcessExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsProduceProcessExportQueryPageListInfoRes.class, listInfoRes,
+        "aps 生产路径");
   }
 
   public @Override ApsProduceProcessImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProduceProcessImportReq> reqList = PoiExcelUtil.readData(file, new ApsProduceProcessImportListener(), ApsProduceProcessImportReq.class);
+    List<ApsProduceProcessImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsProduceProcessImportListener(), ApsProduceProcessImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProduceProcess> readList = $.copyList(reqList, ApsProduceProcess.class);
     boolean bool = apsProduceProcessService.saveBatch(readList);
@@ -84,8 +102,10 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
     return new ApsProduceProcessImportRes().setCount(c);
   }
 
-  public @Override ApsProduceProcessQueryByIdListRes queryByIdListRes(ApsProduceProcessQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProduceProcess> q = new MPJLambdaWrapper<ApsProduceProcess>(ApsProduceProcess.class)
+  public @Override ApsProduceProcessQueryByIdListRes queryByIdListRes(
+      ApsProduceProcessQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProduceProcess> q = new MPJLambdaWrapper<ApsProduceProcess>(
+        ApsProduceProcess.class)
         .selectAll(ApsProduceProcess.class).in(ApsProduceProcess::getId, req.getIdList());
     List<ApsProduceProcess> list = this.apsProduceProcessService.list(q);
     List<ApsProduceProcessDto> dataList = $.copyList(list, ApsProduceProcessDto.class);

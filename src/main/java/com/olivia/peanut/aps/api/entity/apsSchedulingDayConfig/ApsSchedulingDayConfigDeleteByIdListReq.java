@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 排程版本表(ApsSchedulingDayConfig)根据ID删除多个入参

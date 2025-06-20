@@ -1,12 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 排产下发订单预览(ApsSchedulingVersionItemPre)保存返回
@@ -19,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @SuppressWarnings("serial")
 public class ApsSchedulingVersionItemPreImportRes {
+
   /****
    * 写入行数
    */

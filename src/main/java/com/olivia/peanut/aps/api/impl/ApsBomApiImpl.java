@@ -1,22 +1,35 @@
 package com.olivia.peanut.aps.api.impl;
 
+import static com.olivia.peanut.aps.converter.ApsBomConverter.INSTANCE;
+
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsBomApi;
-import com.olivia.peanut.aps.api.entity.apsBom.*;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomDto;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomImportReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomImportRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsBom.ApsBomUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsBomImportListener;
 import com.olivia.peanut.aps.model.ApsBom;
 import com.olivia.peanut.aps.service.ApsBomService;
 import com.olivia.sdk.ann.Oplog;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import static com.olivia.peanut.aps.converter.ApsBomConverter.INSTANCE;
 
 /**
  * BOM 清单(ApsBom)表服务实现类
@@ -68,7 +81,8 @@ public class ApsBomApiImpl implements ApsBomApi {
 
   }
 
-  public @Override DynamicsPage<ApsBomExportQueryPageListInfoRes> queryPageList(ApsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomExportQueryPageListInfoRes> queryPageList(
+      ApsBomExportQueryPageListReq req) {
     return apsBomService.queryPageList(req);
   }
 
@@ -81,7 +95,8 @@ public class ApsBomApiImpl implements ApsBomApi {
   }
 
   public @Override ApsBomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsBomImportListener(), ApsBomImportReq.class);
+    List<ApsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsBomImportListener(),
+        ApsBomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsBom> readList = INSTANCE.importReq(reqList);
     boolean bool = apsBomService.saveBatch(readList);

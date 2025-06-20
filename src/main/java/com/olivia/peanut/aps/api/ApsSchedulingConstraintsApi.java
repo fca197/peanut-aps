@@ -1,7 +1,20 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsGetUseFieldRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -26,31 +39,36 @@ public interface ApsSchedulingConstraintsApi {
    * 保存
    */
   @PostMapping("/apsSchedulingConstraints/insert")
-  ApsSchedulingConstraintsInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingConstraintsInsertReq req);
+  ApsSchedulingConstraintsInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingConstraintsInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsSchedulingConstraints/deleteByIdList")
-  ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingConstraintsDeleteByIdListReq req);
+  ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingConstraintsDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsSchedulingConstraints/queryList")
-  ApsSchedulingConstraintsQueryListRes queryList(@RequestBody @Valid ApsSchedulingConstraintsQueryListReq req);
+  ApsSchedulingConstraintsQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingConstraintsQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsSchedulingConstraints/updateById")
-  ApsSchedulingConstraintsUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingConstraintsUpdateByIdReq req);
+  ApsSchedulingConstraintsUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingConstraintsUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsSchedulingConstraints/queryPageList")
-  DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingConstraintsExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingConstraintsExportQueryPageListReq req);
 
   /**
    * 导出
@@ -69,7 +87,8 @@ public interface ApsSchedulingConstraintsApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingConstraints/queryByIdList")
-  ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingConstraintsQueryByIdListReq req);
+  ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingConstraintsQueryByIdListReq req);
 
 
   @GetMapping("/apsSchedulingConstraints/getUseField")

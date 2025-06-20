@@ -1,7 +1,21 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.CheckBomUseExpressionReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.CheckBomUseExpressionRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -43,13 +57,15 @@ public interface ApsGoodsBomApi {
    * 根据ID 更新
    */
   @PostMapping("/apsGoodsBom/updateById")
-  ApsGoodsBomUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsBomUpdateByIdReq req);
+  ApsGoodsBomUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsGoodsBomUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoodsBom/queryPageList")
-  DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsGoodsBomExportQueryPageListReq req);
 
   /**
    * 导出
@@ -71,8 +87,6 @@ public interface ApsGoodsBomApi {
   ApsGoodsBomQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsGoodsBomQueryByIdListReq req);
 
 
-
   @PostMapping("/apsGoodsBom/check/bomUseExpression")
-
   CheckBomUseExpressionRes checkBomUseExpression(@Valid @RequestBody CheckBomUseExpressionReq req);
 }

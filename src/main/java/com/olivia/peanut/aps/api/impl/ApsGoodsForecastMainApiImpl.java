@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsForecastMainApi;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsGoodsForecastMainImportListener;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMain;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsGoodsForecastMain)表服务实现类
@@ -41,7 +54,8 @@ public class ApsGoodsForecastMainApiImpl implements ApsGoodsForecastMainApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastMainDeleteByIdListRes deleteByIdList(ApsGoodsForecastMainDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastMainDeleteByIdListRes deleteByIdList(
+      ApsGoodsForecastMainDeleteByIdListReq req) {
     apsGoodsForecastMainService.removeByIds(req.getIdList());
     return new ApsGoodsForecastMainDeleteByIdListRes();
   }
@@ -50,7 +64,8 @@ public class ApsGoodsForecastMainApiImpl implements ApsGoodsForecastMainApi {
    * queryList
    *
    */
-  public @Override ApsGoodsForecastMainQueryListRes queryList(ApsGoodsForecastMainQueryListReq req) {
+  public @Override ApsGoodsForecastMainQueryListRes queryList(
+      ApsGoodsForecastMainQueryListReq req) {
     return apsGoodsForecastMainService.queryList(req);
   }
 
@@ -58,13 +73,15 @@ public class ApsGoodsForecastMainApiImpl implements ApsGoodsForecastMainApi {
    * updateById
    *
    */
-  public @Override ApsGoodsForecastMainUpdateByIdRes updateById(ApsGoodsForecastMainUpdateByIdReq req) {
+  public @Override ApsGoodsForecastMainUpdateByIdRes updateById(
+      ApsGoodsForecastMainUpdateByIdReq req) {
     apsGoodsForecastMainService.updateById($.copy(req, ApsGoodsForecastMain.class));
     return new ApsGoodsForecastMainUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastMainExportQueryPageListReq req) {
     return apsGoodsForecastMainService.queryPageList(req);
   }
 
@@ -72,12 +89,15 @@ public class ApsGoodsForecastMainApiImpl implements ApsGoodsForecastMainApi {
     DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastMainExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastMainExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastMainExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastMainExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsGoodsForecastMainExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsForecastMainExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsGoodsForecastMainImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastMainImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastMainImportListener(), ApsGoodsForecastMainImportReq.class);
+  public @Override ApsGoodsForecastMainImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsGoodsForecastMainImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsGoodsForecastMainImportListener(), ApsGoodsForecastMainImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsForecastMain> readList = $.copyList(reqList, ApsGoodsForecastMain.class);
     boolean bool = apsGoodsForecastMainService.saveBatch(readList);
@@ -85,8 +105,10 @@ public class ApsGoodsForecastMainApiImpl implements ApsGoodsForecastMainApi {
     return new ApsGoodsForecastMainImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastMainQueryByIdListRes queryByIdListRes(ApsGoodsForecastMainQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecastMain> q = new MPJLambdaWrapper<ApsGoodsForecastMain>(ApsGoodsForecastMain.class)
+  public @Override ApsGoodsForecastMainQueryByIdListRes queryByIdListRes(
+      ApsGoodsForecastMainQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecastMain> q = new MPJLambdaWrapper<ApsGoodsForecastMain>(
+        ApsGoodsForecastMain.class)
         .selectAll(ApsGoodsForecastMain.class).in(ApsGoodsForecastMain::getId, req.getIdList());
     List<ApsGoodsForecastMain> list = this.apsGoodsForecastMainService.list(q);
     List<ApsGoodsForecastMainDto> dataList = $.copyList(list, ApsGoodsForecastMainDto.class);

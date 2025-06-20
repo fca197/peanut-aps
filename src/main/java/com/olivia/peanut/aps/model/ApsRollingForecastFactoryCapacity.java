@@ -3,11 +3,10 @@ package com.olivia.peanut.aps.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Objects;
 
 /**
  * 滚动预测(ApsRollingForecastFactoryCapacity)表实体类
@@ -172,7 +171,8 @@ public class ApsRollingForecastFactoryCapacity extends BaseEntity {
       return false;
     }
     ApsRollingForecastFactoryCapacity that = (ApsRollingForecastFactoryCapacity) o;
-    return Objects.equals(factoryId, that.factoryId) && Objects.equals(year, that.year) && Objects.equals(month, that.month);
+    return Objects.equals(factoryId, that.factoryId) && Objects.equals(year, that.year)
+        && Objects.equals(month, that.month);
   }
 
   @Override

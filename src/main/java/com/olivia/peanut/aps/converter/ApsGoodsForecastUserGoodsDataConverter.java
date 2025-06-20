@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.ApsGoodsForecastUserGoodsDataDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.ApsGoodsForecastUserGoodsDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.ApsGoodsForecastUserGoodsDataImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.ApsGoodsForecastUserGoodsDataInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastUserGoodsData.ApsGoodsForecastUserGoodsDataUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsGoodsForecastUserGoodsData;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsGoodsForecastUserGoodsDataConverter {
-  ApsGoodsForecastUserGoodsDataConverter INSTANCE = Mappers.getMapper(ApsGoodsForecastUserGoodsDataConverter.class);
+
+  ApsGoodsForecastUserGoodsDataConverter INSTANCE = Mappers.getMapper(
+      ApsGoodsForecastUserGoodsDataConverter.class);
 
   ApsGoodsForecastUserGoodsData insertReq(ApsGoodsForecastUserGoodsDataInsertReq req);
 
@@ -17,8 +23,10 @@ public interface ApsGoodsForecastUserGoodsDataConverter {
 
   List<ApsGoodsForecastUserGoodsDataDto> queryListRes(List<ApsGoodsForecastUserGoodsData> list);
 
-  List<ApsGoodsForecastUserGoodsDataExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastUserGoodsData> list);
+  List<ApsGoodsForecastUserGoodsDataExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsGoodsForecastUserGoodsData> list);
 
-  List<ApsGoodsForecastUserGoodsData> importReq(List<ApsGoodsForecastUserGoodsDataImportReq> reqList);
+  List<ApsGoodsForecastUserGoodsData> importReq(
+      List<ApsGoodsForecastUserGoodsDataImportReq> reqList);
 }
 

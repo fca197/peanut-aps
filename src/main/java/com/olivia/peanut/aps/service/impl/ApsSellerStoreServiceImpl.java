@@ -6,7 +6,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.*;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreDto;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsSellerStoreMapper;
 import com.olivia.peanut.aps.model.ApsSellerStore;
 import com.olivia.peanut.aps.service.ApsSellerStoreService;
@@ -19,15 +23,14 @@ import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import com.olivia.sdk.utils.Str;
 import jakarta.annotation.Resource;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * aps销售门店(ApsSellerStore)表服务实现类
@@ -37,9 +40,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsSellerStoreService")
 @Transactional
-public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStoreMapper, ApsSellerStore> implements ApsSellerStoreService {
+public class ApsSellerStoreServiceImpl extends
+    MPJBaseServiceImpl<ApsSellerStoreMapper, ApsSellerStore> implements ApsSellerStoreService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -53,12 +58,14 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
     MPJLambdaWrapper<ApsSellerStore> q = getWrapper(req.getData());
     List<ApsSellerStore> list = this.list(q);
 
-    List<ApsSellerStoreDto> dataList = list.stream().map(t -> $.copy(t, ApsSellerStoreDto.class)).collect(Collectors.toList());
+    List<ApsSellerStoreDto> dataList = list.stream().map(t -> $.copy(t, ApsSellerStoreDto.class))
+        .collect(Collectors.toList());
     ((ApsSellerStoreService) AopContext.currentProxy()).setName(dataList);
     return new ApsSellerStoreQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(ApsSellerStoreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(
+      ApsSellerStoreExportQueryPageListReq req) {
 
     DynamicsPage<ApsSellerStore> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -67,7 +74,8 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
     List<ApsSellerStoreExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSellerStore> list = this.page(page, q);
-      IPage<ApsSellerStoreExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSellerStoreExportQueryPageListInfoRes.class));
+      IPage<ApsSellerStoreExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsSellerStoreExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsSellerStoreExportQueryPageListInfoRes.class);
@@ -75,7 +83,8 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsSellerStoreExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsSellerStoreExportQueryPageListInfoRes.class);
+    List<ApsSellerStoreExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsSellerStoreExportQueryPageListInfoRes.class);
     ((ApsSellerStoreService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -90,12 +99,16 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
     if (CollUtil.isEmpty(list)) {
       return;
     }
-    Set<String> provinceCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreProvinceCode).collect(Collectors.toSet());
-    Set<String> cityCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreCityCode).collect(Collectors.toSet());
-    Set<String> areaCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreAreaCode).collect(Collectors.toSet());
+    Set<String> provinceCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreProvinceCode)
+        .collect(Collectors.toSet());
+    Set<String> cityCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreCityCode)
+        .collect(Collectors.toSet());
+    Set<String> areaCodeSet = list.stream().map(ApsSellerStoreDto::getSellerStoreAreaCode)
+        .collect(Collectors.toSet());
     provinceCodeSet.addAll(cityCodeSet);
     provinceCodeSet.addAll(areaCodeSet);
-    Map<String, DistrictCode> districtCodeMap = districtCodeService.getDistrictCodeMap(provinceCodeSet);
+    Map<String, DistrictCode> districtCodeMap = districtCodeService.getDistrictCodeMap(
+        provinceCodeSet);
     DistrictCode districtCode = new DistrictCode().setName("-");
     list.forEach(t -> t.setSellerStoreAreaName(String.join("/", //
         districtCodeMap.getOrDefault(t.getSellerStoreProvinceCode(), districtCode).getName(), //
@@ -109,10 +122,10 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
   private MPJLambdaWrapper<ApsSellerStore> getWrapper(ApsSellerStoreDto obj) {
     MPJLambdaWrapper<ApsSellerStore> q = new MPJLambdaWrapper<>();
 
-
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSellerStore.class, ApsSellerStore::getId,
         ApsSellerStore::getSellerStoreCode, ApsSellerStore::getSellerStoreName,
-        ApsSellerStore::getSellerStorePhone, ApsSellerStore::getSellerStoreProvinceCode, ApsSellerStore::getSellerStoreCityCode
+        ApsSellerStore::getSellerStorePhone, ApsSellerStore::getSellerStoreProvinceCode,
+        ApsSellerStore::getSellerStoreCityCode
         , ApsSellerStore::getSellerStoreAreaCode);
     q.orderByDesc(ApsSellerStore::getId);
     return q;

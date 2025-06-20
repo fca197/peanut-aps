@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsForecastMake.ApsOrderGoodsForecastMakeUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +37,36 @@ public interface ApsOrderGoodsForecastMakeApi {
    * 保存 订单商品节点预测表
    */
   @PostMapping("/apsOrderGoodsForecastMake/insert")
-  ApsOrderGoodsForecastMakeInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsForecastMakeInsertReq req);
+  ApsOrderGoodsForecastMakeInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsForecastMakeInsertReq req);
 
   /**
    * 根据ID 删除 订单商品节点预测表
    */
   @PostMapping("/apsOrderGoodsForecastMake/deleteByIdList")
-  ApsOrderGoodsForecastMakeDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsForecastMakeDeleteByIdListReq req);
+  ApsOrderGoodsForecastMakeDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsForecastMakeDeleteByIdListReq req);
 
   /**
    * 查询 订单商品节点预测表
    */
   @PostMapping("/apsOrderGoodsForecastMake/queryList")
-  ApsOrderGoodsForecastMakeQueryListRes queryList(@RequestBody @Valid ApsOrderGoodsForecastMakeQueryListReq req);
+  ApsOrderGoodsForecastMakeQueryListRes queryList(
+      @RequestBody @Valid ApsOrderGoodsForecastMakeQueryListReq req);
 
   /**
    * 根据ID 更新 订单商品节点预测表
    */
   @PostMapping("/apsOrderGoodsForecastMake/updateById")
-  ApsOrderGoodsForecastMakeUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsForecastMakeUpdateByIdReq req);
+  ApsOrderGoodsForecastMakeUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsForecastMakeUpdateByIdReq req);
 
   /**
    * 分页查询 订单商品节点预测表
    */
   @PostMapping("/apsOrderGoodsForecastMake/queryPageList")
-  DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsForecastMakeExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsForecastMakeExportQueryPageListReq req);
 
   /**
    * 导出 订单商品节点预测表
@@ -68,7 +85,8 @@ public interface ApsOrderGoodsForecastMakeApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsForecastMake/queryByIdList")
-  ApsOrderGoodsForecastMakeQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsForecastMakeQueryByIdListReq req);
+  ApsOrderGoodsForecastMakeQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsForecastMakeQueryByIdListReq req);
 
 
 }

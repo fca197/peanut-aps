@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingDayConfigItemApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingDayConfigItemImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigItem;
 import com.olivia.peanut.aps.service.ApsSchedulingDayConfigItemService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 排程版本配置表(ApsSchedulingDayConfigItem)表服务实现类
@@ -31,7 +44,8 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * insert
    *
    */
-  public @Override ApsSchedulingDayConfigItemInsertRes insert(ApsSchedulingDayConfigItemInsertReq req) {
+  public @Override ApsSchedulingDayConfigItemInsertRes insert(
+      ApsSchedulingDayConfigItemInsertReq req) {
     this.apsSchedulingDayConfigItemService.save($.copy(req, ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigItemInsertRes().setCount(1);
   }
@@ -40,7 +54,8 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(ApsSchedulingDayConfigItemDeleteByIdListReq req) {
+  public @Override ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(
+      ApsSchedulingDayConfigItemDeleteByIdListReq req) {
     apsSchedulingDayConfigItemService.removeByIds(req.getIdList());
     return new ApsSchedulingDayConfigItemDeleteByIdListRes();
   }
@@ -49,7 +64,8 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * queryList
    *
    */
-  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(ApsSchedulingDayConfigItemQueryListReq req) {
+  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(
+      ApsSchedulingDayConfigItemQueryListReq req) {
     return apsSchedulingDayConfigItemService.queryList(req);
   }
 
@@ -57,13 +73,15 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * updateById
    *
    */
-  public @Override ApsSchedulingDayConfigItemUpdateByIdRes updateById(ApsSchedulingDayConfigItemUpdateByIdReq req) {
+  public @Override ApsSchedulingDayConfigItemUpdateByIdRes updateById(
+      ApsSchedulingDayConfigItemUpdateByIdReq req) {
     apsSchedulingDayConfigItemService.updateById($.copy(req, ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingDayConfigItemExportQueryPageListReq req) {
     return apsSchedulingDayConfigItemService.queryPageList(req);
   }
 
@@ -71,24 +89,33 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
     DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class, listInfoRes, "排程版本配置表");
+    List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class, listInfoRes,
+        "排程版本配置表");
   }
 
-  public @Override ApsSchedulingDayConfigItemImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingDayConfigItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingDayConfigItemImportListener(), ApsSchedulingDayConfigItemImportReq.class);
+  public @Override ApsSchedulingDayConfigItemImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingDayConfigItemImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingDayConfigItemImportListener(), ApsSchedulingDayConfigItemImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingDayConfigItem> readList = $.copyList(reqList, ApsSchedulingDayConfigItem.class);
+    List<ApsSchedulingDayConfigItem> readList = $.copyList(reqList,
+        ApsSchedulingDayConfigItem.class);
     boolean bool = apsSchedulingDayConfigItemService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsSchedulingDayConfigItemImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(ApsSchedulingDayConfigItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = new MPJLambdaWrapper<ApsSchedulingDayConfigItem>(ApsSchedulingDayConfigItem.class)
-        .selectAll(ApsSchedulingDayConfigItem.class).in(ApsSchedulingDayConfigItem::getId, req.getIdList());
+  public @Override ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(
+      ApsSchedulingDayConfigItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = new MPJLambdaWrapper<ApsSchedulingDayConfigItem>(
+        ApsSchedulingDayConfigItem.class)
+        .selectAll(ApsSchedulingDayConfigItem.class)
+        .in(ApsSchedulingDayConfigItem::getId, req.getIdList());
     List<ApsSchedulingDayConfigItem> list = this.apsSchedulingDayConfigItemService.list(q);
-    List<ApsSchedulingDayConfigItemDto> dataList = $.copyList(list, ApsSchedulingDayConfigItemDto.class);
+    List<ApsSchedulingDayConfigItemDto> dataList = $.copyList(list,
+        ApsSchedulingDayConfigItemDto.class);
     this.apsSchedulingDayConfigItemService.setName(dataList);
     return new ApsSchedulingDayConfigItemQueryByIdListRes().setDataList(dataList);
   }

@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.*;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsRoomConfigApi {
    * 保存
    */
   @PostMapping("/apsRoomConfig/insert")
-  ApsRoomConfigInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsRoomConfigInsertReq req);
+  ApsRoomConfigInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsRoomConfigInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsRoomConfig/deleteByIdList")
-  ApsRoomConfigDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsRoomConfigDeleteByIdListReq req);
+  ApsRoomConfigDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsRoomConfigDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +57,15 @@ public interface ApsRoomConfigApi {
    * 根据ID 更新
    */
   @PostMapping("/apsRoomConfig/updateById")
-  ApsRoomConfigUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsRoomConfigUpdateByIdReq req);
+  ApsRoomConfigUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsRoomConfigUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsRoomConfig/queryPageList")
-  DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsRoomConfigExportQueryPageListReq req);
+  DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsRoomConfigExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +84,8 @@ public interface ApsRoomConfigApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsRoomConfig/queryByIdList")
-  ApsRoomConfigQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsRoomConfigQueryByIdListReq req);
+  ApsRoomConfigQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsRoomConfigQueryByIdListReq req);
 
 
 }

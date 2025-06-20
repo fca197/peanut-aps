@@ -1,15 +1,15 @@
 package com.olivia.peanut.aps.service.impl.po;
 
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Map;
 
 @Setter
 @Getter
 @Accessors(chain = true)
 public class ApsOrderGoodsSaleHistoryCount {
+
   /***
    *  工厂ID
    */

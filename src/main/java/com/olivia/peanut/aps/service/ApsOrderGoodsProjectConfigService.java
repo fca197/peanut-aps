@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsProjectConfig.ApsOrderGoodsProjectConfigQueryListRes;
 import com.olivia.peanut.aps.model.ApsOrderGoodsProjectConfig;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,11 +16,13 @@ import java.util.List;
  * @author peanut
  * @since 2024-04-09 13:19:37
  */
-public interface ApsOrderGoodsProjectConfigService extends MPJBaseService<ApsOrderGoodsProjectConfig> {
+public interface ApsOrderGoodsProjectConfigService extends
+    MPJBaseService<ApsOrderGoodsProjectConfig> {
 
   ApsOrderGoodsProjectConfigQueryListRes queryList(ApsOrderGoodsProjectConfigQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsProjectConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderGoodsProjectConfigDto> apsOrderGoodsProjectConfigDtoList);

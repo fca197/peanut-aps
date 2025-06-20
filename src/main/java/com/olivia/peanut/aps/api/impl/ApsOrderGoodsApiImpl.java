@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsOrderGoodsApi;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsImportReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsOrderGoodsImportListener;
 import com.olivia.peanut.aps.model.ApsOrderGoods;
 import com.olivia.peanut.aps.service.ApsOrderGoodsService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsOrderGoods)表服务实现类
@@ -41,7 +54,8 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsDeleteByIdListRes deleteByIdList(ApsOrderGoodsDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsDeleteByIdListRes deleteByIdList(
+      ApsOrderGoodsDeleteByIdListReq req) {
     apsOrderGoodsService.removeByIds(req.getIdList());
     return new ApsOrderGoodsDeleteByIdListRes();
   }
@@ -64,7 +78,8 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsExportQueryPageListReq req) {
     return apsOrderGoodsService.queryPageList(req);
   }
 
@@ -72,12 +87,14 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
     DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsOrderGoodsExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsOrderGoodsExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsOrderGoodsImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsImportListener(), ApsOrderGoodsImportReq.class);
+    List<ApsOrderGoodsImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsOrderGoodsImportListener(), ApsOrderGoodsImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoods> readList = $.copyList(reqList, ApsOrderGoods.class);
     boolean bool = apsOrderGoodsService.saveBatch(readList);
@@ -85,7 +102,8 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
     return new ApsOrderGoodsImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsQueryByIdListRes queryByIdListRes(ApsOrderGoodsQueryByIdListReq req) {
+  public @Override ApsOrderGoodsQueryByIdListRes queryByIdListRes(
+      ApsOrderGoodsQueryByIdListReq req) {
     MPJLambdaWrapper<ApsOrderGoods> q = new MPJLambdaWrapper<ApsOrderGoods>(ApsOrderGoods.class)
         .selectAll(ApsOrderGoods.class).in(ApsOrderGoods::getId, req.getIdList());
     List<ApsOrderGoods> list = this.apsOrderGoodsService.list(q);

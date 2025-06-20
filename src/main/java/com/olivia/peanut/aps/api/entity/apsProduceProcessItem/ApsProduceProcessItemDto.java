@@ -22,7 +22,8 @@ public class ApsProduceProcessItemDto extends BaseEntityDto {
   /***
    *  生产路径 Id aps_produce_process
    */
-  @NotNull(message = "生产路径 Id aps_produce_process不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @NotNull(message = "生产路径 Id aps_produce_process不能为空", groups = {InsertCheck.class,
+      UpdateCheck.class})
   private Long produceProcessId;
   /***
    *  机器ID

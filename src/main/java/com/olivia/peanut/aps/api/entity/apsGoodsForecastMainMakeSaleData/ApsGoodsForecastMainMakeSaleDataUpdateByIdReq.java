@@ -15,7 +15,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsGoodsForecastMainMakeSaleDataUpdateByIdReq extends ApsGoodsForecastMainMakeSaleDataDto {
+public class ApsGoodsForecastMainMakeSaleDataUpdateByIdReq extends
+    ApsGoodsForecastMainMakeSaleDataDto {
 
 
 }

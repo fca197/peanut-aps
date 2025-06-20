@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlan.ApsGoodsBomBuyPlanQueryListRes;
 import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlan;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsGoodsBomBuyPlanService extends MPJBaseService<ApsGoodsBomBuy
 
   ApsGoodsBomBuyPlanQueryListRes queryList(ApsGoodsBomBuyPlanQueryListReq req);
 
-  DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsBomBuyPlanExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsBomBuyPlanDto> apsGoodsBomBuyPlanDtoList);

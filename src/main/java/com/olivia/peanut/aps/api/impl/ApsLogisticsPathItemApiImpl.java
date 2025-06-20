@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsLogisticsPathItemApi;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDto;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsLogisticsPathItemImportListener;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
 import com.olivia.peanut.aps.service.ApsLogisticsPathItemService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 物流路详情径表(ApsLogisticsPathItem)表服务实现类
@@ -40,7 +53,8 @@ public class ApsLogisticsPathItemApiImpl implements ApsLogisticsPathItemApi {
    * deleteByIds
    *
    */
-  public @Override ApsLogisticsPathItemDeleteByIdListRes deleteByIdList(ApsLogisticsPathItemDeleteByIdListReq req) {
+  public @Override ApsLogisticsPathItemDeleteByIdListRes deleteByIdList(
+      ApsLogisticsPathItemDeleteByIdListReq req) {
     apsLogisticsPathItemService.removeByIds(req.getIdList());
     return new ApsLogisticsPathItemDeleteByIdListRes();
   }
@@ -49,7 +63,8 @@ public class ApsLogisticsPathItemApiImpl implements ApsLogisticsPathItemApi {
    * queryList
    *
    */
-  public @Override ApsLogisticsPathItemQueryListRes queryList(ApsLogisticsPathItemQueryListReq req) {
+  public @Override ApsLogisticsPathItemQueryListRes queryList(
+      ApsLogisticsPathItemQueryListReq req) {
     return apsLogisticsPathItemService.queryList(req);
   }
 
@@ -57,13 +72,15 @@ public class ApsLogisticsPathItemApiImpl implements ApsLogisticsPathItemApi {
    * updateById
    *
    */
-  public @Override ApsLogisticsPathItemUpdateByIdRes updateById(ApsLogisticsPathItemUpdateByIdReq req) {
+  public @Override ApsLogisticsPathItemUpdateByIdRes updateById(
+      ApsLogisticsPathItemUpdateByIdReq req) {
     apsLogisticsPathItemService.updateById($.copy(req, ApsLogisticsPathItem.class));
     return new ApsLogisticsPathItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(
+      ApsLogisticsPathItemExportQueryPageListReq req) {
     return apsLogisticsPathItemService.queryPageList(req);
   }
 
@@ -71,12 +88,16 @@ public class ApsLogisticsPathItemApiImpl implements ApsLogisticsPathItemApi {
     DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsLogisticsPathItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsLogisticsPathItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsLogisticsPathItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsLogisticsPathItemExportQueryPageListInfoRes.class, listInfoRes, "物流路详情径表");
+    List<ApsLogisticsPathItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsLogisticsPathItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsLogisticsPathItemExportQueryPageListInfoRes.class, listInfoRes,
+        "物流路详情径表");
   }
 
-  public @Override ApsLogisticsPathItemImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsLogisticsPathItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsLogisticsPathItemImportListener(), ApsLogisticsPathItemImportReq.class);
+  public @Override ApsLogisticsPathItemImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsLogisticsPathItemImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsLogisticsPathItemImportListener(), ApsLogisticsPathItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsLogisticsPathItem> readList = $.copyList(reqList, ApsLogisticsPathItem.class);
     boolean bool = apsLogisticsPathItemService.saveBatch(readList);
@@ -84,8 +105,10 @@ public class ApsLogisticsPathItemApiImpl implements ApsLogisticsPathItemApi {
     return new ApsLogisticsPathItemImportRes().setCount(c);
   }
 
-  public @Override ApsLogisticsPathItemQueryByIdListRes queryByIdListRes(ApsLogisticsPathItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsLogisticsPathItem> q = new MPJLambdaWrapper<ApsLogisticsPathItem>(ApsLogisticsPathItem.class)
+  public @Override ApsLogisticsPathItemQueryByIdListRes queryByIdListRes(
+      ApsLogisticsPathItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsLogisticsPathItem> q = new MPJLambdaWrapper<ApsLogisticsPathItem>(
+        ApsLogisticsPathItem.class)
         .selectAll(ApsLogisticsPathItem.class).in(ApsLogisticsPathItem::getId, req.getIdList());
     List<ApsLogisticsPathItem> list = this.apsLogisticsPathItemService.list(q);
     List<ApsLogisticsPathItemDto> dataList = $.copyList(list, ApsLogisticsPathItemDto.class);

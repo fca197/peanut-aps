@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingVersionDayApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionDay.ApsSchedulingVersionDayUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingVersionDayImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionDay;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionDayService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsSchedulingVersionDay)表服务实现类
@@ -41,7 +54,8 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingVersionDayDeleteByIdListRes deleteByIdList(ApsSchedulingVersionDayDeleteByIdListReq req) {
+  public @Override ApsSchedulingVersionDayDeleteByIdListRes deleteByIdList(
+      ApsSchedulingVersionDayDeleteByIdListReq req) {
     apsSchedulingVersionDayService.removeByIds(req.getIdList());
     return new ApsSchedulingVersionDayDeleteByIdListRes();
   }
@@ -50,7 +64,8 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * queryList
    *
    */
-  public @Override ApsSchedulingVersionDayQueryListRes queryList(ApsSchedulingVersionDayQueryListReq req) {
+  public @Override ApsSchedulingVersionDayQueryListRes queryList(
+      ApsSchedulingVersionDayQueryListReq req) {
     return apsSchedulingVersionDayService.queryList(req);
   }
 
@@ -58,13 +73,15 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * updateById
    *
    */
-  public @Override ApsSchedulingVersionDayUpdateByIdRes updateById(ApsSchedulingVersionDayUpdateByIdReq req) {
+  public @Override ApsSchedulingVersionDayUpdateByIdRes updateById(
+      ApsSchedulingVersionDayUpdateByIdReq req) {
     apsSchedulingVersionDayService.updateById($.copy(req, ApsSchedulingVersionDay.class));
     return new ApsSchedulingVersionDayUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionDayExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionDayExportQueryPageListReq req) {
     return apsSchedulingVersionDayService.queryPageList(req);
   }
 
@@ -72,12 +89,15 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
     DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingVersionDayExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingVersionDayExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingVersionDayExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionDayExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSchedulingVersionDayExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingVersionDayExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingVersionDayImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingVersionDayImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingVersionDayImportListener(), ApsSchedulingVersionDayImportReq.class);
+  public @Override ApsSchedulingVersionDayImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingVersionDayImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingVersionDayImportListener(), ApsSchedulingVersionDayImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingVersionDay> readList = $.copyList(reqList, ApsSchedulingVersionDay.class);
     boolean bool = apsSchedulingVersionDayService.saveBatch(readList);
@@ -85,9 +105,12 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
     return new ApsSchedulingVersionDayImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingVersionDayQueryByIdListRes queryByIdListRes(ApsSchedulingVersionDayQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingVersionDay> q = new MPJLambdaWrapper<ApsSchedulingVersionDay>(ApsSchedulingVersionDay.class)
-        .selectAll(ApsSchedulingVersionDay.class).in(ApsSchedulingVersionDay::getId, req.getIdList());
+  public @Override ApsSchedulingVersionDayQueryByIdListRes queryByIdListRes(
+      ApsSchedulingVersionDayQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingVersionDay> q = new MPJLambdaWrapper<ApsSchedulingVersionDay>(
+        ApsSchedulingVersionDay.class)
+        .selectAll(ApsSchedulingVersionDay.class)
+        .in(ApsSchedulingVersionDay::getId, req.getIdList());
     List<ApsSchedulingVersionDay> list = this.apsSchedulingVersionDayService.list(q);
     List<ApsSchedulingVersionDayDto> dataList = $.copyList(list, ApsSchedulingVersionDayDto.class);
     this.apsSchedulingVersionDayService.setName(dataList);

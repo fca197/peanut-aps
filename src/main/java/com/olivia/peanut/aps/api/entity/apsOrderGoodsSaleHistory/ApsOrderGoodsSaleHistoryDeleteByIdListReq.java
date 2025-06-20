@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 销售规划订单历史销售占比(ApsOrderGoodsSaleHistory)根据ID删除多个入参
@@ -18,6 +17,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsOrderGoodsSaleHistoryDeleteByIdListReq {
+
   /***
    * 要删除的ID
    */

@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsMakeCapacityGoods;
 
 import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.MakeCapacityConfig;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * (ApsMakeCapacityGoods)保存入参

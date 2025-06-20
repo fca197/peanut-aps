@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.*;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigDto;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigImportReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacitySaleConfig.ApsMakeCapacitySaleConfigUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsMakeCapacitySaleConfig;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsMakeCapacitySaleConfigConverter {
-  ApsMakeCapacitySaleConfigConverter INSTANCE = Mappers.getMapper(ApsMakeCapacitySaleConfigConverter.class);
+
+  ApsMakeCapacitySaleConfigConverter INSTANCE = Mappers.getMapper(
+      ApsMakeCapacitySaleConfigConverter.class);
 
   ApsMakeCapacitySaleConfig insertReq(ApsMakeCapacitySaleConfigInsertReq req);
 
@@ -17,7 +23,8 @@ public interface ApsMakeCapacitySaleConfigConverter {
 
   List<ApsMakeCapacitySaleConfigDto> queryListRes(List<ApsMakeCapacitySaleConfig> list);
 
-  List<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageListRes(List<ApsMakeCapacitySaleConfig> list);
+  List<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsMakeCapacitySaleConfig> list);
 
   List<ApsMakeCapacitySaleConfig> importReq(List<ApsMakeCapacitySaleConfigImportReq> reqList);
 }

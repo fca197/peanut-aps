@@ -3,19 +3,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsRoomApi;
-import com.olivia.peanut.aps.api.entity.apsRoom.*;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDto;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomImportReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomImportRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsRoomImportListener;
 import com.olivia.peanut.aps.model.ApsRoom;
 import com.olivia.peanut.aps.service.ApsRoomService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsRoom)表服务实现类
@@ -63,7 +76,8 @@ public class ApsRoomApiImpl implements ApsRoomApi {
 
   }
 
-  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(ApsRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(
+      ApsRoomExportQueryPageListReq req) {
     return apsRoomService.queryPageList(req);
   }
 
@@ -71,12 +85,14 @@ public class ApsRoomApiImpl implements ApsRoomApi {
     DynamicsPage<ApsRoomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsRoomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsRoomExportQueryPageListInfoRes.class);
+    List<ApsRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsRoomExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsRoomExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsRoomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsRoomImportReq> reqList = PoiExcelUtil.readData(file, new ApsRoomImportListener(), ApsRoomImportReq.class);
+    List<ApsRoomImportReq> reqList = PoiExcelUtil.readData(file, new ApsRoomImportListener(),
+        ApsRoomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsRoom> readList = $.copyList(reqList, ApsRoom.class);
     boolean bool = apsRoomService.saveBatch(readList);

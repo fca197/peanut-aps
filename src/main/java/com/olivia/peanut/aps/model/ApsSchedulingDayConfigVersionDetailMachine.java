@@ -3,11 +3,10 @@ package com.olivia.peanut.aps.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDateTime;
 
 /**
  * 排程版本详情_机器(ApsSchedulingDayConfigVersionDetailMachine)表实体类
@@ -21,6 +20,7 @@ import java.time.LocalDateTime;
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_day_config_version_detail_machine")
 public class ApsSchedulingDayConfigVersionDetailMachine extends BaseEntity {
+
   /***
    *  版本ID
    */

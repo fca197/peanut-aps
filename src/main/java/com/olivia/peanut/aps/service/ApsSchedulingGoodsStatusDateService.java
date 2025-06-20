@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateQueryListRes;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsStatusDate;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,11 +16,13 @@ import java.util.List;
  * @author peanut
  * @since 2024-06-14 21:35:09
  */
-public interface ApsSchedulingGoodsStatusDateService extends MPJBaseService<ApsSchedulingGoodsStatusDate> {
+public interface ApsSchedulingGoodsStatusDateService extends
+    MPJBaseService<ApsSchedulingGoodsStatusDate> {
 
   ApsSchedulingGoodsStatusDateQueryListRes queryList(ApsSchedulingGoodsStatusDateQueryListReq req);
 
-  DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsStatusDateExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingGoodsStatusDateExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingGoodsStatusDateDto> apsSchedulingGoodsStatusDateDtoList);

@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsBomSupplier;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 供应商表(ApsBomSupplier)查询对象返回
@@ -17,6 +16,7 @@ import java.util.List;
 @Setter
 @SuppressWarnings("serial")
 public class ApsBomSupplierQueryListRes {
+
   /***
    * 返回对象列表
    */

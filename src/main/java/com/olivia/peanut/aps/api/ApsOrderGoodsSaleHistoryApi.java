@@ -1,6 +1,20 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +39,36 @@ public interface ApsOrderGoodsSaleHistoryApi {
    * 保存 销售规划订单历史销售占比
    */
   @PostMapping("/apsOrderGoodsSaleHistory/insert")
-  ApsOrderGoodsSaleHistoryInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsSaleHistoryInsertReq req);
+  ApsOrderGoodsSaleHistoryInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsSaleHistoryInsertReq req);
 
   /**
    * 根据ID 删除 销售规划订单历史销售占比
    */
   @PostMapping("/apsOrderGoodsSaleHistory/deleteByIdList")
-  ApsOrderGoodsSaleHistoryDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsSaleHistoryDeleteByIdListReq req);
+  ApsOrderGoodsSaleHistoryDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsSaleHistoryDeleteByIdListReq req);
 
   /**
    * 查询 销售规划订单历史销售占比
    */
   @PostMapping("/apsOrderGoodsSaleHistory/queryList")
-  ApsOrderGoodsSaleHistoryQueryListRes queryList(@RequestBody @Valid ApsOrderGoodsSaleHistoryQueryListReq req);
+  ApsOrderGoodsSaleHistoryQueryListRes queryList(
+      @RequestBody @Valid ApsOrderGoodsSaleHistoryQueryListReq req);
 
   /**
    * 根据ID 更新 销售规划订单历史销售占比
    */
   @PostMapping("/apsOrderGoodsSaleHistory/updateById")
-  ApsOrderGoodsSaleHistoryUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsSaleHistoryUpdateByIdReq req);
+  ApsOrderGoodsSaleHistoryUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsSaleHistoryUpdateByIdReq req);
 
   /**
    * 分页查询 销售规划订单历史销售占比
    */
   @PostMapping("/apsOrderGoodsSaleHistory/queryPageList")
-  DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsSaleHistoryExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsSaleHistoryExportQueryPageListReq req);
 
   /**
    * 导出 销售规划订单历史销售占比
@@ -68,7 +87,8 @@ public interface ApsOrderGoodsSaleHistoryApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsSaleHistory/queryByIdList")
-  ApsOrderGoodsSaleHistoryQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsSaleHistoryQueryByIdListReq req);
+  ApsOrderGoodsSaleHistoryQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsSaleHistoryQueryByIdListReq req);
 
 
   /***

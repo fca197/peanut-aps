@@ -2,19 +2,34 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingIssueItemApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingIssueItemImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingIssueItem;
 import com.olivia.peanut.aps.service.ApsSchedulingIssueItemService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 排产下发详情(ApsSchedulingIssueItem)表服务实现类
@@ -40,7 +55,8 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingIssueItemDeleteByIdListRes deleteByIdList(ApsSchedulingIssueItemDeleteByIdListReq req) {
+  public @Override ApsSchedulingIssueItemDeleteByIdListRes deleteByIdList(
+      ApsSchedulingIssueItemDeleteByIdListReq req) {
     apsSchedulingIssueItemService.removeByIds(req.getIdList());
     return new ApsSchedulingIssueItemDeleteByIdListRes();
   }
@@ -49,7 +65,8 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
    * queryList
    *
    */
-  public @Override ApsSchedulingIssueItemQueryListRes queryList(ApsSchedulingIssueItemQueryListReq req) {
+  public @Override ApsSchedulingIssueItemQueryListRes queryList(
+      ApsSchedulingIssueItemQueryListReq req) {
     return apsSchedulingIssueItemService.queryList(req);
   }
 
@@ -57,13 +74,15 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
    * updateById
    *
    */
-  public @Override ApsSchedulingIssueItemUpdateByIdRes updateById(ApsSchedulingIssueItemUpdateByIdReq req) {
+  public @Override ApsSchedulingIssueItemUpdateByIdRes updateById(
+      ApsSchedulingIssueItemUpdateByIdReq req) {
     apsSchedulingIssueItemService.updateById($.copy(req, ApsSchedulingIssueItem.class));
     return new ApsSchedulingIssueItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingIssueItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingIssueItemExportQueryPageListReq req) {
     return apsSchedulingIssueItemService.queryPageList(req);
   }
 
@@ -71,12 +90,16 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
     DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingIssueItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingIssueItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingIssueItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingIssueItemExportQueryPageListInfoRes.class, listInfoRes, "排产下发详情");
+    List<ApsSchedulingIssueItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSchedulingIssueItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingIssueItemExportQueryPageListInfoRes.class, listInfoRes,
+        "排产下发详情");
   }
 
-  public @Override ApsSchedulingIssueItemImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingIssueItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingIssueItemImportListener(), ApsSchedulingIssueItemImportReq.class);
+  public @Override ApsSchedulingIssueItemImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingIssueItemImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingIssueItemImportListener(), ApsSchedulingIssueItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingIssueItem> readList = $.copyList(reqList, ApsSchedulingIssueItem.class);
     boolean bool = apsSchedulingIssueItemService.saveBatch(readList);
@@ -84,8 +107,10 @@ public class ApsSchedulingIssueItemApiImpl implements ApsSchedulingIssueItemApi 
     return new ApsSchedulingIssueItemImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingIssueItemQueryByIdListRes queryByIdListRes(ApsSchedulingIssueItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingIssueItem> q = new MPJLambdaWrapper<ApsSchedulingIssueItem>(ApsSchedulingIssueItem.class)
+  public @Override ApsSchedulingIssueItemQueryByIdListRes queryByIdListRes(
+      ApsSchedulingIssueItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingIssueItem> q = new MPJLambdaWrapper<ApsSchedulingIssueItem>(
+        ApsSchedulingIssueItem.class)
         .selectAll(ApsSchedulingIssueItem.class).in(ApsSchedulingIssueItem::getId, req.getIdList());
     List<ApsSchedulingIssueItem> list = this.apsSchedulingIssueItemService.list(q);
     List<ApsSchedulingIssueItemDto> dataList = $.copyList(list, ApsSchedulingIssueItemDto.class);

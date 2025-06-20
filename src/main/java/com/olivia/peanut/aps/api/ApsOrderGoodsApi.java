@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsOrderGoodsApi {
    * 保存
    */
   @PostMapping("/apsOrderGoods/insert")
-  ApsOrderGoodsInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsInsertReq req);
+  ApsOrderGoodsInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsOrderGoods/deleteByIdList")
-  ApsOrderGoodsDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsDeleteByIdListReq req);
+  ApsOrderGoodsDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +57,15 @@ public interface ApsOrderGoodsApi {
    * 根据ID 更新
    */
   @PostMapping("/apsOrderGoods/updateById")
-  ApsOrderGoodsUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsUpdateByIdReq req);
+  ApsOrderGoodsUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsOrderGoods/queryPageList")
-  DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +84,8 @@ public interface ApsOrderGoodsApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoods/queryByIdList")
-  ApsOrderGoodsQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsQueryByIdListReq req);
+  ApsOrderGoodsQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsQueryByIdListReq req);
 
 
 }

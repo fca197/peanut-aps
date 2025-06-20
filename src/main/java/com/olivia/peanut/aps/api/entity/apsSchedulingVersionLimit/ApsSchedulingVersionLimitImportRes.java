@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * (ApsSchedulingVersionLimit)保存返回

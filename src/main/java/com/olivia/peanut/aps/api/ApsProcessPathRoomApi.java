@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.*;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomImportRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsProcessPathRoomApi {
    * 保存
    */
   @PostMapping("/apsProcessPathRoom/insert")
-  ApsProcessPathRoomInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProcessPathRoomInsertReq req);
+  ApsProcessPathRoomInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsProcessPathRoomInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsProcessPathRoom/deleteByIdList")
-  ApsProcessPathRoomDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProcessPathRoomDeleteByIdListReq req);
+  ApsProcessPathRoomDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsProcessPathRoomDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +57,15 @@ public interface ApsProcessPathRoomApi {
    * 根据ID 更新
    */
   @PostMapping("/apsProcessPathRoom/updateById")
-  ApsProcessPathRoomUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProcessPathRoomUpdateByIdReq req);
+  ApsProcessPathRoomUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsProcessPathRoomUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsProcessPathRoom/queryPageList")
-  DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProcessPathRoomExportQueryPageListReq req);
+  DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsProcessPathRoomExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +84,8 @@ public interface ApsProcessPathRoomApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProcessPathRoom/queryByIdList")
-  ApsProcessPathRoomQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProcessPathRoomQueryByIdListReq req);
+  ApsProcessPathRoomQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsProcessPathRoomQueryByIdListReq req);
 
 
 }

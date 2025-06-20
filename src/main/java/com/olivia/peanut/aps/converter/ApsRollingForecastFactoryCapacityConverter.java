@@ -1,24 +1,33 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDto;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityImportReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsRollingForecastFactoryCapacity;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsRollingForecastFactoryCapacityConverter {
-  ApsRollingForecastFactoryCapacityConverter INSTANCE = Mappers.getMapper(ApsRollingForecastFactoryCapacityConverter.class);
+
+  ApsRollingForecastFactoryCapacityConverter INSTANCE = Mappers.getMapper(
+      ApsRollingForecastFactoryCapacityConverter.class);
 
   ApsRollingForecastFactoryCapacity insertReq(ApsRollingForecastFactoryCapacityInsertReq req);
 
   ApsRollingForecastFactoryCapacity updateReq(ApsRollingForecastFactoryCapacityUpdateByIdReq req);
 
-  List<ApsRollingForecastFactoryCapacityDto> queryListRes(List<ApsRollingForecastFactoryCapacity> list);
+  List<ApsRollingForecastFactoryCapacityDto> queryListRes(
+      List<ApsRollingForecastFactoryCapacity> list);
 
-  List<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageListRes(List<ApsRollingForecastFactoryCapacity> list);
+  List<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsRollingForecastFactoryCapacity> list);
 
-  List<ApsRollingForecastFactoryCapacity> importReq(List<ApsRollingForecastFactoryCapacityImportReq> reqList);
+  List<ApsRollingForecastFactoryCapacity> importReq(
+      List<ApsRollingForecastFactoryCapacityImportReq> reqList);
 }
 

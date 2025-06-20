@@ -8,7 +8,14 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsRoom.*;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDto;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdReq;
 import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDto;
 import com.olivia.peanut.aps.mapper.ApsRoomMapper;
 import com.olivia.peanut.aps.model.ApsRoom;
@@ -23,17 +30,16 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.RunUtils;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsRoom)表服务实现类
@@ -43,9 +49,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsRoomService")
 @Transactional
-public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoom> implements ApsRoomService {
+public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoom> implements
+    ApsRoomService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsRoomConfigService roomConfigService;
@@ -57,14 +65,16 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
     MPJLambdaWrapper<ApsRoom> q = getWrapper(req.getData());
     List<ApsRoom> list = this.list(q);
 
-    List<ApsRoomDto> dataList = list.stream().map(t -> $.copy(t, ApsRoomDto.class)).collect(Collectors.toList());
+    List<ApsRoomDto> dataList = list.stream().map(t -> $.copy(t, ApsRoomDto.class))
+        .collect(Collectors.toList());
 //    setName(dataList);
     ((ApsRoomServiceImpl) AopContext.currentProxy()).setName(dataList);
 
     return new ApsRoomQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(ApsRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(
+      ApsRoomExportQueryPageListReq req) {
 
     DynamicsPage<ApsRoom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -73,7 +83,8 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
     List<ApsRoomExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsRoom> list = this.page(page, q);
-      IPage<ApsRoomExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsRoomExportQueryPageListInfoRes.class));
+      IPage<ApsRoomExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsRoomExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsRoomExportQueryPageListInfoRes.class);
@@ -81,7 +92,8 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsRoomExportQueryPageListInfoRes.class);
+    List<ApsRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsRoomExportQueryPageListInfoRes.class);
 //    setName(listInfoRes);
     ((ApsRoomServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -93,12 +105,14 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
     if (CollUtil.isEmpty(apsRoomDtoList)) {
       return;
     }
-    Map<Long, String> factoryMap = factoryService.listByIds(apsRoomDtoList.stream().map(ApsRoomDto::getFactoryId).toList()).stream()
+    Map<Long, String> factoryMap = factoryService.listByIds(
+            apsRoomDtoList.stream().map(ApsRoomDto::getFactoryId).toList()).stream()
         .collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
     List<Runnable> runnableList = new ArrayList<>();
     apsRoomDtoList.forEach(t -> {
       runnableList.add(() -> {
-        List<ApsRoomConfig> configList = this.roomConfigService.list(new LambdaQueryWrapper<ApsRoomConfig>().eq(ApsRoomConfig::getRoomId, t.getId()));
+        List<ApsRoomConfig> configList = this.roomConfigService.list(
+            new LambdaQueryWrapper<ApsRoomConfig>().eq(ApsRoomConfig::getRoomId, t.getId()));
         t.setConfigList($.copyList(configList, ApsRoomConfigDto.class));
         t.setFactoryName(factoryMap.get(t.getFactoryId()));
       });
@@ -122,7 +136,8 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
   @Transactional
   public void updateById(ApsRoomUpdateByIdReq req) {
     this.updateById($.copy(req, ApsRoom.class));
-    this.roomConfigService.remove(new LambdaQueryWrapper<ApsRoomConfig>().eq(ApsRoomConfig::getRoomId, req.getId()));
+    this.roomConfigService.remove(
+        new LambdaQueryWrapper<ApsRoomConfig>().eq(ApsRoomConfig::getRoomId, req.getId()));
     List<ApsRoomConfig> entityList = $.copyList(req.getConfigList(), ApsRoomConfig.class);
     entityList.forEach(t -> t.setRoomId(req.getId()).setId(IdWorker.getId()));
     this.roomConfigService.saveBatch(entityList);

@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsSchedulingVersionCapacityApi {
    * 保存
    */
   @PostMapping("/apsSchedulingVersionCapacity/insert")
-  ApsSchedulingVersionCapacityInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionCapacityInsertReq req);
+  ApsSchedulingVersionCapacityInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionCapacityInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsSchedulingVersionCapacity/deleteByIdList")
-  ApsSchedulingVersionCapacityDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingVersionCapacityDeleteByIdListReq req);
+  ApsSchedulingVersionCapacityDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingVersionCapacityDeleteByIdListReq req);
 
   /**
    * 查询
    */
   @PostMapping("/apsSchedulingVersionCapacity/queryList")
-  ApsSchedulingVersionCapacityQueryListRes queryList(@RequestBody @Valid ApsSchedulingVersionCapacityQueryListReq req);
+  ApsSchedulingVersionCapacityQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingVersionCapacityQueryListReq req);
 
   /**
    * 根据ID 更新
    */
   @PostMapping("/apsSchedulingVersionCapacity/updateById")
-  ApsSchedulingVersionCapacityUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionCapacityUpdateByIdReq req);
+  ApsSchedulingVersionCapacityUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionCapacityUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsSchedulingVersionCapacity/queryPageList")
-  DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingVersionCapacityExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingVersionCapacityExportQueryPageListReq req);
 
   /**
    * 导出
    */
   @PostMapping("/apsSchedulingVersionCapacity/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsSchedulingVersionCapacityExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsSchedulingVersionCapacityExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsSchedulingVersionCapacityApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingVersionCapacity/queryByIdList")
-  ApsSchedulingVersionCapacityQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingVersionCapacityQueryByIdListReq req);
+  ApsSchedulingVersionCapacityQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingVersionCapacityQueryByIdListReq req);
 
 
 }

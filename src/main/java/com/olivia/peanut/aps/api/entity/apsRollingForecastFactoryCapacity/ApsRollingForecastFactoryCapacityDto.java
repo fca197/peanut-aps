@@ -5,10 +5,9 @@ import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * 滚动预测(ApsRollingForecastFactoryCapacity)查询对象返回
@@ -201,7 +200,8 @@ public class ApsRollingForecastFactoryCapacityDto extends BaseEntityDto {
 
 
   @NotNull(message = "产能不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  @Size(min = 1, max = 20, message = "产能不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  @Size(min = 1, max = 20, message = "产能不能为空", groups = {InsertCheck.class,
+      UpdateCheck.class})
   private List<ApsRollingForecastFactoryCapacityDtoInfo> capacityList;
 
 

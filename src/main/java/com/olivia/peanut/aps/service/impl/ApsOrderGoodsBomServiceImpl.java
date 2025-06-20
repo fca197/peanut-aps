@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
@@ -14,16 +18,15 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 订单商品零件表(ApsOrderGoodsBom)表服务实现类
@@ -33,9 +36,12 @@ import java.util.stream.Collectors;
  */
 @Service("apsOrderGoodsBomService")
 @Transactional
-public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsBomMapper, ApsOrderGoodsBom> implements ApsOrderGoodsBomService {
+public class ApsOrderGoodsBomServiceImpl extends
+    MPJBaseServiceImpl<ApsOrderGoodsBomMapper, ApsOrderGoodsBom> implements
+    ApsOrderGoodsBomService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -48,13 +54,15 @@ public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGood
     MPJLambdaWrapper<ApsOrderGoodsBom> q = getWrapper(req.getData());
     List<ApsOrderGoodsBom> list = this.list(q);
 
-    List<ApsOrderGoodsBomDto> dataList = list.stream().map(t -> $.copy(t, ApsOrderGoodsBomDto.class)).collect(Collectors.toList());
+    List<ApsOrderGoodsBomDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsOrderGoodsBomDto.class)).collect(Collectors.toList());
     ((ApsOrderGoodsBomService) AopContext.currentProxy()).setName(dataList);
     return new ApsOrderGoodsBomQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsBomExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsBom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -63,7 +71,8 @@ public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGood
     List<ApsOrderGoodsBomExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsOrderGoodsBom> list = this.page(page, q);
-      IPage<ApsOrderGoodsBomExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsOrderGoodsBomExportQueryPageListInfoRes.class));
+      IPage<ApsOrderGoodsBomExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsOrderGoodsBomExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsOrderGoodsBomExportQueryPageListInfoRes.class);
@@ -71,7 +80,8 @@ public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGood
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsOrderGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsOrderGoodsBomExportQueryPageListInfoRes.class);
+    List<ApsOrderGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsOrderGoodsBomExportQueryPageListInfoRes.class);
     ((ApsOrderGoodsBomService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -93,17 +103,26 @@ public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGood
       q
           .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsBom::getOrderId, obj.getOrderId())
           .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsBom::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getGoodsStatusId()), ApsOrderGoodsBom::getGoodsStatusId, obj.getGoodsStatusId())
+          .eq(Objects.nonNull(obj.getGoodsStatusId()), ApsOrderGoodsBom::getGoodsStatusId,
+              obj.getGoodsStatusId())
           .eq(Objects.nonNull(obj.getBomId()), ApsOrderGoodsBom::getBomId, obj.getBomId())
-          .eq(StringUtils.isNoneBlank(obj.getBomCode()), ApsOrderGoodsBom::getBomCode, obj.getBomCode())
-          .eq(StringUtils.isNoneBlank(obj.getBomName()), ApsOrderGoodsBom::getBomName, obj.getBomName())
+          .eq(StringUtils.isNoneBlank(obj.getBomCode()), ApsOrderGoodsBom::getBomCode,
+              obj.getBomCode())
+          .eq(StringUtils.isNoneBlank(obj.getBomName()), ApsOrderGoodsBom::getBomName,
+              obj.getBomName())
           .eq(Objects.nonNull(obj.getBomUsage()), ApsOrderGoodsBom::getBomUsage, obj.getBomUsage())
-          .eq(StringUtils.isNoneBlank(obj.getBomUnit()), ApsOrderGoodsBom::getBomUnit, obj.getBomUnit())
-          .eq(Objects.nonNull(obj.getBomCostPrice()), ApsOrderGoodsBom::getBomCostPrice, obj.getBomCostPrice())
-          .eq(StringUtils.isNoneBlank(obj.getBomCostPriceUnit()), ApsOrderGoodsBom::getBomCostPriceUnit, obj.getBomCostPriceUnit())
-          .eq(Objects.nonNull(obj.getBomUseWorkStation()), ApsOrderGoodsBom::getBomUseWorkStation, obj.getBomUseWorkStation())
-          .eq(Objects.nonNull(obj.getBomUseDate()), ApsOrderGoodsBom::getBomUseDate, obj.getBomUseDate())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsBom::getFactoryId, obj.getFactoryId())
+          .eq(StringUtils.isNoneBlank(obj.getBomUnit()), ApsOrderGoodsBom::getBomUnit,
+              obj.getBomUnit())
+          .eq(Objects.nonNull(obj.getBomCostPrice()), ApsOrderGoodsBom::getBomCostPrice,
+              obj.getBomCostPrice())
+          .eq(StringUtils.isNoneBlank(obj.getBomCostPriceUnit()),
+              ApsOrderGoodsBom::getBomCostPriceUnit, obj.getBomCostPriceUnit())
+          .eq(Objects.nonNull(obj.getBomUseWorkStation()), ApsOrderGoodsBom::getBomUseWorkStation,
+              obj.getBomUseWorkStation())
+          .eq(Objects.nonNull(obj.getBomUseDate()), ApsOrderGoodsBom::getBomUseDate,
+              obj.getBomUseDate())
+          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrderGoodsBom::getFactoryId,
+              obj.getFactoryId())
 
       ;
     }

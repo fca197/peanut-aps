@@ -1,14 +1,19 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDto;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsLogisticsPathItemConverter {
+
   ApsLogisticsPathItemConverter INSTANCE = Mappers.getMapper(ApsLogisticsPathItemConverter.class);
 
   ApsLogisticsPathItem insertReq(ApsLogisticsPathItemInsertReq req);
@@ -17,7 +22,8 @@ public interface ApsLogisticsPathItemConverter {
 
   List<ApsLogisticsPathItemDto> queryListRes(List<ApsLogisticsPathItem> list);
 
-  List<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageListRes(List<ApsLogisticsPathItem> list);
+  List<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsLogisticsPathItem> list);
 
   List<ApsLogisticsPathItem> importReq(List<ApsLogisticsPathItemImportReq> reqList);
 }

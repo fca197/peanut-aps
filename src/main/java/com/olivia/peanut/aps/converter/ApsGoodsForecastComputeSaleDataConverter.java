@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsGoodsForecastComputeSaleData;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsGoodsForecastComputeSaleDataConverter {
-  ApsGoodsForecastComputeSaleDataConverter INSTANCE = Mappers.getMapper(ApsGoodsForecastComputeSaleDataConverter.class);
+
+  ApsGoodsForecastComputeSaleDataConverter INSTANCE = Mappers.getMapper(
+      ApsGoodsForecastComputeSaleDataConverter.class);
 
   ApsGoodsForecastComputeSaleData insertReq(ApsGoodsForecastComputeSaleDataInsertReq req);
 
@@ -17,8 +23,10 @@ public interface ApsGoodsForecastComputeSaleDataConverter {
 
   List<ApsGoodsForecastComputeSaleDataDto> queryListRes(List<ApsGoodsForecastComputeSaleData> list);
 
-  List<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastComputeSaleData> list);
+  List<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsGoodsForecastComputeSaleData> list);
 
-  List<ApsGoodsForecastComputeSaleData> importReq(List<ApsGoodsForecastComputeSaleDataImportReq> reqList);
+  List<ApsGoodsForecastComputeSaleData> importReq(
+      List<ApsGoodsForecastComputeSaleDataImportReq> reqList);
 }
 

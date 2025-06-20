@@ -4,18 +4,35 @@ package com.olivia.peanut.aps.api.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsApi;
-import com.olivia.peanut.aps.api.entity.apsGoods.*;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDto;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsGoodsImportListener;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.sdk.ann.Oplog;
-import com.olivia.sdk.utils.*;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.PoiExcelUtil;
+import com.olivia.sdk.utils.RunUtils;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsGoods)表服务实现类
@@ -36,7 +53,8 @@ public class ApsGoodsApiImpl implements ApsGoodsApi {
   @Oplog(content = "商品存储", businessKey = "#req.bomCode", businessType = businessType, paramName = "保存零件")
 
   public @Override ApsGoodsInsertRes insert(ApsGoodsInsertReq req) {
-    $.assertNotAllNull("工艺路径与制造路径必须选择一种", req.getProcessPathId(), req.getProduceProcessId());
+    $.assertNotAllNull("工艺路径与制造路径必须选择一种", req.getProcessPathId(),
+        req.getProduceProcessId());
     this.apsGoodsService.save($.copy(req, ApsGoods.class));
     return new ApsGoodsInsertRes().setCount(1);
   }
@@ -64,15 +82,19 @@ public class ApsGoodsApiImpl implements ApsGoodsApi {
    *
    */
   public @Override ApsGoodsUpdateByIdRes updateById(ApsGoodsUpdateByIdReq req) {
-    $.assertNotAllNull("工艺路径与制造路径必须选择一种", req.getProcessPathId(), req.getProduceProcessId());
+    $.assertNotAllNull("工艺路径与制造路径必须选择一种", req.getProcessPathId(),
+        req.getProduceProcessId());
     apsGoodsService.updateById($.copy(req, ApsGoods.class));
-    apsGoodsService.update(new LambdaUpdateWrapper<ApsGoods>().set(ApsGoods::getProcessPathId, req.getProcessPathId())
-        .set(ApsGoods::getProduceProcessId, req.getProduceProcessId()).eq(BaseEntity::getId, req.getId()));
+    apsGoodsService.update(
+        new LambdaUpdateWrapper<ApsGoods>().set(ApsGoods::getProcessPathId, req.getProcessPathId())
+            .set(ApsGoods::getProduceProcessId, req.getProduceProcessId())
+            .eq(BaseEntity::getId, req.getId()));
     return new ApsGoodsUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(ApsGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsExportQueryPageListReq req) {
     return apsGoodsService.queryPageList(req);
   }
 
@@ -80,13 +102,15 @@ public class ApsGoodsApiImpl implements ApsGoodsApi {
     DynamicsPage<ApsGoodsExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsExportQueryPageListInfoRes.class);
+    List<ApsGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsGoodsExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsGoodsImportRes importData(@RequestParam("file") MultipartFile file) {
     RunUtils.noImpl();
-    List<ApsGoodsImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsImportListener(), ApsGoodsImportReq.class);
+    List<ApsGoodsImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsImportListener(),
+        ApsGoodsImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoods> readList = $.copyList(reqList, ApsGoods.class);
     boolean bool = apsGoodsService.saveBatch(readList);

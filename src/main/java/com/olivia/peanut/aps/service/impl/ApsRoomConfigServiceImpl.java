@@ -5,7 +5,11 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.*;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDto;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListRes;
 import com.olivia.peanut.aps.mapper.ApsRoomConfigMapper;
 import com.olivia.peanut.aps.model.ApsRoomConfig;
 import com.olivia.peanut.aps.service.ApsRoomConfigService;
@@ -13,14 +17,13 @@ import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (ApsRoomConfig)表服务实现类
@@ -30,9 +33,11 @@ import java.util.stream.Collectors;
  */
 @Service("apsRoomConfigService")
 @Transactional
-public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMapper, ApsRoomConfig> implements ApsRoomConfigService {
+public class ApsRoomConfigServiceImpl extends
+    MPJBaseServiceImpl<ApsRoomConfigMapper, ApsRoomConfig> implements ApsRoomConfigService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsRoomConfigQueryListRes queryList(ApsRoomConfigQueryListReq req) {
@@ -40,13 +45,15 @@ public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMa
     MPJLambdaWrapper<ApsRoomConfig> q = getWrapper(req.getData());
     List<ApsRoomConfig> list = this.list(q);
 
-    List<ApsRoomConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsRoomConfigDto.class)).collect(Collectors.toList());
+    List<ApsRoomConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsRoomConfigDto.class))
+        .collect(Collectors.toList());
 
     return new ApsRoomConfigQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(ApsRoomConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(
+      ApsRoomConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsRoomConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -55,7 +62,8 @@ public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMa
     List<ApsRoomConfigExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsRoomConfig> list = this.page(page, q);
-      IPage<ApsRoomConfigExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsRoomConfigExportQueryPageListInfoRes.class));
+      IPage<ApsRoomConfigExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsRoomConfigExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsRoomConfigExportQueryPageListInfoRes.class);
@@ -63,7 +71,8 @@ public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMa
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsRoomConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsRoomConfigExportQueryPageListInfoRes.class);
+    List<ApsRoomConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsRoomConfigExportQueryPageListInfoRes.class);
 
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -85,7 +94,8 @@ public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMa
           .eq(Objects.nonNull(obj.getRoomId()), ApsRoomConfig::getRoomId, obj.getRoomId())
           .eq(Objects.nonNull(obj.getSectionId()), ApsRoomConfig::getSectionId, obj.getSectionId())
           .eq(Objects.nonNull(obj.getStationId()), ApsRoomConfig::getStationId, obj.getStationId())
-          .eq(Objects.nonNull(obj.getExecuteTime()), ApsRoomConfig::getExecuteTime, obj.getExecuteTime())
+          .eq(Objects.nonNull(obj.getExecuteTime()), ApsRoomConfig::getExecuteTime,
+              obj.getExecuteTime())
           .eq(Objects.nonNull(obj.getFactoryId()), ApsRoomConfig::getFactoryId, obj.getFactoryId())
 
       ;

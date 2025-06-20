@@ -3,19 +3,33 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingConstraintsApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsGetUseFieldRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingConstraintsImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingConstraints;
 import com.olivia.peanut.aps.service.ApsSchedulingConstraintsService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsSchedulingConstraints)表服务实现类
@@ -41,7 +55,8 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(ApsSchedulingConstraintsDeleteByIdListReq req) {
+  public @Override ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(
+      ApsSchedulingConstraintsDeleteByIdListReq req) {
     apsSchedulingConstraintsService.removeByIds(req.getIdList());
     return new ApsSchedulingConstraintsDeleteByIdListRes();
   }
@@ -50,7 +65,8 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * queryList
    *
    */
-  public @Override ApsSchedulingConstraintsQueryListRes queryList(ApsSchedulingConstraintsQueryListReq req) {
+  public @Override ApsSchedulingConstraintsQueryListRes queryList(
+      ApsSchedulingConstraintsQueryListReq req) {
     return apsSchedulingConstraintsService.queryList(req);
   }
 
@@ -58,13 +74,15 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * updateById
    *
    */
-  public @Override ApsSchedulingConstraintsUpdateByIdRes updateById(ApsSchedulingConstraintsUpdateByIdReq req) {
+  public @Override ApsSchedulingConstraintsUpdateByIdRes updateById(
+      ApsSchedulingConstraintsUpdateByIdReq req) {
     apsSchedulingConstraintsService.updateById($.copy(req, ApsSchedulingConstraints.class));
     return new ApsSchedulingConstraintsUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(ApsSchedulingConstraintsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingConstraintsExportQueryPageListReq req) {
     return apsSchedulingConstraintsService.queryPageList(req);
   }
 
@@ -72,12 +90,15 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
     DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingConstraintsExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingConstraintsExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingConstraintsExportQueryPageListInfoRes.class);
+    List<ApsSchedulingConstraintsExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSchedulingConstraintsExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingConstraintsExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingConstraintsImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingConstraintsImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingConstraintsImportListener(), ApsSchedulingConstraintsImportReq.class);
+  public @Override ApsSchedulingConstraintsImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingConstraintsImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingConstraintsImportListener(), ApsSchedulingConstraintsImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingConstraints> readList = $.copyList(reqList, ApsSchedulingConstraints.class);
     boolean bool = apsSchedulingConstraintsService.saveBatch(readList);
@@ -85,11 +106,15 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
     return new ApsSchedulingConstraintsImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(ApsSchedulingConstraintsQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingConstraints> q = new MPJLambdaWrapper<>(ApsSchedulingConstraints.class)
-        .selectAll(ApsSchedulingConstraints.class).in(ApsSchedulingConstraints::getId, req.getIdList());
+  public @Override ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(
+      ApsSchedulingConstraintsQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingConstraints> q = new MPJLambdaWrapper<>(
+        ApsSchedulingConstraints.class)
+        .selectAll(ApsSchedulingConstraints.class)
+        .in(ApsSchedulingConstraints::getId, req.getIdList());
     List<ApsSchedulingConstraints> list = this.apsSchedulingConstraintsService.list(q);
-    List<ApsSchedulingConstraintsDto> dataList = $.copyList(list, ApsSchedulingConstraintsDto.class);
+    List<ApsSchedulingConstraintsDto> dataList = $.copyList(list,
+        ApsSchedulingConstraintsDto.class);
     this.apsSchedulingConstraintsService.setName(dataList);
     return new ApsSchedulingConstraintsQueryByIdListRes().setDataList(dataList);
   }

@@ -15,6 +15,7 @@ import lombok.experimental.Accessors;
 @Setter
 @SuppressWarnings("serial")
 public class ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes {
+
   /***
    * 受影响行数
    */

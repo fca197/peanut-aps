@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDto;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListRes;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -17,7 +20,8 @@ public interface ApsLogisticsPathItemService extends MPJBaseService<ApsLogistics
 
   ApsLogisticsPathItemQueryListRes queryList(ApsLogisticsPathItemQueryListReq req);
 
-  DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathItemExportQueryPageListReq req);
+  DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(
+      ApsLogisticsPathItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsLogisticsPathItemDto> apsLogisticsPathItemDtoList);

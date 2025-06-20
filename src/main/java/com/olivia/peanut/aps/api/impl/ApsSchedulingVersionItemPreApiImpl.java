@@ -1,34 +1,33 @@
 package com.olivia.peanut.aps.api.impl;
 
-import java.time.LocalDateTime;
+import static com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConverter.INSTANCE;
 
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.olivia.peanut.aps.api.ApsSchedulingVersionItemPreApi;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdRes;
+import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingVersionItemPreImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionItemPre;
-import com.olivia.sdk.utils.$;
+import com.olivia.peanut.aps.service.ApsSchedulingVersionItemPreService;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
-
-import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.*;
-import com.olivia.peanut.aps.service.ApsSchedulingVersionItemPreService;
-import com.olivia.peanut.aps.model.*;
-import com.baomidou.mybatisplus.core.conditions.query.*;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.springframework.web.bind.annotation.*;
-import com.olivia.peanut.aps.api.ApsSchedulingVersionItemPreApi;
-
-import static com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConverter.*;
-
-import com.olivia.peanut.aps.api.impl.listener.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -46,7 +45,8 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
    * insert
    *
    */
-  public @Override ApsSchedulingVersionItemPreInsertRes insert(ApsSchedulingVersionItemPreInsertReq req) {
+  public @Override ApsSchedulingVersionItemPreInsertRes insert(
+      ApsSchedulingVersionItemPreInsertReq req) {
     ApsSchedulingVersionItemPre apsSchedulingVersionItemPre = INSTANCE.insertReq(req);
     this.apsSchedulingVersionItemPreService.save(apsSchedulingVersionItemPre);
     return new ApsSchedulingVersionItemPreInsertRes().setCount(1);
@@ -56,7 +56,8 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingVersionItemPreDeleteByIdListRes deleteByIdList(ApsSchedulingVersionItemPreDeleteByIdListReq req) {
+  public @Override ApsSchedulingVersionItemPreDeleteByIdListRes deleteByIdList(
+      ApsSchedulingVersionItemPreDeleteByIdListReq req) {
     apsSchedulingVersionItemPreService.removeByIds(req.getIdList());
     return new ApsSchedulingVersionItemPreDeleteByIdListRes();
   }
@@ -65,7 +66,8 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
    * queryList
    *
    */
-  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(ApsSchedulingVersionItemPreQueryListReq req) {
+  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(
+      ApsSchedulingVersionItemPreQueryListReq req) {
     return apsSchedulingVersionItemPreService.queryList(req);
   }
 
@@ -73,13 +75,15 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
    * updateById
    *
    */
-  public @Override ApsSchedulingVersionItemPreUpdateByIdRes updateById(ApsSchedulingVersionItemPreUpdateByIdReq req) {
+  public @Override ApsSchedulingVersionItemPreUpdateByIdRes updateById(
+      ApsSchedulingVersionItemPreUpdateByIdReq req) {
     apsSchedulingVersionItemPreService.updateById(INSTANCE.updateReq(req));
     return new ApsSchedulingVersionItemPreUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionItemPreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionItemPreExportQueryPageListReq req) {
     return apsSchedulingVersionItemPreService.queryPageList(req);
   }
 
@@ -87,11 +91,15 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
     DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsSchedulingVersionItemPreExportQueryPageListInfoRes.class, list, "排产下发订单预览");
+    PoiExcelUtil.export(ApsSchedulingVersionItemPreExportQueryPageListInfoRes.class, list,
+        "排产下发订单预览");
   }
 
-  public @Override ApsSchedulingVersionItemPreImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingVersionItemPreImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingVersionItemPreImportListener(), ApsSchedulingVersionItemPreImportReq.class);
+  public @Override ApsSchedulingVersionItemPreImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingVersionItemPreImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingVersionItemPreImportListener(),
+        ApsSchedulingVersionItemPreImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingVersionItemPre> readList = INSTANCE.importReq(reqList);
     boolean bool = apsSchedulingVersionItemPreService.saveBatch(readList);
@@ -99,9 +107,12 @@ public class ApsSchedulingVersionItemPreApiImpl implements ApsSchedulingVersionI
     return new ApsSchedulingVersionItemPreImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingVersionItemPreQueryByIdListRes queryByIdListRes(ApsSchedulingVersionItemPreQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = new MPJLambdaWrapper<ApsSchedulingVersionItemPre>(ApsSchedulingVersionItemPre.class)
-        .selectAll(ApsSchedulingVersionItemPre.class).in(ApsSchedulingVersionItemPre::getId, req.getIdList());
+  public @Override ApsSchedulingVersionItemPreQueryByIdListRes queryByIdListRes(
+      ApsSchedulingVersionItemPreQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = new MPJLambdaWrapper<ApsSchedulingVersionItemPre>(
+        ApsSchedulingVersionItemPre.class)
+        .selectAll(ApsSchedulingVersionItemPre.class)
+        .in(ApsSchedulingVersionItemPre::getId, req.getIdList());
     List<ApsSchedulingVersionItemPre> list = this.apsSchedulingVersionItemPreService.list(q);
     List<ApsSchedulingVersionItemPreDto> dataList = INSTANCE.queryListRes(list);
     this.apsSchedulingVersionItemPreService.setName(dataList);

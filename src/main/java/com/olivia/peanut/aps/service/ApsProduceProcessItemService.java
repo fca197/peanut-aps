@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDto;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListRes;
 import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -14,9 +17,11 @@ import java.util.List;
  * @since 2024-10-24 17:00:22
  */
 public interface ApsProduceProcessItemService extends MPJBaseService<ApsProduceProcessItem> {
+
   ApsProduceProcessItemQueryListRes queryList(ApsProduceProcessItemQueryListReq req);
 
-  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(ApsProduceProcessItemExportQueryPageListReq req);
+  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(
+      ApsProduceProcessItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsProduceProcessItemDto> apsProduceProcessItemDtoList);

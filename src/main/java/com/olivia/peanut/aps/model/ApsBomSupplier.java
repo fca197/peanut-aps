@@ -19,6 +19,7 @@ import lombok.experimental.Accessors;
 //@SuppressWarnings("serial")
 @TableName("aps_bom_supplier")
 public class ApsBomSupplier extends BaseEntity {
+
   /***
    *  名称
    */

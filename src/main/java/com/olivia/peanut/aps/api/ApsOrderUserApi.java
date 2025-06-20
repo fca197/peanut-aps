@@ -1,7 +1,21 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +39,15 @@ public interface ApsOrderUserApi {
    * 保存
    */
   @PostMapping("/apsOrderUser/insert")
-  ApsOrderUserInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderUserInsertReq req);
+  ApsOrderUserInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderUserInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsOrderUser/deleteByIdList")
-  ApsOrderUserDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderUserDeleteByIdListReq req);
+  ApsOrderUserDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderUserDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +59,15 @@ public interface ApsOrderUserApi {
    * 根据ID 更新
    */
   @PostMapping("/apsOrderUser/updateById")
-  ApsOrderUserUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderUserUpdateByIdReq req);
+  ApsOrderUserUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderUserUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsOrderUser/queryPageList")
-  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderUserExportQueryPageListReq req);
+  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderUserExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +86,8 @@ public interface ApsOrderUserApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderUser/queryByIdList")
-  ApsOrderUserQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderUserQueryByIdListReq req);
+  ApsOrderUserQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderUserQueryByIdListReq req);
 
   @PostMapping("/apsOrderUser/orderUserFieldList")
   OrderUserFieldListRes orderUserFieldList(@RequestBody @Valid OrderUserFieldListReq req);

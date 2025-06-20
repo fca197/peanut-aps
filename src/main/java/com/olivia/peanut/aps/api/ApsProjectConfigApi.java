@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigImportRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsProjectConfigApi {
    * 保存
    */
   @PostMapping("/apsProjectConfig/insert")
-  ApsProjectConfigInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProjectConfigInsertReq req);
+  ApsProjectConfigInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsProjectConfigInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsProjectConfig/deleteByIdList")
-  ApsProjectConfigDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProjectConfigDeleteByIdListReq req);
+  ApsProjectConfigDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsProjectConfigDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +57,15 @@ public interface ApsProjectConfigApi {
    * 根据ID 更新
    */
   @PostMapping("/apsProjectConfig/updateById")
-  ApsProjectConfigUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProjectConfigUpdateByIdReq req);
+  ApsProjectConfigUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsProjectConfigUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsProjectConfig/queryPageList")
-  DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsProjectConfigExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +84,8 @@ public interface ApsProjectConfigApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProjectConfig/queryByIdList")
-  ApsProjectConfigQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProjectConfigQueryByIdListReq req);
+  ApsProjectConfigQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsProjectConfigQueryByIdListReq req);
 
 
 }

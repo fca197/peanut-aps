@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingGoodsBomApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingGoodsBomImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsBom;
 import com.olivia.peanut.aps.service.ApsSchedulingGoodsBomService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * 订单商品零件表(ApsSchedulingGoodsBom)表服务实现类
@@ -40,7 +53,8 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingGoodsBomDeleteByIdListRes deleteByIdList(ApsSchedulingGoodsBomDeleteByIdListReq req) {
+  public @Override ApsSchedulingGoodsBomDeleteByIdListRes deleteByIdList(
+      ApsSchedulingGoodsBomDeleteByIdListReq req) {
     apsSchedulingGoodsBomService.removeByIds(req.getIdList());
     return new ApsSchedulingGoodsBomDeleteByIdListRes();
   }
@@ -49,7 +63,8 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * queryList
    *
    */
-  public @Override ApsSchedulingGoodsBomQueryListRes queryList(ApsSchedulingGoodsBomQueryListReq req) {
+  public @Override ApsSchedulingGoodsBomQueryListRes queryList(
+      ApsSchedulingGoodsBomQueryListReq req) {
     return apsSchedulingGoodsBomService.queryList(req);
   }
 
@@ -57,13 +72,15 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * updateById
    *
    */
-  public @Override ApsSchedulingGoodsBomUpdateByIdRes updateById(ApsSchedulingGoodsBomUpdateByIdReq req) {
+  public @Override ApsSchedulingGoodsBomUpdateByIdRes updateById(
+      ApsSchedulingGoodsBomUpdateByIdReq req) {
     apsSchedulingGoodsBomService.updateById($.copy(req, ApsSchedulingGoodsBom.class));
     return new ApsSchedulingGoodsBomUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingGoodsBomExportQueryPageListReq req) {
     return apsSchedulingGoodsBomService.queryPageList(req);
   }
 
@@ -71,12 +88,16 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
     DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingGoodsBomExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingGoodsBomExportQueryPageListInfoRes.class, listInfoRes, "订单商品零件表");
+    List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsSchedulingGoodsBomExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingGoodsBomExportQueryPageListInfoRes.class, listInfoRes,
+        "订单商品零件表");
   }
 
-  public @Override ApsSchedulingGoodsBomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingGoodsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingGoodsBomImportListener(), ApsSchedulingGoodsBomImportReq.class);
+  public @Override ApsSchedulingGoodsBomImportRes importData(
+      @RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingGoodsBomImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsSchedulingGoodsBomImportListener(), ApsSchedulingGoodsBomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingGoodsBom> readList = $.copyList(reqList, ApsSchedulingGoodsBom.class);
     boolean bool = apsSchedulingGoodsBomService.saveBatch(readList);
@@ -84,8 +105,10 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
     return new ApsSchedulingGoodsBomImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingGoodsBomQueryByIdListRes queryByIdListRes(ApsSchedulingGoodsBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingGoodsBom> q = new MPJLambdaWrapper<ApsSchedulingGoodsBom>(ApsSchedulingGoodsBom.class)
+  public @Override ApsSchedulingGoodsBomQueryByIdListRes queryByIdListRes(
+      ApsSchedulingGoodsBomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingGoodsBom> q = new MPJLambdaWrapper<ApsSchedulingGoodsBom>(
+        ApsSchedulingGoodsBom.class)
         .selectAll(ApsSchedulingGoodsBom.class).in(ApsSchedulingGoodsBom::getId, req.getIdList());
     List<ApsSchedulingGoodsBom> list = this.apsSchedulingGoodsBomService.list(q);
     List<ApsSchedulingGoodsBomDto> dataList = $.copyList(list, ApsSchedulingGoodsBomDto.class);

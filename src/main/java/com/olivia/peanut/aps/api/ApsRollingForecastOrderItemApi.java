@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.*;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemImportRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemInsertRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsRollingForecastOrderItemApi {
    * 保存 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/insert")
-  ApsRollingForecastOrderItemInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsRollingForecastOrderItemInsertReq req);
+  ApsRollingForecastOrderItemInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsRollingForecastOrderItemInsertReq req);
 
   /**
    * 根据ID 删除 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/deleteByIdList")
-  ApsRollingForecastOrderItemDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsRollingForecastOrderItemDeleteByIdListReq req);
+  ApsRollingForecastOrderItemDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsRollingForecastOrderItemDeleteByIdListReq req);
 
   /**
    * 查询 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/queryList")
-  ApsRollingForecastOrderItemQueryListRes queryList(@RequestBody @Valid ApsRollingForecastOrderItemQueryListReq req);
+  ApsRollingForecastOrderItemQueryListRes queryList(
+      @RequestBody @Valid ApsRollingForecastOrderItemQueryListReq req);
 
   /**
    * 根据ID 更新 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/updateById")
-  ApsRollingForecastOrderItemUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsRollingForecastOrderItemUpdateByIdReq req);
+  ApsRollingForecastOrderItemUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsRollingForecastOrderItemUpdateByIdReq req);
 
   /**
    * 分页查询 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/queryPageList")
-  DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsRollingForecastOrderItemExportQueryPageListReq req);
+  DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsRollingForecastOrderItemExportQueryPageListReq req);
 
   /**
    * 导出 滚动预测订单节点表
    */
   @PostMapping("/apsRollingForecastOrderItem/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsRollingForecastOrderItemExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsRollingForecastOrderItemExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsRollingForecastOrderItemApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsRollingForecastOrderItem/queryByIdList")
-  ApsRollingForecastOrderItemQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsRollingForecastOrderItemQueryByIdListReq req);
+  ApsRollingForecastOrderItemQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsRollingForecastOrderItemQueryByIdListReq req);
 
 
 }

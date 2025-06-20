@@ -1,10 +1,13 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionCapacity.ApsSchedulingVersionCapacityQueryListRes;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
 import com.olivia.sdk.utils.DynamicsPage;
-
 import java.util.List;
 
 /**
@@ -13,11 +16,13 @@ import java.util.List;
  * @author peanut
  * @since 2024-04-18 14:57:34
  */
-public interface ApsSchedulingVersionCapacityService extends MPJBaseService<ApsSchedulingVersionCapacity> {
+public interface ApsSchedulingVersionCapacityService extends
+    MPJBaseService<ApsSchedulingVersionCapacity> {
 
   ApsSchedulingVersionCapacityQueryListRes queryList(ApsSchedulingVersionCapacityQueryListReq req);
 
-  DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionCapacityExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(
+      ApsSchedulingVersionCapacityExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingVersionCapacityDto> apsSchedulingVersionCapacityDtoList);

@@ -2,19 +2,32 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsMachineApi;
-import com.olivia.peanut.aps.api.entity.apsMachine.*;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDto;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineImportReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineImportRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineInsertRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineUpdateByIdRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsMachineImportListener;
 import com.olivia.peanut.aps.model.ApsMachine;
 import com.olivia.peanut.aps.service.ApsMachineService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * aps 生产机器(ApsMachine)表服务实现类
@@ -63,7 +76,8 @@ public class ApsMachineApiImpl implements ApsMachineApi {
 
   }
 
-  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(ApsMachineExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(
+      ApsMachineExportQueryPageListReq req) {
     return apsMachineService.queryPageList(req);
   }
 
@@ -71,12 +85,14 @@ public class ApsMachineApiImpl implements ApsMachineApi {
     DynamicsPage<ApsMachineExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsMachineExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsMachineExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsMachineExportQueryPageListInfoRes.class);
+    List<ApsMachineExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsMachineExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsMachineExportQueryPageListInfoRes.class, listInfoRes, "aps 生产机器");
   }
 
   public @Override ApsMachineImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsMachineImportReq> reqList = PoiExcelUtil.readData(file, new ApsMachineImportListener(), ApsMachineImportReq.class);
+    List<ApsMachineImportReq> reqList = PoiExcelUtil.readData(file, new ApsMachineImportListener(),
+        ApsMachineImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsMachine> readList = $.copyList(reqList, ApsMachine.class);
     boolean bool = apsMachineService.saveBatch(readList);

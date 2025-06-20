@@ -1,19 +1,27 @@
 package com.olivia.peanut.aps.api;
 
-import org.springframework.validation.annotation.Validated;
-import com.olivia.sdk.utils.DynamicsPage;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.*;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import org.springframework.web.multipart.MultipartFile;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.olivia.sdk.utils.DynamicsPage;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -29,37 +37,43 @@ public interface ApsSchedulingVersionItemPreApi {
    * 保存 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/insert")
-  ApsSchedulingVersionItemPreInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionItemPreInsertReq req);
+  ApsSchedulingVersionItemPreInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingVersionItemPreInsertReq req);
 
   /**
    * 根据ID 删除 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/deleteByIdList")
-  ApsSchedulingVersionItemPreDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingVersionItemPreDeleteByIdListReq req);
+  ApsSchedulingVersionItemPreDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingVersionItemPreDeleteByIdListReq req);
 
   /**
    * 查询 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/queryList")
-  ApsSchedulingVersionItemPreQueryListRes queryList(@RequestBody @Valid ApsSchedulingVersionItemPreQueryListReq req);
+  ApsSchedulingVersionItemPreQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingVersionItemPreQueryListReq req);
 
   /**
    * 根据ID 更新 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/updateById")
-  ApsSchedulingVersionItemPreUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionItemPreUpdateByIdReq req);
+  ApsSchedulingVersionItemPreUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingVersionItemPreUpdateByIdReq req);
 
   /**
    * 分页查询 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/queryPageList")
-  DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingVersionItemPreExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingVersionItemPreExportQueryPageListReq req);
 
   /**
    * 导出 排产下发订单预览
    */
   @PostMapping("/apsSchedulingVersionItemPre/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsSchedulingVersionItemPreExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsSchedulingVersionItemPreExportQueryPageListReq req);
 
   /**
    * 导入
@@ -72,7 +86,8 @@ public interface ApsSchedulingVersionItemPreApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingVersionItemPre/queryByIdList")
-  ApsSchedulingVersionItemPreQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingVersionItemPreQueryByIdListReq req);
+  ApsSchedulingVersionItemPreQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingVersionItemPreQueryByIdListReq req);
 
 
 }

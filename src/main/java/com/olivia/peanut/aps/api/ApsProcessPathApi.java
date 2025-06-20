@@ -1,7 +1,19 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsProcessPath.*;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathImportRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsProcessPathApi {
    * 保存
    */
   @PostMapping("/apsProcessPath/insert")
-  ApsProcessPathInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProcessPathInsertReq req);
+  ApsProcessPathInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsProcessPathInsertReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsProcessPath/deleteByIdList")
-  ApsProcessPathDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProcessPathDeleteByIdListReq req);
+  ApsProcessPathDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsProcessPathDeleteByIdListReq req);
 
   /**
    * 查询
@@ -43,13 +57,15 @@ public interface ApsProcessPathApi {
    * 根据ID 更新
    */
   @PostMapping("/apsProcessPath/updateById")
-  ApsProcessPathUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProcessPathUpdateByIdReq req);
+  ApsProcessPathUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsProcessPathUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsProcessPath/queryPageList")
-  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProcessPathExportQueryPageListReq req);
+  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsProcessPathExportQueryPageListReq req);
 
   /**
    * 导出
@@ -68,7 +84,8 @@ public interface ApsProcessPathApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProcessPath/queryByIdList")
-  ApsProcessPathQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProcessPathQueryByIdListReq req);
+  ApsProcessPathQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsProcessPathQueryByIdListReq req);
 
 
 }

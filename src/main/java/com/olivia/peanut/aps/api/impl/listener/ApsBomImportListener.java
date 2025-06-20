@@ -14,11 +14,14 @@ import com.olivia.sdk.exception.RunException;
 import com.olivia.sdk.listener.AbstractImportListener;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.JSON;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * BOM 清单(ApsBom)文件导入监听
@@ -29,7 +32,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ApsBomImportListener extends AbstractImportListener<ApsBomImportReq> {
 
-  final static Cache<String, Map<String, Long>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, Long>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
   List<ApsBomImportReq> reqList = new ArrayList<>();
 
   @Override
@@ -45,7 +49,8 @@ public class ApsBomImportListener extends AbstractImportListener<ApsBomImportReq
     Map<String, Long> nameIdMap;
     try {
       nameIdMap = new HashMap<>(cache.get("all", () -> SpringUtil.getBean(ApsBomGroupService.class)
-          .list(new LambdaQueryWrapper<ApsBomGroup>().select(BaseEntity::getId, ApsBomGroup::getGroupName))
+          .list(new LambdaQueryWrapper<ApsBomGroup>().select(BaseEntity::getId,
+              ApsBomGroup::getGroupName))
           .stream().collect(Collectors.toMap(ApsBomGroup::getGroupName, BaseEntity::getId))));
     } catch (Exception e) {
       throw new RunException(e);
@@ -54,7 +59,8 @@ public class ApsBomImportListener extends AbstractImportListener<ApsBomImportReq
       Long groupId = nameIdMap.get(t.getGroupName());
       t.setGroupId(groupId);
       if (Objects.isNull(groupId)) {
-        addExcelErrorMsg(new ExcelErrorMsg().setRowIndex(t.getRowIndex()).setColumnName("组名称").setErrMsg("对应分组不存在"));
+        addExcelErrorMsg(new ExcelErrorMsg().setRowIndex(t.getRowIndex()).setColumnName("组名称")
+            .setErrMsg("对应分组不存在"));
       }
     });
     super.doAfterAllAnalysed(analysisContext);

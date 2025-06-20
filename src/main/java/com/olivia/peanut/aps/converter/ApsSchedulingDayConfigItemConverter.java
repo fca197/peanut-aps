@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDto;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemImportReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigItem;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingDayConfigItemConverter {
-  ApsSchedulingDayConfigItemConverter INSTANCE = Mappers.getMapper(ApsSchedulingDayConfigItemConverter.class);
+
+  ApsSchedulingDayConfigItemConverter INSTANCE = Mappers.getMapper(
+      ApsSchedulingDayConfigItemConverter.class);
 
   ApsSchedulingDayConfigItem insertReq(ApsSchedulingDayConfigItemInsertReq req);
 
@@ -17,7 +23,8 @@ public interface ApsSchedulingDayConfigItemConverter {
 
   List<ApsSchedulingDayConfigItemDto> queryListRes(List<ApsSchedulingDayConfigItem> list);
 
-  List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingDayConfigItem> list);
+  List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsSchedulingDayConfigItem> list);
 
   List<ApsSchedulingDayConfigItem> importReq(List<ApsSchedulingDayConfigItemImportReq> reqList);
 }

@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBom.ApsOrderGoodsBomUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsOrderGoodsBomApi {
    * 保存 订单商品零件表
    */
   @PostMapping("/apsOrderGoodsBom/insert")
-  ApsOrderGoodsBomInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsBomInsertReq req);
+  ApsOrderGoodsBomInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsBomInsertReq req);
 
   /**
    * 根据ID 删除 订单商品零件表
    */
   @PostMapping("/apsOrderGoodsBom/deleteByIdList")
-  ApsOrderGoodsBomDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsBomDeleteByIdListReq req);
+  ApsOrderGoodsBomDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsBomDeleteByIdListReq req);
 
   /**
    * 查询 订单商品零件表
@@ -43,13 +57,15 @@ public interface ApsOrderGoodsBomApi {
    * 根据ID 更新 订单商品零件表
    */
   @PostMapping("/apsOrderGoodsBom/updateById")
-  ApsOrderGoodsBomUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsBomUpdateByIdReq req);
+  ApsOrderGoodsBomUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsBomUpdateByIdReq req);
 
   /**
    * 分页查询 订单商品零件表
    */
   @PostMapping("/apsOrderGoodsBom/queryPageList")
-  DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsBomExportQueryPageListReq req);
 
   /**
    * 导出 订单商品零件表
@@ -68,7 +84,8 @@ public interface ApsOrderGoodsBomApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsBom/queryByIdList")
-  ApsOrderGoodsBomQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsBomQueryByIdListReq req);
+  ApsOrderGoodsBomQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsBomQueryByIdListReq req);
 
 
 }

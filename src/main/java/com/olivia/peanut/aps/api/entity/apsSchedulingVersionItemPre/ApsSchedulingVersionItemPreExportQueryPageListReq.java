@@ -1,14 +1,8 @@
 package com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre;
 
-import java.time.LocalDateTime;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 排产下发订单预览(ApsSchedulingVersionItemPre)查询对象入参
@@ -21,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @SuppressWarnings("serial")
 public class ApsSchedulingVersionItemPreExportQueryPageListReq {
+
   private int pageNum;
   private int pageSize;
   private Boolean queryPage = true;

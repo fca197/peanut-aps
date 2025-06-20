@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsBom;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * BOM 清单(ApsBom)查询对象入参

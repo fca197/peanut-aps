@@ -1,11 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsOrder;
 
 import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * (ApsOrder)根据ID删除多个入参

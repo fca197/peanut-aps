@@ -1,12 +1,24 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecast.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.UploadTemplateRes;
 import com.olivia.peanut.aps.model.ApsGoodsForecast;
 import com.olivia.sdk.utils.DynamicsPage;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * (ApsGoodsForecast)表服务接口
@@ -18,7 +30,8 @@ public interface ApsGoodsForecastService extends MPJBaseService<ApsGoodsForecast
 
   ApsGoodsForecastQueryListRes queryList(ApsGoodsForecastQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsForecastDto> apsGoodsForecastDtoList);

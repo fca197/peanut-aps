@@ -8,7 +8,13 @@ import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDto;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
 import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDto;
 import com.olivia.peanut.aps.mapper.ApsProduceProcessMapper;
 import com.olivia.peanut.aps.model.ApsProduceProcess;
@@ -22,16 +28,15 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * aps 生产路径(ApsProduceProcess)表服务实现类
@@ -41,9 +46,12 @@ import java.util.stream.Collectors;
  */
 @Service("apsProduceProcessService")
 @Transactional
-public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceProcessMapper, ApsProduceProcess> implements ApsProduceProcessService {
+public class ApsProduceProcessServiceImpl extends
+    MPJBaseServiceImpl<ApsProduceProcessMapper, ApsProduceProcess> implements
+    ApsProduceProcessService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -57,7 +65,8 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
   public void save(ApsProduceProcessInsertReq req) {
     ApsProduceProcess produceProcess = $.copy(req, ApsProduceProcess.class);
     produceProcess.setId(IdWorker.getId());
-    List<ApsProduceProcessItem> processItemList = req.getProduceProcessItemDtoList().stream().map(t -> $.copy(t, ApsProduceProcessItem.class)).toList();
+    List<ApsProduceProcessItem> processItemList = req.getProduceProcessItemDtoList().stream()
+        .map(t -> $.copy(t, ApsProduceProcessItem.class)).toList();
     processItemList.forEach(t -> t.setProduceProcessId(produceProcess.getId()));
     this.apsProduceProcessItemService.saveBatch(processItemList);
     this.save(produceProcess);
@@ -67,9 +76,12 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
   @Transactional
   public void updateById(ApsProduceProcessUpdateByIdReq req) {
     ApsProduceProcess produceProcess = $.copy(req, ApsProduceProcess.class);
-    this.apsProduceProcessItemService.remove(new LambdaQueryWrapper<ApsProduceProcessItem>().eq(ApsProduceProcessItem::getProduceProcessId, req.getId()));
-    List<ApsProduceProcessItem> processItemList = req.getProduceProcessItemDtoList().stream().map(t -> $.copy(t, ApsProduceProcessItem.class)).toList();
-    processItemList.forEach(t -> t.setProduceProcessId(produceProcess.getId()).setId(IdWorker.getId()));
+    this.apsProduceProcessItemService.remove(new LambdaQueryWrapper<ApsProduceProcessItem>().eq(
+        ApsProduceProcessItem::getProduceProcessId, req.getId()));
+    List<ApsProduceProcessItem> processItemList = req.getProduceProcessItemDtoList().stream()
+        .map(t -> $.copy(t, ApsProduceProcessItem.class)).toList();
+    processItemList.forEach(
+        t -> t.setProduceProcessId(produceProcess.getId()).setId(IdWorker.getId()));
     this.apsProduceProcessItemService.saveBatch(processItemList);
     this.updateById(produceProcess);
   }
@@ -79,13 +91,15 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
     MPJLambdaWrapper<ApsProduceProcess> q = getWrapper(req.getData());
     List<ApsProduceProcess> list = this.list(q);
 
-    List<ApsProduceProcessDto> dataList = list.stream().map(t -> $.copy(t, ApsProduceProcessDto.class)).collect(Collectors.toList());
+    List<ApsProduceProcessDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsProduceProcessDto.class)).collect(Collectors.toList());
     ((ApsProduceProcessService) AopContext.currentProxy()).setName(dataList);
     return new ApsProduceProcessQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(ApsProduceProcessExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(
+      ApsProduceProcessExportQueryPageListReq req) {
 
     DynamicsPage<ApsProduceProcess> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -94,7 +108,8 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
     List<ApsProduceProcessExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsProduceProcess> list = this.page(page, q);
-      IPage<ApsProduceProcessExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsProduceProcessExportQueryPageListInfoRes.class));
+      IPage<ApsProduceProcessExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsProduceProcessExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsProduceProcessExportQueryPageListInfoRes.class);
@@ -102,7 +117,8 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
 
     // 类型转换，  更换枚举 等操作 
 
-    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsProduceProcessExportQueryPageListInfoRes.class);
+    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsProduceProcessExportQueryPageListInfoRes.class);
     ((ApsProduceProcessService) AopContext.currentProxy()).setName(listInfoRes);
 
     return DynamicsPage.init(page, listInfoRes);
@@ -116,18 +132,26 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
     if (CollUtil.isEmpty(list)) {
       return;
     }
-    Map<Long, List<ApsProduceProcessItem>> listMap = this.apsProduceProcessItemService.list(new LambdaQueryWrapper<ApsProduceProcessItem>().in(ApsProduceProcessItem::getProduceProcessId, list.stream().map(BaseEntityDto::getId).collect(Collectors.toSet()))).stream().collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
-    list.forEach(t -> t.setProduceProcessItemDtoList($.copyList(listMap.get(t.getId()), ApsProduceProcessItemDto.class)));
+    Map<Long, List<ApsProduceProcessItem>> listMap = this.apsProduceProcessItemService.list(
+            new LambdaQueryWrapper<ApsProduceProcessItem>().in(
+                ApsProduceProcessItem::getProduceProcessId,
+                list.stream().map(BaseEntityDto::getId).collect(Collectors.toSet()))).stream()
+        .collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
+    list.forEach(t -> t.setProduceProcessItemDtoList(
+        $.copyList(listMap.get(t.getId()), ApsProduceProcessItemDto.class)));
   }
 
 
   private MPJLambdaWrapper<ApsProduceProcess> getWrapper(ApsProduceProcessDto obj) {
     MPJLambdaWrapper<ApsProduceProcess> q = new MPJLambdaWrapper<>();
 
-
     if (Objects.nonNull(obj)) {
-      q.eq(Objects.nonNull(obj.getFactoryId()), ApsProduceProcess::getFactoryId, obj.getFactoryId());
-      q.eq(StringUtils.isNoneBlank(obj.getProduceProcessNo()), ApsProduceProcess::getProduceProcessNo, obj.getProduceProcessNo()).eq(StringUtils.isNoneBlank(obj.getProduceProcessName()), ApsProduceProcess::getProduceProcessName, obj.getProduceProcessName())
+      q.eq(Objects.nonNull(obj.getFactoryId()), ApsProduceProcess::getFactoryId,
+          obj.getFactoryId());
+      q.eq(StringUtils.isNoneBlank(obj.getProduceProcessNo()),
+              ApsProduceProcess::getProduceProcessNo, obj.getProduceProcessNo())
+          .eq(StringUtils.isNoneBlank(obj.getProduceProcessName()),
+              ApsProduceProcess::getProduceProcessName, obj.getProduceProcessName())
 
       ;
     }

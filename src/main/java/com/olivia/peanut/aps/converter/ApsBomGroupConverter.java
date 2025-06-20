@@ -1,14 +1,19 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsBomGroup.*;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDto;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupImportReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupInsertReq;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsBomGroup;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsBomGroupConverter {
+
   ApsBomGroupConverter INSTANCE = Mappers.getMapper(ApsBomGroupConverter.class);
 
   ApsBomGroup insertReq(ApsBomGroupInsertReq req);

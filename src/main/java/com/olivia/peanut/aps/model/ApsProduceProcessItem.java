@@ -19,6 +19,7 @@ import lombok.experimental.Accessors;
 //@SuppressWarnings("serial")
 @TableName("aps_produce_process_item")
 public class ApsProduceProcessItem extends BaseEntity {
+
   /***
    *  生产路径 Id aps_produce_process
    */

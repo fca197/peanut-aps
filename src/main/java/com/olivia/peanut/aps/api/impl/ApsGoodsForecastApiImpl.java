@@ -3,19 +3,46 @@ package com.olivia.peanut.aps.api.impl;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsForecastApi;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecast.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastImportRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastInsertRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ApsGoodsForecastUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ComputeResultRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.DeployRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.ForecastStatusEnum;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.GetForecastDataByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecast.UploadTemplateRes;
 import com.olivia.peanut.aps.api.impl.listener.ApsGoodsForecastImportListenerAbstract;
 import com.olivia.peanut.aps.model.ApsGoodsForecast;
 import com.olivia.peanut.aps.service.ApsGoodsForecastService;
-import com.olivia.sdk.utils.*;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.DateUtils;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.JSON;
+import com.olivia.sdk.utils.PoiExcelUtil;
 import com.olivia.sdk.utils.model.YearMonth;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * (ApsGoodsForecast)表服务实现类
@@ -34,9 +61,12 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    *
    */
   public @Override ApsGoodsForecastInsertRes insert(ApsGoodsForecastInsertReq req) {
-    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
+    String ms = JSON.toJSONString(
+        DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream()
+            .map(YearMonth::toString).toList());
     req.setMonths(ms);
-    this.apsGoodsForecastService.save($.copy(req, ApsGoodsForecast.class).setForecastStatus(ForecastStatusEnum.TO_UPLOAD.getCode()));
+    this.apsGoodsForecastService.save($.copy(req, ApsGoodsForecast.class)
+        .setForecastStatus(ForecastStatusEnum.TO_UPLOAD.getCode()));
     return new ApsGoodsForecastInsertRes().setCount(1);
   }
 
@@ -44,7 +74,8 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastDeleteByIdListRes deleteByIdList(ApsGoodsForecastDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastDeleteByIdListRes deleteByIdList(
+      ApsGoodsForecastDeleteByIdListReq req) {
     apsGoodsForecastService.removeByIds(req.getIdList());
     return new ApsGoodsForecastDeleteByIdListRes();
   }
@@ -63,7 +94,9 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    */
   public @Override ApsGoodsForecastUpdateByIdRes updateById(ApsGoodsForecastUpdateByIdReq req) {
 
-    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
+    String ms = JSON.toJSONString(
+        DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream()
+            .map(YearMonth::toString).toList());
     req.setMonths(ms);
     ApsGoodsForecast forecast = $.copy(req, ApsGoodsForecast.class);
     apsGoodsForecastService.updateById(forecast);
@@ -71,7 +104,8 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsForecastExportQueryPageListReq req) {
     return apsGoodsForecastService.queryPageList(req);
   }
 
@@ -79,12 +113,14 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
     DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
+        ApsGoodsForecastExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsForecastExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsGoodsForecastImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastImportListenerAbstract(), ApsGoodsForecastImportReq.class);
+    List<ApsGoodsForecastImportReq> reqList = PoiExcelUtil.readData(file,
+        new ApsGoodsForecastImportListenerAbstract(), ApsGoodsForecastImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsForecast> readList = $.copyList(reqList, ApsGoodsForecast.class);
     boolean bool = apsGoodsForecastService.saveBatch(readList);
@@ -92,8 +128,10 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
     return new ApsGoodsForecastImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastQueryByIdListRes queryByIdListRes(ApsGoodsForecastQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecast> q = new MPJLambdaWrapper<ApsGoodsForecast>(ApsGoodsForecast.class)
+  public @Override ApsGoodsForecastQueryByIdListRes queryByIdListRes(
+      ApsGoodsForecastQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecast> q = new MPJLambdaWrapper<ApsGoodsForecast>(
+        ApsGoodsForecast.class)
         .selectAll(ApsGoodsForecast.class).in(ApsGoodsForecast::getId, req.getIdList());
     List<ApsGoodsForecast> list = this.apsGoodsForecastService.list(q);
     List<ApsGoodsForecastDto> dataList = $.copyList(list, ApsGoodsForecastDto.class);
@@ -106,7 +144,8 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
   }
 
   @Override
-  public UploadTemplateRes uploadTemplate(@PathVariable("id") Long id, MultipartFile multipartFile) {
+  public UploadTemplateRes uploadTemplate(@PathVariable("id") Long id,
+      MultipartFile multipartFile) {
     return this.apsGoodsForecastService.uploadTemplate(id, multipartFile);
   }
 

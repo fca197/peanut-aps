@@ -14,7 +14,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsRollingForecastFactoryCapacityInsertReq extends ApsRollingForecastFactoryCapacityDto {
+public class ApsRollingForecastFactoryCapacityInsertReq extends
+    ApsRollingForecastFactoryCapacityDto {
 
 
 }

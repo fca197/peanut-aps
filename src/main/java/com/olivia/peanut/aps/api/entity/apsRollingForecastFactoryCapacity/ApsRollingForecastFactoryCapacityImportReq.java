@@ -13,7 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsRollingForecastFactoryCapacityImportReq extends ApsRollingForecastFactoryCapacityDto {
+public class ApsRollingForecastFactoryCapacityImportReq extends
+    ApsRollingForecastFactoryCapacityDto {
 
 
 }

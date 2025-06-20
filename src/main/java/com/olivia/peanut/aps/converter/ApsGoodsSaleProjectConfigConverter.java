@@ -1,15 +1,21 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigImportReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigInsertReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsGoodsSaleProjectConfig;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
-
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsGoodsSaleProjectConfigConverter {
-  ApsGoodsSaleProjectConfigConverter INSTANCE = Mappers.getMapper(ApsGoodsSaleProjectConfigConverter.class);
+
+  ApsGoodsSaleProjectConfigConverter INSTANCE = Mappers.getMapper(
+      ApsGoodsSaleProjectConfigConverter.class);
 
   ApsGoodsSaleProjectConfig insertReq(ApsGoodsSaleProjectConfigInsertReq req);
 
@@ -17,7 +23,8 @@ public interface ApsGoodsSaleProjectConfigConverter {
 
   List<ApsGoodsSaleProjectConfigDto> queryListRes(List<ApsGoodsSaleProjectConfig> list);
 
-  List<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsSaleProjectConfig> list);
+  List<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageListRes(
+      List<ApsGoodsSaleProjectConfig> list);
 
   List<ApsGoodsSaleProjectConfig> importReq(List<ApsGoodsSaleProjectConfigImportReq> reqList);
 }

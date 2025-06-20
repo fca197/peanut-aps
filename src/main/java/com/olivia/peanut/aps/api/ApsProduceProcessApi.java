@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,13 +37,15 @@ public interface ApsProduceProcessApi {
    * 保存 aps 生产路径
    */
   @PostMapping("/apsProduceProcess/insert")
-  ApsProduceProcessInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProduceProcessInsertReq req);
+  ApsProduceProcessInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsProduceProcessInsertReq req);
 
   /**
    * 根据ID 删除 aps 生产路径
    */
   @PostMapping("/apsProduceProcess/deleteByIdList")
-  ApsProduceProcessDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProduceProcessDeleteByIdListReq req);
+  ApsProduceProcessDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsProduceProcessDeleteByIdListReq req);
 
   /**
    * 查询 aps 生产路径
@@ -43,13 +57,15 @@ public interface ApsProduceProcessApi {
    * 根据ID 更新 aps 生产路径
    */
   @PostMapping("/apsProduceProcess/updateById")
-  ApsProduceProcessUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProduceProcessUpdateByIdReq req);
+  ApsProduceProcessUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsProduceProcessUpdateByIdReq req);
 
   /**
    * 分页查询 aps 生产路径
    */
   @PostMapping("/apsProduceProcess/queryPageList")
-  DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProduceProcessExportQueryPageListReq req);
+  DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsProduceProcessExportQueryPageListReq req);
 
   /**
    * 导出 aps 生产路径
@@ -68,7 +84,8 @@ public interface ApsProduceProcessApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProduceProcess/queryByIdList")
-  ApsProduceProcessQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProduceProcessQueryByIdListReq req);
+  ApsProduceProcessQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsProduceProcessQueryByIdListReq req);
 
 
 }

@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsBom;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * 订单商品零件表(ApsOrderGoodsBom)保存返回

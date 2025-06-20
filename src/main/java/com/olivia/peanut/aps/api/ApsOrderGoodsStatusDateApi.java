@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,31 +37,36 @@ public interface ApsOrderGoodsStatusDateApi {
    * 保存 订单商品状态表
    */
   @PostMapping("/apsOrderGoodsStatusDate/insert")
-  ApsOrderGoodsStatusDateInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsOrderGoodsStatusDateInsertReq req);
+  ApsOrderGoodsStatusDateInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsStatusDateInsertReq req);
 
   /**
    * 根据ID 删除 订单商品状态表
    */
   @PostMapping("/apsOrderGoodsStatusDate/deleteByIdList")
-  ApsOrderGoodsStatusDateDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsOrderGoodsStatusDateDeleteByIdListReq req);
+  ApsOrderGoodsStatusDateDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsOrderGoodsStatusDateDeleteByIdListReq req);
 
   /**
    * 查询 订单商品状态表
    */
   @PostMapping("/apsOrderGoodsStatusDate/queryList")
-  ApsOrderGoodsStatusDateQueryListRes queryList(@RequestBody @Valid ApsOrderGoodsStatusDateQueryListReq req);
+  ApsOrderGoodsStatusDateQueryListRes queryList(
+      @RequestBody @Valid ApsOrderGoodsStatusDateQueryListReq req);
 
   /**
    * 根据ID 更新 订单商品状态表
    */
   @PostMapping("/apsOrderGoodsStatusDate/updateById")
-  ApsOrderGoodsStatusDateUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsStatusDateUpdateByIdReq req);
+  ApsOrderGoodsStatusDateUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsOrderGoodsStatusDateUpdateByIdReq req);
 
   /**
    * 分页查询 订单商品状态表
    */
   @PostMapping("/apsOrderGoodsStatusDate/queryPageList")
-  DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderGoodsStatusDateExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsOrderGoodsStatusDateExportQueryPageListReq req);
 
   /**
    * 导出 订单商品状态表
@@ -68,7 +85,8 @@ public interface ApsOrderGoodsStatusDateApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsOrderGoodsStatusDate/queryByIdList")
-  ApsOrderGoodsStatusDateQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsOrderGoodsStatusDateQueryByIdListReq req);
+  ApsOrderGoodsStatusDateQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsOrderGoodsStatusDateQueryByIdListReq req);
 
 
 }

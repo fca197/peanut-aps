@@ -1,6 +1,18 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.*;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailImportRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailInsertReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailInsertRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailUpdateByIdRes;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
@@ -25,37 +37,43 @@ public interface ApsSchedulingDayConfigVersionDetailApi {
    * 保存 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/insert")
-  ApsSchedulingDayConfigVersionDetailInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionDetailInsertReq req);
+  ApsSchedulingDayConfigVersionDetailInsertRes insert(
+      @RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionDetailInsertReq req);
 
   /**
    * 根据ID 删除 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/deleteByIdList")
-  ApsSchedulingDayConfigVersionDetailDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailDeleteByIdListReq req);
+  ApsSchedulingDayConfigVersionDetailDeleteByIdListRes deleteByIdList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailDeleteByIdListReq req);
 
   /**
    * 查询 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/queryList")
-  ApsSchedulingDayConfigVersionDetailQueryListRes queryList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailQueryListReq req);
+  ApsSchedulingDayConfigVersionDetailQueryListRes queryList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailQueryListReq req);
 
   /**
    * 根据ID 更新 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/updateById")
-  ApsSchedulingDayConfigVersionDetailUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionDetailUpdateByIdReq req);
+  ApsSchedulingDayConfigVersionDetailUpdateByIdRes updateById(
+      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionDetailUpdateByIdReq req);
 
   /**
    * 分页查询 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/queryPageList")
-  DynamicsPage<ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes> queryPageList(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
 
   /**
    * 导出 排程版本配置明细表
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/exportQueryPageList")
-  void queryPageListExport(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
+  void queryPageListExport(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailExportQueryPageListReq req);
 
   /**
    * 导入
@@ -68,7 +86,8 @@ public interface ApsSchedulingDayConfigVersionDetailApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingDayConfigVersionDetail/queryByIdList")
-  ApsSchedulingDayConfigVersionDetailQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailQueryByIdListReq req);
+  ApsSchedulingDayConfigVersionDetailQueryByIdListRes queryByIdListRes(
+      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailQueryByIdListReq req);
 
 
 }

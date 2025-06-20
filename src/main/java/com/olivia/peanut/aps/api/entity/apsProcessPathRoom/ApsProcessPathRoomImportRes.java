@@ -1,10 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsProcessPathRoom;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.List;
 
 /**
  * (ApsProcessPathRoom)保存返回

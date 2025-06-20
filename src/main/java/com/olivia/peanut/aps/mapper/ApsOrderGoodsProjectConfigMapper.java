@@ -11,7 +11,8 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-04-09 13:19:37
  */
 @Mapper
-public interface ApsOrderGoodsProjectConfigMapper extends MPJBaseMapper<ApsOrderGoodsProjectConfig> {
+public interface ApsOrderGoodsProjectConfigMapper extends
+    MPJBaseMapper<ApsOrderGoodsProjectConfig> {
 
 }
 

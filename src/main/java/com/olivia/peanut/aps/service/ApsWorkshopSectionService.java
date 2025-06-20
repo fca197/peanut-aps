@@ -18,7 +18,8 @@ public interface ApsWorkshopSectionService extends MPJBaseService<ApsWorkshopSec
 
   WorkshopSectionQueryListRes queryList(WorkshopSectionQueryListReq req);
 
-  DynamicsPage<WorkshopSectionExportQueryPageListInfoRes> queryPageList(WorkshopSectionExportQueryPageListReq req);
+  DynamicsPage<WorkshopSectionExportQueryPageListInfoRes> queryPageList(
+      WorkshopSectionExportQueryPageListReq req);
 
 }
 

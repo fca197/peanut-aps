@@ -1,5 +1,7 @@
 package com.olivia.peanut.aps.service.impl;
 
+import static com.olivia.sdk.utils.Str.UN_CHECKED;
+
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,7 +10,13 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsBom.SupplyModelEnum;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.*;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemDto;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierRes;
 import com.olivia.peanut.aps.mapper.ApsGoodsBomBuyPlanItemMapper;
 import com.olivia.peanut.aps.model.ApsBom;
 import com.olivia.peanut.aps.model.ApsBomSupplier;
@@ -26,11 +34,6 @@ import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.framework.AopContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +41,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static com.olivia.sdk.utils.Str.UN_CHECKED;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * BOM 购买清单(ApsGoodsBomBuyPlanItem)表服务实现类
@@ -50,9 +55,12 @@ import static com.olivia.sdk.utils.Str.UN_CHECKED;
 @Slf4j
 @Service("apsGoodsBomBuyPlanItemService")
 @Transactional
-public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsBomBuyPlanItemMapper, ApsGoodsBomBuyPlanItem> implements ApsGoodsBomBuyPlanItemService {
+public class ApsGoodsBomBuyPlanItemServiceImpl extends
+    MPJBaseServiceImpl<ApsGoodsBomBuyPlanItemMapper, ApsGoodsBomBuyPlanItem> implements
+    ApsGoodsBomBuyPlanItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
+  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
+      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   @Resource
@@ -62,19 +70,22 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   @Resource
   ApsBomSupplierService apsBomSupplierService;
 
-  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(ApsGoodsBomBuyPlanItemQueryListReq req) {
+  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(
+      ApsGoodsBomBuyPlanItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> q = getWrapper(req.getData());
     List<ApsGoodsBomBuyPlanItem> list = this.list(q);
 
-    List<ApsGoodsBomBuyPlanItemDto> dataList = list.stream().map(t -> $.copy(t, ApsGoodsBomBuyPlanItemDto.class)).collect(Collectors.toList());
+    List<ApsGoodsBomBuyPlanItemDto> dataList = list.stream()
+        .map(t -> $.copy(t, ApsGoodsBomBuyPlanItemDto.class)).collect(Collectors.toList());
     ((ApsGoodsBomBuyPlanItemServiceImpl) AopContext.currentProxy()).setName(dataList);
 
     return new ApsGoodsBomBuyPlanItemQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(
+      ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsBomBuyPlanItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -83,7 +94,8 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
     List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsGoodsBomBuyPlanItem> list = this.page(page, q);
-      IPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class));
+      IPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> dataList = list.convert(
+          t -> $.copy(t, ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class);
@@ -91,7 +103,8 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class);
+    List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
+        ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class);
     // this.setName(listInfoRes);
     ((ApsGoodsBomBuyPlanItemServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -101,19 +114,26 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   @Override
   @RedissonLockAnn(lockBizKeyFlag = "plan#sendMail", keyExpression = "#req.buyPlanId")
   public SendMail2supplierRes sendMail2supplier(SendMail2supplierReq req) {
-    List<ApsGoodsBomBuyPlanItem> planItemList = this.list(new LambdaQueryWrapper<ApsGoodsBomBuyPlanItem>().in(ApsGoodsBomBuyPlanItem::getBuyPlanId, req.getBuyPlanId()));
+    List<ApsGoodsBomBuyPlanItem> planItemList = this.list(
+        new LambdaQueryWrapper<ApsGoodsBomBuyPlanItem>().in(ApsGoodsBomBuyPlanItem::getBuyPlanId,
+            req.getBuyPlanId()));
     $.requireNonNullCanIgnoreException(planItemList, "零件获取为空");
-    List<ApsBom> bomList = apsBomService.list(new LambdaQueryWrapper<ApsBom>().in(BaseEntity::getId, planItemList.stream().map(ApsGoodsBomBuyPlanItem::getBomId).toList())
+    List<ApsBom> bomList = apsBomService.list(new LambdaQueryWrapper<ApsBom>().in(BaseEntity::getId,
+            planItemList.stream().map(ApsGoodsBomBuyPlanItem::getBomId).toList())
         .eq(ApsBom::getSupplyMode, SupplyModelEnum.buy.name()));
     Set<Long> bomIdSet = bomList.stream().map(BaseEntity::getId).collect(Collectors.toSet());
     planItemList.removeIf(t -> !bomIdSet.contains(t.getBomId()));
     $.requireNonNullCanIgnoreException(planItemList, "所需购买零件获取为空");
-    Map<Long, List<ApsGoodsBomBuyPlanItem>> planBomMap = planItemList.stream().collect(Collectors.groupingBy(ApsGoodsBomBuyPlanItem::getBomId));
-    Map<Long, ApsBomSupplier> bomSupplierMap = apsBomSupplierService.listByIds(bomList.stream().map(ApsBom::getApsBomSupplierId).toList()).stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-    bomList.stream().collect(Collectors.groupingBy(ApsBom::getApsBomSupplierId)).forEach((k, vl) -> {
-      ApsBomSupplier apsBomSupplier = bomSupplierMap.get(k);
-      ApsBomPlan2Email.sendMail(req, k, apsBomSupplier, vl, planBomMap);
-    });
+    Map<Long, List<ApsGoodsBomBuyPlanItem>> planBomMap = planItemList.stream()
+        .collect(Collectors.groupingBy(ApsGoodsBomBuyPlanItem::getBomId));
+    Map<Long, ApsBomSupplier> bomSupplierMap = apsBomSupplierService.listByIds(
+            bomList.stream().map(ApsBom::getApsBomSupplierId).toList()).stream()
+        .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
+    bomList.stream().collect(Collectors.groupingBy(ApsBom::getApsBomSupplierId))
+        .forEach((k, vl) -> {
+          ApsBomSupplier apsBomSupplier = bomSupplierMap.get(k);
+          ApsBomPlan2Email.sendMail(req, k, apsBomSupplier, vl, planBomMap);
+        });
 
     return new SendMail2supplierRes();
   }
@@ -121,12 +141,14 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   // 以下为私有对象封装
 
   @SetUserName
-  public @Override void setName(List<? extends ApsGoodsBomBuyPlanItemDto> apsGoodsBomBuyPlanItemDtoList) {
+  public @Override void setName(
+      List<? extends ApsGoodsBomBuyPlanItemDto> apsGoodsBomBuyPlanItemDtoList) {
 
     if (CollUtil.isEmpty(apsGoodsBomBuyPlanItemDtoList)) {
       return;
     }
-    apsGoodsBomBuyPlanItemDtoList.sort(Comparator.comparing(ApsGoodsBomBuyPlanItemDto::getIsFollow).reversed());
+    apsGoodsBomBuyPlanItemDtoList.sort(
+        Comparator.comparing(ApsGoodsBomBuyPlanItemDto::getIsFollow).reversed());
   }
 
 
@@ -134,7 +156,8 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   private MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> getWrapper(ApsGoodsBomBuyPlanItemDto obj) {
     MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBomBuyPlanItem.class, ApsGoodsBomBuyPlanItem::getBuyPlanId //
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsBomBuyPlanItem.class,
+        ApsGoodsBomBuyPlanItem::getBuyPlanId //
         , ApsGoodsBomBuyPlanItem::getBomId//
         , ApsGoodsBomBuyPlanItem::getBomCode//
         , ApsGoodsBomBuyPlanItem::getBomName
