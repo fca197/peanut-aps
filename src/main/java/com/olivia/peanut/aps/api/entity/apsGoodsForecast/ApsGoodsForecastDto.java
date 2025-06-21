@@ -2,11 +2,15 @@ package com.olivia.peanut.aps.api.entity.apsGoodsForecast;
 
 // import com.alibaba.fastjson2.annotation.JSONField;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.utils.deserializer.CustomListLongDeserializer;
+import com.olivia.sdk.utils.deserializer.CustomLongDeserializer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,6 +74,8 @@ public class ApsGoodsForecastDto extends BaseEntityDto {
 
   private Integer forecastStatus;
 
+  @JsonDeserialize(using = CustomListLongDeserializer.class)
+  private List<Long> saleConfigList;
 }
 
 

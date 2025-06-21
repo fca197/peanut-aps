@@ -1,4 +1,4 @@
-export JAVA_HOME=/Users/wangbao/Library/Java/JavaVirtualMachines/corretto-21.0.6/Contents/Home
+export JAVA_HOME=/Users/wangbao/Library/Java/JavaVirtualMachines/corretto-21.0.7/Contents/Home
 
 #cp  pom-jm.xml ./pom.xml
 /Users/wangbao/soft/apache-maven-4.0.0-rc-1/bin/mvn  -Djava.home=$JAVA_HOME   \

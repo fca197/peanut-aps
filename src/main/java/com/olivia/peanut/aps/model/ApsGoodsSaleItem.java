@@ -28,16 +28,10 @@ public class ApsGoodsSaleItem extends BaseEntity {
 
 
   @TableField(exist = false)
-  private String saleConfigCode;
-  @TableField(exist = false)
-  private String saleConfigName;
-  @TableField(exist = false)
-  private Integer isValue;
+  private ApsSaleConfig currentSaleConfig;
 
 
   @TableField(exist = false)
-  private String parentSaleConfigCode;
-  @TableField(exist = false)
-  private String parentSaleConfigName;
+  private ApsSaleConfig parentSaleConfig;
 }
 

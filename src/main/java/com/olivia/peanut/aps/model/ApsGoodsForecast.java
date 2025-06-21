@@ -1,7 +1,9 @@
 package com.olivia.peanut.aps.model;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.mybatis.type.impl.ListLongTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.JSON;
 import java.util.List;
@@ -19,7 +21,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_goods_forecast")
+@TableName(value = "aps_goods_forecast", autoResultMap = true)
 public class ApsGoodsForecast extends BaseEntity {
 
   private Long goodsId;
@@ -29,6 +31,9 @@ public class ApsGoodsForecast extends BaseEntity {
   private String forecastEndDate;
   private String months;
   private Integer forecastStatus;
+  @TableField(typeHandler = ListLongTypeHandler.class)
+  private List<Long> saleConfigList;
+
 
   public List<String> getMonthList() {
     return JSON.readList(this.getMonths(), String.class);

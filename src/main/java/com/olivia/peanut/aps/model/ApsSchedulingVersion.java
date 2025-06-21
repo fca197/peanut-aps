@@ -5,7 +5,7 @@ import static org.apache.ibatis.type.JdbcType.ARRAY;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.olivia.sdk.mybatis.type.ListLongTypeHandler;
+import com.olivia.sdk.mybatis.type.impl.ListLongTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
 import java.time.LocalDate;
 import java.util.List;
