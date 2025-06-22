@@ -38,6 +38,7 @@ import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.PoiExcelUtil;
 import com.olivia.sdk.utils.model.YearMonth;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,6 +51,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author peanut
  * @since 2024-03-30 13:38:52
  */
+@Slf4j
 @RestController
 public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
 
@@ -131,8 +133,8 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
   public @Override ApsGoodsForecastQueryByIdListRes queryByIdListRes(
       ApsGoodsForecastQueryByIdListReq req) {
     MPJLambdaWrapper<ApsGoodsForecast> q = new MPJLambdaWrapper<ApsGoodsForecast>(
-        ApsGoodsForecast.class)
-        .selectAll(ApsGoodsForecast.class).in(ApsGoodsForecast::getId, req.getIdList());
+        ApsGoodsForecast.class).selectAll(ApsGoodsForecast.class)
+        .in(ApsGoodsForecast::getId, req.getIdList());
     List<ApsGoodsForecast> list = this.apsGoodsForecastService.list(q);
     List<ApsGoodsForecastDto> dataList = $.copyList(list, ApsGoodsForecastDto.class);
     return new ApsGoodsForecastQueryByIdListRes().setDataList(dataList);
@@ -146,7 +148,12 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
   @Override
   public UploadTemplateRes uploadTemplate(@PathVariable("id") Long id,
       MultipartFile multipartFile) {
-    return this.apsGoodsForecastService.uploadTemplate(id, multipartFile);
+    try {
+      return this.apsGoodsForecastService.uploadTemplate(id, multipartFile);
+    } catch (Exception e) {
+      log.error("Error a upload template id  {} msg: {}", id, e.getMessage(), e);
+      throw e;
+    }
   }
 
   @Override
