@@ -1,0 +1,31 @@
+export interface ApsGoodsForecastUserSaleGroupData {
+  forecastId: string | undefined
+  saleConfigParentList: string | undefined
+  saleConfigList: string | undefined
+  year: string | undefined
+  month01: string | undefined
+  month02: string | undefined
+  month03: string | undefined
+  month04: string | undefined
+  month05: string | undefined
+  month06: string | undefined
+  month07: string | undefined
+  month08: string | undefined
+  month09: string | undefined
+  month10: string | undefined
+  month11: string | undefined
+  month12: string | undefined
+  monthResult01: string | undefined
+  monthResult02: string | undefined
+  monthResult03: string | undefined
+  monthResult04: string | undefined
+  monthResult05: string | undefined
+  monthResult06: string | undefined
+  monthResult07: string | undefined
+  monthResult08: string | undefined
+  monthResult09: string | undefined
+  monthResult10: string | undefined
+  monthResult11: string | undefined
+  monthResult12: string | undefined
+  id: string | undefined
+}
