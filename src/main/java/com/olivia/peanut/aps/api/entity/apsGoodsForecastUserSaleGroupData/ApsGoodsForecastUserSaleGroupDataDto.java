@@ -3,6 +3,7 @@ package com.olivia.peanut.aps.api.entity.apsGoodsForecastUserSaleGroupData;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.model.MapSub;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,7 +38,7 @@ public class ApsGoodsForecastUserSaleGroupDataDto extends BaseEntityDto {
       UpdateCheck.class})
   //  @JSONField(label = "saleConfigParentList")
 
-  private List<MapSub> saleConfigParentList;
+  private List<KVEntity> saleConfigParentList;
   /***
    *  销售配置 [{id:,name,code}]
    */
@@ -45,7 +46,7 @@ public class ApsGoodsForecastUserSaleGroupDataDto extends BaseEntityDto {
       UpdateCheck.class})
   //  @JSONField(label = "saleConfigList")
 
-  private List<MapSub> saleConfigList;
+  private List<KVEntity> saleConfigList;
   /***
    *  年份
    */

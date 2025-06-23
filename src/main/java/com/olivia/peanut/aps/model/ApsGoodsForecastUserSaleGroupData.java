@@ -3,6 +3,8 @@ package com.olivia.peanut.aps.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
 import com.olivia.sdk.mybatis.type.impl.ListMapTypeHandler;
 import com.olivia.sdk.mybatis.type.model.MapSub;
 import com.olivia.sdk.utils.BaseEntity;
@@ -31,13 +33,13 @@ public class ApsGoodsForecastUserSaleGroupData extends BaseEntity {
   /***
    *  销售组 [{id:,name,code}]
    */
-  @TableField(value = "sale_config_parent_list", typeHandler = ListMapTypeHandler.class)
-  private List<MapSub> saleConfigParentList;
+  @TableField(value = "sale_config_parent_list", typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> saleConfigParentList;
   /***
    *  销售配置 [{id:,name,code}]
    */
-  @TableField(value = "sale_config_list", typeHandler = ListMapTypeHandler.class)
-  private List<MapSub> saleConfigList;
+  @TableField(value = "sale_config_list", typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> saleConfigList;
   /***
    *  年份
    */
