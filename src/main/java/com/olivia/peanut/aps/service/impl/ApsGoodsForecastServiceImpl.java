@@ -53,7 +53,7 @@ import com.olivia.peanut.aps.service.ApsGoodsSaleItemService;
 import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.peanut.aps.service.ApsSaleConfigService;
 import com.olivia.peanut.aps.service.impl.utils.ApsGoodsForecastUtils;
-import com.olivia.peanut.aps.utils.forecast.OrToolsUtils;
+import com.olivia.peanut.aps.utils.forecast.ApsForecastUtils;
 import com.olivia.peanut.aps.utils.forecast.model.DivisionRes;
 import com.olivia.peanut.aps.utils.forecast.model.SaleItemConfig;
 import com.olivia.peanut.aps.utils.forecast.model.SkuCombinationConstraint;
@@ -583,7 +583,7 @@ public class ApsGoodsForecastServiceImpl extends
           constraintArrayList.add(combinationConstraint);
         });
 
-        DivisionRes divisionRes = OrToolsUtils.division(value, groupList, List.of());
+        DivisionRes divisionRes = ApsForecastUtils.division(value, groupList, List.of());
         RunUtils.run("计算结果 " + req.getId(), () -> {
           log.info("req compute count {} groupList:{}", value, JSON.toJSONString(groupList));
           log.info("ret compute divisionRes {}", JSON.toJSONString(divisionRes));
