@@ -1,8 +1,6 @@
 package com.olivia.peanut.aps.model;
 
 
-import static org.apache.ibatis.type.JdbcType.ARRAY;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.mybatis.type.impl.ListLongTypeHandler;
@@ -23,7 +21,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_scheduling_version")
+@TableName(value = "aps_scheduling_version", autoResultMap = true)
 public class ApsSchedulingVersion extends BaseEntity {
 
   private String schedulingVersionNo;
@@ -61,13 +59,10 @@ public class ApsSchedulingVersion extends BaseEntity {
    */
   private Boolean useProjectConfigMakeCapacity;
 
-  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = ARRAY)
-
-//  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = JdbcType.)
+  @TableField(typeHandler = ListLongTypeHandler.class)
   private List<Long> factoryIdList;
 
-  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = ARRAY)
-//  @TableField(typeHandler = ListLongTypeHandler.class, jdbcType = JdbcType.ARRAY)
+  @TableField(typeHandler = ListLongTypeHandler.class)
   private List<Long> goodsIdList;
 }
 

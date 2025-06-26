@@ -24,6 +24,8 @@ import com.olivia.peanut.base.service.ShiftItemService;
 import com.olivia.peanut.base.service.ShiftService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.exception.RunException;
+import com.olivia.sdk.filter.LoginUser;
+import com.olivia.sdk.filter.LoginUserContext;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.RunUtils;
@@ -74,12 +76,15 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     if (log.isDebugEnabled()) {
       log.debug("getFactoryConfig req :{}", JSON.toJSONString(req));
     }
+//    LoginUser loginUser = LoginUserContext.getLoginUser();
     List<Runnable> runnableList = new ArrayList<>();
     Long factoryId = req.getFactoryId();
     FactoryConfigRes res = new FactoryConfigRes().setFactoryId(factoryId)
         .setFactoryName(req.getFactoryName());
     if (TRUE.equals(req.getGetWeek())) {
+
       runnableList.add(() -> {
+//        LoginUserContext.setContextThreadLocal(loginUser);
         try {
           List<WeekInfo> retList = factoryWeekInfoCache.get(
               factoryId.toString() + req.getWeekBeginDate() + req.getWeekEndDate(), () -> {
@@ -98,6 +103,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     if (TRUE.equals(req.getGetShift())) {
       runnableList.add(() -> {
         try {
+//          LoginUserContext.setContextThreadLocal(loginUser);
           List<ShiftItem> shiftItemList = factoryShiftCache.get("dayWorkSecond-" + factoryId,
               () -> {
                 Shift shift = shiftService.getOne(
@@ -122,6 +128,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     if (TRUE.equals(req.getGetPath())) {
       runnableList.add(() -> {
         try {
+//          LoginUserContext.setContextThreadLocal(loginUser);
           Map<Long, ApsProcessPathDto> pathDtoMap = factoryPathCache.get(
               req.getFactoryId().toString(), () -> {
                 ApsProcessPathDto data = new ApsProcessPathDto().setFactoryId(factoryId)
@@ -145,6 +152,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
       req.getApsProduceProcessIdList().removeIf(Objects::isNull);
       if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
         runnableList.add(() -> {
+//          LoginUserContext.setContextThreadLocal(loginUser);
           Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(
                   new LambdaQueryWrapper<ApsProduceProcessItem>().in(
                       ApsProduceProcessItem::getProduceProcessId, req.getApsProduceProcessIdList()))

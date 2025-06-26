@@ -341,8 +341,10 @@ public class ApsSchedulingVersionServiceImpl extends
             .collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
         saleMap.putAll(
             apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>()
-                    .in(ApsOrderGoodsSaleConfig::getGoodsId, schedulingVersion.getGoodsIdList())
-                    .in(ApsOrderGoodsSaleConfig::getFactoryId, schedulingVersion.getFactoryIdList())
+                    .in(CollUtil.isNotEmpty(schedulingVersion.getGoodsIdList()),
+                        ApsOrderGoodsSaleConfig::getGoodsId, schedulingVersion.getGoodsIdList())
+                    .in(CollUtil.isNotEmpty(schedulingVersion.getFactoryIdList()),
+                        ApsOrderGoodsSaleConfig::getFactoryId, schedulingVersion.getFactoryIdList())
                     .in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream()
                 .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId)));
       }
@@ -442,7 +444,7 @@ public class ApsSchedulingVersionServiceImpl extends
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public ApsSchedulingVersionUseMakeCapacityRes useMakeCapacity(
       ApsSchedulingVersionUseMakeCapacityReq req) {
     ApsSchedulingVersion schedulingVersion = this.getById(req.getId());
