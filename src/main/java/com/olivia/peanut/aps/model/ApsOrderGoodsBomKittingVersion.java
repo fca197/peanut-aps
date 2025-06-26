@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.model;
 
 
 import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -69,7 +70,7 @@ public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
   /***
    *  缺失物料前10 [{id: label}]
    */
-  @TableField("kitting_missing_bom")
+  @TableField(value = "kitting_missing_bom",typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> kittingMissingBom;
   /***
    *  计算日期

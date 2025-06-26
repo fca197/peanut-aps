@@ -40,10 +40,17 @@ truncate table aps_scheduling_version;
 truncate table aps_scheduling_version_capacity;
 truncate table aps_scheduling_version_day;
 truncate table aps_scheduling_version_item;
-truncate  table aps_scheduling_version_item_pre;
+truncate table aps_scheduling_version_item_pre;
 truncate table aps_scheduling_version_limit;
 truncate table aps_goods_bom_buy_plan;
 truncate table aps_goods_bom_buy_plan_item;
 truncate table aps_rolling_forecast_order;
-truncate  table  aps_order_goods_history;
-truncate  table aps_order_goods_sale_config_history;
+truncate table aps_order_goods_history;
+truncate table aps_order_goods_sale_config_history;
+
+truncate table aps_order_goods_bom_kitting_version;
+
+truncate table aps_order_goods_bom_kitting_version_order;
+
+truncate table aps_order_goods_bom_kitting_version_order_item;
+

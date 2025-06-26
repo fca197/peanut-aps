@@ -1,5 +1,6 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder;
 
+import com.olivia.sdk.model.KVEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -73,8 +74,8 @@ public class ApsOrderGoodsBomKittingVersionOrderDto extends BaseEntityDto {
   @NotBlank(message = "缺失物料前10 [{id: label}]不能为空", groups = {InsertCheck.class,
       UpdateCheck.class})
   //  @JSONField(label = "kittingMissingBom")
+  private List<KVEntity> kittingMissingBom;
 
-  private String kittingMissingBom;
   /***
    *  订单字段
    */

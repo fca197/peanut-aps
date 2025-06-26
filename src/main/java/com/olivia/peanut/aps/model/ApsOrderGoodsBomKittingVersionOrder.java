@@ -1,9 +1,12 @@
 package com.olivia.peanut.aps.model;
 
+import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.olivia.sdk.utils.BaseEntity;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -20,7 +23,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_order_goods_bom_kitting_version_order")
+@TableName(value = "aps_order_goods_bom_kitting_version_order" ,autoResultMap = true)
 public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
 
   /***
@@ -51,8 +54,9 @@ public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
   /***
    *  缺失物料前10 [{id: label}]
    */
-  @TableField("kitting_missing_bom")
-  private String kittingMissingBom;
+  @TableField(value = "kitting_missing_bom",typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> kittingMissingBom;
+
   /***
    *  订单字段
    */
