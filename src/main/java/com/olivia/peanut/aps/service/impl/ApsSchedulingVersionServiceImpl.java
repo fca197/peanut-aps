@@ -227,8 +227,8 @@ public class ApsSchedulingVersionServiceImpl extends
         List<WeekInfo> weekInfoList = factoryWeekListMap.get(factoryId);
         Long dayWorkSecond = dayWorkSecondMap.get(factoryId);
         Map<Long, List<ApsGoodsBom>> apsGoodsBomList = goodsBomMap.getOrDefault(goodsId, Map.of());
-        Map<Long, List<ApsGoodsBomVo>> apsGoodsBomVoMap = apsGoodsBomList.keySet().stream()
-            .collect(Collectors.toMap(key -> key,
+        Map<Long, List<ApsGoodsBomVo>> apsGoodsBomVoMap = apsGoodsBomList.keySet().stream().collect(
+            Collectors.toMap(key -> key,
                 vL -> $.copyList(apsGoodsBomList.get(vL), ApsGoodsBomVo.class)));
         ApsProcessPathInfo scheduledPathDate = ProcessUtils.schedulePathDate(
             $.copy(apsProcessPathDto, ApsProcessPathVo.class), weekInfoList, 0L, dayWorkSecond,
@@ -241,9 +241,8 @@ public class ApsSchedulingVersionServiceImpl extends
                 schedulingVersion.getId());
             statusDate.setExpectMakeBeginTime(info.getBeginLocalDate())
                 .setExpectMakeEndTime(info.getEndLocalDate()).setGoodsStatusId(info.getStatusId())
-                .setGoodsId(goodsId)
-                .setOrderId(order.getOrderId()).setFactoryId(order.getFactoryId())
-                .setStatusIndex(statusIndex.getAndIncrement());
+                .setGoodsId(goodsId).setOrderId(order.getOrderId())
+                .setFactoryId(order.getFactoryId()).setStatusIndex(statusIndex.getAndIncrement());
             apsOrderGoodsStatusDateList.add(statusDate);
             List<ApsGoodsBomVo> bomList = info.getApsGoodsBomList();
             if (CollUtil.isNotEmpty(bomList)) {
@@ -326,11 +325,17 @@ public class ApsSchedulingVersionServiceImpl extends
           schedulingConstraints.getConstraintsContext(), ConstrainedContent.class);
 
       // 获取数据
-      List<ApsOrder> orderList = apsOrderService.list(new LambdaQueryWrapper<ApsOrder>()
-          .in(ApsOrder::getFactoryId, schedulingVersion.getFactoryIdList())
-          .in(ApsOrder::getOrderStatus,
-              Stream.of(ApsOrderStatusEnum.INIT).map(ApsOrderStatusEnum::getCode).toList()
-          ));
+      List<ApsOrder> orderList = apsOrderService.list(
+          new MPJLambdaWrapper<>(ApsOrder.class)
+              .selectAll(ApsOrder.class)
+              .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrderGoods::getOrderId)
+              .in(CollUtil.isNotEmpty(schedulingVersion.getGoodsIdList()),
+                  ApsOrderGoods::getGoodsId, schedulingVersion.getGoodsIdList())
+              .in(CollUtil.isNotEmpty(schedulingVersion.getFactoryIdList()), ApsOrder::getFactoryId,
+                  schedulingVersion.getFactoryIdList()).in(ApsOrder::getOrderStatus,
+                  Stream.of(ApsOrderStatusEnum.INIT).map(ApsOrderStatusEnum::getCode).toList())
+
+      );
       Map<Long, ApsSaleConfig> saleConfigMap = new HashMap<>();
       Map<Long, List<ApsOrderGoodsSaleConfig>> saleMap = new HashMap<>();
 
@@ -339,14 +344,14 @@ public class ApsSchedulingVersionServiceImpl extends
       if (hasSale(constrainedList, SALE)) {
         saleConfigMap.putAll(apsSaleConfigService.list().stream()
             .collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
-        saleMap.putAll(
-            apsOrderGoodsSaleConfigService.list(new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>()
-                    .in(CollUtil.isNotEmpty(schedulingVersion.getGoodsIdList()),
+        saleMap.putAll(apsOrderGoodsSaleConfigService.list(
+                new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(
+                        CollUtil.isNotEmpty(schedulingVersion.getGoodsIdList()),
                         ApsOrderGoodsSaleConfig::getGoodsId, schedulingVersion.getGoodsIdList())
                     .in(CollUtil.isNotEmpty(schedulingVersion.getFactoryIdList()),
                         ApsOrderGoodsSaleConfig::getFactoryId, schedulingVersion.getFactoryIdList())
                     .in(ApsOrderGoodsSaleConfig::getOrderId, orderIdList)).stream()
-                .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId)));
+            .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId)));
       }
 
       Map<Long, String> orderIdNoMap = orderList.stream()
@@ -373,8 +378,7 @@ public class ApsSchedulingVersionServiceImpl extends
       }).collect(Collectors.toList());
       ConstrainedResult result = ConstrainedContentUtils.constrained(orgList, constrainedList);
       Map<String, String> headerNameMap = apsSchedulingConstraintsService.getUseField().getValues()
-          .stream()
-          .collect(Collectors.toMap(FieldConfig::getFieldName, FieldConfig::getShowName));
+          .stream().collect(Collectors.toMap(FieldConfig::getFieldName, FieldConfig::getShowName));
       result.getHeaderList().forEach(t -> t.setShowName(headerNameMap.get(t.getFieldName())));
       result.getHeaderList().stream().filter(t -> t.getFieldName().startsWith(SALE))
           .forEach(t -> t.setFieldName(t.getFieldName() + ("_show")));
@@ -385,8 +389,7 @@ public class ApsSchedulingVersionServiceImpl extends
       // 保存
       this.update(
           new LambdaUpdateWrapper<ApsSchedulingVersion>().set(ApsSchedulingVersion::getVersionStep,
-                  30)
-              .set(ApsSchedulingVersion::getHeaderList, toJSONString(result.getHeaderList()))
+                  30).set(ApsSchedulingVersion::getHeaderList, toJSONString(result.getHeaderList()))
               .eq(BaseEntity::getId, req.getId()));
 
       List<ApsSchedulingVersionItem> itemList = result.getDataList().stream().map(m -> {
@@ -512,14 +515,12 @@ public class ApsSchedulingVersionServiceImpl extends
           .eq(ApsMakeCapacityGoods::getMonth, t.get(1)));
     });
     Map<String, CalendarDay> calendarDayMap = calendarDayService.list(calendarDayLambdaQueryWrapper)
-        .stream()
-        .collect(
+        .stream().collect(
             Collectors.toMap(t -> t.getDayYear() + "-" + t.getDayMonth() + "-" + t.getFactoryId(),
                 Function.identity()));
     Map<String, ApsMakeCapacityFactory> makeCapacityFactoryMap = this.apsMakeCapacityFactoryService.list(
-            factoryUpdateWrapper).stream()
-        .collect(Collectors.toMap(t -> t.getYear() + "-" + t.getMonth(), Function.identity(),
-            (a, b) -> a));
+        factoryUpdateWrapper).stream().collect(
+        Collectors.toMap(t -> t.getYear() + "-" + t.getMonth(), Function.identity(), (a, b) -> a));
 
     Map<String, List<ApsMakeCapacitySaleConfig>> makeCapacitySaleConfigMap = this.apsMakeCapacitySaleConfigService.list(
             configLambdaQueryWrapper).stream()
@@ -671,8 +672,7 @@ public class ApsSchedulingVersionServiceImpl extends
                 .setLimitType(limit.getLimitTypeEnum().getName()));
       });
       versionDayArrayList.add(new ApsSchedulingVersionDay().setVersionId(req.getId())
-          .setCurrentDay(info.getCurrentDate())
-          .setHasEnough(
+          .setCurrentDay(info.getCurrentDate()).setHasEnough(
               info.getLimitList().stream().noneMatch(t -> t.getCurrentCount() < t.getMin())));
       mapList.forEach(map -> {
         ApsSchedulingVersionCapacity apsSchedulingVersionCapacity = new ApsSchedulingVersionCapacity();
@@ -717,8 +717,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
       List<Runnable> runnableList = getBomRunList(schedulingVersion,
           apsSchedulingVersionCapacityList, goodsMap, apsProcessPathDtoMap, factoryWeekListMap,
-          dayWorkSecondMap,
-          goodsBomMap, apsSchedulingGoodsBomList, apsOrderGoodsStatusDateList);
+          dayWorkSecondMap, goodsBomMap, apsSchedulingGoodsBomList, apsOrderGoodsStatusDateList);
 
       Boolean schedulingBom = RunUtils.run("scheduling bom " + req.getId(), runnableList);
       $.assertTrueCanIgnoreException(schedulingBom, "零件计算失败");
@@ -726,10 +725,9 @@ public class ApsSchedulingVersionServiceImpl extends
 
     this.update(new LambdaUpdateWrapper<ApsSchedulingVersion>().eq(BaseEntity::getId, req.getId())
         .set(ApsSchedulingVersion::getVersionStep, 40)
-        .set(ApsSchedulingVersion::getCapacityDateList,
-            toJSONString(
-                insertLimit.stream().map(ApsSchedulingVersionLimit::getCurrentDay).distinct()
-                    .sorted().collect(Collectors.toList())))
+        .set(ApsSchedulingVersion::getCapacityDateList, toJSONString(
+            insertLimit.stream().map(ApsSchedulingVersionLimit::getCurrentDay).distinct().sorted()
+                .collect(Collectors.toList())))
         .set(ApsSchedulingVersion::getCapacityHeaderList, toJSONString(limitListFinal)));
 
     apsSchedulingVersionDayService.remove(
@@ -812,8 +810,7 @@ public class ApsSchedulingVersionServiceImpl extends
     if (CollUtil.isNotEmpty(records)) {
       gnMap.putAll(this.apsGoodsService.listByIds(
               records.stream().map(ApsSchedulingVersionItem::getGoodsId).collect(Collectors.toSet()))
-          .stream()
-          .collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName)));
+          .stream().collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName)));
       unMap.putAll(this.apsOrderUserService.list(
               new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId,
                   records.stream().map(ApsSchedulingVersionItem::getOrderId)
@@ -822,8 +819,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
       apsOrderMap.putAll(this.apsOrderService.listByIds(
               records.stream().map(ApsSchedulingVersionItem::getOrderId).collect(Collectors.toSet()))
-          .stream()
-          .collect(Collectors.toMap(BaseEntity::getId, t -> t)));
+          .stream().collect(Collectors.toMap(BaseEntity::getId, t -> t)));
     }
 
     List<ApsSchedulingVersionUseConstraintsResultRes> resList = records.stream().map(t -> {
@@ -863,8 +859,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
     Map<Long, String> gnMap = this.apsGoodsService.listByIds(
             records.stream().map(ApsSchedulingVersionCapacity::getGoodsId).collect(Collectors.toSet()))
-        .stream()
-        .collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName));
+        .stream().collect(Collectors.toMap(BaseEntity::getId, ApsGoods::getGoodsName));
     Map<Long, String> unMap = this.apsOrderUserService.list(
             new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId,
                 records.stream().map(ApsSchedulingVersionCapacity::getOrderId)
@@ -873,8 +868,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
     Map<Long, ApsOrder> apsOrderMap = this.apsOrderService.listByIds(
             records.stream().map(ApsSchedulingVersionCapacity::getOrderId).collect(Collectors.toSet()))
-        .stream()
-        .collect(Collectors.toMap(BaseEntity::getId, t -> t));
+        .stream().collect(Collectors.toMap(BaseEntity::getId, t -> t));
     Map<Long, ApsSchedulingVersionItem> versionItemMap = this.apsSchedulingVersionItemService.list(
             new LambdaQueryWrapper<ApsSchedulingVersionItem>().eq(
                     ApsSchedulingVersionItem::getSchedulingVersionId, req.getId())
@@ -980,8 +974,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
     if (Objects.nonNull(obj)) {
       q.eq(StringUtils.isNoneBlank(obj.getSchedulingVersionNo()),
-          ApsSchedulingVersion::getSchedulingVersionNo, obj.getSchedulingVersionNo())
-      ;
+          ApsSchedulingVersion::getSchedulingVersionNo, obj.getSchedulingVersionNo());
     }
     q.orderByDesc(ApsSchedulingVersion::getId);
     return q;
