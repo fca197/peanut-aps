@@ -1,6 +1,6 @@
 package com.olivia.peanut.aps.service.impl;
 
-import static com.olivia.peanut.aps.utils.BomUtils.bomExpression2List;
+import static com.olivia.peanut.aps.utils.bom.BomUtils.bomExpression2List;
 import static com.olivia.sdk.utils.FieldUtils.getField;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -62,7 +62,7 @@ import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.impl.po.BomUseDate;
 import com.olivia.peanut.aps.service.impl.po.ProjectConfig;
-import com.olivia.peanut.aps.utils.BomUtils;
+import com.olivia.peanut.aps.utils.bom.BomUtils;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathInfo;
 import com.olivia.peanut.aps.utils.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.model.ShiftItemVo;

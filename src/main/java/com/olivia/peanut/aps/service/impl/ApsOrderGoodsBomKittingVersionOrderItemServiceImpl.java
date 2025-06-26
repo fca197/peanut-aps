@@ -128,7 +128,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
         , ApsOrderGoodsBomKittingVersionOrderItem::getFactoryId // 工厂ID
     );
 
-    q.orderByDesc(ApsOrderGoodsBomKittingVersionOrderItem::getId);
+    q.orderByAsc(ApsOrderGoodsBomKittingVersionOrderItem::getIsEnough);
     return q;
 
   }
