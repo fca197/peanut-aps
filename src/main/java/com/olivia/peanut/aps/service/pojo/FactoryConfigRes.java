@@ -24,6 +24,7 @@ public class FactoryConfigRes {
   private List<ShiftItem> shiftItemList;
   private Map<Long, ApsProcessPathDto> pathDtoMap;
   private ApsProcessPathDto defaultApsProcessPathDto;
+  private Map<Long,ApsProcessPathDto> allProcessPathDtoMap;
   /***
    * 当天剩余工作时长
    */

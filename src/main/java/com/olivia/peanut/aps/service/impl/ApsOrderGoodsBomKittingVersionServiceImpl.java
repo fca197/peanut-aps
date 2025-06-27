@@ -8,12 +8,15 @@ import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDto;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertRes;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListReq;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.CreateSchedulingKittingVersion;
 import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionConverter;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomKittingVersionMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
+import com.olivia.peanut.aps.service.impl.kitting.ApsOrderGoodsBomKittingVersionCreateService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
@@ -48,6 +51,9 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends
   BaseTableHeaderService tableHeaderService;
   @Resource
   SetNameService setNameService;
+
+  @Resource
+  ApsOrderGoodsBomKittingVersionCreateService apsOrderGoodsBomKittingVersionCreateService;
 
 
   public @Override ApsOrderGoodsBomKittingVersionQueryListRes queryList(
@@ -84,6 +90,12 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends
 
     ((ApsOrderGoodsBomKittingVersionService) AopContext.currentProxy()).setName(records);
     return DynamicsPage.init(page, records);
+  }
+
+  @Override
+  public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
+      CreateSchedulingKittingVersion req) {
+    return apsOrderGoodsBomKittingVersionCreateService.createSchedulingKittingVersion(req);
   }
 
   // 以下为私有对象封装

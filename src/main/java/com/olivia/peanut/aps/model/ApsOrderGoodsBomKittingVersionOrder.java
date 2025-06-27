@@ -163,5 +163,8 @@ public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
   @TableField("factory_id")
   private Long factoryId;
 
+
+
+  private Long numberIndex;
 }
 

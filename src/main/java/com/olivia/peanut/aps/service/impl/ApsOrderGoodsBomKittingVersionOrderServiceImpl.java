@@ -1,33 +1,31 @@
 package com.olivia.peanut.aps.service.impl;
 
-import org.springframework.aop.framework.AopContext;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import jakarta.annotation.Resource;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.DynamicsPage;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.ApsOrderGoodsBomKittingVersionOrderDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.ApsOrderGoodsBomKittingVersionOrderExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.ApsOrderGoodsBomKittingVersionOrderExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.ApsOrderGoodsBomKittingVersionOrderQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.ApsOrderGoodsBomKittingVersionOrderQueryListRes;
+import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionOrderConverter;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomKittingVersionOrderMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrder;
-import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionOrderConverter;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderService;
-import cn.hutool.core.collection.CollUtil;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder.*;
-import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 齐套检查订单详情(ApsOrderGoodsBomKittingVersionOrder)表服务实现类
@@ -131,8 +129,7 @@ public class ApsOrderGoodsBomKittingVersionOrderServiceImpl extends
         , ApsOrderGoodsBomKittingVersionOrder::getOrderField20 //
         , ApsOrderGoodsBomKittingVersionOrder::getFactoryId //
     );
-
-    q.orderByDesc(ApsOrderGoodsBomKittingVersionOrder::getId);
+    q.orderByAsc(ApsOrderGoodsBomKittingVersionOrder::getNumberIndex);
     return q;
 
   }

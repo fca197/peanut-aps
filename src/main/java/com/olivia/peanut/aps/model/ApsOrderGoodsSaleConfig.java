@@ -22,6 +22,7 @@ public class ApsOrderGoodsSaleConfig extends BaseEntity {
 
   private Long orderId;
   private Long goodsId;
+  private Long configParentId;
   private Long configId;
   private Long factoryId;
 

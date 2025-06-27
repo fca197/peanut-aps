@@ -46,6 +46,16 @@ public class ApsOrderGoodsBomKittingVersionDto extends BaseEntityDto {
   //  @JSONField(label = "kittingVersionSource")
 
   private String kittingVersionSource;
+
+
+  /***
+   *  业务ID
+   */
+  private Long bizId;
+  /***
+   *  创建参数
+   */
+  private String versionCreateParam;
   /***
    *  订单数量
    */

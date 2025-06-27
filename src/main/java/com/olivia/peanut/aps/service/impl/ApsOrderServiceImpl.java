@@ -379,6 +379,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
             RandomUtil.randomInt(0, saleItemDtoList.size()));
         insertSaleConfigList.add(new ApsOrderGoodsSaleConfig().setOrderId(apsOrder.getId())
             .setConfigId(goodsSaleItemDto.getId()).setFactoryId(goods.getFactoryId())
+            .setConfigParentId(goodsSaleItemDto.getParentId())
             .setGoodsId(goods.getId()));
       });
 
@@ -518,7 +519,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     LocalDate now = LocalDate.now();
     Long factoryId = orderGoods.getFactoryId();
     FactoryConfigReq factoryConfigReq = new FactoryConfigReq().setFactoryId(factoryId)
-        .setGetPath(Objects.nonNull(apsGoods.getProcessPathId())).setWeekBeginDate(now)
+        .setQueryDefaultProcessPath(Objects.nonNull(apsGoods.getProcessPathId())).setWeekBeginDate(now)
         .setWeekEndDate(now.plusDays(peanutProperties.getOrderStatusUpdateNeedDayCount()))
         .setGetWeek(Boolean.TRUE).setGetShift(Boolean.TRUE).setNowDateTime(LocalDateTime.now());
     if (Objects.nonNull(apsGoods.getProduceProcessId())) {

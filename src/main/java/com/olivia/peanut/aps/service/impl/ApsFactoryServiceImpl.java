@@ -12,7 +12,6 @@ import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.peanut.aps.service.ApsFactoryService;
 import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.ApsProduceProcessItemService;
-import com.olivia.peanut.aps.service.ApsProduceProcessService;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.model.ShiftItemVo;
@@ -24,8 +23,6 @@ import com.olivia.peanut.base.service.ShiftItemService;
 import com.olivia.peanut.base.service.ShiftService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.exception.RunException;
-import com.olivia.sdk.filter.LoginUser;
-import com.olivia.sdk.filter.LoginUserContext;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.RunUtils;
@@ -34,9 +31,11 @@ import jakarta.annotation.Resource;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -55,7 +54,9 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
       .maximumSize(20).expireAfterWrite(10, TimeUnit.MINUTES).build();
   static final Cache<String, List<ShiftItem>> factoryShiftCache = CacheBuilder.newBuilder()
       .maximumSize(20).expireAfterWrite(10, TimeUnit.MINUTES).build();
-  static final Cache<String, Map<Long, ApsProcessPathDto>> factoryPathCache = CacheBuilder.newBuilder()
+  static final Cache<String, Map<Long, ApsProcessPathDto>> factoryDefaultProcessPathCache = CacheBuilder.newBuilder()
+      .maximumSize(20).expireAfterWrite(10, TimeUnit.MINUTES).build();
+  static final Cache<Long, ApsProcessPathDto> factoryAllProcessPathCache = CacheBuilder.newBuilder()
       .maximumSize(20).expireAfterWrite(10, TimeUnit.MINUTES).build();
   @Resource
   CalendarService calendarService;
@@ -65,9 +66,6 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
   ShiftItemService shiftItemService;
   @Resource
   ApsProcessPathService apsProcessPathService;
-
-  @Resource
-  private ApsProduceProcessService apsProduceProcessService;
   @Resource
   private ApsProduceProcessItemService apsProduceProcessItemService;
 
@@ -125,11 +123,11 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
         }
       });
     }
-    if (TRUE.equals(req.getGetPath())) {
+    if (TRUE.equals(req.getQueryDefaultProcessPath())) {
       runnableList.add(() -> {
         try {
 //          LoginUserContext.setContextThreadLocal(loginUser);
-          Map<Long, ApsProcessPathDto> pathDtoMap = factoryPathCache.get(
+          Map<Long, ApsProcessPathDto> pathDtoMap = factoryDefaultProcessPathCache.get(
               req.getFactoryId().toString(), () -> {
                 ApsProcessPathDto data = new ApsProcessPathDto().setFactoryId(factoryId)
                     .setIsDefault(req.getGetPathDefault());
@@ -138,6 +136,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
                         new ApsProcessPathQueryListReq().setData(data)).getDataList().stream()
                     .collect(Collectors.toMap(BaseEntityDto::getId, Function.identity()));
               });
+
           res.setPathDtoMap(pathDtoMap);
           res.setDefaultApsProcessPathDto(
               pathDtoMap.values().stream().filter(t -> TRUE.equals(t.getIsDefault())).findAny()
@@ -148,11 +147,37 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
 
       });
     }
+    List<Long> processPathIdList = req.getProcessPathIdList();
+    processPathIdList.removeIf(Objects::isNull);
+    if (CollUtil.isNotEmpty(processPathIdList)) {
+      res.setAllProcessPathDtoMap(new HashMap<>());
+      processPathIdList.forEach(processPathId -> {
+        try {
+          ApsProcessPathDto apsProcessPathDto = factoryAllProcessPathCache.get(processPathId,
+              () -> {
+                ApsProcessPathDto data = new ApsProcessPathDto().setFactoryId(factoryId)
+                    .setIsDefault(req.getGetPathDefault());
+                data.setId(processPathId);
+                List<ApsProcessPathDto> dataList = apsProcessPathService.queryList(
+                    new ApsProcessPathQueryListReq().setData(data)).getDataList();
+                if (CollUtil.isNotEmpty(dataList)) {
+                  return dataList.getFirst();
+                }
+                return null;
+              });
+          res.getAllProcessPathDtoMap().put(processPathId, apsProcessPathDto);
+        } catch (ExecutionException e) {
+          log.error("factoryAllProcessPathCache {} error: {}", processPathId, e.getMessage(), e);
+        }
+      });
+
+
+    }
+
     if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
       req.getApsProduceProcessIdList().removeIf(Objects::isNull);
       if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
         runnableList.add(() -> {
-//          LoginUserContext.setContextThreadLocal(loginUser);
           Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(
                   new LambdaQueryWrapper<ApsProduceProcessItem>().in(
                       ApsProduceProcessItem::getProduceProcessId, req.getApsProduceProcessIdList()))

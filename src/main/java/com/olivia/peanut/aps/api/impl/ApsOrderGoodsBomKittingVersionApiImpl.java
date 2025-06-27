@@ -1,31 +1,34 @@
 package com.olivia.peanut.aps.api.impl;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import static com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionConverter.INSTANCE;
 
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.olivia.peanut.aps.api.ApsOrderGoodsBomKittingVersionApi;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDto;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionImportReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionImportRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.CreateSchedulingKittingVersion;
+import com.olivia.peanut.aps.api.impl.listener.ApsOrderGoodsBomKittingVersionImportListener;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
-import com.olivia.sdk.utils.$;
+import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
-import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-import org.apache.commons.lang3.StringUtils;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.*;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
-import com.olivia.peanut.aps.model.*;
-import com.baomidou.mybatisplus.core.conditions.query.*;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.springframework.web.bind.annotation.*;
-import com.olivia.peanut.aps.api.ApsOrderGoodsBomKittingVersionApi;
-
-import static com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionConverter.*;
-
-import com.olivia.peanut.aps.api.impl.listener.*;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -48,6 +51,12 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
     ApsOrderGoodsBomKittingVersion apsOrderGoodsBomKittingVersion = INSTANCE.insertReq(req);
     this.apsOrderGoodsBomKittingVersionService.save(apsOrderGoodsBomKittingVersion);
     return new ApsOrderGoodsBomKittingVersionInsertRes().setCount(1);
+  }
+
+  @Override
+  public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
+      CreateSchedulingKittingVersion req) {
+    return this.apsOrderGoodsBomKittingVersionService.createSchedulingKittingVersion(req);
   }
 
   /****

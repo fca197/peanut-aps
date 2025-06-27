@@ -328,7 +328,7 @@ public class ApsSchedulingVersionServiceImpl extends
       List<ApsOrder> orderList = apsOrderService.list(
           new MPJLambdaWrapper<>(ApsOrder.class)
               .selectAll(ApsOrder.class)
-              .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrderGoods::getOrderId)
+              .innerJoin(ApsOrderGoods.class, ApsOrderGoods::getOrderId, ApsOrder::getId)
               .in(CollUtil.isNotEmpty(schedulingVersion.getGoodsIdList()),
                   ApsOrderGoods::getGoodsId, schedulingVersion.getGoodsIdList())
               .in(CollUtil.isNotEmpty(schedulingVersion.getFactoryIdList()), ApsOrder::getFactoryId,
@@ -481,7 +481,7 @@ public class ApsSchedulingVersionServiceImpl extends
 
       FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
           new FactoryConfigReq().setFactoryId(f.getId()).setGetShift(Boolean.TRUE)
-              .setGetWeek(Boolean.TRUE).setGetPath(Boolean.TRUE).setWeekBeginDate(nowDate)
+              .setGetWeek(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE).setWeekBeginDate(nowDate)
               .setWeekEndDate(lastDate.plusDays(schedulingVersion.getSchedulingDayCount())));
       log.info("add factory configuration {} name:{}", f.getId(), f.getFactoryName());
       factoryWeekListMap.put(f.getId(), factoryConfig.getWeekList());

@@ -1,18 +1,17 @@
 package com.olivia.peanut.aps.model;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
+import com.olivia.sdk.utils.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import com.olivia.sdk.utils.BaseEntity;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * 齐套检查版本(ApsOrderGoodsBomKittingVersion)表实体类
@@ -42,6 +41,17 @@ public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
    */
   @TableField("kitting_version_source")
   private String kittingVersionSource;
+
+  /***
+   *  业务ID
+   */
+  @TableField("biz_id")
+  private Long bizId;
+  /***
+   *  创建参数
+   */
+  @TableField("version_create_param")
+  private String versionCreateParam;
   /***
    *  订单数量
    */
@@ -70,7 +80,7 @@ public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
   /***
    *  缺失物料前10 [{id: label}]
    */
-  @TableField(value = "kitting_missing_bom",typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "kitting_missing_bom", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> kittingMissingBom;
   /***
    *  计算日期

@@ -127,7 +127,6 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
         , ApsOrderGoodsBomKittingVersionOrderItem::getCreateDate // 计算日期
         , ApsOrderGoodsBomKittingVersionOrderItem::getFactoryId // 工厂ID
     );
-
     q.orderByAsc(ApsOrderGoodsBomKittingVersionOrderItem::getIsEnough);
     return q;
 

@@ -181,6 +181,9 @@ public class ApsOrderGoodsBomKittingVersionOrderItemDto extends BaseEntityDto {
 
   private Boolean isEnough;
 
+
+  private Long numberIndex;
+
 }
 
 

@@ -144,7 +144,7 @@ public class ApsRollingForecastOrderItemApiImpl implements ApsRollingForecastOrd
         .collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));
     Long factoryId = forecastOrder.getFactoryId();
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
-        new FactoryConfigReq().setGetPathDefault(Boolean.TRUE).setGetPath(Boolean.TRUE)
+        new FactoryConfigReq().setGetPathDefault(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE)
             .setFactoryId(factoryId));
     ApsProcessPathDto defaultApsProcessPathDto = factoryConfig.getDefaultApsProcessPathDto();
     List<Long> statusBetween = ProcessUtils.getStatusBetween(

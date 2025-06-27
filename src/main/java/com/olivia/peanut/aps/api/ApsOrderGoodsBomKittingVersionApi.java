@@ -31,6 +31,13 @@ public interface ApsOrderGoodsBomKittingVersionApi {
       @RequestBody @Validated(InsertCheck.class) ApsOrderGoodsBomKittingVersionInsertReq req);
 
   /**
+   * 保存 齐套检查版本
+   */
+  @PostMapping("/apsOrderGoodsBomKittingVersion/createSchedulingKittingVersion")
+  ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
+      @RequestBody @Validated(InsertCheck.class) CreateSchedulingKittingVersion req);
+
+  /**
    * 根据ID 删除 齐套检查版本
    */
   @PostMapping("/apsOrderGoodsBomKittingVersion/deleteByIdList")

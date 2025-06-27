@@ -36,16 +36,15 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
 import com.olivia.sdk.utils.RunUtils;
 import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -161,9 +160,9 @@ public class ApsProcessPathServiceImpl extends
   @Transactional
   public ApsProcessPathInsertRes save(ApsProcessPathInsertReq req) {
     if (TRUE.equals(req.getIsDefault())) {
-      List<ApsProcessPath> pathList = this.list(new LambdaQueryWrapper<ApsProcessPath>()
-          .eq(ApsProcessPath::getFactoryId, req.getFactoryId())
-          .eq(ApsProcessPath::getIsDefault, TRUE));
+      List<ApsProcessPath> pathList = this.list(
+          new LambdaQueryWrapper<ApsProcessPath>().eq(ApsProcessPath::getFactoryId,
+              req.getFactoryId()).eq(ApsProcessPath::getIsDefault, TRUE));
       $.assertTrueCanIgnoreException(CollUtil.isEmpty(pathList), "该工厂已存在默认工艺路径");
     }
     ApsProcessPath path = $.copy(req, ApsProcessPath.class);
@@ -193,8 +192,9 @@ public class ApsProcessPathServiceImpl extends
   @Transactional
   public boolean removeByIds(Collection<?> list) {
     super.removeByIds(list);
-    this.apsProcessPathRoomService.remove(new LambdaQueryWrapper<ApsProcessPathRoom>()
-        .in(ApsProcessPathRoom::getProcessPathId, list));
+    this.apsProcessPathRoomService.remove(
+        new LambdaQueryWrapper<ApsProcessPathRoom>().in(ApsProcessPathRoom::getProcessPathId,
+            list));
     return true;
   }
 
@@ -204,18 +204,11 @@ public class ApsProcessPathServiceImpl extends
   private MPJLambdaWrapper<ApsProcessPath> getWrapper(ApsProcessPathDto obj) {
     MPJLambdaWrapper<ApsProcessPath> q = new MPJLambdaWrapper<>();
 
-    if (Objects.nonNull(obj)) {
-      q.eq(StringUtils.isNoneBlank(obj.getProcessPathCode()), ApsProcessPath::getProcessPathCode,
-              obj.getProcessPathCode())
-          .eq(StringUtils.isNoneBlank(obj.getProcessPathName()), ApsProcessPath::getProcessPathName,
-              obj.getProcessPathName())
-          .eq(StringUtils.isNoneBlank(obj.getProcessPathRemark()),
-              ApsProcessPath::getProcessPathRemark, obj.getProcessPathRemark())
-          .eq(Objects.nonNull(obj.getIsDefault()), ApsProcessPath::getIsDefault, obj.getIsDefault())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsProcessPath::getFactoryId, obj.getFactoryId())
-          .orderByDesc(ApsProcessPath::getIsDefault)
-      ;
-    }
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsProcessPath.class, ApsProcessPath::getId,
+        ApsProcessPath::getProcessPathCode, ApsProcessPath::getProcessPathName,
+        ApsProcessPath::getProcessPathRemark, ApsProcessPath::getIsDefault,
+        ApsProcessPath::getFactoryId);
+
     q.orderByDesc(ApsProcessPath::getId);
     return q;
 
@@ -226,7 +219,6 @@ public class ApsProcessPathServiceImpl extends
     ServiceComment.header(page, "ApsProcessPathService#queryPageList");
 
   }
-
 
 }
 

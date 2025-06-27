@@ -136,5 +136,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItem extends BaseEntity {
 
   @TableField("is_enough")
   private Boolean isEnough;
+
+
 }
 

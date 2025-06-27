@@ -131,7 +131,7 @@ public class ApsRollingForecastOrderServiceImpl extends
   @Transactional
   public ApsRollingForecastOrderInsertRes save(ApsRollingForecastOrderInsertReq req) {
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(//
-        new FactoryConfigReq().setFactoryId(req.getFactoryId()).setGetPath(TRUE)
+        new FactoryConfigReq().setFactoryId(req.getFactoryId()).setQueryDefaultProcessPath(TRUE)
             .setGetPathDefault(TRUE)//
             .setGetShift(TRUE).setGetWeek(TRUE).setWeekBeginDate(req.getBeginTime())
             .setWeekEndDate(req.getEndTime())//

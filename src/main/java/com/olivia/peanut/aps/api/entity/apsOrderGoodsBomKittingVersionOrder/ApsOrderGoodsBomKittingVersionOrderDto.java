@@ -223,6 +223,7 @@ public class ApsOrderGoodsBomKittingVersionOrderDto extends BaseEntityDto {
   @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
 
   private Long factoryId;
+  private Long numberIndex;
 
 }
 

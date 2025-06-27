@@ -610,7 +610,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends
 
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
         new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId())
-            .setGetPath(Boolean.TRUE).setGetPathId(apsSchedulingDayConfig.getProcessId()));
+            .setQueryDefaultProcessPath(Boolean.TRUE).setGetPathId(apsSchedulingDayConfig.getProcessId()));
     List<List<Long>> headerList = new ArrayList<>();
 
     factoryConfig.getDefaultApsProcessPathDto().getPathRoomList().forEach(room -> {
