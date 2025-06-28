@@ -121,6 +121,7 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends
         ApsOrderGoodsBomKittingVersion::getKittingVersionName
         , ApsOrderGoodsBomKittingVersion::getCreateDate //
         , ApsOrderGoodsBomKittingVersion::getFactoryId //
+        , ApsOrderGoodsBomKittingVersion::getBizId
     );
 
     q.orderByDesc(ApsOrderGoodsBomKittingVersion::getId);

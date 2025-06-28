@@ -45,17 +45,22 @@ import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.IdUtils;
+import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.Str;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -98,6 +103,9 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
   ApsBomService apsBomService;
   @Resource
   ApsGoodsBomService apsGoodsBomService;
+
+  // 最大缺失条数
+  private static final int maxSize = 10;
 
   @Override
   public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
@@ -180,12 +188,16 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     List<ApsOrderGoodsBomKittingVersionOrder> apsOrderGoodsBomKittingVersionOrderList = Collections.synchronizedList(
         new ArrayList<>());
 
+    Map<Long, BigDecimal> lackApsBomMap = new HashMap<>();
+
     ApsOrderGoodsBomKittingVersion apsOrderGoodsBomKittingVersion = new ApsOrderGoodsBomKittingVersion();
     apsOrderGoodsBomKittingVersion.setId(IdUtils.getId());
     String nextVersionNo = getNextVersionNo();
     apsOrderGoodsBomKittingVersion.setKittingVersionNo("scheduling-" + nextVersionNo)
         .setKittingVersionName("排产[" + req.getSchedulingVersionId() + "]齐套")
         .setCreateDate(LocalDate.now());
+    apsOrderGoodsBomKittingVersion.setBizId(req.getSchedulingVersionId())
+        .setVersionCreateParam(JSON.toJSONString(req)).setKittingVersionSource("排产");
 
     List<Long> factoryIdList = schedulingVersionCapacityList.stream()
         .map(ApsSchedulingVersionCapacity::getFactoryId).toList();
@@ -241,6 +253,12 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
       allOrderMapList.stream().filter(t -> goodsIdList.contains((Long) t.get(ApsStr.GOODS_ID)))
           .forEach(t -> {
             //  获取当天
+
+            List<ApsOrderGoodsBomKittingVersionOrderItem> apsOrderGoodsBomKittingVersionOrderItemListTmp = Collections.synchronizedList(
+                new ArrayList<>());
+
+            AtomicInteger bomCount = new AtomicInteger(0);
+
 //            apsFactoryService
             FactoryConfigRes factoryConfigRes = apsFactoryConfigResMap.get(
                 (Long) t.get(ApsStr.FACTORY_ID));
@@ -257,10 +275,12 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
             Long kittingVersionId = apsOrderGoodsBomKittingVersion.getId();
             apsProcessPathInfo.getDataList().forEach(apsBom -> {
+
 //              log.info("apsProcessPathInfo : {}", apsBom);
               if (CollUtil.isEmpty(apsBom.getApsGoodsBomList())) {
                 return;
               }
+              bomCount.incrementAndGet();
               apsBom.getApsGoodsBomList().forEach(bt -> {
                 ApsBom apsBomTmp = apsBomMap.get(bt.getBomId());
 
@@ -268,31 +288,89 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
                     .getOrDefault(bt.getBomId(), Map.of()).get(bt.getBomUseWorkStation());
 
                 ApsOrderGoodsBomKittingVersionOrderItem versionOrderItem = new ApsOrderGoodsBomKittingVersionOrderItem();
-                versionOrderItem.setBomId(apsBom.getId()).setApsRoomId(apsBom.getRoomId())
+                BigDecimal lastCount = apsBomTmp.getBomInventory()
+                    .subtract(apsGoodsBom.getBomUsage());
+                versionOrderItem.setBomId(apsGoodsBom.getBomId()).setApsRoomId(apsBom.getRoomId())
                     .setApsRoomName(apsBomTmp.getBomName()).setCreateDate(bt.getTotalDate())
                     .setBomName(apsBomTmp.getBomName()).setFactoryId(apsBom.getFactoryId())
                     .setOrderId((Long) t.get(ApsStr.ORDER_ID)).setOrderNo((String) t.get(ORDER_NO))
                     .setGoodsName(apsGoods.getGoodsName()).setBomUsage(apsGoodsBom.getBomUsage())
-                    .setInventoryBeforeCount(apsBomTmp.getBomInventory()).setInventoryAfterCount(
-                        apsBomTmp.getBomInventory().subtract(apsGoodsBom.getBomUsage()))
+                    .setInventoryBeforeCount(apsBomTmp.getBomInventory())
+                    .setInventoryAfterCount(lastCount)
 //                    .setOrderMakeBeginDateTime(apsBom.getBeginLocalDate().atTime(LocalTime.MIN))
                 ;
+                // 如果库存 <= 0   缺少数量 = 使用量
+                if (BigDecimal.ZERO.compareTo(apsBomTmp.getBomInventory()) <= 0) {
+                  versionOrderItem.setLackQuantity(apsGoodsBom.getBomUsage());
+                } else {
+                  // 如果 库存 - 使用量 > 0 , 缺失数 =0
+                  if (lastCount.compareTo(BigDecimal.ZERO) >= 0) {
+                    versionOrderItem.setLackQuantity(BigDecimal.ZERO);
+                  } else {
+                    versionOrderItem.setLackQuantity(lastCount.abs());
+                  }
+                }
+
                 versionOrderItem.setIsEnough(
                     versionOrderItem.getInventoryAfterCount().compareTo(BigDecimal.ZERO) >= 0);
 
                 versionOrderItem.setKittingVersionId(kittingVersionId).setId(IdUtils.getId());
-                apsOrderGoodsBomKittingVersionOrderItemList.add(versionOrderItem);
+                apsOrderGoodsBomKittingVersionOrderItemListTmp.add(versionOrderItem);
                 apsBomTmp.setBomInventory(versionOrderItem.getInventoryAfterCount());
               });
 
             });
+
+            apsOrderGoodsBomKittingVersionOrderItemList.addAll(
+                apsOrderGoodsBomKittingVersionOrderItemListTmp);
+            Map<Long, BigDecimal> lackApsBomMapTmp = apsOrderGoodsBomKittingVersionOrderItemListTmp.stream()
+                .filter(tt -> !Boolean.TRUE.equals(tt.getIsEnough())).collect(
+                    Collectors.groupingBy(ApsOrderGoodsBomKittingVersionOrderItem::getBomId,
+                        Collectors.collectingAndThen(Collectors.toList(), r -> r.stream()
+                            .map(ApsOrderGoodsBomKittingVersionOrderItem::getLackQuantity)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add))));
+
             ApsOrderGoodsBomKittingVersionOrder versionOrder = new ApsOrderGoodsBomKittingVersionOrder();
+            if (CollUtil.isNotEmpty(lackApsBomMapTmp)) {
+
+              lackApsBomMapTmp.forEach((k, v) -> {
+                BigDecimal lack = lackApsBomMap.getOrDefault(k, BigDecimal.ZERO);
+                lackApsBomMapTmp.put(k, lack.add(v));
+              });
+
+              List<KVEntity> lackList = lackApsBomMapTmp.entrySet().stream().sorted(
+                  Entry.<Long, BigDecimal>comparingByValue(Comparator.reverseOrder())
+                      .thenComparing(Entry::getKey)).limit(maxSize).map(
+                  (e) -> new KVEntity().setLabel(apsBomMap.get(e.getKey()).getBomName())
+                      .setValue(e.getValue().toString())).toList();
+              versionOrder.setKittingMissingBom(lackList).setKittingStatus("未齐套");
+            } else {
+              versionOrder.setKittingStatus("齐套").setKittingRate(BigDecimal.ONE);
+            }
+
+            versionOrder.setKittingRate(new BigDecimal(bomCount.get()).divide(
+                new BigDecimal(apsOrderGoodsBomKittingVersionOrderItemListTmp.size()), 5,
+                RoundingMode.HALF_UP));
             versionOrder.setOrderId((Long) t.get(ApsStr.ORDER_ID))
                 .setKittingVersionId(kittingVersionId).setKittingRate(BigDecimal.ZERO)
                 .setFactoryId((Long) t.get(ApsStr.FACTORY_ID)).setOrderNo((String) t.get(ORDER_NO));
             versionOrder.setNumberIndex((Long) t.get("numberIndex"));
             apsOrderGoodsBomKittingVersionOrderList.add(versionOrder);
           });
+    }
+
+    if (CollUtil.isNotEmpty(lackApsBomMap)) {
+      List<KVEntity> lockList = lackApsBomMap.entrySet().stream().sorted(
+          Entry.<Long, BigDecimal>comparingByValue(Comparator.reverseOrder())
+              .thenComparing(Entry::getKey)).limit(maxSize).map(
+          (e) -> new KVEntity().setLabel(apsBomMap.get(e.getKey()).getBomName())
+              .setValue(e.getValue().toString())).toList();
+      apsOrderGoodsBomKittingVersion.setKittingMissingBom(lockList).setKittingStatus("未齐套")
+          .setKittingRate(
+              new BigDecimal(lackApsBomMap.size()).divide(new BigDecimal(apsGoodsBomList.stream()
+                  .map(ApsGoodsBom::getBomId).distinct().count()), 5, RoundingMode.HALF_UP));
+    } else {
+      apsOrderGoodsBomKittingVersion.setKittingStatus("齐套").setKittingRate(BigDecimal.ONE);
     }
 
     //  机器排产

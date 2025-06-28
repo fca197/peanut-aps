@@ -1,14 +1,14 @@
 package com.olivia.peanut.aps.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.utils.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import com.olivia.sdk.utils.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)表实体类
@@ -98,6 +98,14 @@ public class ApsOrderGoodsBomKittingVersionOrderItem extends BaseEntity {
    */
   @TableField("bom_usage")
   private BigDecimal bomUsage;
+
+
+  /**
+   * 缺失数量
+   */
+  @TableField("lack_quantity")
+  private BigDecimal lackQuantity;
+
   /***
    *  库存使用前数量
    */
@@ -108,6 +116,8 @@ public class ApsOrderGoodsBomKittingVersionOrderItem extends BaseEntity {
    */
   @TableField("inventory_after_count")
   private BigDecimal inventoryAfterCount;
+
+
   /***
    *  状态ID
    */
