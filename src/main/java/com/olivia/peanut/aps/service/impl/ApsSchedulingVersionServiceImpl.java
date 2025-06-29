@@ -481,7 +481,8 @@ public class ApsSchedulingVersionServiceImpl extends
 
       FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
           new FactoryConfigReq().setFactoryId(f.getId()).setGetShift(Boolean.TRUE)
-              .setGetWeek(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE).setWeekBeginDate(nowDate)
+              .setGetWeek(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE)
+              .setWeekBeginDate(nowDate)
               .setWeekEndDate(lastDate.plusDays(schedulingVersion.getSchedulingDayCount())));
       log.info("add factory configuration {} name:{}", f.getId(), f.getFactoryName());
       factoryWeekListMap.put(f.getId(), factoryConfig.getWeekList());
@@ -789,6 +790,7 @@ public class ApsSchedulingVersionServiceImpl extends
             });
           }));
     }
+    apsOrderGoodsStatusDateList.forEach(t -> t.setId(IdWorker.getId()));
     this.apsOrderGoodsStatusDateService.saveBatch(apsOrderGoodsStatusDateList);
   }
 

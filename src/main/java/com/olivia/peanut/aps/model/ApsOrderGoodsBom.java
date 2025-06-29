@@ -31,10 +31,10 @@ public class ApsOrderGoodsBom extends BaseEntity {
    *  商品ID
    */
   private Long goodsId;
-  /***
-   *  订单状态
-   */
-  private Long goodsStatusId;
+//  /***
+//   *  订单状态
+//   */
+//  private Long goodsStatusId;
   /***
    *  零件ID
    */
@@ -75,6 +75,7 @@ public class ApsOrderGoodsBom extends BaseEntity {
    *  工厂ID
    */
   private Long factoryId;
+
 
 
 }

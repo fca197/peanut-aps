@@ -1,6 +1,7 @@
 package com.olivia.peanut.aps.api.impl;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsBomApi;
 import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomDeleteByIdListReq;
@@ -48,8 +49,18 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
    *
    */
   public @Override ApsGoodsBomInsertRes insert(ApsGoodsBomInsertReq req) {
+
+    checkStationHasBom(req);
+
     this.apsGoodsBomService.save($.copy(req, ApsGoodsBom.class));
     return new ApsGoodsBomInsertRes().setCount(1);
+  }
+
+  private void checkStationHasBom(ApsGoodsBomDto req) {
+    long count = this.apsGoodsBomService.count(
+        new LambdaQueryWrapper<ApsGoodsBom>().eq(ApsGoodsBom::getBomId, req.getBomId())
+            .eq(ApsGoodsBom::getBomUseWorkStation, req.getBomUseWorkStation()));
+    $.assertTrueCanIgnoreException(count > 0, "该工位已存在当前零件");
   }
 
   /****
@@ -74,6 +85,7 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
    *
    */
   public @Override ApsGoodsBomUpdateByIdRes updateById(ApsGoodsBomUpdateByIdReq req) {
+    checkStationHasBom(req);
     apsGoodsBomService.updateById($.copy(req, ApsGoodsBom.class));
     return new ApsGoodsBomUpdateByIdRes();
 
@@ -104,8 +116,8 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
   }
 
   public @Override ApsGoodsBomQueryByIdListRes queryByIdListRes(ApsGoodsBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<ApsGoodsBom>(ApsGoodsBom.class)
-        .selectAll(ApsGoodsBom.class).in(ApsGoodsBom::getId, req.getIdList());
+    MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<ApsGoodsBom>(
+        ApsGoodsBom.class).selectAll(ApsGoodsBom.class).in(ApsGoodsBom::getId, req.getIdList());
     List<ApsGoodsBom> list = this.apsGoodsBomService.list(q);
     List<ApsGoodsBomDto> dataList = $.copyList(list, ApsGoodsBomDto.class);
     return new ApsGoodsBomQueryByIdListRes().setDataList(dataList);

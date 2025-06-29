@@ -5,6 +5,7 @@ import static com.olivia.peanut.aps.con.ApsStr.ORDER_NO;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertRes;
@@ -15,6 +16,7 @@ import com.olivia.peanut.aps.model.ApsBom;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.model.ApsGoodsBom;
 import com.olivia.peanut.aps.model.ApsOrder;
+import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingTemplate;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrder;
@@ -30,6 +32,7 @@ import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingTemplateService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderItemService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
+import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
 import com.olivia.peanut.aps.service.ApsOrderService;
 import com.olivia.peanut.aps.service.ApsOrderUserService;
@@ -44,10 +47,12 @@ import com.olivia.peanut.aps.utils.process.ProcessUtils;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.FieldUtils;
 import com.olivia.sdk.utils.IdUtils;
 import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.Str;
 import jakarta.annotation.Resource;
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -104,8 +109,15 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
   @Resource
   ApsGoodsBomService apsGoodsBomService;
 
+  @Resource
+  ApsOrderGoodsBomService apsOrderGoodsBomService;
+
   // 最大缺失条数
   private static final int maxSize = 10;
+
+  private static final BigDecimal multiplicand_100 = new BigDecimal(100);
+
+  private static final RoundingMode ROUNDING_MODE = RoundingMode.DOWN;
 
   @Override
   public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
@@ -134,28 +146,36 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     List<Long> orderIdList = schedulingVersionCapacityList.stream()
         .map(ApsSchedulingVersionCapacity::getOrderId).toList();
     Map<Long, ApsOrder> apsOrderMap = new HashMap<>();
-    if (CollUtil.isNotEmpty(bomKittingTemplate.getKittingTemplateOrderConfigList())) {
+    List<KVEntity> kittingTemplateOrderConfigList = bomKittingTemplate.getKittingTemplateOrderConfigList();
+    if (CollUtil.isNotEmpty(kittingTemplateOrderConfigList)) {
       apsOrderMap.putAll(apsOrderService.listByIds(orderIdList).stream()
           .collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
     }
     Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleListMap = new HashMap<>();
-    if (CollUtil.isNotEmpty(bomKittingTemplate.getKittingTemplateSaleConfigList())) {
+    List<KVEntity> kittingTemplateSaleConfigList = bomKittingTemplate.getKittingTemplateSaleConfigList();
+    if (CollUtil.isNotEmpty(kittingTemplateSaleConfigList)) {
       Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleListMapTmp = apsOrderGoodsSaleConfigService.list(
               new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId,
                   orderIdList).in(ApsOrderGoodsSaleConfig::getConfigParentId,
-                  bomKittingTemplate.getKittingTemplateSaleConfigList().stream().map(KVEntity::getValue)
+                  kittingTemplateSaleConfigList.stream().map(KVEntity::getValue)
                       .collect(Collectors.toSet()))).stream()
           .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId));
       orderSaleListMap.putAll(orderSaleListMapTmp);
     }
     Map<Long, ApsOrderUser> orderUserMap = new HashMap<>();
-    if (CollUtil.isNotEmpty(bomKittingTemplate.getKittingTemplateOrderUserConfigList())) {
+    List<KVEntity> kittingTemplateOrderUserConfigList = bomKittingTemplate.getKittingTemplateOrderUserConfigList();
+    if (CollUtil.isNotEmpty(kittingTemplateOrderUserConfigList)) {
       Map<Long, ApsOrderUser> orderUserMapTmp = this.apsOrderUserService.list(
               new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)).stream()
           .collect(Collectors.toMap(ApsOrderUser::getOrderId, Function.identity()));
       orderUserMap.putAll(orderUserMapTmp);
-
     }
+
+    Map<Long, Set<Long>> goodsIdBomIdSetMap = apsOrderGoodsBomService.list(
+            new LambdaQueryWrapper<ApsOrderGoodsBom>().in(ApsOrderGoodsBom::getOrderId, orderIdList))
+        .stream().collect(Collectors.groupingBy(ApsOrderGoodsBom::getOrderId,
+            Collectors.collectingAndThen(Collectors.<ApsOrderGoodsBom>toList(),
+                r -> r.stream().map(ApsOrderGoodsBom::getBomId).collect(Collectors.toSet()))));
 
     List<Map<String, Object>> allOrderMapList = schedulingVersionCapacityList.stream().map(t -> {
       Map<String, Object> map = ApsSchedulingVersionCapacityConverter.INSTANCE.entity2Map(t);
@@ -225,8 +245,8 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
         .filter(t -> Objects.nonNull(t.getProcessPathId())).toList();
 
     List<ApsGoodsBom> apsGoodsBomList = apsGoodsBomService.list(
-        new LambdaQueryWrapper<ApsGoodsBom>().in(ApsGoodsBom::getGoodsId,
-            processGoodsList.stream().map(BaseEntity::getId).toList()));
+        new LambdaQueryWrapper<ApsGoodsBom>().in(ApsGoodsBom::getGoodsId, goodIsList));
+    // 商品ID ， 零件ID， 工位ID
     Map<Long, Map<Long, Map<Long, ApsGoodsBom>>> apsGoodsBomMap = apsGoodsBomList.stream().collect(
         // 一级分组：按 field1 分组
         Collectors.groupingBy(ApsGoodsBom::getGoodsId,
@@ -236,9 +256,10 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
     Map<Long, ApsBom> apsBomMap = Collections.synchronizedMap(
         this.apsBomService.listByIds(apsGoodsBomList.parallelStream() // 启用并行处理（大数据量场景）
-                .map(ApsGoodsBom::getBomId).collect(Collectors.toSet())).stream()
+                .map(ApsGoodsBom::getBomId).collect(Collectors.toSet())).parallelStream()
             .collect(Collectors.toMap(BaseEntity::getId, Function.identity())));
-    Map<Long, Map<Long, List<ApsGoodsBomVo>>> apsGoodsBomStationMap = apsGoodsBomList.stream()
+    //商品ID ， 工位 ， 零件列表
+    Map<Long, Map<Long, List<ApsGoodsBomVo>>> apsGoodsBomStationMap = apsGoodsBomList.parallelStream()
         .collect(Collectors.groupingBy(ApsGoodsBom::getGoodsId,
             Collectors.groupingBy(ApsGoodsBom::getBomUseWorkStation,
                 Collectors.mapping(item -> $.copy(item, ApsGoodsBomVo.class),  // 单个元素转换
@@ -254,10 +275,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
           .forEach(t -> {
             //  获取当天
 
-            List<ApsOrderGoodsBomKittingVersionOrderItem> apsOrderGoodsBomKittingVersionOrderItemListTmp = Collections.synchronizedList(
-                new ArrayList<>());
-
-            AtomicInteger bomCount = new AtomicInteger(0);
+            List<ApsOrderGoodsBomKittingVersionOrderItem> apsOrderGoodsBomKittingVersionOrderItemListTmp = new ArrayList<>();
 
 //            apsFactoryService
             FactoryConfigRes factoryConfigRes = apsFactoryConfigResMap.get(
@@ -265,27 +283,44 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
             if (Objects.isNull(factoryConfigRes)) {
               return;
             }
+
             ApsGoods apsGoods = apsGoodsMap.get((Long) t.get(ApsStr.GOODS_ID));
+            Map<Long, List<ApsGoodsBomVo>> apsGoodsBomListMap = apsGoodsBomStationMap.get(
+                (Long) t.get(ApsStr.GOODS_ID));
+            Set<Long> bomIdSet = goodsIdBomIdSetMap.getOrDefault((Long) t.get(ApsStr.ORDER_ID),
+                Set.of());
+            apsGoodsBomListMap.replaceAll(
+                (k, v) -> v.stream().filter(ttt -> bomIdSet.contains(ttt.getBomId())).toList()
+                // JDK 16+ 支持的 Stream.toList()
+            );
+            //
             ApsProcessPathInfo apsProcessPathInfo = ProcessUtils.schedulePathDate(
                 $.copy(factoryConfigRes.getAllProcessPathDtoMap().get(apsGoods.getProcessPathId()),
                     ApsProcessPathVo.class), factoryConfigRes.getWeekList(), 0L,
-                factoryConfigRes.getDayWorkSecond(), null,
-                apsGoodsBomStationMap.get((Long) t.get(ApsStr.GOODS_ID)),
+                factoryConfigRes.getDayWorkSecond(), null, apsGoodsBomListMap,
                 (LocalDate) t.get(CURRENT_DAY));
 
             Long kittingVersionId = apsOrderGoodsBomKittingVersion.getId();
             apsProcessPathInfo.getDataList().forEach(apsBom -> {
 
-//              log.info("apsProcessPathInfo : {}", apsBom);
-              if (CollUtil.isEmpty(apsBom.getApsGoodsBomList())) {
+              List<ApsGoodsBomVo> apsGoodsBomListTmp = apsBom.getApsGoodsBomList();
+              if (CollUtil.isEmpty(apsGoodsBomListTmp)) {
                 return;
               }
-              bomCount.incrementAndGet();
-              apsBom.getApsGoodsBomList().forEach(bt -> {
+              log.info("apsProcessPathInfo : {} {} bomCount {}", t.get(ORDER_NO),
+                  apsGoodsBomListTmp.size(),
+                  apsGoodsBomListTmp.stream().map(ApsGoodsBomVo::getBomId).distinct().count());
+              apsGoodsBomListTmp.forEach(bt -> {
                 ApsBom apsBomTmp = apsBomMap.get(bt.getBomId());
 
                 ApsGoodsBom apsGoodsBom = apsGoodsBomMap.getOrDefault(bt.getGoodsId(), Map.of())
                     .getOrDefault(bt.getBomId(), Map.of()).get(bt.getBomUseWorkStation());
+
+                if (Objects.isNull(apsGoodsBom)) {
+                  log.info("apsGoodsBom goodId : {} bomId : {} bomUseWorkStation: {}",
+                      bt.getGoodsId(), bt.getBomId(), bt.getBomUseWorkStation());
+                  return;
+                }
 
                 ApsOrderGoodsBomKittingVersionOrderItem versionOrderItem = new ApsOrderGoodsBomKittingVersionOrderItem();
                 BigDecimal lastCount = apsBomTmp.getBomInventory()
@@ -315,6 +350,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
                     versionOrderItem.getInventoryAfterCount().compareTo(BigDecimal.ZERO) >= 0);
 
                 versionOrderItem.setKittingVersionId(kittingVersionId).setId(IdUtils.getId());
+                versionOrderItem.setWorkshopStationId(apsGoodsBom.getBomUseWorkStation());
                 apsOrderGoodsBomKittingVersionOrderItemListTmp.add(versionOrderItem);
                 apsBomTmp.setBomInventory(versionOrderItem.getInventoryAfterCount());
               });
@@ -323,42 +359,73 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
             apsOrderGoodsBomKittingVersionOrderItemList.addAll(
                 apsOrderGoodsBomKittingVersionOrderItemListTmp);
-            Map<Long, BigDecimal> lackApsBomMapTmp = apsOrderGoodsBomKittingVersionOrderItemListTmp.stream()
+            Map<Long, Map<Long, BigDecimal>> lackApsBomMapTmp = apsOrderGoodsBomKittingVersionOrderItemListTmp.stream()
                 .filter(tt -> !Boolean.TRUE.equals(tt.getIsEnough())).collect(
                     Collectors.groupingBy(ApsOrderGoodsBomKittingVersionOrderItem::getBomId,
-                        Collectors.collectingAndThen(Collectors.toList(), r -> r.stream()
-                            .map(ApsOrderGoodsBomKittingVersionOrderItem::getLackQuantity)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add))));
+                        Collectors.groupingBy(
+                            ApsOrderGoodsBomKittingVersionOrderItem::getWorkshopStationId,
+                            Collectors.collectingAndThen(Collectors.toList(), r -> r.stream()
+                                .map(ApsOrderGoodsBomKittingVersionOrderItem::getLackQuantity)
+                                .reduce(BigDecimal.ZERO, BigDecimal::add)))));
 
             ApsOrderGoodsBomKittingVersionOrder versionOrder = new ApsOrderGoodsBomKittingVersionOrder();
             if (CollUtil.isNotEmpty(lackApsBomMapTmp)) {
-
               lackApsBomMapTmp.forEach((k, v) -> {
-                BigDecimal lack = lackApsBomMap.getOrDefault(k, BigDecimal.ZERO);
-                lackApsBomMapTmp.put(k, lack.add(v));
+                v.values().forEach(val -> {
+                  lackApsBomMap.merge(k, val, BigDecimal::add);
+                });
               });
 
-              List<KVEntity> lackList = lackApsBomMapTmp.entrySet().stream().sorted(
-                  Entry.<Long, BigDecimal>comparingByValue(Comparator.reverseOrder())
-                      .thenComparing(Entry::getKey)).limit(maxSize).map(
-                  (e) -> new KVEntity().setLabel(apsBomMap.get(e.getKey()).getBomName())
-                      .setValue(e.getValue().toString())).toList();
+              List<KVEntity> lackList = lackApsBomMapTmp.entrySet().stream()
+                  // 扁平化处理，将每个外部键与其内部映射的值组合
+                  .flatMap(outerEntry -> outerEntry.getValue().values().stream()
+                      .map(bigDecimal -> new KeyValue(outerEntry.getKey(), bigDecimal)))
+                  // 按值降序排序
+                  .sorted(Comparator.comparing(KeyValue::value).reversed())
+                  // 取前10个
+                  .limit(maxSize).map(
+                      (e) -> new KVEntity().setLabel(apsBomMap.get(e.key()).getBomName())
+                          .setValue(e.value().toString())).toList();
               versionOrder.setKittingMissingBom(lackList).setKittingStatus("未齐套");
+
+              int bomSize = bomIdSet.size();
+              log.info("setKittingRate  orderId {} orderNo:{}  lack {} bomSize {}",
+                  t.get(ApsStr.ORDER_ID), t.get(ORDER_NO), lackList.size(), bomSize);
+              versionOrder.setKittingRate(
+                  new BigDecimal(bomSize - lackApsBomMapTmp.size()).multiply(multiplicand_100)
+                      .divide(new BigDecimal(bomSize), 5, ROUNDING_MODE));
             } else {
-              versionOrder.setKittingStatus("齐套").setKittingRate(BigDecimal.ONE);
+              versionOrder.setKittingStatus("齐套");
+              versionOrder.setKittingRate(multiplicand_100);
             }
 
-            versionOrder.setKittingRate(new BigDecimal(bomCount.get()).divide(
-                new BigDecimal(apsOrderGoodsBomKittingVersionOrderItemListTmp.size()), 5,
-                RoundingMode.HALF_UP));
             versionOrder.setOrderId((Long) t.get(ApsStr.ORDER_ID))
-                .setKittingVersionId(kittingVersionId).setKittingRate(BigDecimal.ZERO)
-                .setFactoryId((Long) t.get(ApsStr.FACTORY_ID)).setOrderNo((String) t.get(ORDER_NO));
+                .setKittingVersionId(kittingVersionId).setFactoryId((Long) t.get(ApsStr.FACTORY_ID))
+                .setOrderNo((String) t.get(ORDER_NO));
             versionOrder.setNumberIndex((Long) t.get("numberIndex"));
+
+            AtomicInteger fieldIndex = new AtomicInteger(1);
+
+            if (CollUtil.isNotEmpty(kittingTemplateOrderConfigList)) {
+              kittingTemplateOrderConfigList.forEach(
+                  tc -> setOrderValue(fieldIndex, versionOrder, t, tc.getValue()));
+            }
+            if (CollUtil.isNotEmpty(kittingTemplateOrderUserConfigList)) {
+              kittingTemplateOrderUserConfigList.forEach(
+                  tc -> setOrderValue(fieldIndex, versionOrder, t, tc.getValue()));
+            }
+
+            if (CollUtil.isNotEmpty(kittingTemplateSaleConfigList)) {
+              kittingTemplateSaleConfigList.forEach(
+                  tc -> setOrderValue(fieldIndex, versionOrder, t, "sale_" + tc.getValue()));
+            }
+
             apsOrderGoodsBomKittingVersionOrderList.add(versionOrder);
           });
     }
 
+    long orderCount = schedulingVersionCapacityList.size();
+    apsOrderGoodsBomKittingVersion.setOrderCount(orderCount);
     if (CollUtil.isNotEmpty(lackApsBomMap)) {
       List<KVEntity> lockList = lackApsBomMap.entrySet().stream().sorted(
           Entry.<Long, BigDecimal>comparingByValue(Comparator.reverseOrder())
@@ -366,11 +433,15 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
           (e) -> new KVEntity().setLabel(apsBomMap.get(e.getKey()).getBomName())
               .setValue(e.getValue().toString())).toList();
       apsOrderGoodsBomKittingVersion.setKittingMissingBom(lockList).setKittingStatus("未齐套")
-          .setKittingRate(
-              new BigDecimal(lackApsBomMap.size()).divide(new BigDecimal(apsGoodsBomList.stream()
-                  .map(ApsGoodsBom::getBomId).distinct().count()), 5, RoundingMode.HALF_UP));
+          .setKittingRate(multiplicand_100.subtract(
+              new BigDecimal(lackApsBomMap.size()).multiply(multiplicand_100)
+                  .divide(new BigDecimal(orderCount), 5, ROUNDING_MODE)));
+
+      apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount - lackApsBomMap.size())
+          .setKittingFailCount((long) lackApsBomMap.size());
     } else {
-      apsOrderGoodsBomKittingVersion.setKittingStatus("齐套").setKittingRate(BigDecimal.ONE);
+      apsOrderGoodsBomKittingVersion.setKittingStatus("齐套").setKittingRate(multiplicand_100);
+      apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount).setKittingFailCount(0L);
     }
 
     //  机器排产
@@ -390,6 +461,17 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     return null;
   }
 
+  private static void setOrderValue(AtomicInteger fieldIndex,
+      ApsOrderGoodsBomKittingVersionOrder versionOrder, Map<String, Object> t, String tc) {
+    int index = fieldIndex.getAndIncrement();
+    if (index > ApsOrderGoodsBomKittingVersionOrder.FIELD_COUNT) {
+      return;
+    }
+    Field field = FieldUtils.getField(ApsOrderGoodsBomKittingVersionOrder.class,
+        "orderField" + String.format("%02d", index));
+    ReflectUtil.setFieldValue(versionOrder, field, t.get(tc));
+  }
+
   private String getNextVersionNo() {
     ApsOrderGoodsBomKittingVersion apsOrderGoodsBomKittingVersion = this.apsOrderGoodsBomKittingVersionService()
         .getOne(new LambdaQueryWrapper<ApsOrderGoodsBomKittingVersion>().eq(
@@ -407,4 +489,8 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     return SpringUtil.getBean(ApsOrderGoodsBomKittingVersionService.class);
   }
 
+  // 记录类用于存储键值对
+  private record KeyValue(Long key, BigDecimal value) {
+
+  }
 }

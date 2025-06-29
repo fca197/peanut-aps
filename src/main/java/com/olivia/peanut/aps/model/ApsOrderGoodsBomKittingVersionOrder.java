@@ -1,17 +1,15 @@
 package com.olivia.peanut.aps.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import com.olivia.sdk.utils.BaseEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * 齐套检查订单详情(ApsOrderGoodsBomKittingVersionOrder)表实体类
@@ -23,9 +21,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName(value = "aps_order_goods_bom_kitting_version_order" ,autoResultMap = true)
+@TableName(value = "aps_order_goods_bom_kitting_version_order", autoResultMap = true)
 public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
 
+  public static final int FIELD_COUNT = 20;
   /***
    *  齐套版本id
    */
@@ -54,7 +53,7 @@ public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
   /***
    *  缺失物料前10 [{id: label}]
    */
-  @TableField(value = "kitting_missing_bom",typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "kitting_missing_bom", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> kittingMissingBom;
 
   /***
@@ -162,7 +161,6 @@ public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
    */
   @TableField("factory_id")
   private Long factoryId;
-
 
 
   private Long numberIndex;

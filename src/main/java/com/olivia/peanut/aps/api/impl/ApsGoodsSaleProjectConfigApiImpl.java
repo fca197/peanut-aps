@@ -30,6 +30,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 public class ApsGoodsSaleProjectConfigApiImpl implements ApsGoodsSaleProjectConfigApi {
-
-  private @Autowired ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
+  @Resource
+  private  ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
 
   /****
    * insert

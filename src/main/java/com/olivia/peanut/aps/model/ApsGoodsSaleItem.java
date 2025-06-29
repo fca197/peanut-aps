@@ -26,6 +26,8 @@ public class ApsGoodsSaleItem extends BaseEntity {
   private Integer useForecast;
   private Integer supplierStatus;
 
+  @TableField(exist = false)
+  private Long saleParentId;
 
   @TableField(exist = false)
   private ApsSaleConfig currentSaleConfig;

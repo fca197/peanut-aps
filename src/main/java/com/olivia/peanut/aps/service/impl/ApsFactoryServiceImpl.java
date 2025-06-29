@@ -148,8 +148,8 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
       });
     }
     List<Long> processPathIdList = req.getProcessPathIdList();
-    processPathIdList.removeIf(Objects::isNull);
     if (CollUtil.isNotEmpty(processPathIdList)) {
+      processPathIdList.removeIf(Objects::isNull);
       res.setAllProcessPathDtoMap(new HashMap<>());
       processPathIdList.forEach(processPathId -> {
         try {

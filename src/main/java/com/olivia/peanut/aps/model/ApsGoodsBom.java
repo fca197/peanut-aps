@@ -46,5 +46,6 @@ public class ApsGoodsBom extends BaseEntity {
    * 是否关注
    */
   private Boolean isFollow;
+
 }
 

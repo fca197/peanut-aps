@@ -100,11 +100,8 @@ public class ApsOrderGoodsBomServiceImpl extends
     MPJLambdaWrapper<ApsOrderGoodsBom> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
-      q
-          .eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsBom::getOrderId, obj.getOrderId())
+      q.eq(Objects.nonNull(obj.getOrderId()), ApsOrderGoodsBom::getOrderId, obj.getOrderId())
           .eq(Objects.nonNull(obj.getGoodsId()), ApsOrderGoodsBom::getGoodsId, obj.getGoodsId())
-          .eq(Objects.nonNull(obj.getGoodsStatusId()), ApsOrderGoodsBom::getGoodsStatusId,
-              obj.getGoodsStatusId())
           .eq(Objects.nonNull(obj.getBomId()), ApsOrderGoodsBom::getBomId, obj.getBomId())
           .eq(StringUtils.isNoneBlank(obj.getBomCode()), ApsOrderGoodsBom::getBomCode,
               obj.getBomCode())
@@ -114,8 +111,7 @@ public class ApsOrderGoodsBomServiceImpl extends
           .eq(StringUtils.isNoneBlank(obj.getBomUnit()), ApsOrderGoodsBom::getBomUnit,
               obj.getBomUnit())
           .eq(Objects.nonNull(obj.getBomCostPrice()), ApsOrderGoodsBom::getBomCostPrice,
-              obj.getBomCostPrice())
-          .eq(StringUtils.isNoneBlank(obj.getBomCostPriceUnit()),
+              obj.getBomCostPrice()).eq(StringUtils.isNoneBlank(obj.getBomCostPriceUnit()),
               ApsOrderGoodsBom::getBomCostPriceUnit, obj.getBomCostPriceUnit())
           .eq(Objects.nonNull(obj.getBomUseWorkStation()), ApsOrderGoodsBom::getBomUseWorkStation,
               obj.getBomUseWorkStation())
