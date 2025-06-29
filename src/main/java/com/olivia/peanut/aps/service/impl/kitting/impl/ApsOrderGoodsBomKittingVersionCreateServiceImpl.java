@@ -392,7 +392,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
               log.info("setKittingRate  orderId {} orderNo:{}  lack {} bomSize {}",
                   t.get(ApsStr.ORDER_ID), t.get(ORDER_NO), lackList.size(), bomSize);
               versionOrder.setKittingRate(
-                  new BigDecimal(bomSize - lackApsBomMapTmp.size()).multiply(multiplicand_100)
+                  new BigDecimal(bomSize - lackList.size()).multiply(multiplicand_100)
                       .divide(new BigDecimal(bomSize), 5, ROUNDING_MODE));
             } else {
               versionOrder.setKittingStatus("齐套");
