@@ -25,6 +25,7 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 public class ApsOrderGoodsBomKittingVersionDto extends BaseEntityDto {
 
+  private Long apsOrderGoodsBomKittingTemplateId;
   /***
    *  齐套版本编码
    */
@@ -129,6 +130,8 @@ public class ApsOrderGoodsBomKittingVersionDto extends BaseEntityDto {
   @NotNull(message = "使用时间不能为空", groups = {InsertCheck.class, UpdateCheck.class})
 
   private LocalDate bomUseDate;
+
+  private List<KVEntity> templateHeaderList;
 
 }
 

@@ -26,6 +26,8 @@ import lombok.experimental.Accessors;
 @TableName(value = "aps_order_goods_bom_kitting_version", autoResultMap = true)
 public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
 
+  @TableField("aps_order_goods_bom_kitting_template_id")
+  private Long apsOrderGoodsBomKittingTemplateId;
   /***
    *  齐套版本编码
    */
@@ -102,6 +104,10 @@ public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
    */
   @TableField("bom_use_date")
   private LocalDate bomUseDate;
+
+
+  @TableField(value = "template_header_list" ,typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> templateHeaderList;
 
 }
 

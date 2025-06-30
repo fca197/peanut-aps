@@ -23,6 +23,7 @@ import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrder;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderItem;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
 import com.olivia.peanut.aps.model.ApsOrderUser;
+import com.olivia.peanut.aps.model.ApsSaleConfig;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
 import com.olivia.peanut.aps.service.ApsBomService;
 import com.olivia.peanut.aps.service.ApsFactoryService;
@@ -36,6 +37,7 @@ import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
 import com.olivia.peanut.aps.service.ApsOrderService;
 import com.olivia.peanut.aps.service.ApsOrderUserService;
+import com.olivia.peanut.aps.service.ApsSaleConfigService;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionCapacityService;
 import com.olivia.peanut.aps.service.impl.kitting.ApsOrderGoodsBomKittingVersionCreateService;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
@@ -112,6 +114,9 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
   @Resource
   ApsOrderGoodsBomService apsOrderGoodsBomService;
 
+  @Resource
+  ApsSaleConfigService apsSaleConfigService;
+
   // 最大缺失条数
   private static final int maxSize = 10;
 
@@ -154,12 +159,22 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleListMap = new HashMap<>();
     List<KVEntity> kittingTemplateSaleConfigList = bomKittingTemplate.getKittingTemplateSaleConfigList();
     if (CollUtil.isNotEmpty(kittingTemplateSaleConfigList)) {
+      Map<Long, Long> apsSaleMap = this.apsSaleConfigService.list(
+              new LambdaQueryWrapper<ApsSaleConfig>()
+                  .select(BaseEntity::getId, ApsSaleConfig::getParentId)
+                  .in(ApsSaleConfig::getParentId,
+                      kittingTemplateSaleConfigList.stream().map(KVEntity::getValue).collect(
+                          Collectors.toSet()))).stream()
+          .collect(Collectors.toMap(BaseEntity::getId, ApsSaleConfig::getParentId));
       Map<Long, List<ApsOrderGoodsSaleConfig>> orderSaleListMapTmp = apsOrderGoodsSaleConfigService.list(
               new LambdaQueryWrapper<ApsOrderGoodsSaleConfig>().in(ApsOrderGoodsSaleConfig::getOrderId,
-                  orderIdList).in(ApsOrderGoodsSaleConfig::getConfigParentId,
-                  kittingTemplateSaleConfigList.stream().map(KVEntity::getValue)
-                      .collect(Collectors.toSet()))).stream()
+                  orderIdList).in(ApsOrderGoodsSaleConfig::getConfigId, apsSaleMap.keySet())).stream()
           .collect(Collectors.groupingBy(ApsOrderGoodsSaleConfig::getOrderId));
+
+      orderSaleListMapTmp.values().forEach(t ->
+          t.forEach(tt -> tt.setConfigParentId(apsSaleMap.get(tt.getConfigId())))
+      );
+
       orderSaleListMap.putAll(orderSaleListMapTmp);
     }
     Map<Long, ApsOrderUser> orderUserMap = new HashMap<>();
@@ -188,6 +203,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
       if (CollUtil.isNotEmpty(apsOrderGoodsSaleConfigList)) {
         apsOrderGoodsSaleConfigList.forEach(os -> {
           map.put("sale_" + os.getConfigParentId(), os.getConfigId());
+          map.put("sale_" + os.getConfigParentId()+"_name", os.getConfigName());
         });
       }
       ApsOrderUser apsOrderUser = orderUserMap.get(orderId);
@@ -211,7 +227,22 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     Map<Long, BigDecimal> lackApsBomMap = new HashMap<>();
 
     ApsOrderGoodsBomKittingVersion apsOrderGoodsBomKittingVersion = new ApsOrderGoodsBomKittingVersion();
-    apsOrderGoodsBomKittingVersion.setId(IdUtils.getId());
+    apsOrderGoodsBomKittingVersion.setApsOrderGoodsBomKittingTemplateId(
+        req.getSchedulingVersionTemplateId()).setId(IdUtils.getId());
+
+    apsOrderGoodsBomKittingVersion.setTemplateHeaderList(new ArrayList<>());
+    if (CollUtil.isNotEmpty(kittingTemplateOrderConfigList)) {
+      apsOrderGoodsBomKittingVersion.getTemplateHeaderList().addAll(kittingTemplateOrderConfigList);
+    }
+    if (CollUtil.isNotEmpty(kittingTemplateOrderUserConfigList)) {
+      apsOrderGoodsBomKittingVersion.getTemplateHeaderList()
+          .addAll(kittingTemplateOrderUserConfigList);
+    }
+
+    if (CollUtil.isNotEmpty(kittingTemplateSaleConfigList)) {
+      apsOrderGoodsBomKittingVersion.getTemplateHeaderList().addAll(kittingTemplateSaleConfigList);
+    }
+
     String nextVersionNo = getNextVersionNo();
     apsOrderGoodsBomKittingVersion.setKittingVersionNo("scheduling-" + nextVersionNo)
         .setKittingVersionName("排产[" + req.getSchedulingVersionId() + "]齐套")
@@ -417,7 +448,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
             if (CollUtil.isNotEmpty(kittingTemplateSaleConfigList)) {
               kittingTemplateSaleConfigList.forEach(
-                  tc -> setOrderValue(fieldIndex, versionOrder, t, "sale_" + tc.getValue()));
+                  tc -> setOrderValue(fieldIndex, versionOrder, t, "sale_" + tc.getValue()+"_name"));
             }
 
             apsOrderGoodsBomKittingVersionOrderList.add(versionOrder);

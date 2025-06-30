@@ -382,8 +382,13 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       apsGoodsSaleItemList.forEach(apsGoodsSaleItem -> {
         ApsOrderGoodsSaleConfig saleConfig = $.copy(apsGoodsSaleItem,
             ApsOrderGoodsSaleConfig.class);
+        ApsSaleConfig apsSaleConfig = apsSaleConfigMap.get(apsGoodsSaleItem.getSaleConfigId());
+        ApsSaleConfig parentApsSaleConfig = apsSaleConfigMap.get(apsSaleConfig.getParentId());
         saleConfig.setOrderId(apsOrder.getId())
-            .setConfigId(apsGoodsSaleItem.getSaleConfigId())
+            .setConfigId(apsSaleConfig.getId())
+            .setConfigName(apsSaleConfig.getSaleName())
+            .setConfigParentName(parentApsSaleConfig.getSaleName())
+            .setConfigParentId(parentApsSaleConfig.getParentId())
             .setId(IdUtils.getId());
         insertSaleConfigList.add(saleConfig);
       });
