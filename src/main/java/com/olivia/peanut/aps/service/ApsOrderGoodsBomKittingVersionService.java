@@ -32,7 +32,5 @@ public interface ApsOrderGoodsBomKittingVersionService extends
   void setName(
       List<? extends ApsOrderGoodsBomKittingVersionDto> apsOrderGoodsBomKittingVersionDtoList);
 
-  ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
-      CreateSchedulingKittingVersion req);
 }
 

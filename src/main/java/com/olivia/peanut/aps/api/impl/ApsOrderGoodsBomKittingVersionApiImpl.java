@@ -23,8 +23,10 @@ import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.CreateSch
 import com.olivia.peanut.aps.api.impl.listener.ApsOrderGoodsBomKittingVersionImportListener;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
+import com.olivia.peanut.aps.service.impl.kitting.ApsOrderGoodsBomKittingVersionCreateService;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
+import jakarta.annotation.Resource;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,6 +43,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKittingVersionApi {
 
   private @Autowired ApsOrderGoodsBomKittingVersionService apsOrderGoodsBomKittingVersionService;
+  private @Resource ApsOrderGoodsBomKittingVersionCreateService  apsOrderGoodsBomKittingVersionCreateService;
 
   /****
    * insert
@@ -56,7 +59,7 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
   @Override
   public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
       CreateSchedulingKittingVersion req) {
-    return this.apsOrderGoodsBomKittingVersionService.createSchedulingKittingVersion(req);
+    return this.apsOrderGoodsBomKittingVersionCreateService.createSchedulingKittingVersion(req);
   }
 
   /****

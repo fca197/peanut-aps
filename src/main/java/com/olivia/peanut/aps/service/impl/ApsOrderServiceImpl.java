@@ -631,8 +631,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     ComputeStatusReq computeStatusReq = new ComputeStatusReq();
     computeStatusReq.setBeginLocalDateTime(LocalDateTime.now());
     computeStatusReq.setWeekInfoList(factoryConfig.getWeekList()).setApsProduceProcessItemPojoList(
-            $.copyList(factoryConfig.getApsProduceProcessItemMap().get(apsGoods.getProduceProcessId()),
-                ApsProduceProcessItemPojo.class))
+            $.copyList(apsProduceProcessItems, ApsProduceProcessItemPojo.class))
         .setDayWorkLastSecond(factoryConfig.getDayWorkLastSecond())
         .setDayWorkSecond(factoryConfig.getDayWorkSecond())
         .setCurrentGoodsStatusId(req.getGoodsStatusId());
