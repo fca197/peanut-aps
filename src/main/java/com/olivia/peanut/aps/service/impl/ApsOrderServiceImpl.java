@@ -388,7 +388,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
             .setConfigId(apsSaleConfig.getId())
             .setConfigName(apsSaleConfig.getSaleName())
             .setConfigParentName(parentApsSaleConfig.getSaleName())
-            .setConfigParentId(parentApsSaleConfig.getParentId())
+            .setConfigParentId(parentApsSaleConfig.getId())
             .setId(IdUtils.getId());
         insertSaleConfigList.add(saleConfig);
       });

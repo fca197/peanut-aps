@@ -299,8 +299,9 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
           .filter(t -> t.getKittingRate().compareTo(multiplicand_100) < 0).count();
       apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount - failCount)
           .setKittingFailCount(failCount).setKittingRate(
-              new BigDecimal(orderCount - failCount).divide(new BigDecimal(orderCount), 5,
-                  ROUNDING_MODE));
+              new BigDecimal(orderCount - failCount).multiply(multiplicand_100)
+                  .divide(new BigDecimal(orderCount), 5,
+                      ROUNDING_MODE));
     } else {
       apsOrderGoodsBomKittingVersion.setKittingStatus("齐套").setKittingRate(multiplicand_100);
       apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount).setKittingFailCount(0L);
