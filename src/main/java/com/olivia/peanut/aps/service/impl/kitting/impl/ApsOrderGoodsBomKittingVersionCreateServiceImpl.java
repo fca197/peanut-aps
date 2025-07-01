@@ -332,7 +332,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
                 ApsOrderGoodsBomKittingVersion::getCreateDate, LocalDate.now())
             .orderByDesc(ApsOrderGoodsBomKittingVersion::getKittingVersionNo).last(Str.LIMIT_1));
     if (Objects.isNull(apsOrderGoodsBomKittingVersion)) {
-      return LocalDate.now() + "-00001";
+      return LocalDate.now() + "-0001";
     }
     return LocalDate.now() + "-" + StringUtils.right("000" + (
         Integer.parseInt(StringUtils.right(apsOrderGoodsBomKittingVersion.getKittingVersionNo(), 4))
