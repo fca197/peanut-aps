@@ -1,4 +1,4 @@
-package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderItem;
+package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom;
 
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderItemDto extends BaseEntityDto {
+public class ApsOrderGoodsBomKittingVersionOrderBomDto extends BaseEntityDto {
 
   /***
    *  齐套版本id

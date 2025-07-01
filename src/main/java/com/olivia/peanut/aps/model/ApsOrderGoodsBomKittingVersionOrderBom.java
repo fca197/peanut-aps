@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 /**
- * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)表实体类
+ * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderBom)表实体类
  *
  * @author admin
  * @since 2025-06-25 20:30:06
@@ -20,8 +20,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_order_goods_bom_kitting_version_order_item")
-public class ApsOrderGoodsBomKittingVersionOrderItem extends BaseEntity {
+@TableName("aps_order_goods_bom_kitting_version_order_bom")
+public class ApsOrderGoodsBomKittingVersionOrderBom extends BaseEntity {
 
   /***
    *  齐套版本id

@@ -1,14 +1,9 @@
-package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderItem;
+package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)查询对象入参
@@ -20,7 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderItemQueryByIdListReq {
+public class ApsOrderGoodsBomKittingVersionOrderBomQueryByIdListReq {
 
   private List<Long> idList;
 

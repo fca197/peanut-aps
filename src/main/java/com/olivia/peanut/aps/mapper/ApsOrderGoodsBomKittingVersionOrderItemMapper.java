@@ -1,8 +1,7 @@
 package com.olivia.peanut.aps.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderItem;
+import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ApsOrderGoodsBomKittingVersionOrderItemMapper extends
-    MPJBaseMapper<ApsOrderGoodsBomKittingVersionOrderItem> {
+    MPJBaseMapper<ApsOrderGoodsBomKittingVersionOrderBom> {
 
 }
 

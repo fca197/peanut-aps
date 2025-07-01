@@ -17,7 +17,7 @@ import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingTemplate;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrder;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderItem;
+import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
 import com.olivia.peanut.aps.service.ApsBomService;
 import com.olivia.peanut.aps.service.ApsGoodsBomService;
@@ -137,7 +137,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
     Map<Long, ApsGoods> apsGoodsMap = apsGoodsService.listByIds(goodIsList).stream()
         .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
-    List<ApsOrderGoodsBomKittingVersionOrderItem> apsOrderGoodsBomKittingVersionOrderItemList = Collections.synchronizedList(
+    List<ApsOrderGoodsBomKittingVersionOrderBom> apsOrderGoodsBomKittingVersionOrderBomList = Collections.synchronizedList(
         new ArrayList<>());
     List<ApsOrderGoodsBomKittingVersionOrder> apsOrderGoodsBomKittingVersionOrderList = Collections.synchronizedList(
         new ArrayList<>());
@@ -185,7 +185,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
       if (CollUtil.isEmpty(orderFieldsMap)) {
         return;
       }
-      List<ApsOrderGoodsBomKittingVersionOrderItem> apsOrderGoodsBomKittingVersionOrderItemListTmp = new ArrayList<>();
+      List<ApsOrderGoodsBomKittingVersionOrderBom> apsOrderGoodsBomKittingVersionOrderBomListTmp = new ArrayList<>();
 
       Map<Long, BigDecimal> bomIdAndUseMap = orderApsGoodsBomMap.getOrDefault(orderId, List.of())
           .stream().collect(Collectors.groupingBy(ApsOrderGoodsBom::getBomId,
@@ -194,7 +194,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
                       .reduce(BigDecimal.ZERO, BigDecimal::add))));
       bomIdAndUseMap.forEach((k, v) -> {
         ApsBom apsBom = apsBomMap.get(k);
-        ApsOrderGoodsBomKittingVersionOrderItem versionOrderItem = new ApsOrderGoodsBomKittingVersionOrderItem();
+        ApsOrderGoodsBomKittingVersionOrderBom versionOrderItem = new ApsOrderGoodsBomKittingVersionOrderBom();
         BigDecimal lastCount = apsBom.getBomInventory().subtract(v);
         versionOrderItem.setBomId(k).setFactoryId((Long) orderFieldsMap.get(ApsStr.FACTORY_ID))
             .setOrderId((Long) orderFieldsMap.get(ApsStr.ORDER_ID))
@@ -207,7 +207,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
         versionOrderItem.setIsEnough(
             versionOrderItem.getInventoryAfterCount().compareTo(BigDecimal.ZERO) >= 0);
-        apsOrderGoodsBomKittingVersionOrderItemListTmp.add(versionOrderItem);
+        apsOrderGoodsBomKittingVersionOrderBomListTmp.add(versionOrderItem);
         apsBom.setBomInventory(versionOrderItem.getInventoryAfterCount());
         versionOrderItem.setBomName(apsBom.getBomName());
         // 如果库存 <= 0   缺少数量 = 使用量
@@ -225,15 +225,15 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
       });
 
-      apsOrderGoodsBomKittingVersionOrderItemList.addAll(
-          apsOrderGoodsBomKittingVersionOrderItemListTmp);
+      apsOrderGoodsBomKittingVersionOrderBomList.addAll(
+          apsOrderGoodsBomKittingVersionOrderBomListTmp);
 
-      Map<Long, BigDecimal> lackApsBomMapTmp = apsOrderGoodsBomKittingVersionOrderItemListTmp.stream()
+      Map<Long, BigDecimal> lackApsBomMapTmp = apsOrderGoodsBomKittingVersionOrderBomListTmp.stream()
           .filter(tt -> !Boolean.TRUE.equals(tt.getIsEnough())).collect(
-              Collectors.groupingBy(ApsOrderGoodsBomKittingVersionOrderItem::getBomId,
+              Collectors.groupingBy(ApsOrderGoodsBomKittingVersionOrderBom::getBomId,
                   Collectors.collectingAndThen(Collectors.toList(),
                       r -> r.stream()
-                          .map(ApsOrderGoodsBomKittingVersionOrderItem::getLackQuantity)
+                          .map(ApsOrderGoodsBomKittingVersionOrderBom::getLackQuantity)
                           .reduce(BigDecimal.ZERO, BigDecimal::add))));
       ApsOrderGoodsBomKittingVersionOrder versionOrder = new ApsOrderGoodsBomKittingVersionOrder();
 
@@ -308,7 +308,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     }
 
     this.apsOrderGoodsBomKittingVersionOrderItemService.saveBatch(
-        apsOrderGoodsBomKittingVersionOrderItemList);
+        apsOrderGoodsBomKittingVersionOrderBomList);
     this.apsOrderGoodsBomKittingVersionOrderService.saveBatch(
         apsOrderGoodsBomKittingVersionOrderList);
     apsOrderGoodsBomKittingVersionService.save(apsOrderGoodsBomKittingVersion);

@@ -52,7 +52,7 @@ truncate table aps_order_goods_bom_kitting_version;
 
 truncate table aps_order_goods_bom_kitting_version_order;
 
-truncate table aps_order_goods_bom_kitting_version_order_item;
+truncate table aps_order_goods_bom_kitting_version_order_bomm m;
 
 truncate table aps_goods_forecast;
 

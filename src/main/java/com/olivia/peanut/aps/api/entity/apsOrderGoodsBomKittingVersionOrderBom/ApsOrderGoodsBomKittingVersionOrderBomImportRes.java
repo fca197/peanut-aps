@@ -1,11 +1,9 @@
-package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderItem;
+package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)保存返回
@@ -17,13 +15,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderItemInsertRes {
+public class ApsOrderGoodsBomKittingVersionOrderBomImportRes {
 
   /****
    * 写入行数
    */
   private int count;
-
-  private Long id;
+  /**
+   * 错误信息
+   */
+  private List<String> errorMsg;
 }
 

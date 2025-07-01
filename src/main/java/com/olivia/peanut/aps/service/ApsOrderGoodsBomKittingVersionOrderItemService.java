@@ -1,12 +1,11 @@
 package com.olivia.peanut.aps.service;
 
 import com.olivia.sdk.utils.DynamicsPage;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderItem;
+import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
 import java.util.List;
 import com.github.yulichang.base.MPJBaseService;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderItem.*;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom.*;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)表服务接口
@@ -15,16 +14,16 @@ import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderItem.
  * @since 2025-06-25 20:30:06
  */
 public interface ApsOrderGoodsBomKittingVersionOrderItemService extends
-    MPJBaseService<ApsOrderGoodsBomKittingVersionOrderItem> {
+    MPJBaseService<ApsOrderGoodsBomKittingVersionOrderBom> {
 
-  ApsOrderGoodsBomKittingVersionOrderItemQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionOrderItemQueryListReq req);
+  ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(
+      ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsBomKittingVersionOrderItemExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingVersionOrderItemExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageList(
+      ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req);
 
 
   void setName(
-      List<? extends ApsOrderGoodsBomKittingVersionOrderItemDto> apsOrderGoodsBomKittingVersionOrderItemDtoList);
+      List<? extends ApsOrderGoodsBomKittingVersionOrderBomDto> apsOrderGoodsBomKittingVersionOrderItemDtoList);
 }
 
