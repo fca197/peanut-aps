@@ -54,3 +54,31 @@ truncate table aps_order_goods_bom_kitting_version_order;
 
 truncate table aps_order_goods_bom_kitting_version_order_item;
 
+truncate table aps_goods_forecast;
+
+truncate table aps_goods_forecast_compute_sale_data;
+
+truncate table aps_goods_forecast_main;
+
+truncate table aps_goods_forecast_main_goods_data;
+
+truncate table aps_goods_forecast_main_make;
+
+truncate table aps_goods_forecast_main_make_sale_data;
+
+truncate table aps_goods_forecast_main_sale_data;
+
+truncate table aps_goods_forecast_make;
+
+truncate table aps_goods_forecast_make_bom_use;
+
+truncate table aps_goods_forecast_make_project_data;
+
+truncate table aps_goods_forecast_make_sale_data;
+
+truncate table aps_goods_forecast_user_goods_data;
+
+truncate table aps_goods_forecast_user_sale_data;
+
+truncate table aps_goods_forecast_user_sale_group_data;
+

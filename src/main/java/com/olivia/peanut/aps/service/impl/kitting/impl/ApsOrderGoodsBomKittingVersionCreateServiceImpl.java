@@ -297,7 +297,7 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
       apsOrderGoodsBomKittingVersion.setKittingMissingBom(lockList).setKittingStatus("未齐套");
       long failCount = apsOrderGoodsBomKittingVersionOrderList.stream()
           .filter(t -> t.getKittingRate().compareTo(multiplicand_100) < 0).count();
-      apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount)
+      apsOrderGoodsBomKittingVersion.setKittingSuccessCount(orderCount - failCount)
           .setKittingFailCount(failCount).setKittingRate(
               new BigDecimal(orderCount - failCount).divide(new BigDecimal(orderCount), 5,
                   ROUNDING_MODE));
