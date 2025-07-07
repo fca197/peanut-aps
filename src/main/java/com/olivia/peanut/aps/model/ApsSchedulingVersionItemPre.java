@@ -1,10 +1,12 @@
 package com.olivia.peanut.aps.model;
 
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.mybatis.type.impl.MapTypeHandler;
+import com.olivia.sdk.mybatis.type.model.MapSub;
 import com.olivia.sdk.utils.BaseEntity;
 import java.time.LocalDate;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -19,7 +21,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_scheduling_version_item_pre")
+@TableName(value = "aps_scheduling_version_item_pre", autoResultMap = true)
 public class ApsSchedulingVersionItemPre extends BaseEntity {
 
   /***
@@ -49,8 +51,8 @@ public class ApsSchedulingVersionItemPre extends BaseEntity {
   /***
    *  显示字段
    */
-//  @TableField(typeHandler = MapTypeHandler.class)
-  private Map<String, Object> showField;
+  @TableField(typeHandler = MapTypeHandler.class)
+  private MapSub showField;
   /***
    *  订单号
    */

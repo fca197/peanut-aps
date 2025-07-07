@@ -3,10 +3,10 @@ package com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.mybatis.type.model.MapSub;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 //import com.alibaba.fastjson2.annotation.JSONField;
@@ -71,7 +71,7 @@ public class ApsSchedulingVersionItemPreDto extends BaseEntityDto {
   @NotBlank(message = "显示字段不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "showField")
 
-  private Map<String, Object> showField;
+  private MapSub showField;
   /***
    *  订单号
    */

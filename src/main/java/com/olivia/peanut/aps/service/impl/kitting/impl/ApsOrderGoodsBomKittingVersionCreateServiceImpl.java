@@ -22,13 +22,13 @@ import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
 import com.olivia.peanut.aps.service.ApsBomService;
 import com.olivia.peanut.aps.service.ApsGoodsBomService;
 import com.olivia.peanut.aps.service.ApsGoodsService;
+import com.olivia.peanut.aps.service.ApsOrderFieldService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingTemplateService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderItemService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionCapacityService;
-import com.olivia.peanut.aps.service.OrderFieldService;
 import com.olivia.peanut.aps.service.impl.kitting.ApsOrderGoodsBomKittingVersionCreateService;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.$;
@@ -97,9 +97,10 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
 
 
   @Resource
-  OrderFieldService orderFieldService;
+  ApsOrderFieldService apsOrderFieldService;
 
   @Override
+  @SuppressWarnings("unchecked")
   public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
       CreateSchedulingKittingVersion req) {
 
@@ -131,9 +132,9 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     List<KVEntity> kittingTemplateOrderConfigList = bomKittingTemplate.getKittingTemplateOrderConfigList();
     List<KVEntity> kittingTemplateOrderUserConfigList = bomKittingTemplate.getKittingTemplateOrderUserConfigList();
     List<KVEntity> kittingTemplateSaleConfigList = bomKittingTemplate.getKittingTemplateSaleConfigList();
-    Map<Long, Map<String, Object>> allOrderFieldMap = orderFieldService.orderField(orderIdList,
-        kittingTemplateOrderConfigList, kittingTemplateOrderUserConfigList,
-        kittingTemplateSaleConfigList, orderExtMap);
+    Map<Long, Map<String, Object>> allOrderFieldMap = apsOrderFieldService.orderFieldSetValue(
+        orderIdList,
+        kittingTemplateOrderUserConfigList, kittingTemplateSaleConfigList, orderExtMap);
 
     Map<Long, ApsGoods> apsGoodsMap = apsGoodsService.listByIds(goodIsList).stream()
         .collect(Collectors.toMap(BaseEntity::getId, Function.identity()));

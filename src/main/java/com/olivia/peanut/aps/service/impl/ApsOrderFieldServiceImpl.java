@@ -5,10 +5,10 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
 import com.olivia.peanut.aps.model.ApsOrderUser;
+import com.olivia.peanut.aps.service.ApsOrderFieldService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
 import com.olivia.peanut.aps.service.ApsOrderService;
 import com.olivia.peanut.aps.service.ApsOrderUserService;
-import com.olivia.peanut.aps.service.OrderFieldService;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.BaseEntity;
 import jakarta.annotation.Resource;
@@ -16,10 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OrderFieldServiceImpl implements OrderFieldService {
+public class ApsOrderFieldServiceImpl implements ApsOrderFieldService {
 
   @Resource
   ApsOrderService apsOrderService;
@@ -31,27 +32,23 @@ public class OrderFieldServiceImpl implements OrderFieldService {
   ApsOrderGoodsSaleConfigService apsOrderGoodsSaleConfigService;
 
   @Override
-  public Map<Long, Map<String, Object>> orderField(List<Long> orderIdList,
-      List<KVEntity> orderFieldList, List<KVEntity> orderUserFieldList,
-      List<KVEntity> saleFieldList, Map<Long, Map<String, Object>> orderExtMap) {
+  public Map<Long, Map<String, Object>> orderFieldSetValue(List<Long> orderIdList,
+      List<KVEntity> orderUserFieldList, List<KVEntity> saleFieldList,
+      Map<Long, Map<String, Object>> orderExtMap) {
     if (CollUtil.isEmpty(orderIdList)) {
       return Map.of();
     }
     Map<Long, Map<String, Object>> allOrderMap = this.apsOrderService.listByIds(orderIdList)
         .stream()
         .collect(Collectors.toMap(BaseEntity::getId, t -> BeanUtil.beanToMap(t, false, true)));
-    if (CollUtil.isEmpty(orderFieldList)) {
-      return Map.of();
-    }
-
     Map<Long, Map<String, Object>> retMap = new HashMap<>(allOrderMap.size());
 
     Map<Long, Map<String, Object>> userMap = new HashMap<>();
     if (CollUtil.isNotEmpty(orderUserFieldList)) {
       userMap.putAll(this.apsOrderUserService.list(
               new LambdaQueryWrapper<ApsOrderUser>().in(ApsOrderUser::getOrderId, orderIdList)).stream()
-          .collect(
-              Collectors.toMap(ApsOrderUser::getOrderId, t -> BeanUtil.beanToMap(t, false, true))));
+          .collect(Collectors.toMap(ApsOrderUser::getOrderId,
+              t -> changeMapKey(t, orderUserFieldList.getLast().getKeyTmp()))));
     }
     Map<Long, List<ApsOrderGoodsSaleConfig>> saleMap = new HashMap<>();
 
@@ -82,5 +79,19 @@ public class OrderFieldServiceImpl implements OrderFieldService {
     });
 
     return retMap;
+  }
+
+  private static Map<String, Object> changeMapKey(ApsOrderUser t, String keyTmp) {
+    Map<String, Object> beanToMap = BeanUtil.beanToMap(t, false, true);
+    if (StringUtils.isBlank(keyTmp)) {
+      return beanToMap;
+    }
+    return beanToMap.entrySet().stream()
+        .collect(Collectors.toMap(
+            entry -> keyTmp + entry.getKey(),
+            Map.Entry::getValue,
+            (oldValue, newValue) -> oldValue, // 冲突时保留旧值
+            HashMap::new
+        ));
   }
 }

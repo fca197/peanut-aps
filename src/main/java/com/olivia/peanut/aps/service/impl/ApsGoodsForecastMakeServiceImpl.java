@@ -346,11 +346,11 @@ public class ApsGoodsForecastMakeServiceImpl extends
 
     AtomicReference<LocalDate> bomMinDate = new AtomicReference<>();
     AtomicReference<LocalDate> bomMaxDate = new AtomicReference<>(LocalDate.now());
-    Set<String> operationSet = new HashSet<>();
-    operationSet.add("(");
-    operationSet.add(")");
-    operationSet.add("&&");
-    operationSet.add("||");
+//    Set<String> operationSet = new HashSet<>();
+//    operationSet.add("(");
+//    operationSet.add(")");
+//    operationSet.add("&&");
+//    operationSet.add("||");
     boolean bool = RunUtils.run("销售转规划 " + req.getId(), runnableList);
     $.assertTrueCanIgnoreException(bool, "销售转规划失败");
     runnableList.clear();
