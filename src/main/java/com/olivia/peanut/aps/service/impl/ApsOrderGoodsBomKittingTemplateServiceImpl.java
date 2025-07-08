@@ -90,9 +90,9 @@ public class ApsOrderGoodsBomKittingTemplateServiceImpl extends
 
   public @Override void setName(List<? extends ApsOrderGoodsBomKittingTemplateDto> list) {
 
-    setNameService.setName(list, SetNamePojoUtils.FACTORY
-//           , SetNamePojoUtils.OP_USER_NAME
-    );
+//    setNameService.setName(list, SetNamePojoUtils.FACTORY
+////           , SetNamePojoUtils.OP_USER_NAME
+//    );
 
   }
 

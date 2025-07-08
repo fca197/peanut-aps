@@ -41,7 +41,7 @@ public class ApsOrderGoodsBomKittingTemplateDto extends BaseEntityDto {
    *  工厂ID
    */
   //  @JSONField(label = "factoryId")
-  @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long factoryId;
   private String factoryName;
   /***
