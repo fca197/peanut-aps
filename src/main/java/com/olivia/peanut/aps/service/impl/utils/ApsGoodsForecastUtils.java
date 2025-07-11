@@ -36,6 +36,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -49,6 +50,8 @@ import org.jetbrains.annotations.NotNull;
 
 @Slf4j
 public class ApsGoodsForecastUtils {
+
+  static final String numberFormatPatten = "0.00%";
 
   @SneakyThrows
   public static void downloadTemplate(Long id) {
@@ -67,7 +70,6 @@ public class ApsGoodsForecastUtils {
     workbook.setCompressTempFiles(true);
     Map<CellStyleEnum, CellStyle> styleMap = PoiExcelUtil.createStyles(workbook);
     CellStyle headerCellStyle = styleMap.get(CellStyleEnum.HEADER);
-    CellStyle bodyCellStyle = styleMap.get(CellStyleEnum.BODY);
     ApsGoods apsGoods = goodsService.getById(goodsForecast.getGoodsId());
 
     CreateSaleConfigSheet result = getCreateSaleConfigSheet(workbook, apsGoods, headerCellStyle,
@@ -103,6 +105,13 @@ public class ApsGoodsForecastUtils {
     SXSSFCell cell = row.createCell(3);
     cell.setCellStyle(headerCellStyle);
     cell.setCellValue("月份");
+
+    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook,false);
+    CellStyle cellStyle = cellStyleMap.get(CellStyleEnum.BODY);
+    // 获取数据格式工厂
+    DataFormat format = workbook.createDataFormat();
+    cellStyle.setDataFormat(format.getFormat(numberFormatPatten));
+
     List<String> monthList = goodsForecast.getMonthList();
     $.requireNonNullCanIgnoreException(monthList, "月份为空");
     for (int i = 0; i < monthList.size(); i++) {
@@ -143,6 +152,12 @@ public class ApsGoodsForecastUtils {
           + apsGoodsSaleItem.getParentSaleConfig().getSaleName());
       rowTmp.createCell(2).setCellValue(apsGoodsSaleItem.getCurrentSaleConfig().getSaleCode() + "/"
           + apsGoodsSaleItem.getCurrentSaleConfig().getSaleName());
+
+      AtomicInteger cellIndex = new AtomicInteger(3);
+      monthList.forEach(item -> {
+        rowTmp.createCell(cellIndex.incrementAndGet()).setCellStyle(cellStyle);
+      });
+
     });
     sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 2));
     return new CreateSaleConfigSheet(monthList, apsGoodsSaleItemList, style);
@@ -169,15 +184,20 @@ public class ApsGoodsForecastUtils {
       ApsGoodsForecast goodsForecast, SXSSFWorkbook workbook, ApsGoods apsGoods,
       CellStyle headerCellStyle, CellStyle bodyCellStyle, List<String> monthList) {
     List<List<ApsGoodsSaleItem>> allApsSaleItemList = new ArrayList<>(apsGoodsSaleItemList.stream()
+        .filter(t->goodsForecast.getSaleConfigList().contains(t.getCurrentSaleConfig().getParentId()))
         .collect(Collectors.groupingBy(t -> t.getCurrentSaleConfig().getParentId())).values());
-
-    allApsSaleItemList.removeIf(t -> !goodsForecast.getSaleConfigList()
-        .contains(t.getFirst().getParentSaleConfig().getId()));
 
     if (CollUtil.isEmpty(allApsSaleItemList)) {
       log.error("allApsSaleItemList is null id : {} ", goodsForecast.getId());
       return;
     }
+
+    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook,false);
+    CellStyle cellStyle = cellStyleMap.get(CellStyleEnum.BODY);
+    // 获取数据格式工厂
+    DataFormat format = workbook.createDataFormat();
+
+    cellStyle.setDataFormat(format.getFormat(numberFormatPatten));
 
     List<List<ApsGoodsSaleItem>> listList = ListUtils.cartesianProductAlt(allApsSaleItemList);
     String sheetName = allApsSaleItemList.stream()
@@ -215,6 +235,12 @@ public class ApsGoodsForecastUtils {
                   tt -> tt.getCurrentSaleConfig().getSaleCode() + "_" + tt.getCurrentSaleConfig()
                       .getSaleName())
               .collect(Collectors.joining("/")));
+
+      AtomicInteger cellIndex = new AtomicInteger(3);
+      monthList.forEach(item -> {
+        rowRow.createCell(cellIndex.incrementAndGet()).setCellStyle(cellStyle);
+      });
+
     });
     groupSheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 2));
   }
