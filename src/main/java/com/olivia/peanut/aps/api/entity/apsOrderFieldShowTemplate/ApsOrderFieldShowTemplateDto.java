@@ -1,22 +1,15 @@
 package com.olivia.peanut.aps.api.entity.apsOrderFieldShowTemplate;
 
-import com.olivia.sdk.utils.fastjson.Str2BooleanConverter;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import java.util.List;
-import java.math.BigDecimal;
-import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.alibaba.excel.annotation.ExcelProperty;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.utils.fastjson.Str2BooleanConverter;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 //import com.alibaba.fastjson2.annotation.JSONField;
 
 /**
@@ -55,24 +48,24 @@ public class ApsOrderFieldShowTemplateDto extends BaseEntityDto {
   /***
    *  销售配置
    */
-  @NotBlank(message = "销售配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "销售配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "apsOrderUserSaleConfigList")
 
-  private String apsOrderUserSaleConfigList;
+  private List<KVEntity> apsOrderSaleConfigList;
   /***
    *  订单配置
    */
-  @NotBlank(message = "订单配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "订单配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "apsOrderUserOrderConfigList")
 
-  private String apsOrderUserOrderConfigList;
+  private List<KVEntity> apsOrderOrderConfigList;
   /***
    *  订单配置
    */
-  @NotBlank(message = "订单配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotBlank(message = "订单配置不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //  @JSONField(label = "apsOrderUserOrderUserConfigList")
 
-  private String apsOrderUserOrderUserConfigList;
+  private List<KVEntity> apsOrderOrderUserConfigList;
 
 }
 

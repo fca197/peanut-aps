@@ -1,14 +1,14 @@
 package com.olivia.peanut.aps.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.olivia.sdk.model.KVEntity;
+import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
 import com.olivia.sdk.utils.BaseEntity;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * 订单显示模板(ApsOrderFieldShowTemplate)表实体类
@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName("aps_order_field_show_template")
+@TableName(value = "aps_order_field_show_template" ,autoResultMap = true)
 public class ApsOrderFieldShowTemplate extends BaseEntity {
 
   /***
@@ -41,18 +41,18 @@ public class ApsOrderFieldShowTemplate extends BaseEntity {
   /***
    *  销售配置
    */
-  @TableField("aps_order_user_sale_config_list")
-  private String apsOrderUserSaleConfigList;
+  @TableField(value = "aps_order_sale_config_list" ,typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> apsOrderSaleConfigList;
   /***
    *  订单配置
    */
-  @TableField("aps_order_user_order_config_list")
-  private String apsOrderUserOrderConfigList;
+  @TableField(value = "aps_order_order_config_list",typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> apsOrderOrderConfigList;
   /***
    *  订单配置
    */
-  @TableField("aps_order_user_order_user_config_list")
-  private String apsOrderUserOrderUserConfigList;
+  @TableField(value = "aps_order_order_user_config_list",typeHandler = ListKVTypeHandler.class)
+  private List<KVEntity> apsOrderOrderUserConfigList;
 
 }
 

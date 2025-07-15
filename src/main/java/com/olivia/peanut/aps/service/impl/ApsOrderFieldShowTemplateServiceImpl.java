@@ -105,9 +105,6 @@ public class ApsOrderFieldShowTemplateServiceImpl extends
         , ApsOrderFieldShowTemplate::getApsOrderUserNo // 模板编号
         , ApsOrderFieldShowTemplate::getApsOrderUserName // 模板名称
         , ApsOrderFieldShowTemplate::getIsDefault // 是否默认
-        , ApsOrderFieldShowTemplate::getApsOrderUserSaleConfigList // 销售配置
-        , ApsOrderFieldShowTemplate::getApsOrderUserOrderConfigList // 订单配置
-        , ApsOrderFieldShowTemplate::getApsOrderUserOrderUserConfigList // 订单配置
     );
 
     q.orderByDesc(ApsOrderFieldShowTemplate::getId);
