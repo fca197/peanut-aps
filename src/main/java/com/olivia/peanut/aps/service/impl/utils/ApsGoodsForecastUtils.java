@@ -27,7 +27,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,7 +39,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -96,24 +100,32 @@ public class ApsGoodsForecastUtils {
       ApsGoodsSaleItemService goodsSaleItemService) {
     SXSSFSheet sheet = workbook.createSheet(apsGoods.getGoodsName());
     SXSSFRow row = sheet.createRow(0);
-    CellStyle style = workbook.createCellStyle();
+    CellStyle nameStyle = workbook.createCellStyle();
     SXSSFCell goodsNameCell = row.createCell(1);
     goodsNameCell.setCellValue(apsGoods.getGoodsName());
-    style.setAlignment(HorizontalAlignment.CENTER);
-    style.setVerticalAlignment(VerticalAlignment.CENTER);
-    goodsNameCell.setCellStyle(style);
+    nameStyle.setAlignment(HorizontalAlignment.CENTER);
+    nameStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+    goodsNameCell.setCellStyle(nameStyle);
     SXSSFCell cell = row.createCell(3);
     cell.setCellStyle(headerCellStyle);
     cell.setCellValue("月份");
 
-    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook,false);
+    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook, false);
     CellStyle cellStyle = cellStyleMap.get(CellStyleEnum.BODY);
     // 获取数据格式工厂
     DataFormat format = workbook.createDataFormat();
     cellStyle.setDataFormat(format.getFormat(numberFormatPatten));
 
+    cellStyle.setFillForegroundColor(IndexedColors.LIME.getIndex());
+    cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
     List<String> monthList = goodsForecast.getMonthList();
     $.requireNonNullCanIgnoreException(monthList, "月份为空");
+    CellStyle totalCellStyle = workbook.createCellStyle();
+    totalCellStyle.cloneStyleFrom(cellStyle);
+    totalCellStyle.setDataFormat(format.getFormat("0"));
+
+    List<Short> shortList= List.of(IndexedColors.LIGHT_GREEN.getIndex(), IndexedColors.LEMON_CHIFFON.getIndex());
     for (int i = 0; i < monthList.size(); i++) {
       cell = row.createCell(i + 4);
       cell.setCellStyle(headerCellStyle);
@@ -142,25 +154,47 @@ public class ApsGoodsForecastUtils {
     ct2.setCellValue("销售特征");
     ct2.setCellStyle(headerCellStyle);
     SXSSFCell cc = nameRow.createCell(3);
-    cc.setCellValue("总计");
+    cc.setCellValue("总计（生产量）");
     cc.setCellStyle(headerCellStyle);
+    IntStream.range(4, monthList.size() + 4).forEach(i -> {
+      nameRow.createCell(i).setCellStyle(totalCellStyle);
+    });
+    AtomicReference<String> currentCode = new AtomicReference<>("");
+    AtomicInteger currentSaleCodeIndex = new AtomicInteger(0);
+    AtomicReference<Short> atomicReferenceShort = new AtomicReference<>(shortList.getFirst());
     IntStream.range(0, apsGoodsSaleItemList.size()).forEach(i -> {
-      SXSSFRow rowTmp = sheet.createRow(i + 2);
       ApsGoodsSaleItem apsGoodsSaleItem = apsGoodsSaleItemList.get(i);
+      SXSSFRow rowTmp = sheet.createRow(i + 2);
+      String saleCode = apsGoodsSaleItem.getParentSaleConfig().getSaleCode();
+      CellStyle styleTmp = workbook.createCellStyle();
+      styleTmp.cloneStyleFrom(cellStyle);
+
       rowTmp.createCell(0).setCellValue(ValueUtils.value2Str(apsGoodsSaleItem.getSaleConfigId()));
-      rowTmp.createCell(1).setCellValue(apsGoodsSaleItem.getParentSaleConfig().getSaleCode() + "/"
+      rowTmp.createCell(1).setCellValue(saleCode + "/"
           + apsGoodsSaleItem.getParentSaleConfig().getSaleName());
       rowTmp.createCell(2).setCellValue(apsGoodsSaleItem.getCurrentSaleConfig().getSaleCode() + "/"
           + apsGoodsSaleItem.getCurrentSaleConfig().getSaleName());
-
+      rowTmp.createCell(3).setCellValue("生产占比(%)");
       AtomicInteger cellIndex = new AtomicInteger(3);
       monthList.forEach(item -> {
-        rowTmp.createCell(cellIndex.incrementAndGet()).setCellStyle(cellStyle);
+        rowTmp.createCell(cellIndex.incrementAndGet());
+      });
+
+      if (!Objects.equals(saleCode,currentCode.get())){
+        currentCode.set(saleCode);
+        styleTmp.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        int index = currentSaleCodeIndex.incrementAndGet();
+        Short aShort = shortList.get(index % shortList.size());
+        atomicReferenceShort.set(aShort);
+      }
+      styleTmp.setFillForegroundColor(atomicReferenceShort.get());
+      IntStream.range(0,rowTmp.getLastCellNum()).forEach(index -> {
+        Optional.ofNullable(rowTmp.getCell(index)).ifPresent(t->t.setCellStyle(styleTmp));
       });
 
     });
     sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 2));
-    return new CreateSaleConfigSheet(monthList, apsGoodsSaleItemList, style);
+    return new CreateSaleConfigSheet(monthList, apsGoodsSaleItemList, nameStyle);
   }
 
   private record CreateSaleConfigSheet(List<String> monthList,
@@ -184,7 +218,8 @@ public class ApsGoodsForecastUtils {
       ApsGoodsForecast goodsForecast, SXSSFWorkbook workbook, ApsGoods apsGoods,
       CellStyle headerCellStyle, CellStyle bodyCellStyle, List<String> monthList) {
     List<List<ApsGoodsSaleItem>> allApsSaleItemList = new ArrayList<>(apsGoodsSaleItemList.stream()
-        .filter(t->goodsForecast.getSaleConfigList().contains(t.getCurrentSaleConfig().getParentId()))
+        .filter(
+            t -> goodsForecast.getSaleConfigList().contains(t.getCurrentSaleConfig().getParentId()))
         .collect(Collectors.groupingBy(t -> t.getCurrentSaleConfig().getParentId())).values());
 
     if (CollUtil.isEmpty(allApsSaleItemList)) {
@@ -192,7 +227,7 @@ public class ApsGoodsForecastUtils {
       return;
     }
 
-    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook,false);
+    Map<CellStyleEnum, CellStyle> cellStyleMap = PoiExcelUtil.createStyles(workbook, false);
     CellStyle cellStyle = cellStyleMap.get(CellStyleEnum.BODY);
     // 获取数据格式工厂
     DataFormat format = workbook.createDataFormat();
@@ -235,7 +270,7 @@ public class ApsGoodsForecastUtils {
                   tt -> tt.getCurrentSaleConfig().getSaleCode() + "_" + tt.getCurrentSaleConfig()
                       .getSaleName())
               .collect(Collectors.joining("/")));
-
+      rowRow.createCell(3).setCellValue("生产占比(%)");
       AtomicInteger cellIndex = new AtomicInteger(3);
       monthList.forEach(item -> {
         rowRow.createCell(cellIndex.incrementAndGet()).setCellStyle(cellStyle);
