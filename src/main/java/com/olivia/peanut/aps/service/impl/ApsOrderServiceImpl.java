@@ -103,6 +103,7 @@ import com.olivia.sdk.utils.DateUtils;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.FieldUtils;
 import com.olivia.sdk.utils.IdUtils;
+import com.olivia.sdk.utils.LambdaQueryUtil;
 import com.olivia.sdk.utils.RandomUserUtil;
 import com.olivia.sdk.utils.Str;
 import com.olivia.sdk.utils.StreamUtils;
@@ -127,6 +128,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,8 +150,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
       .expireAfterWrite(30, TimeUnit.MINUTES).build();
   final static Cache<Long, List<ApsGoodsSaleItem>> apsGoodsSaleItem_cache = CacheBuilder.newBuilder()
-      .maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
+      .maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsOrderGoodsService apsOrderGoodsService;
@@ -190,25 +191,31 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
   private static final AtomicLong orderIdGenerator = new AtomicLong(1);
 
-  private static void useProcessPath(ApsOrderUpdateOrderStatusReq req,
-      FactoryConfigRes factoryConfig, ApsGoods apsGoods, Long dayWorkLastSecond, Long dayWorkSecond,
-      Map<Long, ApsOrderGoodsStatusDate> statusDateMap, List<ApsOrderGoodsStatusDate> updateList,
-      Long factoryId, Map<Long, String> apsStatusMap, List<ApsOrderGoodsStatusDate> insertList) {
-    ApsProcessPathDto apsProcessPathDto = factoryConfig.getPathDtoMap()
+  private void useProcessPath(Long orderId, Long goodsStatusId, FactoryConfigRes factoryConfig,
+      ApsGoods apsGoods, List<ApsOrderGoodsStatusDate> updateList,
+      List<ApsOrderGoodsStatusDate> insertList) {
+    Map<Long, ApsOrderGoodsStatusDate> statusDateMap = this.apsOrderGoodsStatusDateService.listByOrderIdGoodsId(
+            orderId, apsGoods.getId()).stream()
+        .collect(Collectors.toMap(ApsOrderGoodsStatusDate::getGoodsStatusId, Function.identity()));
+    ApsProcessPathDto apsProcessPathDto = factoryConfig.getProcessPathDtoMap()
         .get(apsGoods.getProcessPathId());
     ApsProcessPathInfo apsProcessPathInfo = ProcessUtils.schedulePathDate(
         $.copy(apsProcessPathDto, ApsProcessPathVo.class), factoryConfig.getWeekList(),
-        dayWorkLastSecond, dayWorkSecond, req.getGoodsStatusId(), Map.of(), LocalDate.now());
+        factoryConfig.getDayWorkLastSecond(), factoryConfig.getDayWorkSecond(), goodsStatusId,
+        Map.of(), LocalDate.now());
     List<Info> dataList = apsProcessPathInfo.getDataList();
+
+    Map<Long, String> apsStatusMap = this.apsStatusService.list().stream()
+        .collect(StreamUtils.toMapWithNullKeys(BaseEntity::getId, ApsStatus::getStatusName));
     dataList.forEach(t -> {
       ApsOrderGoodsStatusDate apsOrderGoodsStatusDate = statusDateMap.get(t.getStatusId());
       if (Objects.nonNull(apsOrderGoodsStatusDate)) {
         updateList.add(apsOrderGoodsStatusDate.setExpectMakeBeginTime(t.getEndLocalDate())
             .setExpectMakeEndTime(t.getBeginLocalDate()).setStatusIndex(t.getSortIndex()));
       } else {
-        ApsOrderGoodsStatusDate statusDate = new ApsOrderGoodsStatusDate().setOrderId(
-                req.getOrderId()).setGoodsStatusId(t.getStatusId()).setStatusIndex(t.getSortIndex())
-            .setFactoryId(factoryId).setGoodsStatusId(t.getStatusId())
+        ApsOrderGoodsStatusDate statusDate = new ApsOrderGoodsStatusDate().setOrderId(orderId)
+            .setGoodsStatusId(t.getStatusId()).setStatusIndex(t.getSortIndex())
+            .setFactoryId(apsGoods.getFactoryId()).setGoodsStatusId(t.getStatusId())
             .setExpectMakeBeginTime(t.getBeginLocalDate()).setExpectMakeEndTime(t.getEndLocalDate())
             .setGoodsId(apsGoods.getId());
         statusDate.setGoodsStatusName(apsStatusMap.get(t.getStatusId()));
@@ -351,14 +358,14 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       LocalDateTime dateTime = LocalDateTime.now()
           .plus(Duration.ofDays(RandomUtil.randomInt(1, 50)));
       ApsOrder apsOrder = new ApsOrder().setOrderRemark(
-              "第[" + orderIdGenerator.getAndIncrement() + "]个订单")
-          .setOrderNo(IdUtils.getUniqueId()).setOrderNoParent("p_" + IdWorker.getId())
+              "第[" + orderIdGenerator.getAndIncrement() + "]个订单").setOrderNo(IdUtils.getUniqueId())
+          .setOrderNoParent("p_" + IdWorker.getId())
           .setReserveAmount(new BigDecimal(RandomUtil.randomLong(400000, 500000)))
-          .setReserveDatetime(LocalDateTime.now()).setMakeFinishDate(dateTime.toLocalDate())
+          .setReserveDatetime(LocalDateTime.now()).setExpectedMakeFinishDate(dateTime.toLocalDate())
           .setOrderTotalPrice(new BigDecimal(totalPrice)).setOrderStatus(ApsOrderStatusEnum.INIT);
       apsOrder.setFinishPayedAmount(new BigDecimal(0))
           .setFinishPayedDatetime(dateTime.plusDays(RandomUtil.randomInt(3, 30)));
-      apsOrder.setDeliveryDate(dateTime.plusDays(RandomUtil.randomInt(30, 60)).toLocalDate());
+//      apsOrder.setDeliveryDate(dateTime.plusDays(RandomUtil.randomInt(30, 60)).toLocalDate());
       apsOrder.setId(IdWorker.getId());
       apsOrder.setOrderStatus(ApsOrderStatusEnum.INIT);
 
@@ -367,29 +374,26 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       apsOrder.setFactoryId(goods.getFactoryId()).setGoodsId(goods.getId());
       apsOrderList.add(apsOrder);
 
-      List<ApsGoodsSaleItem> goodsSaleItems =
-          apsGoodsSaleItem_cache.get(goods.getId(), () -> apsGoodsSaleItemService.list(
+      List<ApsGoodsSaleItem> goodsSaleItems = apsGoodsSaleItem_cache.get(goods.getId(),
+          () -> apsGoodsSaleItemService.list(
                   new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId,
                       goods.getId())).stream()
               .peek(t -> t.setSaleParentId(apsSaleConfigMap.get(t.getSaleConfigId()).getId()))
-              .toList()
-          );
+              .toList());
 
       List<ApsGoodsSaleItem> apsGoodsSaleItemList = goodsSaleItems.stream()
-          .collect(Collectors.groupingBy(ApsGoodsSaleItem::getSaleParentId))
-          .values().stream().map(t -> t.get(RandomUtil.randomInt(0, t.size()))).toList();
+          .collect(Collectors.groupingBy(ApsGoodsSaleItem::getSaleParentId)).values().stream()
+          .map(t -> t.get(RandomUtil.randomInt(0, t.size()))).toList();
 
       apsGoodsSaleItemList.forEach(apsGoodsSaleItem -> {
         ApsOrderGoodsSaleConfig saleConfig = $.copy(apsGoodsSaleItem,
             ApsOrderGoodsSaleConfig.class);
         ApsSaleConfig apsSaleConfig = apsSaleConfigMap.get(apsGoodsSaleItem.getSaleConfigId());
         ApsSaleConfig parentApsSaleConfig = apsSaleConfigMap.get(apsSaleConfig.getParentId());
-        saleConfig.setOrderId(apsOrder.getId())
-            .setConfigId(apsSaleConfig.getId())
+        saleConfig.setOrderId(apsOrder.getId()).setConfigId(apsSaleConfig.getId())
             .setConfigName(apsSaleConfig.getSaleName())
             .setConfigParentName(parentApsSaleConfig.getSaleName())
-            .setConfigParentId(parentApsSaleConfig.getId())
-            .setId(IdUtils.getId());
+            .setConfigParentId(parentApsSaleConfig.getId()).setId(IdUtils.getId());
         insertSaleConfigList.add(saleConfig);
       });
 
@@ -417,8 +421,8 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       List<ApsGoodsBom> apsGoodsBomList = goodsBomListMap.getOrDefault(goods.getId(), List.of());
 
       Set<String> projectCodeSet = goodsProjectConfigList.stream()
-          .map(t -> apsProjectConfigMap.get(t.getConfigId()).getSaleCode()).collect(
-              Collectors.toSet());
+          .map(t -> apsProjectConfigMap.get(t.getConfigId()).getSaleCode())
+          .collect(Collectors.toSet());
 
       apsGoodsBomList.forEach(apsGoodsBom -> {
         boolean match = BomUtils.isMatch(
@@ -555,12 +559,6 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     $.requireNonNullCanIgnoreException(apsOrderGoods, "订单商品不存在");
     ApsOrderGoods orderGoods = apsOrderGoods.getFirst();
     ApsGoods apsGoods = apsGoodsService.getById(orderGoods.getGoodsId());
-    Map<Long, String> apsStatusMap = this.apsStatusService.list().stream()
-        .collect(StreamUtils.toMapWithNullKeys(BaseEntity::getId, ApsStatus::getStatusName));
-
-    Map<Long, ApsOrderGoodsStatusDate> statusDateMap = this.apsOrderGoodsStatusDateService.listByOrderIdGoodsId(
-            orderGoods.getOrderId(), apsGoods.getId()).stream()
-        .collect(Collectors.toMap(ApsOrderGoodsStatusDate::getGoodsStatusId, Function.identity()));
 
     LocalDate now = LocalDate.now();
     Long factoryId = orderGoods.getFactoryId();
@@ -573,17 +571,15 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       factoryConfigReq.setApsProduceProcessIdList(CollUtil.toList(apsGoods.getProduceProcessId()));
     }
     FactoryConfigRes factoryConfig = this.apsFactoryService.getFactoryConfig(factoryConfigReq);
-    Long dayWorkSecond = factoryConfig.getDayWorkSecond();
-    Long dayWorkLastSecond = factoryConfig.getDayWorkLastSecond();
 
     List<ApsOrderGoodsStatusDate> updateList = new ArrayList<>();
     List<ApsOrderGoodsStatusDate> insertList = new ArrayList<>();
 
     if (Objects.nonNull(apsGoods.getProcessPathId())) {
-      useProcessPath(req, factoryConfig, apsGoods, dayWorkLastSecond, dayWorkSecond, statusDateMap,
-          updateList, factoryId, apsStatusMap, insertList);
+      useProcessPath(req.getOrderId(), req.getGoodsStatusId(), factoryConfig, apsGoods, updateList,
+          insertList);
     } else if (Objects.nonNull(apsGoods.getProduceProcessId())) {
-      useMakeProcess(req, factoryConfig, apsGoods, statusDateMap, updateList, apsStatusMap,
+      useMakeProcess(req.getOrderId(), req.getGoodsStatusId(), factoryConfig, apsGoods, updateList,
           insertList);
     }
     if (CollUtil.isNotEmpty(insertList)) {
@@ -602,6 +598,11 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       }
       this.update(lambdaUpdateWrapper);
     }
+
+    LocalDate max = getExpFinishDate(updateList, insertList);
+    this.update(null,new LambdaUpdateWrapper<ApsOrder>().eq(BaseEntity::getId,req.getOrderId())
+        .set(ApsOrder::getExpectedMakeFinishDate,max));
+
     this.apsOrderGoodsService.update(
         new LambdaUpdateWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, req.getOrderId())
             .set(ApsOrderGoods::getApsStatusId, req.getGoodsStatusId()));
@@ -617,9 +618,19 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     return new ApsOrderUpdateOrderStatusRes();
   }
 
-  private void useMakeProcess(ApsOrderUpdateOrderStatusReq req, FactoryConfigRes factoryConfig,
-      ApsGoods apsGoods, Map<Long, ApsOrderGoodsStatusDate> statusDateMap,
-      List<ApsOrderGoodsStatusDate> updateList, Map<Long, String> apsStatusMap,
+  @NotNull
+  private static LocalDate getExpFinishDate(List<ApsOrderGoodsStatusDate> updateList,
+      List<ApsOrderGoodsStatusDate> insertList) {
+    LocalDate updateMax = updateList.stream().map(ApsOrderGoodsStatusDate::getExpectMakeEndTime)
+        .max(LocalDate::compareTo).orElse(LocalDate.MIN);
+    LocalDate insertMax = insertList.stream().map(ApsOrderGoodsStatusDate::getExpectMakeEndTime)
+        .max(LocalDate::compareTo).orElse(LocalDate.MIN);
+    LocalDate max = updateMax.isAfter(insertMax) ? updateMax : insertMax;
+    return max;
+  }
+
+  private void useMakeProcess(Long orderId, Long goodsStatusId, FactoryConfigRes factoryConfig,
+      ApsGoods apsGoods, List<ApsOrderGoodsStatusDate> updateList,
       List<ApsOrderGoodsStatusDate> insertList) {
 
     List<ApsProduceProcessItem> apsProduceProcessItems = factoryConfig.getApsProduceProcessItemMap()
@@ -628,13 +639,18 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       log.error("制造路径不存在 id {}", apsGoods.getProduceProcessId());
       return;
     }
+
+    Map<Long, String> apsStatusMap = this.apsStatusService.list().stream()
+        .collect(StreamUtils.toMapWithNullKeys(BaseEntity::getId, ApsStatus::getStatusName));
+    Map<Long, ApsOrderGoodsStatusDate> statusDateMap = this.apsOrderGoodsStatusDateService.listByOrderIdGoodsId(
+            orderId, apsGoods.getId()).stream()
+        .collect(Collectors.toMap(ApsOrderGoodsStatusDate::getGoodsStatusId, Function.identity()));
     ComputeStatusReq computeStatusReq = new ComputeStatusReq();
     computeStatusReq.setBeginLocalDateTime(LocalDateTime.now());
     computeStatusReq.setWeekInfoList(factoryConfig.getWeekList()).setApsProduceProcessItemPojoList(
             $.copyList(apsProduceProcessItems, ApsProduceProcessItemPojo.class))
         .setDayWorkLastSecond(factoryConfig.getDayWorkLastSecond())
-        .setDayWorkSecond(factoryConfig.getDayWorkSecond())
-        .setCurrentGoodsStatusId(req.getGoodsStatusId());
+        .setDayWorkSecond(factoryConfig.getDayWorkSecond()).setCurrentGoodsStatusId(goodsStatusId);
     ComputeStatusRes computeStatusRes = ProduceStatusUtils.computeStatusTime(computeStatusReq);
     List<ApsProduceProcessItemPojo> apsProduceProcessItemPojoList = computeStatusRes.getApsProduceProcessItemPojoList();
     if (CollUtil.isEmpty(apsProduceProcessItemPojoList)) {
@@ -647,7 +663,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       if (Objects.isNull(apsOrderGoodsStatusDate)) {
         ApsOrderGoodsStatusDate statusDate = new ApsOrderGoodsStatusDate();
         statusDate.setId(IdWorker.getId());
-        statusDate.setOrderId(req.getOrderId());
+        statusDate.setOrderId(orderId);
         statusDate.setGoodsId(apsGoods.getId());
         statusDate.setGoodsStatusId(apsProduceProcessItemPojo.getStatusId());
         statusDate.setGoodsStatusName(apsStatusMap.get(apsProduceProcessItemPojo.getStatusId()));
@@ -669,8 +685,40 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   public ApsOrderUpdateSchedulingDateRes updateSchedulingDate(ApsOrderUpdateSchedulingDateReq req) {
     $.assertTrueCanIgnoreException(Objects.isNull(req.getSchedulingDate()) || LocalDate.now()
         .isBefore(req.getSchedulingDate()), "排产日期不能小于今天");
+    ApsOrder apsOrder = this.getById(req.getId());
+    $.requireNonNullCanIgnoreException(apsOrder, "订单为空");
+    ApsOrderGoods apsOrderGoods = this.apsOrderGoodsService.getOne(
+        new LambdaQueryWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, req.getId()), false);
+    ApsGoods apsGoods = apsGoodsService.getById(apsOrderGoods.getGoodsId());
+
+    FactoryConfigReq factoryConfigReq = new FactoryConfigReq();
+    factoryConfigReq.setFactoryId(apsOrder.getFactoryId());
+    factoryConfigReq.setGetPathId(apsGoods.getProcessPathId())
+        .setWeekEndDate(req.getSchedulingDate().plusDays(64))
+        .setWeekBeginDate(req.getSchedulingDate());
+    factoryConfigReq.setGetShift(true).setGetWeek(true);
+    if (Objects.nonNull(apsGoods.getProduceProcessId())) {
+      factoryConfigReq.setProcessPathIdList(List.of(apsGoods.getProduceProcessId()));
+    }
+    FactoryConfigRes apsFactoryServiceFactoryConfig = this.apsFactoryService.getFactoryConfig(
+        factoryConfigReq);
+
+    List<ApsOrderGoodsStatusDate> updateList = new ArrayList<>();
+    List<ApsOrderGoodsStatusDate> insertList = new ArrayList<>();
+
+    if (Objects.nonNull(apsGoods.getProduceProcessId())) {
+      useProcessPath(req.getId(), apsOrderGoods.getApsStatusId(), apsFactoryServiceFactoryConfig,
+          apsGoods, updateList, insertList);
+    } else {
+      useMakeProcess(req.getId(), apsOrderGoods.getApsStatusId(), apsFactoryServiceFactoryConfig,
+          apsGoods, updateList, insertList);
+    }
+    LocalDate max = getExpFinishDate(updateList, insertList);
     this.update(new LambdaUpdateWrapper<ApsOrder>().eq(BaseEntity::getId, req.getId())
+        .set(ApsOrder::getExpectedMakeFinishDate, max)
         .set(ApsOrder::getSchedulingDate, req.getSchedulingDate()));
+    this.apsOrderGoodsStatusDateService.updateBatchById(updateList);
+    this.apsOrderGoodsStatusDateService.saveBatch(insertList);
     return new ApsOrderUpdateSchedulingDateRes();
   }
 
@@ -828,39 +876,14 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
   private MPJLambdaWrapper<ApsOrder> getWrapper(ApsOrderDto obj) {
     MPJLambdaWrapper<ApsOrder> q = new MPJLambdaWrapper<>();
-
-    if (Objects.nonNull(obj)) {
-      q.eq(StringUtils.isNoneBlank(obj.getOrderNo()), ApsOrder::getOrderNo, obj.getOrderNo())
-          .eq(StringUtils.isNoneBlank(obj.getOrderRemark()), ApsOrder::getOrderRemark,
-              obj.getOrderRemark())
-          .eq(Objects.nonNull(obj.getOrderStatus()), ApsOrder::getOrderStatus, obj.getOrderStatus())
-          .eq(Objects.nonNull(obj.getOrderTotalPrice()), ApsOrder::getOrderTotalPrice,
-              obj.getOrderTotalPrice())
-          .eq(Objects.nonNull(obj.getReserveAmount()), ApsOrder::getReserveAmount,
-              obj.getReserveAmount())
-          .eq(Objects.nonNull(obj.getReserveDatetime()), ApsOrder::getReserveDatetime,
-              obj.getReserveDatetime())
-          .eq(Objects.nonNull(obj.getFinishPayedAmount()), ApsOrder::getFinishPayedAmount,
-              obj.getFinishPayedAmount())
-          .eq(Objects.nonNull(obj.getFinishPayedDatetime()), ApsOrder::getFinishPayedDatetime,
-              obj.getFinishPayedDatetime())
-          .eq(Objects.nonNull(obj.getMakeFinishDate()), ApsOrder::getMakeFinishDate,
-              obj.getMakeFinishDate())
-          .eq(Objects.nonNull(obj.getDeliveryDate()), ApsOrder::getDeliveryDate,
-              obj.getDeliveryDate())
-          .eq(Objects.nonNull(obj.getFactoryId()), ApsOrder::getFactoryId, obj.getFactoryId());
-    }
-    q.orderByDesc(ApsOrder::getUrgencyLevel).orderByDesc(ApsOrder::getId);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsOrder.class, ApsOrder::getId,
+        ApsOrder::getOrderStatus, ApsOrder::getFactoryId, ApsOrder::getOrderNo,
+        ApsOrder::getOrderNoParent, ApsOrder::getIsWarning);
+    q.orderByDesc(ApsOrder::getUrgencyLevel, BaseEntity::getId);
     return q;
-
   }
 
   private void setQueryListHeader(DynamicsPage<ApsOrder> page) {
-
     ServiceComment.header(page, "ApsOrderService#queryPageList");
-
   }
-
-
 }
-

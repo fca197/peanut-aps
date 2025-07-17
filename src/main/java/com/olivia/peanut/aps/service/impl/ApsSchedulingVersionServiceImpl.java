@@ -488,7 +488,7 @@ public class ApsSchedulingVersionServiceImpl extends
       factoryWeekListMap.put(f.getId(), factoryConfig.getWeekList());
       Long dayWorkSecond = factoryConfig.getDayWorkSecond();
       dayWorkSecondMap.put(f.getId(), dayWorkSecond);
-      Map<Long, ApsProcessPathDto> pathDtoMap = factoryConfig.getPathDtoMap();
+      Map<Long, ApsProcessPathDto> pathDtoMap = factoryConfig.getProcessPathDtoMap();
       log.info("Process {}: {}", f.getId(), toJSONString(pathDtoMap));
       apsProcessPathDtoMap.putAll(pathDtoMap);
     });

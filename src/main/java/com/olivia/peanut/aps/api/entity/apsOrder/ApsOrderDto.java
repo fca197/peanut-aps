@@ -4,6 +4,7 @@ import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigDto;
 import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
+import com.olivia.sdk.ann.FieldExt;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,8 +38,8 @@ public class ApsOrderDto extends BaseEntityDto {
   private LocalDateTime reserveDatetime;
   private BigDecimal finishPayedAmount;
   private LocalDateTime finishPayedDatetime;
-  private LocalDate makeFinishDate;
   private LocalDate deliveryDate;
+  private LocalDate expectedMakeFinishDate;
   private Long factoryId;
   /**
    * 越大越紧急
@@ -50,6 +51,12 @@ public class ApsOrderDto extends BaseEntityDto {
   //  private List<ApsOrderGoodsProjectConfigDto> goodsProjectConfigList;
   private List<ApsOrderGoodsSaleConfigDto> goodsSaleConfigList;
 //  private List<ApsOrderGoodsBomDto> apsOrderGoodsBomList;
+
+  private LocalDate expectedDeliveryDate;
+  private LocalDate actDeliveryDate;
+
+  private Boolean isWarning;
+  private String warningReason;
 }
 
 

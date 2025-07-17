@@ -53,13 +53,24 @@ public class ApsOrder extends BaseEntity {
   private LocalDateTime finishPayedDatetime;
 
   @FieldExt(fieldName = "预计制造完成时间")
-  private LocalDate makeFinishDate;
+  private LocalDate expectedMakeFinishDate;
 
   @FieldExt(fieldName = "实际制造时间")
   private LocalDate actMakeFinishDate;
 
-  @FieldExt(fieldName = "交付日期")
-  private LocalDate deliveryDate;
+  @FieldExt(fieldName = "预计交付日期")
+  private LocalDate expectedDeliveryDate;
+
+  @FieldExt(fieldName = "实际交付日期")
+  private LocalDate actDeliveryDate;
+
+//  @FieldExt(fieldName = "交付日期")
+//  private LocalDate deliveryDate;
+
+//  @FieldExt(fieldName = "交付日期")
+//  private LocalDate deliveryDate;
+
+
   private Long factoryId;
   private Long goodsId;
 
@@ -72,6 +83,8 @@ public class ApsOrder extends BaseEntity {
   @FieldExt(fieldName = "紧急度")
   private Integer urgencyLevel;
 
+  private Boolean isWarning;
+  private String warningReason;
 
   public void setOrderStatus(@NonNull Long apsOrderStatus) {
     this.orderStatus = apsOrderStatus;

@@ -137,7 +137,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
                     .collect(Collectors.toMap(BaseEntityDto::getId, Function.identity()));
               });
 
-          res.setPathDtoMap(pathDtoMap);
+          res.setProcessPathDtoMap(pathDtoMap);
           res.setDefaultApsProcessPathDto(
               pathDtoMap.values().stream().filter(t -> TRUE.equals(t.getIsDefault())).findAny()
                   .orElseThrow(() -> new RunException("没有默认工单路径")));
@@ -150,8 +150,8 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     List<Long> processPathIdList = req.getProcessPathIdList();
     if (CollUtil.isNotEmpty(processPathIdList)) {
       processPathIdList.removeIf(Objects::isNull);
-      res.setAllProcessPathDtoMap(new HashMap<>());
-      processPathIdList.forEach(processPathId -> {
+      res.setProcessPathDtoMap(new HashMap<>());
+      processPathIdList.stream().distinct().forEach(processPathId -> {
         try {
           ApsProcessPathDto apsProcessPathDto = factoryAllProcessPathCache.get(processPathId,
               () -> {
@@ -165,7 +165,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
                 }
                 return null;
               });
-          res.getAllProcessPathDtoMap().put(processPathId, apsProcessPathDto);
+          res.getProcessPathDtoMap().put(processPathId, apsProcessPathDto);
         } catch (ExecutionException e) {
           log.error("factoryAllProcessPathCache {} error: {}", processPathId, e.getMessage(), e);
         }
