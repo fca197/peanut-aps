@@ -262,19 +262,11 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     } else {
       records = $.copyList(this.list(q), ApsOrderExportQueryPageListInfoRes.class);
     }
-    Long orderTemplateId = req.getOrderTemplateId();
-    if (CollUtil.isNotEmpty(records) && Objects.nonNull(orderTemplateId)) {
-      ApsOrderFieldShowTemplate orderFieldShowTemplate = this.apsOrderFieldShowTemplateService.getById(
-          orderTemplateId);
-      List<Long> ordrderIdList = records.stream().map(BaseEntityDto::getId).toList();
-      Map<Long, Map<String, Object>> orderFieldSetValueMap = apsOrderFieldService.orderFieldSetValue(
-          ordrderIdList, orderFieldShowTemplate, Map.of());
-      records.iterator().forEachRemaining(t -> t.setExtMap(orderFieldSetValueMap.get(t.getId())));
-    }
 
     // 类型转换，  更换枚举 等操作
     List<ApsOrderExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
         ApsOrderExportQueryPageListInfoRes.class);
+
     // this.setName(listInfoRes);
     ((ApsOrderServiceImpl) AopContext.currentProxy()).setName(listInfoRes);
 

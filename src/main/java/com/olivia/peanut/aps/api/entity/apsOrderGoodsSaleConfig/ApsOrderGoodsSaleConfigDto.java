@@ -20,6 +20,11 @@ public class ApsOrderGoodsSaleConfigDto extends BaseEntityDto {
   private Long goodsId;
   private Long configId;
   private Long factoryId;
+
+
+  private Long configParentId;
+  private String configParentName;
+  private String configName;
 }
 
 

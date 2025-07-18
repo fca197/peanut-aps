@@ -20,6 +20,5 @@ public class ApsOrderExportQueryPageListReq {
   private int pageSize;
   private Boolean queryPage = true;
   private ApsOrderDto data;
-  private Long orderTemplateId;
 }
 
