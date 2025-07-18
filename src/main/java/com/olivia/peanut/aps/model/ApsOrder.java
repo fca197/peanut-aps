@@ -8,6 +8,7 @@ import com.olivia.sdk.utils.BaseEntity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -83,15 +84,22 @@ public class ApsOrder extends BaseEntity {
   @FieldExt(fieldName = "紧急度")
   private Integer urgencyLevel;
 
+  @FieldExt(fieldName = "告警")
   private Boolean isWarning;
+
+  @FieldExt(fieldName = "告警原因")
   private String warningReason;
 
-  public void setOrderStatus(@NonNull Long apsOrderStatus) {
-    this.orderStatus = apsOrderStatus;
+  public void setOrderStatus( Long apsOrderStatus) {
+    if (Objects.nonNull(apsOrderStatus)) {
+      this.orderStatus = apsOrderStatus;
+    }
   }
 
-  public ApsOrder setOrderStatus(@NonNull ApsOrderStatusEnum apsOrderStatusEnum) {
-    this.orderStatus = apsOrderStatusEnum.getCode();
+  public ApsOrder setOrderStatus( ApsOrderStatusEnum apsOrderStatusEnum) {
+    if (Objects.nonNull(apsOrderStatusEnum)) {
+      this.orderStatus = apsOrderStatusEnum.getCode();
+    }
     return this;
   }
 

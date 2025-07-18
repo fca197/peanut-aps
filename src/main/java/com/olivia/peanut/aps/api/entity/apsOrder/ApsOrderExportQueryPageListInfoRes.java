@@ -1,5 +1,6 @@
 package com.olivia.peanut.aps.api.entity.apsOrder;
 
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -16,6 +17,7 @@ import lombok.experimental.Accessors;
 @SuppressWarnings("serial")
 public class ApsOrderExportQueryPageListInfoRes extends ApsOrderDto {
 
+  private Map<String,Object> extMap;
 }
 
 

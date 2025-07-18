@@ -149,10 +149,14 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     }
     List<Long> processPathIdList = req.getProcessPathIdList();
     if (CollUtil.isNotEmpty(processPathIdList)) {
-      processPathIdList.removeIf(Objects::isNull);
+//      processPathIdList = new ArrayList<>(processPathIdList);
+//      processPathIdList.removeIf(Objects::isNull);
       res.setProcessPathDtoMap(new HashMap<>());
       processPathIdList.stream().distinct().forEach(processPathId -> {
         try {
+          if (Objects.isNull(processPathId)) {
+            return;
+          }
           ApsProcessPathDto apsProcessPathDto = factoryAllProcessPathCache.get(processPathId,
               () -> {
                 ApsProcessPathDto data = new ApsProcessPathDto().setFactoryId(factoryId)
@@ -175,7 +179,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
     }
 
     if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
-      req.getApsProduceProcessIdList().removeIf(Objects::isNull);
+//      req.getApsProduceProcessIdList().removeIf(Objects::isNull);
       if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
         runnableList.add(() -> {
           Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(

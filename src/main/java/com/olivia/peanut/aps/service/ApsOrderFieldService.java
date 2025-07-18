@@ -1,5 +1,6 @@
 package com.olivia.peanut.aps.service;
 
+import com.olivia.peanut.aps.model.ApsOrderFieldShowTemplate;
 import com.olivia.sdk.model.KVEntity;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,15 @@ public interface ApsOrderFieldService {
    * @return 订单信息
    */
   Map<Long, Map<String, Object>> orderFieldSetValue(List<Long> orderIdList,
+
       List<KVEntity> orderUserFieldList, List<KVEntity> saleFieldList,
       Map<Long, Map<String, Object>> orderExtMap);
+
+  //
+  default Map<Long, Map<String, Object>> orderFieldSetValue(List<Long> orderIdList,
+      ApsOrderFieldShowTemplate orderFieldShowTemplate,
+      Map<Long, Map<String, Object>> orderExtMap) {
+    return orderFieldSetValue(orderIdList, orderFieldShowTemplate.getApsOrderOrderUserConfigList(),
+        orderFieldShowTemplate.getApsOrderSaleConfigList(), orderExtMap);
+  }
 }

@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
 import com.olivia.peanut.aps.model.ApsOrderUser;
@@ -23,9 +24,6 @@ import org.springframework.stereotype.Service;
 public class ApsOrderFieldServiceImpl implements ApsOrderFieldService {
 
   @Resource
-  ApsOrderService apsOrderService;
-
-  @Resource
   ApsOrderUserService apsOrderUserService;
 
   @Resource
@@ -38,7 +36,7 @@ public class ApsOrderFieldServiceImpl implements ApsOrderFieldService {
     if (CollUtil.isEmpty(orderIdList)) {
       return Map.of();
     }
-    Map<Long, Map<String, Object>> allOrderMap = this.apsOrderService.listByIds(orderIdList)
+    Map<Long, Map<String, Object>> allOrderMap = SpringUtil.getBean(ApsOrderService.class).listByIds(orderIdList)
         .stream()
         .collect(Collectors.toMap(BaseEntity::getId, t -> BeanUtil.beanToMap(t, false, true)));
     Map<Long, Map<String, Object>> retMap = new HashMap<>(allOrderMap.size());
