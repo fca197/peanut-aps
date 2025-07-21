@@ -102,7 +102,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -341,7 +340,6 @@ public class ApsGoodsForecastServiceImpl extends
     return apsGoodsForecastUserSaleGroupDataMap.values().stream().toList();
   }
 
-  @NotNull
   private static Collection<ApsGoodsForecastUserSaleData> getUserSaleData(Long id,
       Workbook workbook, List<String> monthList, List<ExcelErrorMsg> excelErrorMsgList,
       Map<String, ApsGoodsForecastUserGoodsData> goodsDataMap,

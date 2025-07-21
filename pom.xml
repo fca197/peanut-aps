@@ -119,7 +119,7 @@
   <parent>
     <artifactId>spring-boot-starter-parent</artifactId>
     <groupId>org.springframework.boot</groupId>
-    <version>3.2.0</version>
+    <version>3.5.3</version>
     <!--        <version>3.4.3</version>-->
   </parent>
 </project>

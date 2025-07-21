@@ -50,7 +50,6 @@ import org.apache.poi.xssf.streaming.SXSSFCell;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
-import org.jetbrains.annotations.NotNull;
 
 @Slf4j
 public class ApsGoodsForecastUtils {
@@ -94,7 +93,6 @@ public class ApsGoodsForecastUtils {
 
   }
 
-  @NotNull
   private static CreateSaleConfigSheet getCreateSaleConfigSheet(SXSSFWorkbook workbook,
       ApsGoods apsGoods, CellStyle headerCellStyle, ApsGoodsForecast goodsForecast,
       ApsGoodsSaleItemService goodsSaleItemService) {

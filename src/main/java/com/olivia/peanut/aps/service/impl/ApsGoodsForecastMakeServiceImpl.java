@@ -110,7 +110,6 @@ import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,7 +165,7 @@ public class ApsGoodsForecastMakeServiceImpl extends
   @Resource
   private ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
 
-  private static @NotNull List<ApsGoodsBom> getApsGoodsBomList(
+  private static List<ApsGoodsBom> getApsGoodsBomList(
       Map<Object, List<ApsGoodsBom>> objectListMap, ApsGoodsForecastMakeProjectData projectData) {
     Map<Object, List<ApsGoodsBom>> bomListMap = new HashMap<>(objectListMap);
     List<ApsGoodsBom> useBomList = new ArrayList<>();
