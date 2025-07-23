@@ -1,4 +1,4 @@
-package com.olivia.peanut.aps.api.entity.apsMachine;
+package api.entity.apsMachineWorkstation;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,37 +20,30 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 //import com.alibaba.fastjson2.annotation.JSONField;
 /**
- * aps 生产机器(ApsMachine)查询对象返回
+ * aps 生产机器 工作站(ApsMachineWorkstation)查询对象返回
  *
  * @author admin
- * @since 2025-07-23 13:19:18
+ * @since 2025-07-23 13:18:48
  */
 //@Accessors(chain=true)
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsMachineDto  extends BaseEntityDto {
+public class ApsMachineWorkstationDto  extends BaseEntityDto {
 
         /***
-            *  机器编号
+            *  工作站编号
             */
-       @NotBlank(message = "机器编号不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-     //  @JSONField(label = "machineNo")
-     private String machineNo;
+       @NotBlank(message = "工作站编号不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+     //  @JSONField(label = "machineWorkstationNo")
+     private String machineWorkstationNo;
      
         /***
-            *  机器名称
+            *  工作站名称
             */
-       @NotBlank(message = "机器名称不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-     //  @JSONField(label = "machineName")
-     private String machineName;
-     
-        /***
-            *  工厂ID
-            */
-     //  @JSONField(label = "factoryId")
-       @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-     private Long factoryId;
+       @NotBlank(message = "工作站名称不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+     //  @JSONField(label = "machineWorkstationName")
+     private String machineWorkstationName;
      
         /***
             *  最小功率
@@ -65,6 +58,13 @@ public class ApsMachineDto  extends BaseEntityDto {
      //  @JSONField(label = "maxPower")
        @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
      private BigDecimal maxPower;
+     
+        /***
+            *  工厂ID
+            */
+     //  @JSONField(label = "factoryId")
+       @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+     private Long factoryId;
      
         /***
             *  排序索引
