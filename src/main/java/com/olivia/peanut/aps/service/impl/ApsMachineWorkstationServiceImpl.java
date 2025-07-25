@@ -1,33 +1,40 @@
 package com.olivia.peanut.aps.service.impl;
 
-import org.springframework.aop.framework.AopContext;
+import static com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter.INSTANCE;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import jakarta.annotation.Resource;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.DynamicsPage;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationDto;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationUpdateByIdReq;
+import com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter;
+import com.olivia.peanut.aps.converter.ApsMachineWorkstationItemConverter;
 import com.olivia.peanut.aps.mapper.ApsMachineWorkstationMapper;
 import com.olivia.peanut.aps.model.ApsMachineWorkstation;
-import com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter;
+import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
+import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
-import cn.hutool.core.collection.CollUtil;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.*;
-import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
+import com.olivia.sdk.utils.$;
+import com.olivia.sdk.utils.BaseEntity;
+import com.olivia.sdk.utils.DynamicsPage;
+import com.olivia.sdk.utils.LambdaQueryUtil;
+import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * aps 生产机器 工作站(ApsMachineWorkstation)表服务实现类
@@ -48,6 +55,8 @@ public class ApsMachineWorkstationServiceImpl extends
   BaseTableHeaderService tableHeaderService;
   @Resource
   SetNameService setNameService;
+  @Resource
+  ApsMachineWorkstationItemService apsMachineWorkstationItemService;
 
 
   public @Override ApsMachineWorkstationQueryListRes queryList(
@@ -84,6 +93,32 @@ public class ApsMachineWorkstationServiceImpl extends
 
     ((ApsMachineWorkstationService) AopContext.currentProxy()).setName(records);
     return DynamicsPage.init(page, records);
+  }
+
+  @Override
+  public Long save(ApsMachineWorkstationInsertReq req) {
+    long id = IdWorker.getId();
+    ApsMachineWorkstation apsMachineWorkstation = INSTANCE.insertReq(req);
+    apsMachineWorkstation.setId(id);
+    List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
+        .stream().map(
+            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity).peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
+        .toList();
+    this.save(apsMachineWorkstation);
+    this.apsMachineWorkstationItemService.saveBatch(workstationItemList);
+    return id;
+  }
+
+  @Override
+  public void updateById(ApsMachineWorkstationUpdateByIdReq req) {
+    ApsMachineWorkstation apsMachineWorkstation = INSTANCE.updateReq(req);
+    Long id = apsMachineWorkstation.getId();
+    List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
+        .stream().map(
+            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity).peek(t -> t.setId(id))
+        .toList();
+    this.apsMachineWorkstationItemService.saveBatch(workstationItemList);
+    this.updateById(apsMachineWorkstation);
   }
 
   // 以下为私有对象封装

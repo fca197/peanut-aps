@@ -24,5 +24,6 @@ public interface ApsMachineWorkstationItemService extends
 
 
   void setName(List<? extends ApsMachineWorkstationItemDto> apsMachineWorkstationItemDtoList);
+
 }
 

@@ -1,5 +1,8 @@
 package com.olivia.peanut.aps.api.entity.apsMachineWorkstation;
 
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Getter;
@@ -75,6 +78,10 @@ public class ApsMachineWorkstationDto extends BaseEntityDto {
   private Long sortIndex;
 
 
+
+  @Size(min = 1)
+  @Valid
+  private List<ApsMachineWorkstationItemDto> machineWorkstationItemDtoList;
 }
 
 

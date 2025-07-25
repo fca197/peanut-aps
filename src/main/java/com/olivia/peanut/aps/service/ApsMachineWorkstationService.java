@@ -23,5 +23,9 @@ public interface ApsMachineWorkstationService extends MPJBaseService<ApsMachineW
 
 
   void setName(List<? extends ApsMachineWorkstationDto> apsMachineWorkstationDtoList);
+
+  Long save(ApsMachineWorkstationInsertReq req);
+
+  void updateById(ApsMachineWorkstationUpdateByIdReq req);
 }
 

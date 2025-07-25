@@ -44,9 +44,8 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
    *
    */
   public @Override ApsMachineWorkstationInsertRes insert(ApsMachineWorkstationInsertReq req) {
-    ApsMachineWorkstation apsMachineWorkstation = INSTANCE.insertReq(req);
-    this.apsMachineWorkstationService.save(apsMachineWorkstation);
-    return new ApsMachineWorkstationInsertRes().setCount(1);
+    Long id= this.apsMachineWorkstationService.save(req);
+    return new ApsMachineWorkstationInsertRes().setId(id).setCount(1);
   }
 
   /****
@@ -74,7 +73,7 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
    */
   public @Override ApsMachineWorkstationUpdateByIdRes updateById(
       ApsMachineWorkstationUpdateByIdReq req) {
-    apsMachineWorkstationService.updateById(INSTANCE.updateReq(req));
+    apsMachineWorkstationService.updateById(req);
     return new ApsMachineWorkstationUpdateByIdRes();
 
   }
