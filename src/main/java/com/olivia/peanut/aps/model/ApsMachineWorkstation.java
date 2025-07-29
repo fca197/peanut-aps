@@ -52,5 +52,7 @@ public class ApsMachineWorkstation extends BaseEntity {
   @TableField("sort_index")
   private Long sortIndex;
 
+  @TableField("use_time")
+  private Long useTime;
 }
 

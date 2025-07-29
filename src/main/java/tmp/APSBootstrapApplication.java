@@ -5,6 +5,7 @@ import com.google.ortools.Loader;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.googlecode.aviator.Options;
 import com.olivia.sdk.config.ServiceNotice;
+import com.olivia.sdk.utils.MDCUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class APSBootstrapApplication {
 
   static {
+    MDCUtils.initMdc();
     // 非window下 加载 or-tools 库
     // window下使用修改pom.xml中 ortools-java依赖排除的节点删除,增加window依赖
     log.info("load or-tools {}", SystemUtil.getOsInfo().getName());
@@ -36,10 +38,14 @@ public class APSBootstrapApplication {
 //    TypeHandlerRegistry
 
     AviatorEvaluator.getInstance().setOption(Options.OPTIMIZE_LEVEL, AviatorEvaluator.COMPILE);
+
+    MDCUtils.clear();
   }
 
 
   public static void main(String[] args) {
+
+    MDCUtils.initMdc();
     try {
       log.info(">>>>>>>  APSBootstrapApplication  start  >>>>>>>");
 
@@ -49,5 +55,7 @@ public class APSBootstrapApplication {
     } catch (Exception e) {
       ServiceNotice.errorStop(e);
     }
+
+    MDCUtils.clear();
   }
 }

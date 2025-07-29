@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.service.impl;
 
 import static com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter.INSTANCE;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
@@ -23,6 +24,7 @@ import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.BaseEntity;
@@ -100,9 +102,11 @@ public class ApsMachineWorkstationServiceImpl extends
     long id = IdWorker.getId();
     ApsMachineWorkstation apsMachineWorkstation = INSTANCE.insertReq(req);
     apsMachineWorkstation.setId(id);
+    $.requireNonNullCanIgnoreException(req.getMachineWorkstationItemDtoList(), "机器不能为空");
     List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
         .stream().map(
-            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity).peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
+            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
+        .peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
         .toList();
     this.save(apsMachineWorkstation);
     this.apsMachineWorkstationItemService.saveBatch(workstationItemList);
@@ -110,13 +114,19 @@ public class ApsMachineWorkstationServiceImpl extends
   }
 
   @Override
+  @Transactional
   public void updateById(ApsMachineWorkstationUpdateByIdReq req) {
     ApsMachineWorkstation apsMachineWorkstation = INSTANCE.updateReq(req);
     Long id = apsMachineWorkstation.getId();
     List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
         .stream().map(
-            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity).peek(t -> t.setId(id))
+            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
+        .peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
         .toList();
+
+    this.apsMachineWorkstationItemService.remove(
+        new LambdaQueryWrapper<ApsMachineWorkstationItem>().eq(
+            ApsMachineWorkstationItem::getMachineWorkstationId, id));
     this.apsMachineWorkstationItemService.saveBatch(workstationItemList);
     this.updateById(apsMachineWorkstation);
   }
@@ -125,7 +135,7 @@ public class ApsMachineWorkstationServiceImpl extends
 
   public @Override void setName(List<? extends ApsMachineWorkstationDto> list) {
 
-    //   setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
+    setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
 
   }
 

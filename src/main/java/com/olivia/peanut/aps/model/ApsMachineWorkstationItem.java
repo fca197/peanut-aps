@@ -1,14 +1,12 @@
 package com.olivia.peanut.aps.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableField;
 
 /**
  * aps 生产机器 工作站机器配置(ApsMachineWorkstationItem)表实体类
@@ -33,6 +31,12 @@ public class ApsMachineWorkstationItem extends BaseEntity {
    */
   @TableField("machine_id")
   private Long machineId;
+
+  @TableField("machine_name")
+  private String machineName;
+
+  @TableField("use_time")
+  private Long useTime;
   /***
    *  最小功率
    */

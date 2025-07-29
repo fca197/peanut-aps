@@ -1,26 +1,17 @@
 package com.olivia.peanut.aps.api.entity.apsMachineWorkstation;
 
 import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDto;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import java.util.List;
-import java.math.BigDecimal;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.olivia.sdk.utils.fastjson.Str2BooleanConverter;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
+import jakarta.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 //import com.alibaba.fastjson2.annotation.JSONField;
 
 /**
@@ -60,7 +51,7 @@ public class ApsMachineWorkstationDto extends BaseEntityDto {
    *  最大功率
    */
   //  @JSONField(label = "maxPower")
-  @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  // @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private BigDecimal maxPower;
 
   /***
@@ -74,14 +65,18 @@ public class ApsMachineWorkstationDto extends BaseEntityDto {
    *  排序索引
    */
   //  @JSONField(label = "sortIndex")
-  @NotNull(message = "排序索引不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  //  @NotNull(message = "排序索引不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long sortIndex;
 
 
-
-  @Size(min = 1)
+  @Size(min = 1, groups = {InsertCheck.class, UpdateCheck.class})
   @Valid
   private List<ApsMachineWorkstationItemDto> machineWorkstationItemDtoList;
+
+  private String factoryName;
+
+  @NotNull(groups = {InsertCheck.class, UpdateCheck.class}, message = "耗时不能为空")
+  private Long useTime;
 }
 
 

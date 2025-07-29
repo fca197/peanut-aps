@@ -25,7 +25,7 @@ public class ApsMachineWorkstationItemDto extends BaseEntityDto {
    *  工作站id
    */
   //  @JSONField(label = "machineWorkstationId")
-  @NotNull(message = "工作站id不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotNull(message = "工作站id不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long machineWorkstationId;
 
   /***
@@ -39,30 +39,33 @@ public class ApsMachineWorkstationItemDto extends BaseEntityDto {
    *  最小功率
    */
   //  @JSONField(label = "minPower")
-  @NotNull(message = "最小功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotNull(message = "最小功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private BigDecimal minPower;
 
   /***
    *  最大功率
    */
   //  @JSONField(label = "maxPower")
-  @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  // @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private BigDecimal maxPower;
 
   /***
    *  工厂ID
    */
   //  @JSONField(label = "factoryId")
-  @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+//  @NotNull(message = "工厂ID不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long factoryId;
 
   /***
    *  排序索引
    */
   //  @JSONField(label = "sortIndex")
-  @NotNull(message = "排序索引不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  //  @NotNull(message = "排序索引不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long sortIndex;
 
+  private String machineName;
+
+  private Long useTime;
 
 }
 

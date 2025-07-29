@@ -1,31 +1,39 @@
 package com.olivia.peanut.aps.api.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import static com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter.INSTANCE;
 
+import cn.hutool.core.collection.CollUtil;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
+import com.olivia.peanut.aps.api.ApsMachineWorkstationApi;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationDeleteByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationDeleteByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationDto;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListInfoRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationImportReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationImportRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationInsertReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationInsertRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryByIdListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryByIdListRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationUpdateByIdRes;
+import com.olivia.peanut.aps.api.impl.listener.ApsMachineWorkstationImportListener;
+import com.olivia.peanut.aps.converter.ApsMachineWorkstationItemConverter;
 import com.olivia.peanut.aps.model.ApsMachineWorkstation;
-import com.olivia.sdk.utils.$;
+import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
+import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;
+import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.PoiExcelUtil;
-import java.util.stream.Collectors;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-import org.apache.commons.lang3.StringUtils;
+import jakarta.annotation.Resource;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.*;
-import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
-import com.olivia.peanut.aps.model.*;
-import com.baomidou.mybatisplus.core.conditions.query.*;
-import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import org.springframework.web.bind.annotation.*;
-import com.olivia.peanut.aps.api.ApsMachineWorkstationApi;
-
-import static com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter.*;
-
-import com.olivia.peanut.aps.api.impl.listener.*;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -37,14 +45,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
 
-  private @Autowired ApsMachineWorkstationService apsMachineWorkstationService;
+  private @Resource ApsMachineWorkstationService apsMachineWorkstationService;
+  private @Resource ApsMachineWorkstationItemService apsMachineWorkstationItemService;
+
 
   /****
    * insert
    *
    */
   public @Override ApsMachineWorkstationInsertRes insert(ApsMachineWorkstationInsertReq req) {
-    Long id= this.apsMachineWorkstationService.save(req);
+    Long id = this.apsMachineWorkstationService.save(req);
     return new ApsMachineWorkstationInsertRes().setId(id).setCount(1);
   }
 
@@ -108,7 +118,21 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
         ApsMachineWorkstation.class)
         .selectAll(ApsMachineWorkstation.class).in(ApsMachineWorkstation::getId, req.getIdList());
     List<ApsMachineWorkstation> list = this.apsMachineWorkstationService.list(q);
+    Map<Long, List<ApsMachineWorkstationItem>> apsMachineMap = this.apsMachineWorkstationItemService.lambdaQuery()
+        .in(ApsMachineWorkstationItem::getMachineWorkstationId, req.getIdList())
+        .list().stream()
+        .collect(Collectors.groupingBy(ApsMachineWorkstationItem::getMachineWorkstationId));
     List<ApsMachineWorkstationDto> dataList = INSTANCE.queryListRes(list);
+    if (CollUtil.isNotEmpty(dataList)) {
+      dataList.forEach(item -> {
+        List<ApsMachineWorkstationItem> workstationItemList = apsMachineMap.getOrDefault(
+            item.getId(),
+            List.of());
+
+        item.setMachineWorkstationItemDtoList(
+            ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(workstationItemList));
+      });
+    }
     this.apsMachineWorkstationService.setName(dataList);
     return new ApsMachineWorkstationQueryByIdListRes().setDataList(dataList);
   }
