@@ -105,8 +105,8 @@ public class ApsProduceProcessItemServiceImpl extends
               ApsProduceProcessItem::getProduceProcessId, obj.getProduceProcessId())
           .eq(Objects.nonNull(obj.getMachineId()), ApsProduceProcessItem::getMachineId,
               obj.getMachineId())
-          .eq(Objects.nonNull(obj.getMachineUseTimeSecond()),
-              ApsProduceProcessItem::getMachineUseTimeSecond, obj.getMachineUseTimeSecond())
+          .eq(Objects.nonNull(obj.getUseTime()),
+              ApsProduceProcessItem::getUseTime, obj.getUseTime())
 
       ;
     }

@@ -58,5 +58,7 @@ public class ApsMachineWorkstationItem extends BaseEntity {
   @TableField("sort_index")
   private Long sortIndex;
 
+  @TableField("goods_status_id")
+  private Long goodsStatusId;
 }
 

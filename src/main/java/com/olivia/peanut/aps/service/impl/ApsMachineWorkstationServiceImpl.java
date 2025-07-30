@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.service.impl;
 
 import static com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter.INSTANCE;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
@@ -24,6 +25,7 @@ import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
+import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
@@ -34,6 +36,7 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -135,8 +138,22 @@ public class ApsMachineWorkstationServiceImpl extends
 
   public @Override void setName(List<? extends ApsMachineWorkstationDto> list) {
 
-    setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
+    if (CollUtil.isNotEmpty(list)) {
+      Map<Long, List<ApsMachineWorkstationItem>> apsMachineMap = this.apsMachineWorkstationItemService.lambdaQuery()
+          .in(ApsMachineWorkstationItem::getMachineWorkstationId,
+              list.stream().map(BaseEntityDto::getId).toList())
+          .list().stream()
+          .collect(Collectors.groupingBy(ApsMachineWorkstationItem::getMachineWorkstationId));
 
+      list.forEach(item -> {
+        List<ApsMachineWorkstationItem> workstationItemList = apsMachineMap.getOrDefault(
+            item.getId(),
+            List.of());
+        item.setMachineWorkstationItemDtoList(
+            ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(workstationItemList));
+      });
+    }
+    setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
   }
 
 

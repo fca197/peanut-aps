@@ -118,21 +118,7 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
         ApsMachineWorkstation.class)
         .selectAll(ApsMachineWorkstation.class).in(ApsMachineWorkstation::getId, req.getIdList());
     List<ApsMachineWorkstation> list = this.apsMachineWorkstationService.list(q);
-    Map<Long, List<ApsMachineWorkstationItem>> apsMachineMap = this.apsMachineWorkstationItemService.lambdaQuery()
-        .in(ApsMachineWorkstationItem::getMachineWorkstationId, req.getIdList())
-        .list().stream()
-        .collect(Collectors.groupingBy(ApsMachineWorkstationItem::getMachineWorkstationId));
     List<ApsMachineWorkstationDto> dataList = INSTANCE.queryListRes(list);
-    if (CollUtil.isNotEmpty(dataList)) {
-      dataList.forEach(item -> {
-        List<ApsMachineWorkstationItem> workstationItemList = apsMachineMap.getOrDefault(
-            item.getId(),
-            List.of());
-
-        item.setMachineWorkstationItemDtoList(
-            ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(workstationItemList));
-      });
-    }
     this.apsMachineWorkstationService.setName(dataList);
     return new ApsMachineWorkstationQueryByIdListRes().setDataList(dataList);
   }

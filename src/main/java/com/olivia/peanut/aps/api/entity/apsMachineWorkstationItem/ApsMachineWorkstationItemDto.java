@@ -67,6 +67,8 @@ public class ApsMachineWorkstationItemDto extends BaseEntityDto {
 
   private Long useTime;
 
+  private Long goodsStatusId;
+
 }
 
 

@@ -105,9 +105,7 @@ import com.olivia.sdk.utils.DynamicsPage.Header;
 import com.olivia.sdk.utils.EasyExcelUtilExportMultipleData;
 import com.olivia.sdk.utils.JSON;
 import com.olivia.sdk.utils.PoiExcelUtil;
-import com.olivia.sdk.utils.RunUtils;
 import com.olivia.sdk.utils.Str;
-import com.olivia.sdk.utils.model.AsyncRunAndTry;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -119,7 +117,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -476,7 +473,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends
       return new ProduceOrder().setOrderId(t.getOrderId()).setOrderMachineList(
           apsProduceProcessItems.stream().map(
               t2 -> new ProduceOrderMachine().setMachineId(t2.getMachineId())
-                  .setUseTime(t2.getMachineUseTimeSecond())).toList());
+                  .setUseTime(t2.getUseTime())).toList());
     }).toList();
     // 制造路径计算
     ProduceProcessComputeRes computeRes = ProduceProcessUtils.compute(

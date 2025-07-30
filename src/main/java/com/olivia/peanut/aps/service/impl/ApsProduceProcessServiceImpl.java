@@ -128,7 +128,7 @@ public class ApsProduceProcessServiceImpl extends
 
   public @Override void setName(List<? extends ApsProduceProcessDto> list) {
 
-    setNameService.setName(list, SetNamePojoUtils.FACTORY);
+    setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);
     if (CollUtil.isEmpty(list)) {
       return;
     }

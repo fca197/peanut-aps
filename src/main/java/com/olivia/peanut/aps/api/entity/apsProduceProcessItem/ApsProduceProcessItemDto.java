@@ -4,6 +4,7 @@ import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,19 +31,38 @@ public class ApsProduceProcessItemDto extends BaseEntityDto {
    */
   @NotNull(message = "机器不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long machineId;
-
   /***
    * 状态
    */
   @NotNull(message = "状态不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  private Long statusId;
-
+//  private Long statusId;
+  private Long goodsStatusId;
   /***
    *  耗时（秒）
    */
   @NotNull(message = "耗时（秒）不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  private Long machineUseTimeSecond;
-
+  private Long useTime;
+  private Long apsMachineWorkstationId;
+  private Long apsMachineWorkstationName;
+  /***
+   *  工作站id
+   */
+  private Long machineWorkstationId;
+  private String machineName;
+  /***
+   *  最小功率
+   */
+  private BigDecimal minPower;
+  /***
+   *  最大功率
+   */
+  private BigDecimal maxPower;
+  /***
+   *  工厂ID
+   */
+  private Long factoryId;
+  /***
+   *  排序索引
+   */
+  private Long sortIndex;
 }
-
-
