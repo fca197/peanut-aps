@@ -120,7 +120,6 @@ public class ApsProduceProcessServiceImpl extends
     List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
         ApsProduceProcessExportQueryPageListInfoRes.class);
     ((ApsProduceProcessService) AopContext.currentProxy()).setName(listInfoRes);
-
     return DynamicsPage.init(page, listInfoRes);
   }
 

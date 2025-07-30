@@ -37,13 +37,13 @@ public class ApsProduceProcessItemDto extends BaseEntityDto {
   @NotNull(message = "状态不能为空", groups = {InsertCheck.class, UpdateCheck.class})
 //  private Long statusId;
   private Long goodsStatusId;
+  private String goodsStatusName;
   /***
    *  耗时（秒）
    */
   @NotNull(message = "耗时（秒）不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   private Long useTime;
-  private Long apsMachineWorkstationId;
-  private Long apsMachineWorkstationName;
+  private String machineWorkstationName;
   /***
    *  工作站id
    */

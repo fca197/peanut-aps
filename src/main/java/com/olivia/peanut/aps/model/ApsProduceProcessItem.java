@@ -36,6 +36,7 @@ public class ApsProduceProcessItem extends BaseEntity {
    * 状态
    */
   private Long goodsStatusId;
+  private String goodsStatusName;
 
   /***
    *  耗时（秒）
