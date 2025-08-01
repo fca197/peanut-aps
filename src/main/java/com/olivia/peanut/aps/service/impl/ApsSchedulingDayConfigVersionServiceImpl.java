@@ -38,7 +38,9 @@ import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.ApsSchedul
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.CanSchedulingOrderListReq;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.CanSchedulingOrderListRes;
+import com.olivia.peanut.aps.converter.ApsProduceProcessItemConverter;
 import com.olivia.peanut.aps.converter.ApsSchedulingDayConfigVersionConverter;
+import com.olivia.peanut.aps.converter.ApsSchedulingIssueItemConverter;
 import com.olivia.peanut.aps.mapper.ApsSchedulingDayConfigVersionMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.model.ApsOrder;
@@ -472,8 +474,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends
           apsGoodsMap.get(t.getGoodsId()).getProduceProcessId());
       return new ProduceOrder().setOrderId(t.getOrderId()).setOrderMachineList(
           apsProduceProcessItems.stream().map(
-              t2 -> new ProduceOrderMachine().setMachineId(t2.getMachineId())
-                  .setUseTime(t2.getUseTime())).toList());
+              ApsProduceProcessItemConverter.INSTANCE::convertProduceOrderMachine).toList());
     }).toList();
     // 制造路径计算
     ProduceProcessComputeRes computeRes = ProduceProcessUtils.compute(

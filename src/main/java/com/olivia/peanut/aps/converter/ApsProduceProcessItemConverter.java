@@ -6,6 +6,7 @@ import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessI
 import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertReq;
 import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdReq;
 import com.olivia.peanut.aps.model.ApsProduceProcessItem;
+import com.olivia.peanut.aps.utils.process.entity.ProduceOrderMachine;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -26,5 +27,7 @@ public interface ApsProduceProcessItemConverter {
       List<ApsProduceProcessItem> list);
 
   List<ApsProduceProcessItem> importReq(List<ApsProduceProcessItemImportReq> reqList);
+
+  ProduceOrderMachine  convertProduceOrderMachine(ApsProduceProcessItem  req);
 }
 

@@ -100,17 +100,15 @@ public class ApsProduceProcessItemServiceImpl extends
     MPJLambdaWrapper<ApsProduceProcessItem> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
-      q
-          .eq(Objects.nonNull(obj.getProduceProcessId()),
-              ApsProduceProcessItem::getProduceProcessId, obj.getProduceProcessId())
+      q.eq(Objects.nonNull(obj.getProduceProcessId()), ApsProduceProcessItem::getProduceProcessId,
+              obj.getProduceProcessId())
           .eq(Objects.nonNull(obj.getMachineId()), ApsProduceProcessItem::getMachineId,
               obj.getMachineId())
-          .eq(Objects.nonNull(obj.getUseTime()),
-              ApsProduceProcessItem::getUseTime, obj.getUseTime())
-
+          .eq(Objects.nonNull(obj.getUseTime()), ApsProduceProcessItem::getUseTime,
+              obj.getUseTime())
       ;
     }
-    q.orderByDesc(ApsProduceProcessItem::getId);
+    q.orderByAsc(ApsProduceProcessItem::getSortIndex);
     return q;
 
   }
