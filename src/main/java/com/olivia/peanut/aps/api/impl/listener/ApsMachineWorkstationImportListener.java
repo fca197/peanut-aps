@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2025-07-23 13:20:06
  */
 @Slf4j
-public class ApsMachineWorkstationImportListener extends
-    AbstractImportListener<ApsMachineWorkstationImportReq> {
+public class ApsMachineWorkstationImportListener extends AbstractImportListener<ApsMachineWorkstationImportReq> {
 
   @Override
   public void invoke(ApsMachineWorkstationImportReq data, AnalysisContext analysisContext) {

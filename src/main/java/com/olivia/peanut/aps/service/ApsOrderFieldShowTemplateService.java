@@ -12,8 +12,7 @@ import java.util.List;
  * @author admin
  * @since 2025-07-11 17:32:00
  */
-public interface ApsOrderFieldShowTemplateService extends
-    MPJBaseService<ApsOrderFieldShowTemplate> {
+public interface ApsOrderFieldShowTemplateService extends MPJBaseService<ApsOrderFieldShowTemplate> {
 
   ApsOrderFieldShowTemplateQueryListRes queryList(ApsOrderFieldShowTemplateQueryListReq req);
 

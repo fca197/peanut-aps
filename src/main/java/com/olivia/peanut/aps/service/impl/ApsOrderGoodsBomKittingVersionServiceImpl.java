@@ -26,8 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsOrderGoodsBomKittingVersionService")
 @Transactional
-public class ApsOrderGoodsBomKittingVersionServiceImpl extends
-    MPJBaseServiceImpl<ApsOrderGoodsBomKittingVersionMapper, ApsOrderGoodsBomKittingVersion> implements
+public class ApsOrderGoodsBomKittingVersionServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsBomKittingVersionMapper, ApsOrderGoodsBomKittingVersion> implements
     ApsOrderGoodsBomKittingVersionService {
 
 
@@ -43,8 +42,7 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> q = getWrapper(req.getData());
     List<ApsOrderGoodsBomKittingVersion> list = this.list(q);
 
-    List<ApsOrderGoodsBomKittingVersionDto> dataList = ApsOrderGoodsBomKittingVersionConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsOrderGoodsBomKittingVersionDto> dataList = ApsOrderGoodsBomKittingVersionConverter.INSTANCE.queryListRes(list);
     ((ApsOrderGoodsBomKittingVersionService) AopContext.currentProxy()).setName(dataList);
     return new ApsOrderGoodsBomKittingVersionQueryListRes().setDataList(dataList);
   }

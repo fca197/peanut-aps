@@ -21,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("workshopSectionService")
 @Transactional
-public class ApsWorkshopSectionServiceImpl extends
-    MPJBaseServiceImpl<WorkshopSectionMapper, ApsWorkshopSection> implements
+public class ApsWorkshopSectionServiceImpl extends MPJBaseServiceImpl<WorkshopSectionMapper, ApsWorkshopSection> implements
     ApsWorkshopSectionService {
 
 

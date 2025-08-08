@@ -13,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderBomImportReq extends
-    ApsOrderGoodsBomKittingVersionOrderBomDto {
+public class ApsOrderGoodsBomKittingVersionOrderBomImportReq extends ApsOrderGoodsBomKittingVersionOrderBomDto {
 
 }
 

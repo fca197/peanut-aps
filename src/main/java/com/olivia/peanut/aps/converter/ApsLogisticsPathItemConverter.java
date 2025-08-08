@@ -18,8 +18,7 @@ public interface ApsLogisticsPathItemConverter {
 
   List<ApsLogisticsPathItemDto> queryListRes(List<ApsLogisticsPathItem> list);
 
-  List<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsLogisticsPathItem> list);
+  List<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageListRes(List<ApsLogisticsPathItem> list);
 
   List<ApsLogisticsPathItem> importReq(List<ApsLogisticsPathItemImportReq> reqList);
 }

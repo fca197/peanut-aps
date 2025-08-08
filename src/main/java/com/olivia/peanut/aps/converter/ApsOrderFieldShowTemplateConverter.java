@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsOrderFieldShowTemplateConverter {
 
-  ApsOrderFieldShowTemplateConverter INSTANCE = Mappers.getMapper(
-      ApsOrderFieldShowTemplateConverter.class);
+  ApsOrderFieldShowTemplateConverter INSTANCE = Mappers.getMapper(ApsOrderFieldShowTemplateConverter.class);
 
   ApsOrderFieldShowTemplate insertReq(ApsOrderFieldShowTemplateInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsOrderFieldShowTemplateConverter {
 
   List<ApsOrderFieldShowTemplateDto> queryListRes(List<ApsOrderFieldShowTemplate> list);
 
-  List<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsOrderFieldShowTemplate> list);
+  List<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageListRes(List<ApsOrderFieldShowTemplate> list);
 
   List<ApsOrderFieldShowTemplate> importReq(List<ApsOrderFieldShowTemplateImportReq> reqList);
 }

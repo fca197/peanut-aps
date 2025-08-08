@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsOrderGoodsBomKittingVersionConverter {
 
-  ApsOrderGoodsBomKittingVersionConverter INSTANCE = Mappers.getMapper(
-      ApsOrderGoodsBomKittingVersionConverter.class);
+  ApsOrderGoodsBomKittingVersionConverter INSTANCE = Mappers.getMapper(ApsOrderGoodsBomKittingVersionConverter.class);
 
   ApsOrderGoodsBomKittingVersion insertReq(ApsOrderGoodsBomKittingVersionInsertReq req);
 
@@ -19,10 +18,8 @@ public interface ApsOrderGoodsBomKittingVersionConverter {
 
   List<ApsOrderGoodsBomKittingVersionDto> queryListRes(List<ApsOrderGoodsBomKittingVersion> list);
 
-  List<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsOrderGoodsBomKittingVersion> list);
+  List<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageListRes(List<ApsOrderGoodsBomKittingVersion> list);
 
-  List<ApsOrderGoodsBomKittingVersion> importReq(
-      List<ApsOrderGoodsBomKittingVersionImportReq> reqList);
+  List<ApsOrderGoodsBomKittingVersion> importReq(List<ApsOrderGoodsBomKittingVersionImportReq> reqList);
 }
 

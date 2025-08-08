@@ -29,8 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsBomSupplierService")
 @Transactional
-public class ApsBomSupplierServiceImpl extends
-    MPJBaseServiceImpl<ApsBomSupplierMapper, ApsBomSupplier> implements ApsBomSupplierService {
+public class ApsBomSupplierServiceImpl extends MPJBaseServiceImpl<ApsBomSupplierMapper, ApsBomSupplier> implements ApsBomSupplierService {
 
 
   @Resource

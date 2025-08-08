@@ -12,8 +12,7 @@ import java.util.List;
  * @author admin
  * @since 2025-07-23 13:20:07
  */
-public interface ApsMachineWorkstationItemService extends
-    MPJBaseService<ApsMachineWorkstationItem> {
+public interface ApsMachineWorkstationItemService extends MPJBaseService<ApsMachineWorkstationItem> {
 
   ApsMachineWorkstationItemQueryListRes queryList(ApsMachineWorkstationItemQueryListReq req);
 

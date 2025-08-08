@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingVersionDayService")
 @Transactional
-public class ApsSchedulingVersionDayServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingVersionDayMapper, ApsSchedulingVersionDay> implements
+public class ApsSchedulingVersionDayServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionDayMapper, ApsSchedulingVersionDay> implements
     ApsSchedulingVersionDayService {
 
 

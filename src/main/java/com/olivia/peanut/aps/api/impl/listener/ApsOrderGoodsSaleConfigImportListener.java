@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2024-11-26 15:49:29
  */
 @Slf4j
-public class ApsOrderGoodsSaleConfigImportListener extends
-    AbstractImportListener<ApsOrderGoodsSaleConfigImportReq> {
+public class ApsOrderGoodsSaleConfigImportListener extends AbstractImportListener<ApsOrderGoodsSaleConfigImportReq> {
 
   @Override
   public void invoke(ApsOrderGoodsSaleConfigImportReq data, AnalysisContext analysisContext) {

@@ -18,8 +18,7 @@ public interface ApsGoodsBomBuyPlanConverter {
 
   List<ApsGoodsBomBuyPlanDto> queryListRes(List<ApsGoodsBomBuyPlan> list);
 
-  List<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsGoodsBomBuyPlan> list);
+  List<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsBomBuyPlan> list);
 
   List<ApsGoodsBomBuyPlan> importReq(List<ApsGoodsBomBuyPlanImportReq> reqList);
 }

@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsRollingForecastOrderItemConverter {
 
-  ApsRollingForecastOrderItemConverter INSTANCE = Mappers.getMapper(
-      ApsRollingForecastOrderItemConverter.class);
+  ApsRollingForecastOrderItemConverter INSTANCE = Mappers.getMapper(ApsRollingForecastOrderItemConverter.class);
 
   ApsRollingForecastOrderItem insertReq(ApsRollingForecastOrderItemInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsRollingForecastOrderItemConverter {
 
   List<ApsRollingForecastOrderItemDto> queryListRes(List<ApsRollingForecastOrderItem> list);
 
-  List<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsRollingForecastOrderItem> list);
+  List<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageListRes(List<ApsRollingForecastOrderItem> list);
 
   List<ApsRollingForecastOrderItem> importReq(List<ApsRollingForecastOrderItemImportReq> reqList);
 }

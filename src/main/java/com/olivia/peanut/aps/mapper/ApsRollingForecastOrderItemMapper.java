@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-07-16 10:31:19
  */
 @Mapper
-public interface ApsRollingForecastOrderItemMapper extends
-    MPJBaseMapper<ApsRollingForecastOrderItem> {
+public interface ApsRollingForecastOrderItemMapper extends MPJBaseMapper<ApsRollingForecastOrderItem> {
 
 }
 

@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsMachineWorkstationItemExportQueryPageListInfoRes extends
-    ApsMachineWorkstationItemDto {
+public class ApsMachineWorkstationItemExportQueryPageListInfoRes extends ApsMachineWorkstationItemDto {
 
 }
 

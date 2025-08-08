@@ -12,8 +12,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-19 19:19:55
  */
-public interface ApsSchedulingDayConfigVersionService extends
-    MPJBaseService<ApsSchedulingDayConfigVersion> {
+public interface ApsSchedulingDayConfigVersionService extends MPJBaseService<ApsSchedulingDayConfigVersion> {
 
   ApsSchedulingDayConfigVersionInsertRes save(ApsSchedulingDayConfigVersionInsertReq req);
 

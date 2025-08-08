@@ -45,8 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsGoodsSaleProjectConfigService")
 @Transactional
-public class ApsGoodsSaleProjectConfigServiceImpl extends
-    MPJBaseServiceImpl<ApsGoodsSaleProjectConfigMapper, ApsGoodsSaleProjectConfig> implements
+public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsGoodsSaleProjectConfigMapper, ApsGoodsSaleProjectConfig> implements
     ApsGoodsSaleProjectConfigService {
 
   private final static int TIME_OUT = 5;

@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsMachineWorkstationItemConverter {
 
-  ApsMachineWorkstationItemConverter INSTANCE = Mappers.getMapper(
-      ApsMachineWorkstationItemConverter.class);
+  ApsMachineWorkstationItemConverter INSTANCE = Mappers.getMapper(ApsMachineWorkstationItemConverter.class);
 
   ApsMachineWorkstationItem insertReq(ApsMachineWorkstationItemInsertReq req);
 
@@ -21,8 +20,7 @@ public interface ApsMachineWorkstationItemConverter {
 
   List<ApsMachineWorkstationItemDto> queryListRes(List<ApsMachineWorkstationItem> list);
 
-  List<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsMachineWorkstationItem> list);
+  List<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageListRes(List<ApsMachineWorkstationItem> list);
 
   List<ApsMachineWorkstationItem> importReq(List<ApsMachineWorkstationItemImportReq> reqList);
 }

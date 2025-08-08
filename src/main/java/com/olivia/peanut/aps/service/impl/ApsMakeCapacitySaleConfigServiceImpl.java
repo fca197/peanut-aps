@@ -34,8 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsMakeCapacitySaleConfigService")
 @Transactional
-public class ApsMakeCapacitySaleConfigServiceImpl extends
-    MPJBaseServiceImpl<ApsMakeCapacitySaleConfigMapper, ApsMakeCapacitySaleConfig> implements
+public class ApsMakeCapacitySaleConfigServiceImpl extends MPJBaseServiceImpl<ApsMakeCapacitySaleConfigMapper, ApsMakeCapacitySaleConfig> implements
     ApsMakeCapacitySaleConfigService {
 
 

@@ -45,8 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsRollingForecastOrderService")
 @Transactional
-public class ApsRollingForecastOrderServiceImpl extends
-    MPJBaseServiceImpl<ApsRollingForecastOrderMapper, ApsRollingForecastOrder> implements
+public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRollingForecastOrderMapper, ApsRollingForecastOrder> implements
     ApsRollingForecastOrderService {
 
 

@@ -44,8 +44,7 @@ public class ApsGoodsForecastUserSaleGroupDataServiceImpl extends
     MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> q = getWrapper(req.getData());
     List<ApsGoodsForecastUserSaleGroupData> list = this.list(q);
 
-    List<ApsGoodsForecastUserSaleGroupDataDto> dataList = ApsGoodsForecastUserSaleGroupDataConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsGoodsForecastUserSaleGroupDataDto> dataList = ApsGoodsForecastUserSaleGroupDataConverter.INSTANCE.queryListRes(list);
     ((ApsGoodsForecastUserSaleGroupDataService) AopContext.currentProxy()).setName(dataList);
     return new ApsGoodsForecastUserSaleGroupDataQueryListRes().setDataList(dataList);
   }

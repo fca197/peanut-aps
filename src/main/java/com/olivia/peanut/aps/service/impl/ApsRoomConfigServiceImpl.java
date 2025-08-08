@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsRoomConfigService")
 @Transactional
-public class ApsRoomConfigServiceImpl extends
-    MPJBaseServiceImpl<ApsRoomConfigMapper, ApsRoomConfig> implements ApsRoomConfigService {
+public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMapper, ApsRoomConfig> implements ApsRoomConfigService {
 
 
   public @Override ApsRoomConfigQueryListRes queryList(ApsRoomConfigQueryListReq req) {

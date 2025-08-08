@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq extends
-    ApsOrderGoodsBomKittingVersionOrderBomDto {
+public class ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq extends ApsOrderGoodsBomKittingVersionOrderBomDto {
 
 }
 

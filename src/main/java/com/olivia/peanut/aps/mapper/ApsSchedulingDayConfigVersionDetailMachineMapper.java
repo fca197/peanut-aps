@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-10-27 00:12:55
  */
 @Mapper
-public interface ApsSchedulingDayConfigVersionDetailMachineMapper extends
-    MPJBaseMapper<ApsSchedulingDayConfigVersionDetailMachine> {
+public interface ApsSchedulingDayConfigVersionDetailMachineMapper extends MPJBaseMapper<ApsSchedulingDayConfigVersionDetailMachine> {
 
 }
 

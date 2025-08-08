@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsOrderFieldShowTemplateService")
 @Transactional
-public class ApsOrderFieldShowTemplateServiceImpl extends
-    MPJBaseServiceImpl<ApsOrderFieldShowTemplateMapper, ApsOrderFieldShowTemplate> implements
+public class ApsOrderFieldShowTemplateServiceImpl extends MPJBaseServiceImpl<ApsOrderFieldShowTemplateMapper, ApsOrderFieldShowTemplate> implements
     ApsOrderFieldShowTemplateService {
 
 
@@ -42,8 +41,7 @@ public class ApsOrderFieldShowTemplateServiceImpl extends
     MPJLambdaWrapper<ApsOrderFieldShowTemplate> q = getWrapper(req.getData());
     List<ApsOrderFieldShowTemplate> list = this.list(q);
 
-    List<ApsOrderFieldShowTemplateDto> dataList = ApsOrderFieldShowTemplateConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsOrderFieldShowTemplateDto> dataList = ApsOrderFieldShowTemplateConverter.INSTANCE.queryListRes(list);
     ((ApsOrderFieldShowTemplateService) AopContext.currentProxy()).setName(dataList);
     return new ApsOrderFieldShowTemplateQueryListRes().setDataList(dataList);
   }

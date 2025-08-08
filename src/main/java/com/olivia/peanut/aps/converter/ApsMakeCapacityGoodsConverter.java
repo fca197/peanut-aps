@@ -18,8 +18,7 @@ public interface ApsMakeCapacityGoodsConverter {
 
   List<ApsMakeCapacityGoodsDto> queryListRes(List<ApsMakeCapacityGoods> list);
 
-  List<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsMakeCapacityGoods> list);
+  List<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageListRes(List<ApsMakeCapacityGoods> list);
 
   List<ApsMakeCapacityGoods> importReq(List<ApsMakeCapacityGoodsImportReq> reqList);
 }

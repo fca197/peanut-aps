@@ -39,8 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsOrderGoodsSaleHistoryService")
 @Transactional
-public class ApsOrderGoodsSaleHistoryServiceImpl extends
-    MPJBaseServiceImpl<ApsOrderGoodsSaleHistoryMapper, ApsOrderGoodsSaleHistory> implements
+public class ApsOrderGoodsSaleHistoryServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsSaleHistoryMapper, ApsOrderGoodsSaleHistory> implements
     ApsOrderGoodsSaleHistoryService {
 
 

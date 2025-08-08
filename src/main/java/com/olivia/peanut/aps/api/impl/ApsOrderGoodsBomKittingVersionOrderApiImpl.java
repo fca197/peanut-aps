@@ -34,8 +34,7 @@ public class ApsOrderGoodsBomKittingVersionOrderApiImpl implements
    */
   public @Override ApsOrderGoodsBomKittingVersionOrderInsertRes insert(
       ApsOrderGoodsBomKittingVersionOrderInsertReq req) {
-    ApsOrderGoodsBomKittingVersionOrder apsOrderGoodsBomKittingVersionOrder = INSTANCE.insertReq(
-        req);
+    ApsOrderGoodsBomKittingVersionOrder apsOrderGoodsBomKittingVersionOrder = INSTANCE.insertReq(req);
     this.apsOrderGoodsBomKittingVersionOrderService.save(apsOrderGoodsBomKittingVersionOrder);
     return new ApsOrderGoodsBomKittingVersionOrderInsertRes().setCount(1);
   }

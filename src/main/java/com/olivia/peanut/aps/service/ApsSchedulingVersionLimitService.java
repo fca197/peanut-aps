@@ -12,8 +12,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-04-19 14:56:59
  */
-public interface ApsSchedulingVersionLimitService extends
-    MPJBaseService<ApsSchedulingVersionLimit> {
+public interface ApsSchedulingVersionLimitService extends MPJBaseService<ApsSchedulingVersionLimit> {
 
   ApsSchedulingVersionLimitQueryListRes queryList(ApsSchedulingVersionLimitQueryListReq req);
 

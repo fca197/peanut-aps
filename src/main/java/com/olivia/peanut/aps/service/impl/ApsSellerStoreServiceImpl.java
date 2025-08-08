@@ -30,8 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSellerStoreService")
 @Transactional
-public class ApsSellerStoreServiceImpl extends
-    MPJBaseServiceImpl<ApsSellerStoreMapper, ApsSellerStore> implements ApsSellerStoreService {
+public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStoreMapper, ApsSellerStore> implements ApsSellerStoreService {
 
 
   @Resource

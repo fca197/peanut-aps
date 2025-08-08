@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-04-18 14:57:34
  */
 @Mapper
-public interface ApsSchedulingVersionCapacityMapper extends
-    MPJBaseMapper<ApsSchedulingVersionCapacity> {
+public interface ApsSchedulingVersionCapacityMapper extends MPJBaseMapper<ApsSchedulingVersionCapacity> {
 
 }
 

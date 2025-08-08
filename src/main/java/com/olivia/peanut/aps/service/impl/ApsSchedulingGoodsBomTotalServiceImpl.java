@@ -43,8 +43,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingGoodsBomTotalService")
 @Transactional
-public class ApsSchedulingGoodsBomTotalServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingGoodsBomTotalMapper, ApsSchedulingGoodsBomTotal> implements
+public class ApsSchedulingGoodsBomTotalServiceImpl extends MPJBaseServiceImpl<ApsSchedulingGoodsBomTotalMapper, ApsSchedulingGoodsBomTotal> implements
     ApsSchedulingGoodsBomTotalService {
 
 

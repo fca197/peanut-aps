@@ -30,8 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsMachineService")
 @Transactional
-public class ApsMachineServiceImpl extends
-    MPJBaseServiceImpl<ApsMachineMapper, ApsMachine> implements ApsMachineService {
+public class ApsMachineServiceImpl extends MPJBaseServiceImpl<ApsMachineMapper, ApsMachine> implements ApsMachineService {
 
 
   @Resource

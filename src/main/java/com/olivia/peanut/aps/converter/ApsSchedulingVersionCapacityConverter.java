@@ -12,8 +12,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingVersionCapacityConverter {
 
-  ApsSchedulingVersionCapacityConverter INSTANCE = Mappers.getMapper(
-      ApsSchedulingVersionCapacityConverter.class);
+  ApsSchedulingVersionCapacityConverter INSTANCE = Mappers.getMapper(ApsSchedulingVersionCapacityConverter.class);
 
   ApsSchedulingVersionCapacity insertReq(ApsSchedulingVersionCapacityInsertReq req);
 
@@ -21,8 +20,7 @@ public interface ApsSchedulingVersionCapacityConverter {
 
   List<ApsSchedulingVersionCapacityDto> queryListRes(List<ApsSchedulingVersionCapacity> list);
 
-  List<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingVersionCapacity> list);
+  List<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingVersionCapacity> list);
 
   List<ApsSchedulingVersionCapacity> importReq(List<ApsSchedulingVersionCapacityImportReq> reqList);
 

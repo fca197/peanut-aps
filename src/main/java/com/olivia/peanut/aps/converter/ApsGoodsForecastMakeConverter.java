@@ -18,8 +18,7 @@ public interface ApsGoodsForecastMakeConverter {
 
   List<ApsGoodsForecastMakeDto> queryListRes(List<ApsGoodsForecastMake> list);
 
-  List<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsGoodsForecastMake> list);
+  List<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastMake> list);
 
   List<ApsGoodsForecastMake> importReq(List<ApsGoodsForecastMakeImportReq> reqList);
 }

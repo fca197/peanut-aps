@@ -12,8 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2025-04-06 14:16:40
  */
-public interface ApsSchedulingVersionItemPreService extends
-    MPJBaseService<ApsSchedulingVersionItemPre> {
+public interface ApsSchedulingVersionItemPreService extends MPJBaseService<ApsSchedulingVersionItemPre> {
 
   ApsSchedulingVersionItemPreQueryListRes queryList(ApsSchedulingVersionItemPreQueryListReq req);
 

@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsMachineWorkstationService")
 @Transactional
-public class ApsMachineWorkstationServiceImpl extends
-    MPJBaseServiceImpl<ApsMachineWorkstationMapper, ApsMachineWorkstation> implements
+public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMachineWorkstationMapper, ApsMachineWorkstation> implements
     ApsMachineWorkstationService {
 
 
@@ -56,8 +55,7 @@ public class ApsMachineWorkstationServiceImpl extends
     MPJLambdaWrapper<ApsMachineWorkstation> q = getWrapper(req.getData());
     List<ApsMachineWorkstation> list = this.list(q);
 
-    List<ApsMachineWorkstationDto> dataList = ApsMachineWorkstationConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsMachineWorkstationDto> dataList = ApsMachineWorkstationConverter.INSTANCE.queryListRes(list);
     ((ApsMachineWorkstationService) AopContext.currentProxy()).setName(dataList);
     return new ApsMachineWorkstationQueryListRes().setDataList(dataList);
   }

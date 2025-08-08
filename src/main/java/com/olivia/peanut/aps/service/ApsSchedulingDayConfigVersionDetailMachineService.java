@@ -12,8 +12,7 @@ import java.util.List;
  * @author makejava
  * @since 2024-10-27 00:12:55
  */
-public interface ApsSchedulingDayConfigVersionDetailMachineService extends
-    MPJBaseService<ApsSchedulingDayConfigVersionDetailMachine> {
+public interface ApsSchedulingDayConfigVersionDetailMachineService extends MPJBaseService<ApsSchedulingDayConfigVersionDetailMachine> {
 
   ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
       ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);

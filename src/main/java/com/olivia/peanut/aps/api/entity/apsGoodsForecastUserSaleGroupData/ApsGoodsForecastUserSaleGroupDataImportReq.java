@@ -13,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsGoodsForecastUserSaleGroupDataImportReq extends
-    ApsGoodsForecastUserSaleGroupDataDto {
+public class ApsGoodsForecastUserSaleGroupDataImportReq extends ApsGoodsForecastUserSaleGroupDataDto {
 
 }
 

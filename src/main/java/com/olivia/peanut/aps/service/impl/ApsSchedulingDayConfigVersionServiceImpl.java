@@ -67,8 +67,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("apsSchedulingDayConfigVersionService")
 @Transactional
 @Slf4j
-public class ApsSchedulingDayConfigVersionServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingDayConfigVersionMapper, ApsSchedulingDayConfigVersion> implements
+public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl<ApsSchedulingDayConfigVersionMapper, ApsSchedulingDayConfigVersion> implements
     ApsSchedulingDayConfigVersionService {
 
 
@@ -159,8 +158,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends
   @RedissonLockAnn(lockPrefix = "sc:day", lockBizKeyFlag = "v", keyExpression = "#req.factoryId")
   public ApsSchedulingDayConfigVersionInsertRes save(ApsSchedulingDayConfigVersionInsertReq req) {
 
-    ApsSchedulingDayConfigVersion dayConfigVersion = ApsSchedulingDayConfigVersionConverter.INSTANCE.insertReq(
-        req);
+    ApsSchedulingDayConfigVersion dayConfigVersion = ApsSchedulingDayConfigVersionConverter.INSTANCE.insertReq(req);
     long id = IdWorker.getId();
     dayConfigVersion.setId(id);
 

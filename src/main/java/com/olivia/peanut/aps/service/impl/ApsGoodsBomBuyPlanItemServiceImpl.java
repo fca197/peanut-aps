@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsGoodsBomBuyPlanItemService")
 @Transactional
-public class ApsGoodsBomBuyPlanItemServiceImpl extends
-    MPJBaseServiceImpl<ApsGoodsBomBuyPlanItemMapper, ApsGoodsBomBuyPlanItem> implements
+public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoodsBomBuyPlanItemMapper, ApsGoodsBomBuyPlanItem> implements
     ApsGoodsBomBuyPlanItemService {
 
 

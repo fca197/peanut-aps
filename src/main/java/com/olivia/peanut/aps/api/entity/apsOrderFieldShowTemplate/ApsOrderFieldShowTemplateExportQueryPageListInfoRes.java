@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderFieldShowTemplateExportQueryPageListInfoRes extends
-    ApsOrderFieldShowTemplateDto {
+public class ApsOrderFieldShowTemplateExportQueryPageListInfoRes extends ApsOrderFieldShowTemplateDto {
 
 }
 

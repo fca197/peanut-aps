@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsProcessPathRoomService")
 @Transactional
-public class ApsProcessPathRoomServiceImpl extends
-    MPJBaseServiceImpl<ApsProcessPathRoomMapper, ApsProcessPathRoom> implements
+public class ApsProcessPathRoomServiceImpl extends MPJBaseServiceImpl<ApsProcessPathRoomMapper, ApsProcessPathRoom> implements
     ApsProcessPathRoomService {
 
 

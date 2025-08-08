@@ -18,8 +18,7 @@ public interface ApsSchedulingVersionConverter {
 
   List<ApsSchedulingVersionDto> queryListRes(List<ApsSchedulingVersion> list);
 
-  List<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingVersion> list);
+  List<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingVersion> list);
 
   List<ApsSchedulingVersion> importReq(List<ApsSchedulingVersionImportReq> reqList);
 }

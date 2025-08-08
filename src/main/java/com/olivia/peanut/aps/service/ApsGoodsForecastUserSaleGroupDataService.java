@@ -12,8 +12,7 @@ import java.util.List;
  * @author admin
  * @since 2025-06-23 13:13:59
  */
-public interface ApsGoodsForecastUserSaleGroupDataService extends
-    MPJBaseService<ApsGoodsForecastUserSaleGroupData> {
+public interface ApsGoodsForecastUserSaleGroupDataService extends MPJBaseService<ApsGoodsForecastUserSaleGroupData> {
 
   ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(
       ApsGoodsForecastUserSaleGroupDataQueryListReq req);

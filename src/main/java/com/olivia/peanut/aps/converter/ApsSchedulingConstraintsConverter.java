@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingConstraintsConverter {
 
-  ApsSchedulingConstraintsConverter INSTANCE = Mappers.getMapper(
-      ApsSchedulingConstraintsConverter.class);
+  ApsSchedulingConstraintsConverter INSTANCE = Mappers.getMapper(ApsSchedulingConstraintsConverter.class);
 
   ApsSchedulingConstraints insertReq(ApsSchedulingConstraintsInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsSchedulingConstraintsConverter {
 
   List<ApsSchedulingConstraintsDto> queryListRes(List<ApsSchedulingConstraints> list);
 
-  List<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingConstraints> list);
+  List<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingConstraints> list);
 
   List<ApsSchedulingConstraints> importReq(List<ApsSchedulingConstraintsImportReq> reqList);
 }

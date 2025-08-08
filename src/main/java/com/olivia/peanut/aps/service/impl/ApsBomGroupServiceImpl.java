@@ -31,8 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsBomGroupService")
 @Transactional
-public class ApsBomGroupServiceImpl extends
-    MPJBaseServiceImpl<ApsBomGroupMapper, ApsBomGroup> implements ApsBomGroupService {
+public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper, ApsBomGroup> implements ApsBomGroupService {
 
 
   public @Override ApsBomGroupQueryListRes queryList(ApsBomGroupQueryListReq req) {

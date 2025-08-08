@@ -18,8 +18,7 @@ public interface ApsGoodsForecastMainConverter {
 
   List<ApsGoodsForecastMainDto> queryListRes(List<ApsGoodsForecastMain> list);
 
-  List<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsGoodsForecastMain> list);
+  List<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastMain> list);
 
   List<ApsGoodsForecastMain> importReq(List<ApsGoodsForecastMainImportReq> reqList);
 }

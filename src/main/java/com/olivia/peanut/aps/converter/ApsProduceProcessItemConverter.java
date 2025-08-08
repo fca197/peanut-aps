@@ -19,8 +19,7 @@ public interface ApsProduceProcessItemConverter {
 
   List<ApsProduceProcessItemDto> queryListRes(List<ApsProduceProcessItem> list);
 
-  List<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsProduceProcessItem> list);
+  List<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageListRes(List<ApsProduceProcessItem> list);
 
   List<ApsProduceProcessItem> importReq(List<ApsProduceProcessItemImportReq> reqList);
 

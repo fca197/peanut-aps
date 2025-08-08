@@ -12,8 +12,7 @@ import java.util.List;
  * @author admin
  * @since 2025-06-25 20:30:06
  */
-public interface ApsOrderGoodsBomKittingVersionOrderItemService extends
-    MPJBaseService<ApsOrderGoodsBomKittingVersionOrderBom> {
+public interface ApsOrderGoodsBomKittingVersionOrderItemService extends MPJBaseService<ApsOrderGoodsBomKittingVersionOrderBom> {
 
   ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(
       ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req);

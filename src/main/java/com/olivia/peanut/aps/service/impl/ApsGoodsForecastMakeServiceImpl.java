@@ -74,8 +74,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsGoodsForecastMakeService")
 @Transactional
-public class ApsGoodsForecastMakeServiceImpl extends
-    MPJBaseServiceImpl<ApsGoodsForecastMakeMapper, ApsGoodsForecastMake> implements
+public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoodsForecastMakeMapper, ApsGoodsForecastMake> implements
     ApsGoodsForecastMakeService {
 
   static final Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)

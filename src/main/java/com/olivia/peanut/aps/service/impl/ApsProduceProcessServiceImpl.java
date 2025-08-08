@@ -37,8 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsProduceProcessService")
 @Transactional
-public class ApsProduceProcessServiceImpl extends
-    MPJBaseServiceImpl<ApsProduceProcessMapper, ApsProduceProcess> implements
+public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceProcessMapper, ApsProduceProcess> implements
     ApsProduceProcessService {
 
 

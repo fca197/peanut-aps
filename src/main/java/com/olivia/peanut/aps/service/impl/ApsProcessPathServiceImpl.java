@@ -34,8 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsProcessPathService")
 @Transactional
-public class ApsProcessPathServiceImpl extends
-    MPJBaseServiceImpl<ApsProcessPathMapper, ApsProcessPath> implements ApsProcessPathService {
+public class ApsProcessPathServiceImpl extends MPJBaseServiceImpl<ApsProcessPathMapper, ApsProcessPath> implements ApsProcessPathService {
 
 
   @Resource

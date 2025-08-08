@@ -10,22 +10,16 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingDayConfigVersionDetailMachineUseTimeConverter {
 
-  ApsSchedulingDayConfigVersionDetailMachineUseTimeConverter INSTANCE = Mappers.getMapper(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeConverter.class);
+  ApsSchedulingDayConfigVersionDetailMachineUseTimeConverter INSTANCE = Mappers.getMapper(ApsSchedulingDayConfigVersionDetailMachineUseTimeConverter.class);
 
-  ApsSchedulingDayConfigVersionDetailMachineUseTime insertReq(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertReq req);
+  ApsSchedulingDayConfigVersionDetailMachineUseTime insertReq(ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertReq req);
 
-  ApsSchedulingDayConfigVersionDetailMachineUseTime updateReq(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdReq req);
+  ApsSchedulingDayConfigVersionDetailMachineUseTime updateReq(ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdReq req);
 
-  List<ApsSchedulingDayConfigVersionDetailMachineUseTimeDto> queryListRes(
-      List<ApsSchedulingDayConfigVersionDetailMachineUseTime> list);
+  List<ApsSchedulingDayConfigVersionDetailMachineUseTimeDto> queryListRes(List<ApsSchedulingDayConfigVersionDetailMachineUseTime> list);
 
-  List<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingDayConfigVersionDetailMachineUseTime> list);
+  List<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingDayConfigVersionDetailMachineUseTime> list);
 
-  List<ApsSchedulingDayConfigVersionDetailMachineUseTime> importReq(
-      List<ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq> reqList);
+  List<ApsSchedulingDayConfigVersionDetailMachineUseTime> importReq(List<ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq> reqList);
 }
 

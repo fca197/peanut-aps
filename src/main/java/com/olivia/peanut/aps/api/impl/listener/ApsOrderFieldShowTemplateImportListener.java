@@ -14,8 +14,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2025-07-11 17:32:00
  */
 @Slf4j
-public class ApsOrderFieldShowTemplateImportListener extends
-    AbstractImportListener<ApsOrderFieldShowTemplateImportReq> {
+public class ApsOrderFieldShowTemplateImportListener extends AbstractImportListener<ApsOrderFieldShowTemplateImportReq> {
 
   @Override
   public void invoke(ApsOrderFieldShowTemplateImportReq data, AnalysisContext analysisContext) {

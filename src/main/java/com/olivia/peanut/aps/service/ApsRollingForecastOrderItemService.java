@@ -12,8 +12,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-16 10:31:19
  */
-public interface ApsRollingForecastOrderItemService extends
-    MPJBaseService<ApsRollingForecastOrderItem> {
+public interface ApsRollingForecastOrderItemService extends MPJBaseService<ApsRollingForecastOrderItem> {
 
   ApsRollingForecastOrderItemQueryListRes queryList(ApsRollingForecastOrderItemQueryListReq req);
 

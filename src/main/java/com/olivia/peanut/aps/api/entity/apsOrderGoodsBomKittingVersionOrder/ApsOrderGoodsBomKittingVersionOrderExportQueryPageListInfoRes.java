@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingVersionOrderExportQueryPageListInfoRes extends
-    ApsOrderGoodsBomKittingVersionOrderDto {
+public class ApsOrderGoodsBomKittingVersionOrderExportQueryPageListInfoRes extends ApsOrderGoodsBomKittingVersionOrderDto {
 
 }
 

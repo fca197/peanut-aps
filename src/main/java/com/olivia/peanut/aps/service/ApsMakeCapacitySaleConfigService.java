@@ -12,8 +12,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-04-13 12:05:06
  */
-public interface ApsMakeCapacitySaleConfigService extends
-    MPJBaseService<ApsMakeCapacitySaleConfig> {
+public interface ApsMakeCapacitySaleConfigService extends MPJBaseService<ApsMakeCapacitySaleConfig> {
 
   ApsMakeCapacitySaleConfigQueryListRes queryList(ApsMakeCapacitySaleConfigQueryListReq req);
 

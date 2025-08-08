@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsMakeCapacitySaleConfigConverter {
 
-  ApsMakeCapacitySaleConfigConverter INSTANCE = Mappers.getMapper(
-      ApsMakeCapacitySaleConfigConverter.class);
+  ApsMakeCapacitySaleConfigConverter INSTANCE = Mappers.getMapper(ApsMakeCapacitySaleConfigConverter.class);
 
   ApsMakeCapacitySaleConfig insertReq(ApsMakeCapacitySaleConfigInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsMakeCapacitySaleConfigConverter {
 
   List<ApsMakeCapacitySaleConfigDto> queryListRes(List<ApsMakeCapacitySaleConfig> list);
 
-  List<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsMakeCapacitySaleConfig> list);
+  List<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageListRes(List<ApsMakeCapacitySaleConfig> list);
 
   List<ApsMakeCapacitySaleConfig> importReq(List<ApsMakeCapacitySaleConfigImportReq> reqList);
 }

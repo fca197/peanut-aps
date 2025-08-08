@@ -29,8 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsOrderUserService")
 @Transactional
-public class ApsOrderUserServiceImpl extends
-    MPJBaseServiceImpl<ApsOrderUserMapper, ApsOrderUser> implements ApsOrderUserService {
+public class ApsOrderUserServiceImpl extends MPJBaseServiceImpl<ApsOrderUserMapper, ApsOrderUser> implements ApsOrderUserService {
 
 
   public @Override ApsOrderUserQueryListRes queryList(ApsOrderUserQueryListReq req) {

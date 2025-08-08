@@ -14,8 +14,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-14 20:22:23
  */
-public interface ApsRollingForecastFactoryCapacityService extends
-    MPJBaseService<ApsRollingForecastFactoryCapacity> {
+public interface ApsRollingForecastFactoryCapacityService extends MPJBaseService<ApsRollingForecastFactoryCapacity> {
 
   ApsRollingForecastFactoryCapacityQueryListRes queryList(
       ApsRollingForecastFactoryCapacityQueryListReq req);

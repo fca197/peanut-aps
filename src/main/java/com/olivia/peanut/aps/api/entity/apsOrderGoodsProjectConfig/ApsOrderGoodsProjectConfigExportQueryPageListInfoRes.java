@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsProjectConfigExportQueryPageListInfoRes extends
-    ApsOrderGoodsProjectConfigDto {
+public class ApsOrderGoodsProjectConfigExportQueryPageListInfoRes extends ApsOrderGoodsProjectConfigDto {
 
 }
 

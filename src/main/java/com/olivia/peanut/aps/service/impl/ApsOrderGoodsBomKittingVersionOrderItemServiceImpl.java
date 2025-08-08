@@ -42,8 +42,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> q = getWrapper(req.getData());
     List<ApsOrderGoodsBomKittingVersionOrderBom> list = this.list(q);
 
-    List<ApsOrderGoodsBomKittingVersionOrderBomDto> dataList = ApsOrderGoodsBomKittingVersionOrderBomConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsOrderGoodsBomKittingVersionOrderBomDto> dataList = ApsOrderGoodsBomKittingVersionOrderBomConverter.INSTANCE.queryListRes(list);
     ((ApsOrderGoodsBomKittingVersionOrderItemService) AopContext.currentProxy()).setName(dataList);
     return new ApsOrderGoodsBomKittingVersionOrderBomQueryListRes().setDataList(dataList);
   }
@@ -63,8 +62,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
           t -> $.copy(t, ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
-      records = ApsOrderGoodsBomKittingVersionOrderBomConverter.INSTANCE.queryPageListRes(
-          this.list(q));
+      records = ApsOrderGoodsBomKittingVersionOrderBomConverter.INSTANCE.queryPageListRes(this.list(q));
     }
 
     // 类型转换，  更换枚举 等操作 

@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingVersionLimitService")
 @Transactional
-public class ApsSchedulingVersionLimitServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingVersionLimitMapper, ApsSchedulingVersionLimit> implements
+public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionLimitMapper, ApsSchedulingVersionLimit> implements
     ApsSchedulingVersionLimitService {
 
 

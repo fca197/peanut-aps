@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2025-06-25 14:23:49
  */
 @Mapper
-public interface ApsOrderGoodsBomKittingVersionOrderMapper extends
-    MPJBaseMapper<ApsOrderGoodsBomKittingVersionOrder> {
+public interface ApsOrderGoodsBomKittingVersionOrderMapper extends MPJBaseMapper<ApsOrderGoodsBomKittingVersionOrder> {
 
 }
 

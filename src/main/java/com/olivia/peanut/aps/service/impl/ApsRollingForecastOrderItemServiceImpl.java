@@ -27,8 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsRollingForecastOrderItemService")
 @Transactional
-public class ApsRollingForecastOrderItemServiceImpl extends
-    MPJBaseServiceImpl<ApsRollingForecastOrderItemMapper, ApsRollingForecastOrderItem> implements
+public class ApsRollingForecastOrderItemServiceImpl extends MPJBaseServiceImpl<ApsRollingForecastOrderItemMapper, ApsRollingForecastOrderItem> implements
     ApsRollingForecastOrderItemService {
 
 

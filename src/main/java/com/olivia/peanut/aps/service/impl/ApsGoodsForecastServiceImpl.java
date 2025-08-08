@@ -60,8 +60,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @Service("apsGoodsForecastService")
 @Transactional
-public class ApsGoodsForecastServiceImpl extends
-    MPJBaseServiceImpl<ApsGoodsForecastMapper, ApsGoodsForecast> implements
+public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsForecastMapper, ApsGoodsForecast> implements
     ApsGoodsForecastService {
 
 

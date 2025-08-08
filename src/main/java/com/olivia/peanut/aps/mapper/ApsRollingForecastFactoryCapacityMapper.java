@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-07-14 20:22:23
  */
 @Mapper
-public interface ApsRollingForecastFactoryCapacityMapper extends
-    MPJBaseMapper<ApsRollingForecastFactoryCapacity> {
+public interface ApsRollingForecastFactoryCapacityMapper extends MPJBaseMapper<ApsRollingForecastFactoryCapacity> {
 
 }
 

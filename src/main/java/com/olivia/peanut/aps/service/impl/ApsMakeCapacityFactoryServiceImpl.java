@@ -35,8 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsMakeCapacityFactoryService")
 @Transactional
-public class ApsMakeCapacityFactoryServiceImpl extends
-    MPJBaseServiceImpl<ApsMakeCapacityFactoryMapper, ApsMakeCapacityFactory> implements
+public class ApsMakeCapacityFactoryServiceImpl extends MPJBaseServiceImpl<ApsMakeCapacityFactoryMapper, ApsMakeCapacityFactory> implements
     ApsMakeCapacityFactoryService {
 
 

@@ -35,8 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingIssueItemService")
 @Transactional
-public class ApsSchedulingIssueItemServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingIssueItemMapper, ApsSchedulingIssueItem> implements
+public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSchedulingIssueItemMapper, ApsSchedulingIssueItem> implements
     ApsSchedulingIssueItemService {
 
 

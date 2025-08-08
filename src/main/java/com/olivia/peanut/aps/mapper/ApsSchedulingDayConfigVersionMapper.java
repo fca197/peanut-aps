@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-07-19 19:19:55
  */
 @Mapper
-public interface ApsSchedulingDayConfigVersionMapper extends
-    MPJBaseMapper<ApsSchedulingDayConfigVersion> {
+public interface ApsSchedulingDayConfigVersionMapper extends MPJBaseMapper<ApsSchedulingDayConfigVersion> {
 
 //  @Override
 //  ApsSchedulingDayConfigVersion selectById(@Param("id") Serializable id);

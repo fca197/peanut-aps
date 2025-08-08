@@ -10,22 +10,16 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsOrderGoodsBomKittingVersionOrderBomConverter {
 
-  ApsOrderGoodsBomKittingVersionOrderBomConverter INSTANCE = Mappers.getMapper(
-      ApsOrderGoodsBomKittingVersionOrderBomConverter.class);
+  ApsOrderGoodsBomKittingVersionOrderBomConverter INSTANCE = Mappers.getMapper(ApsOrderGoodsBomKittingVersionOrderBomConverter.class);
 
-  ApsOrderGoodsBomKittingVersionOrderBom insertReq(
-      ApsOrderGoodsBomKittingVersionOrderBomInsertReq req);
+  ApsOrderGoodsBomKittingVersionOrderBom insertReq(ApsOrderGoodsBomKittingVersionOrderBomInsertReq req);
 
-  ApsOrderGoodsBomKittingVersionOrderBom updateReq(
-      ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq req);
+  ApsOrderGoodsBomKittingVersionOrderBom updateReq(ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq req);
 
-  List<ApsOrderGoodsBomKittingVersionOrderBomDto> queryListRes(
-      List<ApsOrderGoodsBomKittingVersionOrderBom> list);
+  List<ApsOrderGoodsBomKittingVersionOrderBomDto> queryListRes(List<ApsOrderGoodsBomKittingVersionOrderBom> list);
 
-  List<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsOrderGoodsBomKittingVersionOrderBom> list);
+  List<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageListRes(List<ApsOrderGoodsBomKittingVersionOrderBom> list);
 
-  List<ApsOrderGoodsBomKittingVersionOrderBom> importReq(
-      List<ApsOrderGoodsBomKittingVersionOrderBomImportReq> reqList);
+  List<ApsOrderGoodsBomKittingVersionOrderBom> importReq(List<ApsOrderGoodsBomKittingVersionOrderBomImportReq> reqList);
 }
 

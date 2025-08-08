@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsSchedulingVersionItemPreExportQueryPageListInfoRes extends
-    ApsSchedulingVersionItemPreDto {
+public class ApsSchedulingVersionItemPreExportQueryPageListInfoRes extends ApsSchedulingVersionItemPreDto {
 
 }
 

@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingVersionItemConverter {
 
-  ApsSchedulingVersionItemConverter INSTANCE = Mappers.getMapper(
-      ApsSchedulingVersionItemConverter.class);
+  ApsSchedulingVersionItemConverter INSTANCE = Mappers.getMapper(ApsSchedulingVersionItemConverter.class);
 
   ApsSchedulingVersionItem insertReq(ApsSchedulingVersionItemInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsSchedulingVersionItemConverter {
 
   List<ApsSchedulingVersionItemDto> queryListRes(List<ApsSchedulingVersionItem> list);
 
-  List<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingVersionItem> list);
+  List<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingVersionItem> list);
 
   List<ApsSchedulingVersionItem> importReq(List<ApsSchedulingVersionItemImportReq> reqList);
 }

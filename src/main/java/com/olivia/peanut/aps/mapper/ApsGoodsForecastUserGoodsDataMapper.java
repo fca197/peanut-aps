@@ -11,8 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-03-30 18:29:07
  */
 @Mapper
-public interface ApsGoodsForecastUserGoodsDataMapper extends
-    MPJBaseMapper<ApsGoodsForecastUserGoodsData> {
+public interface ApsGoodsForecastUserGoodsDataMapper extends MPJBaseMapper<ApsGoodsForecastUserGoodsData> {
 
 }
 

@@ -12,8 +12,7 @@ import java.util.List;
  * @author peanut
  * @since 2024-07-19 19:19:52
  */
-public interface ApsSchedulingDayConfigItemService extends
-    MPJBaseService<ApsSchedulingDayConfigItem> {
+public interface ApsSchedulingDayConfigItemService extends MPJBaseService<ApsSchedulingDayConfigItem> {
 
   ApsSchedulingDayConfigItemQueryListRes queryList(ApsSchedulingDayConfigItemQueryListReq req);
 

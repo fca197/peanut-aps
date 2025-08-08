@@ -18,8 +18,7 @@ public interface ApsOrderGoodsHistoryConverter {
 
   List<ApsOrderGoodsHistoryDto> queryListRes(List<ApsOrderGoodsHistory> list);
 
-  List<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsOrderGoodsHistory> list);
+  List<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageListRes(List<ApsOrderGoodsHistory> list);
 
   List<ApsOrderGoodsHistory> importReq(List<ApsOrderGoodsHistoryImportReq> reqList);
 }

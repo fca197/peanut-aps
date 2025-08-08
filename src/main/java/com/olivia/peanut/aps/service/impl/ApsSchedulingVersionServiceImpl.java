@@ -79,8 +79,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service("apsSchedulingVersionService")
 @Transactional
-public class ApsSchedulingVersionServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingVersionMapper, ApsSchedulingVersion> implements
+public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionMapper, ApsSchedulingVersion> implements
     ApsSchedulingVersionService {
 
 

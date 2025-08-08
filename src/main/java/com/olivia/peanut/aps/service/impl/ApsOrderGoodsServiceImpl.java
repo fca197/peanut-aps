@@ -30,8 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsOrderGoodsService")
 @Transactional
-public class ApsOrderGoodsServiceImpl extends
-    MPJBaseServiceImpl<ApsOrderGoodsMapper, ApsOrderGoods> implements ApsOrderGoodsService {
+public class ApsOrderGoodsServiceImpl extends MPJBaseServiceImpl<ApsOrderGoodsMapper, ApsOrderGoods> implements ApsOrderGoodsService {
 
 
   public @Override ApsOrderGoodsQueryListRes queryList(ApsOrderGoodsQueryListReq req) {

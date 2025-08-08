@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes extends
-    ApsOrderGoodsBomKittingTemplateDto {
+public class ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes extends ApsOrderGoodsBomKittingTemplateDto {
 
 }
 

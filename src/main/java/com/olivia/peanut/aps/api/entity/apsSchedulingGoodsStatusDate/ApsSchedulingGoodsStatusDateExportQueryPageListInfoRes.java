@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes extends
-    ApsSchedulingGoodsStatusDateDto {
+public class ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes extends ApsSchedulingGoodsStatusDateDto {
 
 }
 

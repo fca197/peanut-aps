@@ -18,8 +18,7 @@ public interface ApsProcessPathRoomConverter {
 
   List<ApsProcessPathRoomDto> queryListRes(List<ApsProcessPathRoom> list);
 
-  List<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsProcessPathRoom> list);
+  List<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageListRes(List<ApsProcessPathRoom> list);
 
   List<ApsProcessPathRoom> importReq(List<ApsProcessPathRoomImportReq> reqList);
 }

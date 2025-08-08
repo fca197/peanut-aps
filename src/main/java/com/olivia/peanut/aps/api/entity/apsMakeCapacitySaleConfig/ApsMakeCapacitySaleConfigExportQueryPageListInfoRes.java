@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsMakeCapacitySaleConfigExportQueryPageListInfoRes extends
-    ApsMakeCapacitySaleConfigDto {
+public class ApsMakeCapacitySaleConfigExportQueryPageListInfoRes extends ApsMakeCapacitySaleConfigDto {
 
 }
 

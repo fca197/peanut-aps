@@ -27,8 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingVersionItemPreService")
 @Transactional
-public class ApsSchedulingVersionItemPreServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingVersionItemPreMapper, ApsSchedulingVersionItemPre> implements
+public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<ApsSchedulingVersionItemPreMapper, ApsSchedulingVersionItemPre> implements
     ApsSchedulingVersionItemPreService {
 
 
@@ -44,8 +43,7 @@ public class ApsSchedulingVersionItemPreServiceImpl extends
     MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = getWrapper(req.getData());
     List<ApsSchedulingVersionItemPre> list = this.list(q);
 
-    List<ApsSchedulingVersionItemPreDto> dataList = ApsSchedulingVersionItemPreConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsSchedulingVersionItemPreDto> dataList = ApsSchedulingVersionItemPreConverter.INSTANCE.queryListRes(list);
     ((ApsSchedulingVersionItemPreService) AopContext.currentProxy()).setName(dataList);
     return new ApsSchedulingVersionItemPreQueryListRes().setDataList(dataList);
   }

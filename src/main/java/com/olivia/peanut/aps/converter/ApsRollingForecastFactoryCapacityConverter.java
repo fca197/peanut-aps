@@ -10,20 +10,16 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsRollingForecastFactoryCapacityConverter {
 
-  ApsRollingForecastFactoryCapacityConverter INSTANCE = Mappers.getMapper(
-      ApsRollingForecastFactoryCapacityConverter.class);
+  ApsRollingForecastFactoryCapacityConverter INSTANCE = Mappers.getMapper(ApsRollingForecastFactoryCapacityConverter.class);
 
   ApsRollingForecastFactoryCapacity insertReq(ApsRollingForecastFactoryCapacityInsertReq req);
 
   ApsRollingForecastFactoryCapacity updateReq(ApsRollingForecastFactoryCapacityUpdateByIdReq req);
 
-  List<ApsRollingForecastFactoryCapacityDto> queryListRes(
-      List<ApsRollingForecastFactoryCapacity> list);
+  List<ApsRollingForecastFactoryCapacityDto> queryListRes(List<ApsRollingForecastFactoryCapacity> list);
 
-  List<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsRollingForecastFactoryCapacity> list);
+  List<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageListRes(List<ApsRollingForecastFactoryCapacity> list);
 
-  List<ApsRollingForecastFactoryCapacity> importReq(
-      List<ApsRollingForecastFactoryCapacityImportReq> reqList);
+  List<ApsRollingForecastFactoryCapacity> importReq(List<ApsRollingForecastFactoryCapacityImportReq> reqList);
 }
 

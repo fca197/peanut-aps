@@ -10,20 +10,16 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsGoodsForecastUserSaleGroupDataConverter {
 
-  ApsGoodsForecastUserSaleGroupDataConverter INSTANCE = Mappers.getMapper(
-      ApsGoodsForecastUserSaleGroupDataConverter.class);
+  ApsGoodsForecastUserSaleGroupDataConverter INSTANCE = Mappers.getMapper(ApsGoodsForecastUserSaleGroupDataConverter.class);
 
   ApsGoodsForecastUserSaleGroupData insertReq(ApsGoodsForecastUserSaleGroupDataInsertReq req);
 
   ApsGoodsForecastUserSaleGroupData updateReq(ApsGoodsForecastUserSaleGroupDataUpdateByIdReq req);
 
-  List<ApsGoodsForecastUserSaleGroupDataDto> queryListRes(
-      List<ApsGoodsForecastUserSaleGroupData> list);
+  List<ApsGoodsForecastUserSaleGroupDataDto> queryListRes(List<ApsGoodsForecastUserSaleGroupData> list);
 
-  List<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsGoodsForecastUserSaleGroupData> list);
+  List<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageListRes(List<ApsGoodsForecastUserSaleGroupData> list);
 
-  List<ApsGoodsForecastUserSaleGroupData> importReq(
-      List<ApsGoodsForecastUserSaleGroupDataImportReq> reqList);
+  List<ApsGoodsForecastUserSaleGroupData> importReq(List<ApsGoodsForecastUserSaleGroupDataImportReq> reqList);
 }
 

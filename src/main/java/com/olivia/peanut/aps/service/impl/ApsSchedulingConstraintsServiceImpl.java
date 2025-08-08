@@ -33,8 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsSchedulingConstraintsService")
 @Transactional
-public class ApsSchedulingConstraintsServiceImpl extends
-    MPJBaseServiceImpl<ApsSchedulingConstraintsMapper, ApsSchedulingConstraints> implements
+public class ApsSchedulingConstraintsServiceImpl extends MPJBaseServiceImpl<ApsSchedulingConstraintsMapper, ApsSchedulingConstraints> implements
     ApsSchedulingConstraintsService {
 
 

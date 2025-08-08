@@ -13,8 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq extends
-    ApsSchedulingDayConfigVersionDetailMachineUseTimeDto {
+public class ApsSchedulingDayConfigVersionDetailMachineUseTimeImportReq extends ApsSchedulingDayConfigVersionDetailMachineUseTimeDto {
 
 
 }

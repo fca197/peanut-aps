@@ -10,8 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApsSchedulingGoodsStatusDateConverter {
 
-  ApsSchedulingGoodsStatusDateConverter INSTANCE = Mappers.getMapper(
-      ApsSchedulingGoodsStatusDateConverter.class);
+  ApsSchedulingGoodsStatusDateConverter INSTANCE = Mappers.getMapper(ApsSchedulingGoodsStatusDateConverter.class);
 
   ApsSchedulingGoodsStatusDate insertReq(ApsSchedulingGoodsStatusDateInsertReq req);
 
@@ -19,8 +18,7 @@ public interface ApsSchedulingGoodsStatusDateConverter {
 
   List<ApsSchedulingGoodsStatusDateDto> queryListRes(List<ApsSchedulingGoodsStatusDate> list);
 
-  List<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingGoodsStatusDate> list);
+  List<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingGoodsStatusDate> list);
 
   List<ApsSchedulingGoodsStatusDate> importReq(List<ApsSchedulingGoodsStatusDateImportReq> reqList);
 }

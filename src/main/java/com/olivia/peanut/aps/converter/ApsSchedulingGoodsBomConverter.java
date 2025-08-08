@@ -18,8 +18,7 @@ public interface ApsSchedulingGoodsBomConverter {
 
   List<ApsSchedulingGoodsBomDto> queryListRes(List<ApsSchedulingGoodsBom> list);
 
-  List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageListRes(
-      List<ApsSchedulingGoodsBom> list);
+  List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingGoodsBom> list);
 
   List<ApsSchedulingGoodsBom> importReq(List<ApsSchedulingGoodsBomImportReq> reqList);
 }

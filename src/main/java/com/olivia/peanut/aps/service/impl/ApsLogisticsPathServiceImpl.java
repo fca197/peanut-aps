@@ -33,8 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsLogisticsPathService")
 @Transactional
-public class ApsLogisticsPathServiceImpl extends
-    MPJBaseServiceImpl<ApsLogisticsPathMapper, ApsLogisticsPath> implements
+public class ApsLogisticsPathServiceImpl extends MPJBaseServiceImpl<ApsLogisticsPathMapper, ApsLogisticsPath> implements
     ApsLogisticsPathService {
 
 

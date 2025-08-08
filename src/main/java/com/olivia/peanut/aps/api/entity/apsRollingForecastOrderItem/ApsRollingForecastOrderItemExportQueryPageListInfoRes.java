@@ -14,8 +14,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @SuppressWarnings("serial")
-public class ApsRollingForecastOrderItemExportQueryPageListInfoRes extends
-    ApsRollingForecastOrderItemDto {
+public class ApsRollingForecastOrderItemExportQueryPageListInfoRes extends ApsRollingForecastOrderItemDto {
 
 }
 
