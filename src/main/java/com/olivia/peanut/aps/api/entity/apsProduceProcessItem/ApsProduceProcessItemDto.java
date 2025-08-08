@@ -52,7 +52,7 @@ public class ApsProduceProcessItemDto extends BaseEntityDto {
   /***
    *  最小功率
    */
-  private BigDecimal minPower;
+  //private BigDecimal minPower;
   /***
    *  最大功率
    */

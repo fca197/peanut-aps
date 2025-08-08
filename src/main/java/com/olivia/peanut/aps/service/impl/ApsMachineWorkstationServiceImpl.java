@@ -166,7 +166,6 @@ public class ApsMachineWorkstationServiceImpl extends
         , BaseEntity::getId // id
         , ApsMachineWorkstation::getMachineWorkstationNo // 工作站编号
         , ApsMachineWorkstation::getMachineWorkstationName // 工作站名称
-        , ApsMachineWorkstation::getMinPower // 最小功率
         , ApsMachineWorkstation::getMaxPower // 最大功率
         , ApsMachineWorkstation::getFactoryId // 工厂ID
         , ApsMachineWorkstation::getSortIndex // 排序索引

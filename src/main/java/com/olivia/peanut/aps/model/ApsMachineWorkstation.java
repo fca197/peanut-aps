@@ -34,8 +34,8 @@ public class ApsMachineWorkstation extends BaseEntity {
   /***
    *  最小功率
    */
-  @TableField("min_power")
-  private BigDecimal minPower;
+  // @TableField("min_power")
+  //private BigDecimal minPower;
   /***
    *  最大功率
    */

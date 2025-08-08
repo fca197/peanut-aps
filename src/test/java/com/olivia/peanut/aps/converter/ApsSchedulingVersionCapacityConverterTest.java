@@ -19,8 +19,7 @@ public class ApsSchedulingVersionCapacityConverterTest {
     capacity.setFactoryId(-2L);
     capacity.setGoodsId(-3L);
     capacity.setOrderNo("orderNo");
-    Map<String, Object> stringObjectMap = ApsSchedulingVersionCapacityConverter.INSTANCE.entity2Map(
-        capacity);
+    Map<String, Object> stringObjectMap = ApsSchedulingVersionCapacityConverter.INSTANCE.entity2Map(        capacity);
     log.debug("map: {}", JSON.toJSONString(stringObjectMap));
   }
 }
