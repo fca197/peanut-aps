@@ -22,8 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ApsOrderApi {
 
   @PostMapping("/apsOrder/batchInsert")
-  ApsOrderBatchInsertRes batchInsert(
-      @RequestBody @Validated(InsertCheck.class) ApsOrderBatchInsertReq req);
+  ApsOrderBatchInsertRes batchInsert(@RequestBody @Validated(InsertCheck.class) ApsOrderBatchInsertReq req);
 
   /**
    * 保存
@@ -47,15 +46,13 @@ public interface ApsOrderApi {
    * 根据ID 更新
    */
   @PostMapping("/apsOrder/updateById")
-  ApsOrderUpdateByIdRes updateById(
-      @RequestBody @Validated(UpdateCheck.class) ApsOrderUpdateByIdReq req);
+  ApsOrderUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsOrderUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsOrder/queryPageList")
-  DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList(
-      @RequestBody @Valid ApsOrderExportQueryPageListReq req);
+  DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsOrderExportQueryPageListReq req);
 
   /**
    * 导出
@@ -80,13 +77,11 @@ public interface ApsOrderApi {
   DynamicsPage<ApsOrderTimeLineRes> timeLine(@RequestBody @Valid ApsOrderTimeLineReq req);
 
   @PostMapping("/apsOrder/updateOrderStatus")
-  ApsOrderUpdateOrderStatusRes updateOrderStatus(
-      @RequestBody @Valid ApsOrderUpdateOrderStatusReq req);
+  ApsOrderUpdateOrderStatusRes updateOrderStatus(@RequestBody @Valid ApsOrderUpdateOrderStatusReq req);
 
   //schedulingDate
   @PostMapping("/apsOrder/updateSchedulingDate")
-  ApsOrderUpdateSchedulingDateRes updateSchedulingDate(
-      @RequestBody @Valid ApsOrderUpdateSchedulingDateReq req);
+  ApsOrderUpdateSchedulingDateRes updateSchedulingDate(@RequestBody @Valid ApsOrderUpdateSchedulingDateReq req);
 
   @PostMapping("/apsOrder/orderCreateByMonth")
   OrderCreateByMonthCountRes orderCreateByMonth(@RequestBody @Valid OrderCreateByMonthCountReq req);
