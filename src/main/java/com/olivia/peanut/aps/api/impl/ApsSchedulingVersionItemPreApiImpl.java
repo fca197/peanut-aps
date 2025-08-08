@@ -4,21 +4,7 @@ import static com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConvert
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsSchedulingVersionItemPreApi;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreImportReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreImportRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.*;
 import com.olivia.peanut.aps.api.impl.listener.ApsSchedulingVersionItemPreImportListener;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionItemPre;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionItemPreService;

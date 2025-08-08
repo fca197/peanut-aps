@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseImportReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.ApsGoodsForecastMakeBomUseUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMakeBomUse.*;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMakeBomUse;
 import java.util.List;
 import org.mapstruct.Mapper;

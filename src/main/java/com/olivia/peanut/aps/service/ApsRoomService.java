@@ -1,14 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDto;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.*;
 import com.olivia.peanut.aps.model.ApsRoom;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

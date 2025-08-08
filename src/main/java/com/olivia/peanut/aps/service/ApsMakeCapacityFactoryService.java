@@ -1,13 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDto;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.*;
 import com.olivia.peanut.aps.model.ApsMakeCapacityFactory;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

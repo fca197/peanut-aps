@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemImportRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

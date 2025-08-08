@@ -4,38 +4,21 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListInfoRes;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsGetUseFieldRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingConstraintsMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingConstraints;
 import com.olivia.peanut.aps.service.ApsSaleConfigService;
 import com.olivia.peanut.aps.service.ApsSchedulingConstraintsService;
 import com.olivia.peanut.aps.utils.constrained.model.sub.OperatorEnum;
-import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.FieldConfig;
-import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.Operator;
-import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.ValueItem;
-import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.ValueType;
+import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.*;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -54,8 +37,6 @@ public class ApsSchedulingConstraintsServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingConstraintsMapper, ApsSchedulingConstraints> implements
     ApsSchedulingConstraintsService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsSaleConfigService apsSaleConfigService;

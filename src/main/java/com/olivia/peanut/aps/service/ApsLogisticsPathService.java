@@ -1,15 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathDto;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.*;
 import com.olivia.peanut.aps.model.ApsLogisticsPath;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

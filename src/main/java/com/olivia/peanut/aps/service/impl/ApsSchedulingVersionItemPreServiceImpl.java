@@ -3,13 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.ApsSchedulingVersionItemPreQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionItemPre.*;
 import com.olivia.peanut.aps.converter.ApsSchedulingVersionItemPreConverter;
 import com.olivia.peanut.aps.mapper.ApsSchedulingVersionItemPreMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionItemPre;
@@ -21,8 +15,6 @@ import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,8 +31,6 @@ public class ApsSchedulingVersionItemPreServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingVersionItemPreMapper, ApsSchedulingVersionItemPre> implements
     ApsSchedulingVersionItemPreService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

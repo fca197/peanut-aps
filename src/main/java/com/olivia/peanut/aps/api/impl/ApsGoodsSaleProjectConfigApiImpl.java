@@ -6,34 +6,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsGoodsSaleProjectConfigApi;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigImportReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigImportRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigInsertRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.*;
 import com.olivia.peanut.aps.api.impl.listener.ApsGoodsSaleProjectConfigImportListener;
 import com.olivia.peanut.aps.model.ApsGoodsSaleProjectConfig;
 import com.olivia.peanut.aps.service.ApsGoodsSaleProjectConfigService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.PoiExcelUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,8 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 public class ApsGoodsSaleProjectConfigApiImpl implements ApsGoodsSaleProjectConfigApi {
+
   @Resource
-  private  ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
+  private ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
 
   /****
    * insert

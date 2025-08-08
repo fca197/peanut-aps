@@ -10,48 +10,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertRes;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.CreateSchedulingKittingVersion;
 import com.olivia.peanut.aps.con.ApsStr;
-import com.olivia.peanut.aps.model.ApsBom;
-import com.olivia.peanut.aps.model.ApsGoods;
-import com.olivia.peanut.aps.model.ApsGoodsBom;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingTemplate;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrder;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
-import com.olivia.peanut.aps.model.ApsSchedulingVersionCapacity;
-import com.olivia.peanut.aps.service.ApsBomService;
-import com.olivia.peanut.aps.service.ApsGoodsBomService;
-import com.olivia.peanut.aps.service.ApsGoodsService;
-import com.olivia.peanut.aps.service.ApsOrderFieldService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingTemplateService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderItemService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
-import com.olivia.peanut.aps.service.ApsSchedulingVersionCapacityService;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.impl.kitting.ApsOrderGoodsBomKittingVersionCreateService;
 import com.olivia.sdk.model.KVEntity;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.IdUtils;
-import com.olivia.sdk.utils.JSON;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -65,39 +35,39 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     ApsOrderGoodsBomKittingVersionCreateService {
 
 
+  private static final BigDecimal multiplicand_100 = new BigDecimal(100);
+  private static final RoundingMode ROUNDING_MODE = DOWN;
   @Resource
   ApsOrderGoodsBomKittingVersionOrderService apsOrderGoodsBomKittingVersionOrderService;
-
   @Resource
   ApsOrderGoodsBomKittingVersionOrderItemService apsOrderGoodsBomKittingVersionOrderItemService;
-
   @Resource
   ApsSchedulingVersionCapacityService apsSchedulingVersionCapacityService;
-
   @Resource
   ApsOrderGoodsBomKittingTemplateService apsOrderGoodsBomKittingTemplateService;
-
   @Resource
   ApsGoodsService apsGoodsService;
-
   @Resource
   ApsBomService apsBomService;
   @Resource
   ApsGoodsBomService apsGoodsBomService;
-
   @Resource
   ApsOrderGoodsBomService apsOrderGoodsBomService;
-
   @Resource
   ApsOrderGoodsBomKittingVersionService apsOrderGoodsBomKittingVersionService;
-
-  private static final BigDecimal multiplicand_100 = new BigDecimal(100);
-
-  private static final RoundingMode ROUNDING_MODE = DOWN;
-
-
   @Resource
   ApsOrderFieldService apsOrderFieldService;
+
+  private static void setOrderValue(AtomicInteger fieldIndex,
+      ApsOrderGoodsBomKittingVersionOrder versionOrder, Map<String, Object> t, String tc) {
+    int index = fieldIndex.getAndIncrement();
+    if (index > ApsOrderGoodsBomKittingVersionOrder.FIELD_COUNT) {
+      return;
+    }
+    Field field = FieldUtils.getField(ApsOrderGoodsBomKittingVersionOrder.class,
+        "orderField" + String.format("%02d", index));
+    ReflectUtil.setFieldValue(versionOrder, field, t.get(tc));
+  }
 
   @Override
   @SuppressWarnings("unchecked")
@@ -315,17 +285,6 @@ public class ApsOrderGoodsBomKittingVersionCreateServiceImpl implements
     apsOrderGoodsBomKittingVersionService.save(apsOrderGoodsBomKittingVersion);
 
     return null;
-  }
-
-  private static void setOrderValue(AtomicInteger fieldIndex,
-      ApsOrderGoodsBomKittingVersionOrder versionOrder, Map<String, Object> t, String tc) {
-    int index = fieldIndex.getAndIncrement();
-    if (index > ApsOrderGoodsBomKittingVersionOrder.FIELD_COUNT) {
-      return;
-    }
-    Field field = FieldUtils.getField(ApsOrderGoodsBomKittingVersionOrder.class,
-        "orderField" + String.format("%02d", index));
-    ReflectUtil.setFieldValue(versionOrder, field, t.get(tc));
   }
 
   private String getNextVersionNo() {

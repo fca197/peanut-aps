@@ -6,16 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomDto;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsRoom.ApsRoomUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRoom.*;
 import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDto;
 import com.olivia.peanut.aps.mapper.ApsRoomMapper;
 import com.olivia.peanut.aps.model.ApsRoom;
@@ -30,11 +21,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.RunUtils;
 import jakarta.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -52,8 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoom> implements
     ApsRoomService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsRoomConfigService roomConfigService;

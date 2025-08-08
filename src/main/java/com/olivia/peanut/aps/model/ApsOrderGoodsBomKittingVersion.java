@@ -106,7 +106,7 @@ public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
   private LocalDate bomUseDate;
 
 
-  @TableField(value = "template_header_list" ,typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "template_header_list", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> templateHeaderList;
 
 }

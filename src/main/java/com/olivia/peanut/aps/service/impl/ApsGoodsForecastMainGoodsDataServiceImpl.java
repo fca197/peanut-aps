@@ -3,25 +3,14 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.ApsGoodsForecastMainGoodsDataDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.ApsGoodsForecastMainGoodsDataExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.ApsGoodsForecastMainGoodsDataExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.ApsGoodsForecastMainGoodsDataQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.ApsGoodsForecastMainGoodsDataQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainGoodsData.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsForecastMainGoodsDataMapper;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMainGoodsData;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainGoodsDataService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsGoodsForecastMainGoodsDataServiceImpl extends
     MPJBaseServiceImpl<ApsGoodsForecastMainGoodsDataMapper, ApsGoodsForecastMainGoodsData> implements
     ApsGoodsForecastMainGoodsDataService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsGoodsForecastMainGoodsDataQueryListRes queryList(

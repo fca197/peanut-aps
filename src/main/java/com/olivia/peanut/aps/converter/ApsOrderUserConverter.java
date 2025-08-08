@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserImportReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
 import com.olivia.peanut.aps.model.ApsOrderUser;
 import java.util.List;
 import org.mapstruct.Mapper;

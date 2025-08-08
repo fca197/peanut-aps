@@ -8,16 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDto;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.MakeCapacityConfig;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.*;
 import com.olivia.peanut.aps.mapper.ApsMakeCapacityFactoryMapper;
 import com.olivia.peanut.aps.model.ApsMakeCapacityFactory;
 import com.olivia.peanut.aps.service.ApsMakeCapacityFactoryService;
@@ -30,12 +21,7 @@ import com.olivia.sdk.utils.DateUtils;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -53,8 +39,6 @@ public class ApsMakeCapacityFactoryServiceImpl extends
     MPJBaseServiceImpl<ApsMakeCapacityFactoryMapper, ApsMakeCapacityFactory> implements
     ApsMakeCapacityFactoryService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   FactoryService factoryService;

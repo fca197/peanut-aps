@@ -15,31 +15,8 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectReq;
 import com.olivia.peanut.aps.api.entity.apsGoodsSaleProjectConfig.ApsGoodsSaleProjectConfigSale2ProjectRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderBatchInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderBatchInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderDto;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderStatusEnum;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderTimeLineReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderTimeLineRes;
+import com.olivia.peanut.aps.api.entity.apsOrder.*;
 import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderTimeLineRes.StatusInfo;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderUpdateOrderStatusReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderUpdateOrderStatusRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderUpdateSchedulingDateReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderUpdateSchedulingDateRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.FinishOrderTotalDayReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.FinishOrderTotalDayRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.OrderCreateByMonthCountReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.OrderCreateByMonthCountRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.OrderFieldListReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.OrderFieldListRes;
-import com.olivia.peanut.aps.api.entity.apsOrder.StatusCountReq;
-import com.olivia.peanut.aps.api.entity.apsOrder.StatusCountRes;
 import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigDto;
 import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
@@ -49,39 +26,8 @@ import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQ
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListInfoRes;
 import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListReq;
 import com.olivia.peanut.aps.mapper.ApsOrderMapper;
-import com.olivia.peanut.aps.model.ApsGoods;
-import com.olivia.peanut.aps.model.ApsGoodsBom;
-import com.olivia.peanut.aps.model.ApsGoodsSaleItem;
-import com.olivia.peanut.aps.model.ApsOrder;
-import com.olivia.peanut.aps.model.ApsOrderFieldShowTemplate;
-import com.olivia.peanut.aps.model.ApsOrderGoods;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBom;
-import com.olivia.peanut.aps.model.ApsOrderGoodsProjectConfig;
-import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
-import com.olivia.peanut.aps.model.ApsOrderGoodsStatusDate;
-import com.olivia.peanut.aps.model.ApsOrderUser;
-import com.olivia.peanut.aps.model.ApsProduceProcessItem;
-import com.olivia.peanut.aps.model.ApsProjectConfig;
-import com.olivia.peanut.aps.model.ApsSaleConfig;
-import com.olivia.peanut.aps.model.ApsStatus;
-import com.olivia.peanut.aps.service.ApsFactoryService;
-import com.olivia.peanut.aps.service.ApsGoodsBomService;
-import com.olivia.peanut.aps.service.ApsGoodsSaleItemService;
-import com.olivia.peanut.aps.service.ApsGoodsSaleProjectConfigService;
-import com.olivia.peanut.aps.service.ApsGoodsService;
-import com.olivia.peanut.aps.service.ApsOrderFieldService;
-import com.olivia.peanut.aps.service.ApsOrderFieldShowTemplateService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsBomService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsProjectConfigService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsStatusDateService;
-import com.olivia.peanut.aps.service.ApsOrderService;
-import com.olivia.peanut.aps.service.ApsOrderUserService;
-import com.olivia.peanut.aps.service.ApsProjectConfigService;
-import com.olivia.peanut.aps.service.ApsSaleConfigService;
-import com.olivia.peanut.aps.service.ApsSchedulingGoodsStatusDateService;
-import com.olivia.peanut.aps.service.ApsStatusService;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.bom.BomUtils;
@@ -100,29 +46,12 @@ import com.olivia.peanut.portal.api.entity.EChartResDto;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.config.PeanutProperties;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DateUtils;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.IdUtils;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.RandomUserUtil;
-import com.olivia.sdk.utils.Str;
-import com.olivia.sdk.utils.StreamUtils;
+import com.olivia.sdk.utils.*;
 import com.olivia.sdk.utils.model.UserInfo;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.time.*;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -151,11 +80,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsOrder> implements
     ApsOrderService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
+
   final static Cache<Long, List<ApsGoodsSaleItem>> apsGoodsSaleItem_cache = CacheBuilder.newBuilder()
       .maximumSize(100).expireAfterWrite(30, TimeUnit.MINUTES).build();
-
+  private static final AtomicLong orderIdGenerator = new AtomicLong(1);
   @Resource
   ApsOrderGoodsService apsOrderGoodsService;
   @Resource
@@ -186,19 +114,21 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   ApsOrderGoodsBomService apsOrderGoodsBomService;
   @Resource
   ApsGoodsBomService apsGoodsBomService;
-
   @Resource
   FactoryService factoryService;
   @Resource
   ApsGoodsSaleProjectConfigService apsGoodsSaleProjectConfigService;
-
   @Resource
   ApsOrderFieldService apsOrderFieldService;
-
   @Resource
   ApsOrderFieldShowTemplateService apsOrderFieldShowTemplateService;
 
-  private static final AtomicLong orderIdGenerator = new AtomicLong(1);
+  private static LocalDate getExpFinishDate(List<ApsOrderGoodsStatusDate> updateList,
+      List<ApsOrderGoodsStatusDate> insertList) {
+    return Stream.of(updateList, insertList).flatMap(List::stream)
+        .map(ApsOrderGoodsStatusDate::getExpectMakeEndTime).filter(Objects::nonNull)
+        .max(LocalDate::compareTo).orElse(null);
+  }
 
   private void useProcessPath(Long orderId, Long goodsStatusId, FactoryConfigRes factoryConfig,
       ApsGoods apsGoods, List<ApsOrderGoodsStatusDate> updateList,
@@ -625,13 +555,6 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
                 ApsOrderGoodsStatusDate::getActualMakeEndTime, LocalDateTime.now()));
 
     return new ApsOrderUpdateOrderStatusRes();
-  }
-
-  private static LocalDate getExpFinishDate(List<ApsOrderGoodsStatusDate> updateList,
-      List<ApsOrderGoodsStatusDate> insertList) {
-    return Stream.of(updateList, insertList).flatMap(List::stream)
-        .map(ApsOrderGoodsStatusDate::getExpectMakeEndTime).filter(Objects::nonNull)
-        .max(LocalDate::compareTo).orElse(null);
   }
 
   private void useMakeProcess(Long orderId, Long goodsStatusId, FactoryConfigRes factoryConfig,

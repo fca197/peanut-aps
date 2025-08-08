@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDto;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemImportReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.*;
 import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
 import java.util.List;
 import org.mapstruct.Mapper;

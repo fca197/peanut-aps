@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDto;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessImportReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
 import com.olivia.peanut.aps.model.ApsProduceProcess;
 import java.util.List;
 import org.mapstruct.Mapper;

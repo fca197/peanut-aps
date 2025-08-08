@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateImportReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.ApsSchedulingGoodsStatusDateUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsStatusDate.*;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsStatusDate;
 import java.util.List;
 import org.mapstruct.Mapper;

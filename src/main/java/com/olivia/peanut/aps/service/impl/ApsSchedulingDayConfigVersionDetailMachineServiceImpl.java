@@ -3,20 +3,11 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.ApsSchedulingDayConfigVersionDetailMachineQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.*;
 import com.olivia.peanut.aps.con.ApsStr;
 import com.olivia.peanut.aps.mapper.ApsSchedulingDayConfigVersionDetailMachineMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersionDetailMachine;
-import com.olivia.peanut.aps.service.ApsMachineService;
-import com.olivia.peanut.aps.service.ApsOrderService;
-import com.olivia.peanut.aps.service.ApsOrderUserService;
-import com.olivia.peanut.aps.service.ApsSchedulingDayConfigVersionDetailMachineService;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
@@ -24,9 +15,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -44,8 +33,6 @@ public class ApsSchedulingDayConfigVersionDetailMachineServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingDayConfigVersionDetailMachineMapper, ApsSchedulingDayConfigVersionDetailMachine> implements
     ApsSchedulingDayConfigVersionDetailMachineService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

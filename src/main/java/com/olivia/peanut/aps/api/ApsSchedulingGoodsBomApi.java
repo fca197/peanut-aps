@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomImportRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

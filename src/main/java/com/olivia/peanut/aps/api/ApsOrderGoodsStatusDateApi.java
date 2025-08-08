@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateImportRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

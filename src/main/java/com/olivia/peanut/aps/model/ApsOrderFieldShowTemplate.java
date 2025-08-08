@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 //@SuppressWarnings("serial")
-@TableName(value = "aps_order_field_show_template" ,autoResultMap = true)
+@TableName(value = "aps_order_field_show_template", autoResultMap = true)
 public class ApsOrderFieldShowTemplate extends BaseEntity {
 
   /***
@@ -41,17 +41,17 @@ public class ApsOrderFieldShowTemplate extends BaseEntity {
   /***
    *  销售配置
    */
-  @TableField(value = "aps_order_sale_config_list" ,typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "aps_order_sale_config_list", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> apsOrderSaleConfigList;
   /***
    *  订单配置
    */
-  @TableField(value = "aps_order_order_config_list",typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "aps_order_order_config_list", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> apsOrderOrderConfigList;
   /***
    *  订单配置
    */
-  @TableField(value = "aps_order_order_user_config_list",typeHandler = ListKVTypeHandler.class)
+  @TableField(value = "aps_order_order_user_config_list", typeHandler = ListKVTypeHandler.class)
   private List<KVEntity> apsOrderOrderUserConfigList;
 
 }

@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemImportReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.*;
 import com.olivia.peanut.aps.model.ApsSchedulingIssueItem;
 import java.util.List;
 import org.mapstruct.Mapper;

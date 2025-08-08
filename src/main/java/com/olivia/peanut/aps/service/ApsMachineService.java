@@ -1,11 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDto;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.*;
 import com.olivia.peanut.aps.model.ApsMachine;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

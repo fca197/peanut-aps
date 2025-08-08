@@ -4,22 +4,7 @@ import static com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionConv
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsOrderGoodsBomKittingVersionApi;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionImportReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionImportRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.ApsOrderGoodsBomKittingVersionUpdateByIdRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.CreateSchedulingKittingVersion;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersion.*;
 import com.olivia.peanut.aps.api.impl.listener.ApsOrderGoodsBomKittingVersionImportListener;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersion;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionService;
@@ -43,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKittingVersionApi {
 
   private @Autowired ApsOrderGoodsBomKittingVersionService apsOrderGoodsBomKittingVersionService;
-  private @Resource ApsOrderGoodsBomKittingVersionCreateService  apsOrderGoodsBomKittingVersionCreateService;
+  private @Resource ApsOrderGoodsBomKittingVersionCreateService apsOrderGoodsBomKittingVersionCreateService;
 
   /****
    * insert

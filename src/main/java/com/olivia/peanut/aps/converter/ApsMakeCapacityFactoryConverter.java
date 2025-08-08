@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryDto;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryImportReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.ApsMakeCapacityFactoryUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMakeCapacityFactory.*;
 import com.olivia.peanut.aps.model.ApsMakeCapacityFactory;
 import java.util.List;
 import org.mapstruct.Mapper;

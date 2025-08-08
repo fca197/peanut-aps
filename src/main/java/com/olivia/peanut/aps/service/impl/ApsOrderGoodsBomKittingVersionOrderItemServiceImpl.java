@@ -1,28 +1,21 @@
 package com.olivia.peanut.aps.service.impl;
 
-import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionOrderBomConverter;
-import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
-import org.springframework.aop.framework.AopContext;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import jakarta.annotation.Resource;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.DynamicsPage;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom.*;
+import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingVersionOrderBomConverter;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomKittingVersionOrderItemMapper;
+import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingVersionOrderBom;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingVersionOrderItemService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom.*;
 import com.olivia.sdk.service.SetNameService;
+import com.olivia.sdk.utils.*;
+import jakarta.annotation.Resource;
+import java.util.List;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)表服务实现类
@@ -36,8 +29,6 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsBomKittingVersionOrderItemMapper, ApsOrderGoodsBomKittingVersionOrderBom> implements
     ApsOrderGoodsBomKittingVersionOrderItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

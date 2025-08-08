@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  * 预测销售组数据(ApsGoodsForecastUserSaleGroupData)修改对象返回
  *

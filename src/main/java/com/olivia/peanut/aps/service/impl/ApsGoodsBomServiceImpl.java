@@ -8,15 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.CheckBomUseExpressionReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBom.CheckBomUseExpressionRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBom.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsBomMapper;
 import com.olivia.peanut.aps.model.ApsGoodsBom;
 import com.olivia.peanut.aps.model.ApsProjectConfig;
@@ -28,16 +20,10 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.service.pojo.NameConfig;
 import com.olivia.sdk.service.pojo.SetNamePojo;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -54,8 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsGoodsBomServiceImpl extends
     MPJBaseServiceImpl<ApsGoodsBomMapper, ApsGoodsBom> implements ApsGoodsBomService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   SetNameService setNameService;

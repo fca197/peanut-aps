@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemImportRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

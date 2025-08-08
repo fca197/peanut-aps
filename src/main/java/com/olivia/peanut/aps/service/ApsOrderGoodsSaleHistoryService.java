@@ -1,13 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.*;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleHistory;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

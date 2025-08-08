@@ -5,13 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoods.*;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoods;
 import com.olivia.peanut.aps.service.ApsOrderGoodsService;
@@ -20,9 +14,7 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -40,9 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ApsOrderGoodsServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsMapper, ApsOrderGoods> implements ApsOrderGoodsService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsOrderGoodsQueryListRes queryList(ApsOrderGoodsQueryListReq req) {

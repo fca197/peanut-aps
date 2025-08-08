@@ -1,13 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
 import com.olivia.peanut.aps.model.ApsRollingForecastFactoryCapacity;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.sdk.utils.DynamicsPage;

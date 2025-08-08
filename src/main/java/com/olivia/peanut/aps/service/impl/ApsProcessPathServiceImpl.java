@@ -8,42 +8,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathInsertRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProcessPath.*;
 import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDto;
 import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDto;
 import com.olivia.peanut.aps.mapper.ApsProcessPathMapper;
-import com.olivia.peanut.aps.model.ApsProcessPath;
-import com.olivia.peanut.aps.model.ApsProcessPathRoom;
-import com.olivia.peanut.aps.model.ApsRoom;
-import com.olivia.peanut.aps.model.ApsRoomConfig;
-import com.olivia.peanut.aps.service.ApsProcessPathRoomService;
-import com.olivia.peanut.aps.service.ApsProcessPathService;
-import com.olivia.peanut.aps.service.ApsRoomConfigService;
-import com.olivia.peanut.aps.service.ApsRoomService;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.RunUtils;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -60,8 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsProcessPathServiceImpl extends
     MPJBaseServiceImpl<ApsProcessPathMapper, ApsProcessPath> implements ApsProcessPathService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsProcessPathRoomService apsProcessPathRoomService;

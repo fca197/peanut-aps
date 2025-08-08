@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDto;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsImportReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsGoods.*;
 import com.olivia.peanut.aps.model.ApsGoods;
 import java.util.List;
 import org.mapstruct.Mapper;

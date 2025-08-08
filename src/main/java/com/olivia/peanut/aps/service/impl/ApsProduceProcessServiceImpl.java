@@ -6,15 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessDto;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcess.ApsProduceProcessUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcess.*;
 import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDto;
 import com.olivia.peanut.aps.mapper.ApsProduceProcessMapper;
 import com.olivia.peanut.aps.model.ApsProduceProcess;
@@ -31,7 +23,6 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -50,8 +41,6 @@ public class ApsProduceProcessServiceImpl extends
     MPJBaseServiceImpl<ApsProduceProcessMapper, ApsProduceProcess> implements
     ApsProduceProcessService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

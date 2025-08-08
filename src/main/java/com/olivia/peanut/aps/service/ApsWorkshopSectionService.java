@@ -1,10 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionQueryListReq;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionQueryListRes;
+import com.olivia.peanut.aps.api.entity.workshopSection.*;
 import com.olivia.peanut.aps.model.ApsWorkshopSection;
 import com.olivia.sdk.utils.DynamicsPage;
 

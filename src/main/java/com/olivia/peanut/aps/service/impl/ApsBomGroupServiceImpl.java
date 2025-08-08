@@ -7,15 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupDto;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsBomGroup.ApsBomGroupUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsBomGroup.*;
 import com.olivia.peanut.aps.mapper.ApsBomGroupMapper;
 import com.olivia.peanut.aps.model.ApsBomGroup;
 import com.olivia.peanut.aps.service.ApsBomGroupService;
@@ -25,9 +17,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -43,9 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ApsBomGroupServiceImpl extends
     MPJBaseServiceImpl<ApsBomGroupMapper, ApsBomGroup> implements ApsBomGroupService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsBomGroupQueryListRes queryList(ApsBomGroupQueryListReq req) {

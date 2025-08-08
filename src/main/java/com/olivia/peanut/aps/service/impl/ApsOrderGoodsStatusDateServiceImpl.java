@@ -4,13 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.ApsOrderGoodsStatusDateQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsStatusDate.*;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsStatusDateMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsStatusDate;
 import com.olivia.peanut.aps.service.ApsOrderGoodsStatusDateService;
@@ -22,9 +16,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -42,8 +34,6 @@ public class ApsOrderGoodsStatusDateServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsStatusDateMapper, ApsOrderGoodsStatusDate> implements
     ApsOrderGoodsStatusDateService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   SetNameService setNameService;

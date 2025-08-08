@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailImportRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

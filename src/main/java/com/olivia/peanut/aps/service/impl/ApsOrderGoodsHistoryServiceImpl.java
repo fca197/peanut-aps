@@ -7,13 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.ApsOrderGoodsHistoryQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsHistory.*;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsHistoryMapper;
@@ -25,20 +19,14 @@ import com.olivia.peanut.aps.service.ApsOrderGoodsHistoryService;
 import com.olivia.peanut.aps.service.ApsOrderGoodsService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -56,8 +44,6 @@ public class ApsOrderGoodsHistoryServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsHistoryMapper, ApsOrderGoodsHistory> implements
     ApsOrderGoodsHistoryService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

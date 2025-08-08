@@ -14,51 +14,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsGoodsBom.ApsGoodsBomDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalCreateBomBuyPlanReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalCreateBomBuyPlanRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalQueryBomTotalReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalQueryBomTotalRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.ApsSchedulingGoodsBomTotalQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBomTotal.*;
 import com.olivia.peanut.aps.enums.ApsGoodsBomBuyPlanTypeEnum;
 import com.olivia.peanut.aps.mapper.ApsSchedulingGoodsBomTotalMapper;
-import com.olivia.peanut.aps.model.ApsBom;
-import com.olivia.peanut.aps.model.ApsGoodsBom;
-import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlan;
-import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem;
-import com.olivia.peanut.aps.model.ApsSchedulingGoodsBomTotal;
-import com.olivia.peanut.aps.model.ApsSchedulingVersion;
-import com.olivia.peanut.aps.service.ApsBomService;
-import com.olivia.peanut.aps.service.ApsGoodsBomBuyPlanItemService;
-import com.olivia.peanut.aps.service.ApsGoodsBomBuyPlanService;
-import com.olivia.peanut.aps.service.ApsGoodsBomService;
-import com.olivia.peanut.aps.service.ApsSchedulingGoodsBomService;
-import com.olivia.peanut.aps.service.ApsSchedulingGoodsBomTotalService;
-import com.olivia.peanut.aps.service.ApsSchedulingVersionService;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.JSON;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -79,8 +47,6 @@ public class ApsSchedulingGoodsBomTotalServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingGoodsBomTotalMapper, ApsSchedulingGoodsBomTotal> implements
     ApsSchedulingGoodsBomTotalService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsGoodsBomService apsGoodsBomService;

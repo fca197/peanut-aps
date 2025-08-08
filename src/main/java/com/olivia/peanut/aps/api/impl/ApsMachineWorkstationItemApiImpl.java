@@ -4,21 +4,7 @@ import static com.olivia.peanut.aps.converter.ApsMachineWorkstationItemConverter
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.olivia.peanut.aps.api.ApsMachineWorkstationItemApi;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDto;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemImportReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemImportRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemInsertRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.*;
 import com.olivia.peanut.aps.api.impl.listener.ApsMachineWorkstationItemImportListener;
 import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;

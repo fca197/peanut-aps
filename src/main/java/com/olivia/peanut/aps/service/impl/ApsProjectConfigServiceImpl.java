@@ -4,13 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDto;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.*;
 import com.olivia.peanut.aps.mapper.ApsProjectConfigMapper;
 import com.olivia.peanut.aps.model.ApsProjectConfig;
 import com.olivia.peanut.aps.service.ApsProjectConfigService;
@@ -20,9 +14,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -40,9 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsProjectConfigServiceImpl extends
     MPJBaseServiceImpl<ApsProjectConfigMapper, ApsProjectConfig> implements
     ApsProjectConfigService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsProjectConfigQueryListRes queryList(ApsProjectConfigQueryListReq req) {

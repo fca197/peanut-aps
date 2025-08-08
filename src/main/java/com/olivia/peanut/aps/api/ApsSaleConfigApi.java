@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigImportRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSaleConfig.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

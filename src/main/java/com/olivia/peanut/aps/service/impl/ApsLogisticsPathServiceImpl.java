@@ -5,17 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathDto;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathInsertRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPath.ApsLogisticsPathUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPath.*;
 import com.olivia.peanut.aps.mapper.ApsLogisticsPathMapper;
 import com.olivia.peanut.aps.model.ApsLogisticsPath;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
@@ -28,9 +18,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -49,8 +37,6 @@ public class ApsLogisticsPathServiceImpl extends
     MPJBaseServiceImpl<ApsLogisticsPathMapper, ApsLogisticsPath> implements
     ApsLogisticsPathService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

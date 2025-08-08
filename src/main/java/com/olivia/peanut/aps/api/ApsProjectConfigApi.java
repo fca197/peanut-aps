@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigImportRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigInsertRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsProjectConfig.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

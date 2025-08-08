@@ -4,15 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
 import com.olivia.peanut.aps.mapper.ApsOrderUserMapper;
 import com.olivia.peanut.aps.model.ApsOrderUser;
 import com.olivia.peanut.aps.service.ApsOrderUserService;
@@ -22,9 +14,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.FieldUtils;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -41,9 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ApsOrderUserServiceImpl extends
     MPJBaseServiceImpl<ApsOrderUserMapper, ApsOrderUser> implements ApsOrderUserService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsOrderUserQueryListRes queryList(ApsOrderUserQueryListReq req) {

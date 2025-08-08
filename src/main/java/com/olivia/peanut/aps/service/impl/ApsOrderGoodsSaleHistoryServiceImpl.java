@@ -9,49 +9,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.*;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsSaleHistoryMapper;
-import com.olivia.peanut.aps.model.ApsGoods;
-import com.olivia.peanut.aps.model.ApsGoodsSaleItem;
-import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
-import com.olivia.peanut.aps.model.ApsOrderGoodsSaleHistory;
-import com.olivia.peanut.aps.model.ApsSaleConfig;
-import com.olivia.peanut.aps.service.ApsGoodsService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsSaleHistoryService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsService;
-import com.olivia.peanut.aps.service.ApsSaleConfigService;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.impl.po.ApsOrderGoodsSaleHistoryCount;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.BigDecimalUtils;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.JSON;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.RunUtils;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -73,8 +43,6 @@ public class ApsOrderGoodsSaleHistoryServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsSaleHistoryMapper, ApsOrderGoodsSaleHistory> implements
     ApsOrderGoodsSaleHistoryService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

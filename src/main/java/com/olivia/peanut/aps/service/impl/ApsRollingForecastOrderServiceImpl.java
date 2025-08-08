@@ -8,26 +8,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.ApsRollingForecastOrderQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrder.*;
 import com.olivia.peanut.aps.mapper.ApsRollingForecastOrderMapper;
 import com.olivia.peanut.aps.model.ApsOrder;
 import com.olivia.peanut.aps.model.ApsRollingForecastOrder;
 import com.olivia.peanut.aps.model.ApsRollingForecastOrderItem;
-import com.olivia.peanut.aps.service.ApsFactoryService;
-import com.olivia.peanut.aps.service.ApsOrderService;
-import com.olivia.peanut.aps.service.ApsRollingForecastFactoryCapacityService;
-import com.olivia.peanut.aps.service.ApsRollingForecastOrderItemService;
-import com.olivia.peanut.aps.service.ApsRollingForecastOrderService;
-import com.olivia.peanut.aps.service.ApsStatusService;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
@@ -39,18 +26,9 @@ import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.service.pojo.NameConfig;
 import com.olivia.sdk.service.pojo.SetNamePojo;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.RunUtils;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -71,8 +49,6 @@ public class ApsRollingForecastOrderServiceImpl extends
     MPJBaseServiceImpl<ApsRollingForecastOrderMapper, ApsRollingForecastOrder> implements
     ApsRollingForecastOrderService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

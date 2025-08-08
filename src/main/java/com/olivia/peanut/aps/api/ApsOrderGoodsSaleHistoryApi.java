@@ -1,20 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryImportRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.ApsOrderGoodsSaleHistoryUpdateByIdRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.SelectOrder2HistoryRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleHistory.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

@@ -3,28 +3,16 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.ApsOrderGoodsBomKittingTemplateDto;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.ApsOrderGoodsBomKittingTemplateExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.ApsOrderGoodsBomKittingTemplateQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.ApsOrderGoodsBomKittingTemplateQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingTemplate.*;
 import com.olivia.peanut.aps.converter.ApsOrderGoodsBomKittingTemplateConverter;
 import com.olivia.peanut.aps.mapper.ApsOrderGoodsBomKittingTemplateMapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsBomKittingTemplate;
 import com.olivia.peanut.aps.service.ApsOrderGoodsBomKittingTemplateService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
-import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +29,6 @@ public class ApsOrderGoodsBomKittingTemplateServiceImpl extends
     MPJBaseServiceImpl<ApsOrderGoodsBomKittingTemplateMapper, ApsOrderGoodsBomKittingTemplate> implements
     ApsOrderGoodsBomKittingTemplateService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

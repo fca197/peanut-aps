@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitImportReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.*;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionLimit;
 import java.util.List;
 import org.mapstruct.Mapper;

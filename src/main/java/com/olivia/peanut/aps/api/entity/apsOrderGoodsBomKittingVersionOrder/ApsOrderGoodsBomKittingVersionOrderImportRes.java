@@ -1,11 +1,9 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrder;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import java.util.List;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 齐套检查订单详情(ApsOrderGoodsBomKittingVersionOrder)保存返回

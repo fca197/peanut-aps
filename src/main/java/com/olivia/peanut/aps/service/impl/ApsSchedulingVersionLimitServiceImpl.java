@@ -4,26 +4,14 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.ApsSchedulingVersionLimitQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersionLimit.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingVersionLimitMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingVersionLimit;
 import com.olivia.peanut.aps.service.ApsSchedulingVersionLimitService;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,9 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsSchedulingVersionLimitServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingVersionLimitMapper, ApsSchedulingVersionLimit> implements
     ApsSchedulingVersionLimitService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsSchedulingVersionLimitQueryListRes queryList(

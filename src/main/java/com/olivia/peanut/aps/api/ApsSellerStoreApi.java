@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreImportRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

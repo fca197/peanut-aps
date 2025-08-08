@@ -6,17 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.ApsSchedulingIssueItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.QueryDayCountRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingIssueItem.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingIssueItemMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.model.ApsSchedulingIssueItem;
@@ -28,19 +18,10 @@ import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.portal.api.entity.EChartResDto;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DateUtils;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.Str;
-import com.olivia.sdk.utils.StreamUtils;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -58,8 +39,6 @@ public class ApsSchedulingIssueItemServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingIssueItemMapper, ApsSchedulingIssueItem> implements
     ApsSchedulingIssueItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomImportRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomInsertRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.ApsProcessPathRoomUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsProcessPathRoom.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

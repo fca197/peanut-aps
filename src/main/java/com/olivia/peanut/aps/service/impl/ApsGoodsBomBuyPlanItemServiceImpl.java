@@ -7,38 +7,20 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.olivia.peanut.aps.api.entity.apsBom.SupplyModelEnum;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.ApsGoodsBomBuyPlanItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.SendMail2supplierRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsBomBuyPlanItem.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsBomBuyPlanItemMapper;
 import com.olivia.peanut.aps.model.ApsBom;
 import com.olivia.peanut.aps.model.ApsBomSupplier;
 import com.olivia.peanut.aps.model.ApsGoodsBomBuyPlanItem;
-import com.olivia.peanut.aps.service.ApsBomService;
-import com.olivia.peanut.aps.service.ApsBomSupplierService;
-import com.olivia.peanut.aps.service.ApsGoodsBomBuyPlanItemService;
-import com.olivia.peanut.aps.service.ApsGoodsBomBuyPlanService;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.impl.utils.ApsBomPlan2Email;
 import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.ann.SetUserName;
 import com.olivia.sdk.comment.ServiceComment;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -58,9 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsGoodsBomBuyPlanItemServiceImpl extends
     MPJBaseServiceImpl<ApsGoodsBomBuyPlanItemMapper, ApsGoodsBomBuyPlanItem> implements
     ApsGoodsBomBuyPlanItemService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   @Resource

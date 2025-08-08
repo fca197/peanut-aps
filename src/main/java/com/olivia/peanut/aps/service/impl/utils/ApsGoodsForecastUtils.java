@@ -3,31 +3,15 @@ package com.olivia.peanut.aps.service.impl.utils;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.olivia.peanut.aps.model.ApsGoods;
-import com.olivia.peanut.aps.model.ApsGoodsForecast;
-import com.olivia.peanut.aps.model.ApsGoodsSaleItem;
-import com.olivia.peanut.aps.model.ApsSaleConfig;
-import com.olivia.peanut.aps.service.ApsGoodsForecastService;
-import com.olivia.peanut.aps.service.ApsGoodsSaleItemService;
-import com.olivia.peanut.aps.service.ApsGoodsService;
-import com.olivia.peanut.aps.service.ApsSaleConfigService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.ListUtils;
-import com.olivia.sdk.utils.PoiExcelUtil;
+import com.olivia.peanut.aps.model.*;
+import com.olivia.peanut.aps.service.*;
+import com.olivia.sdk.utils.*;
 import com.olivia.sdk.utils.PoiExcelUtil.CellStyleEnum;
-import com.olivia.sdk.utils.ReqResUtils;
-import com.olivia.sdk.utils.ValueUtils;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -36,20 +20,9 @@ import java.util.stream.IntStream;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.streaming.SXSSFCell;
-import org.apache.poi.xssf.streaming.SXSSFRow;
-import org.apache.poi.xssf.streaming.SXSSFSheet;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.streaming.*;
 
 @Slf4j
 public class ApsGoodsForecastUtils {
@@ -123,7 +96,7 @@ public class ApsGoodsForecastUtils {
     totalCellStyle.cloneStyleFrom(cellStyle);
     totalCellStyle.setDataFormat(format.getFormat("0"));
 
-    List<Short> shortList= List.of(IndexedColors.LIGHT_GREEN.getIndex(), IndexedColors.LEMON_CHIFFON.getIndex());
+    List<Short> shortList = List.of(IndexedColors.LIGHT_GREEN.getIndex(), IndexedColors.LEMON_CHIFFON.getIndex());
     for (int i = 0; i < monthList.size(); i++) {
       cell = row.createCell(i + 4);
       cell.setCellStyle(headerCellStyle);
@@ -178,7 +151,7 @@ public class ApsGoodsForecastUtils {
         rowTmp.createCell(cellIndex.incrementAndGet());
       });
 
-      if (!Objects.equals(saleCode,currentCode.get())){
+      if (!Objects.equals(saleCode, currentCode.get())) {
         currentCode.set(saleCode);
         styleTmp.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         int index = currentSaleCodeIndex.incrementAndGet();
@@ -186,19 +159,13 @@ public class ApsGoodsForecastUtils {
         atomicReferenceShort.set(aShort);
       }
       styleTmp.setFillForegroundColor(atomicReferenceShort.get());
-      IntStream.range(0,rowTmp.getLastCellNum()).forEach(index -> {
-        Optional.ofNullable(rowTmp.getCell(index)).ifPresent(t->t.setCellStyle(styleTmp));
+      IntStream.range(0, rowTmp.getLastCellNum()).forEach(index -> {
+        Optional.ofNullable(rowTmp.getCell(index)).ifPresent(t -> t.setCellStyle(styleTmp));
       });
 
     });
     sheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 2));
     return new CreateSaleConfigSheet(monthList, apsGoodsSaleItemList, nameStyle);
-  }
-
-  private record CreateSaleConfigSheet(List<String> monthList,
-                                       List<ApsGoodsSaleItem> apsGoodsSaleItemList,
-                                       CellStyle style) {
-
   }
 
   private static void setColumnWidth(SXSSFWorkbook workbook) {
@@ -276,5 +243,11 @@ public class ApsGoodsForecastUtils {
 
     });
     groupSheet.addMergedRegion(new CellRangeAddress(0, 0, 1, 2));
+  }
+
+  private record CreateSaleConfigSheet(List<String> monthList,
+                                       List<ApsGoodsSaleItem> apsGoodsSaleItemList,
+                                       CellStyle style) {
+
   }
 }

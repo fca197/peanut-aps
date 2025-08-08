@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityImportReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
 import com.olivia.peanut.aps.model.ApsRollingForecastFactoryCapacity;
 import java.util.List;
 import org.mapstruct.Mapper;

@@ -77,6 +77,5 @@ public class ApsOrderGoodsBom extends BaseEntity {
   private Long factoryId;
 
 
-
 }
 

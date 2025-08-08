@@ -3,27 +3,16 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemDto;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.ApsMachineWorkstationItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstationItem.*;
 import com.olivia.peanut.aps.converter.ApsMachineWorkstationItemConverter;
 import com.olivia.peanut.aps.mapper.ApsMachineWorkstationItemMapper;
 import com.olivia.peanut.aps.model.ApsMachineWorkstationItem;
 import com.olivia.peanut.aps.service.ApsMachineWorkstationItemService;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,12 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("apsMachineWorkstationItemService")
 @Transactional
-public class ApsMachineWorkstationItemServiceImpl extends
-    MPJBaseServiceImpl<ApsMachineWorkstationItemMapper, ApsMachineWorkstationItem> implements
+public class ApsMachineWorkstationItemServiceImpl extends MPJBaseServiceImpl<ApsMachineWorkstationItemMapper, ApsMachineWorkstationItem> implements
     ApsMachineWorkstationItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;
@@ -49,21 +35,18 @@ public class ApsMachineWorkstationItemServiceImpl extends
   SetNameService setNameService;
 
 
-  public @Override ApsMachineWorkstationItemQueryListRes queryList(
-      ApsMachineWorkstationItemQueryListReq req) {
+  public @Override ApsMachineWorkstationItemQueryListRes queryList(ApsMachineWorkstationItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsMachineWorkstationItem> q = getWrapper(req.getData());
     List<ApsMachineWorkstationItem> list = this.list(q);
 
-    List<ApsMachineWorkstationItemDto> dataList = ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(
-        list);
+    List<ApsMachineWorkstationItemDto> dataList = ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(list);
     ((ApsMachineWorkstationItemService) AopContext.currentProxy()).setName(dataList);
     return new ApsMachineWorkstationItemQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(
-      ApsMachineWorkstationItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(ApsMachineWorkstationItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsMachineWorkstationItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -72,8 +55,7 @@ public class ApsMachineWorkstationItemServiceImpl extends
     List<ApsMachineWorkstationItemExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsMachineWorkstationItem> list = this.page(page, q);
-      IPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> dataList = list.convert(
-          t -> $.copy(t, ApsMachineWorkstationItemExportQueryPageListInfoRes.class));
+      IPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsMachineWorkstationItemExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = ApsMachineWorkstationItemConverter.INSTANCE.queryPageListRes(this.list(q));

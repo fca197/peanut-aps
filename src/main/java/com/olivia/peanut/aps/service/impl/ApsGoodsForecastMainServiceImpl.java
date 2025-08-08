@@ -3,13 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsForecastMainMapper;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMain;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainService;
@@ -21,9 +15,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -42,8 +34,7 @@ public class ApsGoodsForecastMainServiceImpl extends
     MPJBaseServiceImpl<ApsGoodsForecastMainMapper, ApsGoodsForecastMain> implements
     ApsGoodsForecastMainService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
+
   @Resource
   SetNameService setNameService;
 

@@ -9,16 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Maps;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.ApsRollingForecastFactoryCapacityQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastFactoryCapacity.*;
 import com.olivia.peanut.aps.mapper.ApsRollingForecastFactoryCapacityMapper;
 import com.olivia.peanut.aps.model.ApsRollingForecastFactoryCapacity;
 import com.olivia.peanut.aps.service.ApsRollingForecastFactoryCapacityService;
@@ -27,21 +19,12 @@ import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.DateUtils;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.FieldUtils;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import com.olivia.sdk.utils.model.YearMonth;
 import jakarta.annotation.Resource;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -62,8 +45,6 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
     MPJBaseServiceImpl<ApsRollingForecastFactoryCapacityMapper, ApsRollingForecastFactoryCapacity> implements
     ApsRollingForecastFactoryCapacityService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

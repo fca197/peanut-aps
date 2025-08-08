@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemImportRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

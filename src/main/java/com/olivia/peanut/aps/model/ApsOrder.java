@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -90,13 +89,13 @@ public class ApsOrder extends BaseEntity {
   @FieldExt(fieldName = "告警原因")
   private String warningReason;
 
-  public void setOrderStatus( Long apsOrderStatus) {
+  public void setOrderStatus(Long apsOrderStatus) {
     if (Objects.nonNull(apsOrderStatus)) {
       this.orderStatus = apsOrderStatus;
     }
   }
 
-  public ApsOrder setOrderStatus( ApsOrderStatusEnum apsOrderStatusEnum) {
+  public ApsOrder setOrderStatus(ApsOrderStatusEnum apsOrderStatusEnum) {
     if (Objects.nonNull(apsOrderStatusEnum)) {
       this.orderStatus = apsOrderStatusEnum.getCode();
     }

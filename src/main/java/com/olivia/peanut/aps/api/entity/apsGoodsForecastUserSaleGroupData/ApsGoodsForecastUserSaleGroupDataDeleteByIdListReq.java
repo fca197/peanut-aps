@@ -1,12 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsGoodsForecastUserSaleGroupData;
 
+import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import java.util.List;
-import jakarta.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * 预测销售组数据(ApsGoodsForecastUserSaleGroupData)根据ID删除多个入参

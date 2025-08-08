@@ -1,18 +1,6 @@
 package com.olivia.peanut.aps.api;
 
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineImportRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineInsertRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsMachine.ApsMachineUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsMachine.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

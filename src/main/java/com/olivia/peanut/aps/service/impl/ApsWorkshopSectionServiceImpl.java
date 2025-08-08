@@ -3,23 +3,12 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionDto;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionQueryListReq;
-import com.olivia.peanut.aps.api.entity.workshopSection.WorkshopSectionQueryListRes;
+import com.olivia.peanut.aps.api.entity.workshopSection.*;
 import com.olivia.peanut.aps.mapper.WorkshopSectionMapper;
 import com.olivia.peanut.aps.model.ApsWorkshopSection;
 import com.olivia.peanut.aps.service.ApsWorkshopSectionService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
-import com.olivia.sdk.utils.Str;
+import com.olivia.sdk.utils.*;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,8 +25,6 @@ public class ApsWorkshopSectionServiceImpl extends
     MPJBaseServiceImpl<WorkshopSectionMapper, ApsWorkshopSection> implements
     ApsWorkshopSectionService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   public @Override WorkshopSectionQueryListRes queryList(WorkshopSectionQueryListReq req) {
 

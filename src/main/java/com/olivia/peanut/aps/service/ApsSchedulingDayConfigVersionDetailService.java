@@ -1,11 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.ApsSchedulingDayConfigVersionDetailQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetail.*;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersionDetail;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

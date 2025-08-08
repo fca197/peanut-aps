@@ -6,10 +6,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.olivia.peanut.aps.model.ApsOrderGoodsSaleConfig;
 import com.olivia.peanut.aps.model.ApsOrderUser;
-import com.olivia.peanut.aps.service.ApsOrderFieldService;
-import com.olivia.peanut.aps.service.ApsOrderGoodsSaleConfigService;
-import com.olivia.peanut.aps.service.ApsOrderService;
-import com.olivia.peanut.aps.service.ApsOrderUserService;
+import com.olivia.peanut.aps.service.*;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.utils.BaseEntity;
 import jakarta.annotation.Resource;
@@ -28,6 +25,20 @@ public class ApsOrderFieldServiceImpl implements ApsOrderFieldService {
 
   @Resource
   ApsOrderGoodsSaleConfigService apsOrderGoodsSaleConfigService;
+
+  private static Map<String, Object> changeMapKey(ApsOrderUser t, String keyTmp) {
+    Map<String, Object> beanToMap = BeanUtil.beanToMap(t, false, true);
+    if (StringUtils.isBlank(keyTmp)) {
+      return beanToMap;
+    }
+    return beanToMap.entrySet().stream()
+        .collect(Collectors.toMap(
+            entry -> keyTmp + entry.getKey(),
+            Map.Entry::getValue,
+            (oldValue, newValue) -> oldValue, // 冲突时保留旧值
+            HashMap::new
+        ));
+  }
 
   @Override
   public Map<Long, Map<String, Object>> orderFieldSetValue(List<Long> orderIdList,
@@ -77,19 +88,5 @@ public class ApsOrderFieldServiceImpl implements ApsOrderFieldService {
     });
 
     return retMap;
-  }
-
-  private static Map<String, Object> changeMapKey(ApsOrderUser t, String keyTmp) {
-    Map<String, Object> beanToMap = BeanUtil.beanToMap(t, false, true);
-    if (StringUtils.isBlank(keyTmp)) {
-      return beanToMap;
-    }
-    return beanToMap.entrySet().stream()
-        .collect(Collectors.toMap(
-            entry -> keyTmp + entry.getKey(),
-            Map.Entry::getValue,
-            (oldValue, newValue) -> oldValue, // 冲突时保留旧值
-            HashMap::new
-        ));
   }
 }

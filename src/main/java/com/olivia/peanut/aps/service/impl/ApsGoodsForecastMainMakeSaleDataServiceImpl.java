@@ -6,13 +6,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.ApsGoodsForecastMainMakeSaleDataQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMainMakeSaleData.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsForecastMainMakeSaleDataMapper;
 import com.olivia.peanut.aps.model.ApsGoodsForecastMainMakeSaleData;
 import com.olivia.peanut.aps.service.ApsGoodsForecastMainMakeSaleDataService;
@@ -22,8 +16,6 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,9 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsGoodsForecastMainMakeSaleDataServiceImpl extends
     MPJBaseServiceImpl<ApsGoodsForecastMainMakeSaleDataMapper, ApsGoodsForecastMainMakeSaleData> implements
     ApsGoodsForecastMainMakeSaleDataService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsGoodsForecastMainMakeSaleDataQueryListRes queryList(

@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDto;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemImportReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
 import java.util.List;
 import org.mapstruct.Mapper;

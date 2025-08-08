@@ -4,13 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemDto;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.ApsRollingForecastOrderItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRollingForecastOrderItem.*;
 import com.olivia.peanut.aps.mapper.ApsRollingForecastOrderItemMapper;
 import com.olivia.peanut.aps.model.ApsRollingForecastOrderItem;
 import com.olivia.peanut.aps.service.ApsRollingForecastOrderItemService;
@@ -19,9 +13,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -39,8 +31,6 @@ public class ApsRollingForecastOrderItemServiceImpl extends
     MPJBaseServiceImpl<ApsRollingForecastOrderItemMapper, ApsRollingForecastOrderItem> implements
     ApsRollingForecastOrderItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

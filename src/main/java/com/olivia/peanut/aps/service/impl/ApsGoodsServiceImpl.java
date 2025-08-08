@@ -6,13 +6,7 @@ import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDto;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.*;
 import com.olivia.peanut.aps.mapper.ApsGoodsMapper;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.service.ApsGoodsService;
@@ -26,8 +20,6 @@ import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -44,8 +36,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsGoods> implements
     ApsGoodsService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   ApsProcessPathService apsProcessPathService;

@@ -4,7 +4,6 @@ import com.olivia.peanut.aps.api.entity.apsOrderGoods.ApsOrderGoodsDto;
 import com.olivia.peanut.aps.api.entity.apsOrderGoodsSaleConfig.ApsOrderGoodsSaleConfigDto;
 import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
-import com.olivia.sdk.ann.FieldExt;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

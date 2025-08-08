@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsImportRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsInsertRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoods.ApsGoodsUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoods.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

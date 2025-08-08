@@ -1,29 +1,13 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsGetUseFieldRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsImportRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.ApsSchedulingConstraintsUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingConstraints.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

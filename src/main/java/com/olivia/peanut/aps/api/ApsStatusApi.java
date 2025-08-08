@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusImportRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusInsertReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusInsertRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsStatus.ApsStatusUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsStatus.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

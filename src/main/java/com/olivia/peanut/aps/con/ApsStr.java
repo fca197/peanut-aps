@@ -7,5 +7,5 @@ public interface ApsStr {
   String FACTORY_ID = "factoryId";
   String ORDER_NO = "orderNo";
   String GOODS_STATUS_ID = "goodsStatusId";
-  String CURRENT_DAY="currentDay";
+  String CURRENT_DAY = "currentDay";
 }

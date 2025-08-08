@@ -1,10 +1,10 @@
 package com.olivia.peanut.aps.api.entity.apsOrderGoodsBomKittingVersionOrderBom;
 
+import jakarta.validation.constraints.NotEmpty;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import java.util.List;
-import jakarta.validation.constraints.NotEmpty;
 
 /**
  * 齐套检查版本详情(ApsOrderGoodsBomKittingVersionOrderItem)根据ID删除多个入参

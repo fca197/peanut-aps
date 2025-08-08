@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigImportRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigInsertReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigInsertRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

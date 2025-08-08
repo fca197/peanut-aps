@@ -1,21 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserImportRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserInsertRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserUpdateByIdRes;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListReq;
-import com.olivia.peanut.aps.api.entity.apsOrderUser.OrderUserFieldListRes;
+import com.olivia.peanut.aps.api.entity.apsOrderUser.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

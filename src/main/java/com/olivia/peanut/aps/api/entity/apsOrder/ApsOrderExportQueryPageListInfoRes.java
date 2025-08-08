@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @SuppressWarnings("serial")
 public class ApsOrderExportQueryPageListInfoRes extends ApsOrderDto {
 
-  private Map<String,Object> extMap;
+  private Map<String, Object> extMap;
 }
 
 

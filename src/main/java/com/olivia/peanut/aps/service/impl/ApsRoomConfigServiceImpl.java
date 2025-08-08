@@ -3,13 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigDto;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsRoomConfig.ApsRoomConfigQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsRoomConfig.*;
 import com.olivia.peanut.aps.mapper.ApsRoomConfigMapper;
 import com.olivia.peanut.aps.model.ApsRoomConfig;
 import com.olivia.peanut.aps.service.ApsRoomConfigService;
@@ -18,9 +12,7 @@ import com.olivia.sdk.comment.ServiceComment;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ApsRoomConfigServiceImpl extends
     MPJBaseServiceImpl<ApsRoomConfigMapper, ApsRoomConfig> implements ApsRoomConfigService {
-
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
 
   public @Override ApsRoomConfigQueryListRes queryList(ApsRoomConfigQueryListReq req) {

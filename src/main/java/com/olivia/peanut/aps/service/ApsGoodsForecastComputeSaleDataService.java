@@ -1,11 +1,7 @@
 package com.olivia.peanut.aps.service;
 
 import com.github.yulichang.base.MPJBaseService;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataDto;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.ApsGoodsForecastComputeSaleDataQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastComputeSaleData.*;
 import com.olivia.peanut.aps.model.ApsGoodsForecastComputeSaleData;
 import com.olivia.sdk.utils.DynamicsPage;
 import java.util.List;

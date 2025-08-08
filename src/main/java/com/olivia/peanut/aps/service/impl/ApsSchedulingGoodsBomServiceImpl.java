@@ -3,13 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomDto;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.ApsSchedulingGoodsBomQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingGoodsBom.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingGoodsBomMapper;
 import com.olivia.peanut.aps.model.ApsSchedulingGoodsBom;
 import com.olivia.peanut.aps.service.ApsSchedulingGoodsBomService;
@@ -20,8 +14,6 @@ import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -39,8 +31,6 @@ public class ApsSchedulingGoodsBomServiceImpl extends
     MPJBaseServiceImpl<ApsSchedulingGoodsBomMapper, ApsSchedulingGoodsBom> implements
     ApsSchedulingGoodsBomService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainImportRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainInsertRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.ApsGoodsForecastMainUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMain.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

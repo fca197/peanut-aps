@@ -4,13 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemDto;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.ApsLogisticsPathItemQueryListRes;
+import com.olivia.peanut.aps.api.entity.apsLogisticsPathItem.*;
 import com.olivia.peanut.aps.mapper.ApsLogisticsPathItemMapper;
 import com.olivia.peanut.aps.model.ApsLogisticsPathItem;
 import com.olivia.peanut.aps.service.ApsLogisticsPathItemService;
@@ -19,9 +13,7 @@ import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
@@ -40,8 +32,6 @@ public class ApsLogisticsPathItemServiceImpl extends
     MPJBaseServiceImpl<ApsLogisticsPathItemMapper, ApsLogisticsPathItem> implements
     ApsLogisticsPathItemService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

@@ -1,29 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionFinishReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionFinishRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionImportRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionInsertRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUpdateByIdRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseConstraintsReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseConstraintsRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseConstraintsResultReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseConstraintsResultRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseMakeCapacityReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseMakeCapacityRes;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseMakeCapacityResultReq;
-import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.ApsSchedulingVersionUseMakeCapacityResultRes;
+import com.olivia.peanut.aps.api.entity.apsSchedulingVersion.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

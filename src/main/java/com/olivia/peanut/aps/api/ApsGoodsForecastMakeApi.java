@@ -1,25 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeDeployReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeDeployRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeImportRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeInsertReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeInsertRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryDataByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryDataByIdRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryUseBomByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeQueryUseBomByIdRes;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.ApsGoodsForecastMakeUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.apsGoodsForecastMake.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

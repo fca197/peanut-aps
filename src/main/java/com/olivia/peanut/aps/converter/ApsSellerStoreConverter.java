@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreDto;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreImportReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreInsertReq;
-import com.olivia.peanut.aps.api.entity.apsSellerStore.ApsSellerStoreUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsSellerStore.*;
 import com.olivia.peanut.aps.model.ApsSellerStore;
 import java.util.List;
 import org.mapstruct.Mapper;

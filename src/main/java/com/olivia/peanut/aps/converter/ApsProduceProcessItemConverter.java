@@ -1,10 +1,6 @@
 package com.olivia.peanut.aps.converter;
 
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemDto;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemImportReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemInsertReq;
-import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.ApsProduceProcessItemUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsProduceProcessItem.*;
 import com.olivia.peanut.aps.model.ApsProduceProcessItem;
 import com.olivia.peanut.aps.utils.process.entity.ProduceOrderMachine;
 import java.util.List;
@@ -28,6 +24,6 @@ public interface ApsProduceProcessItemConverter {
 
   List<ApsProduceProcessItem> importReq(List<ApsProduceProcessItemImportReq> reqList);
 
-  ProduceOrderMachine  convertProduceOrderMachine(ApsProduceProcessItem  req);
+  ProduceOrderMachine convertProduceOrderMachine(ApsProduceProcessItem req);
 }
 

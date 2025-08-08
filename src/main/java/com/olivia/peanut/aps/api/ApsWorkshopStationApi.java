@@ -1,19 +1,7 @@
 package com.olivia.peanut.aps.api;
 
 
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationDeleteByIdListReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationDeleteByIdListRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationImportRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationInsertReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationInsertRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryByIdListReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryByIdListRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryListReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationQueryListRes;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationUpdateByIdReq;
-import com.olivia.peanut.aps.api.entity.workshopStation.WorkshopStationUpdateByIdRes;
+import com.olivia.peanut.aps.api.entity.workshopStation.*;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;

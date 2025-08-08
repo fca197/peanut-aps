@@ -8,15 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationDto;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationInsertReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListReq;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationQueryListRes;
-import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.ApsMachineWorkstationUpdateByIdReq;
+import com.olivia.peanut.aps.api.entity.apsMachineWorkstation.*;
 import com.olivia.peanut.aps.converter.ApsMachineWorkstationConverter;
 import com.olivia.peanut.aps.converter.ApsMachineWorkstationItemConverter;
 import com.olivia.peanut.aps.mapper.ApsMachineWorkstationMapper;
@@ -28,14 +20,10 @@ import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
-import com.olivia.sdk.utils.$;
-import com.olivia.sdk.utils.BaseEntity;
-import com.olivia.sdk.utils.DynamicsPage;
-import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.*;
 import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
@@ -53,8 +41,6 @@ public class ApsMachineWorkstationServiceImpl extends
     MPJBaseServiceImpl<ApsMachineWorkstationMapper, ApsMachineWorkstation> implements
     ApsMachineWorkstationService {
 
-  final static Cache<String, Map<String, String>> cache = CacheBuilder.newBuilder().maximumSize(100)
-      .expireAfterWrite(30, TimeUnit.MINUTES).build();
 
   @Resource
   BaseTableHeaderService tableHeaderService;

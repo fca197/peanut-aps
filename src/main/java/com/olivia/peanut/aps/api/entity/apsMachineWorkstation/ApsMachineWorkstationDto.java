@@ -44,7 +44,7 @@ public class ApsMachineWorkstationDto extends BaseEntityDto {
    *  最小功率
    */
   //  @JSONField(label = "minPower")
- // @NotNull(message = "最小功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
+  // @NotNull(message = "最小功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
   //private BigDecimal minPower;
 
   /***

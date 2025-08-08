@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.model.KVEntity;
 import com.olivia.sdk.mybatis.type.impl.ListKVTypeHandler;
-import com.olivia.sdk.mybatis.type.impl.ListMapTypeHandler;
-import com.olivia.sdk.mybatis.type.model.MapSub;
 import com.olivia.sdk.utils.BaseEntity;
 import java.math.BigDecimal;
 import java.util.List;
