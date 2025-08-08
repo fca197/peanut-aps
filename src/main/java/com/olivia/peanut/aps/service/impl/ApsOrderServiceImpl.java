@@ -501,38 +501,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
       return null;
     }
     $.assertTrueCanIgnoreException(LocalDate.now().isBefore(req.getSchedulingDate()), "排产日期不能小于今天");
-    ApsOrder apsOrder = this.getById(req.getId());
-    $.requireNonNullCanIgnoreException(apsOrder, "订单为空");
-    ApsOrderGoods apsOrderGoods = this.apsOrderGoodsService.getOne(new LambdaQueryWrapper<ApsOrderGoods>().eq(ApsOrderGoods::getOrderId, req.getId()), false);
-    ApsGoods apsGoods = apsGoodsService.getById(apsOrderGoods.getGoodsId());
-
-    FactoryConfigReq factoryConfigReq = new FactoryConfigReq();
-    factoryConfigReq.setFactoryId(apsOrder.getFactoryId());
-    factoryConfigReq.setGetPathId(apsGoods.getProcessPathId()).setWeekEndDate(req.getSchedulingDate().plusDays(64)).setWeekBeginDate(req.getSchedulingDate());
-    factoryConfigReq.setGetShift(true).setGetWeek(true);
-    if (Objects.nonNull(apsGoods.getProduceProcessId())) {
-      factoryConfigReq.setApsProduceProcessIdList(List.of(apsGoods.getProduceProcessId()));
-    }
-    if (Objects.nonNull(apsGoods.getProcessPathId())) {
-      factoryConfigReq.setProcessPathIdList(List.of(apsGoods.getProcessPathId()));
-    }
-
-    FactoryConfigRes apsFactoryServiceFactoryConfig = this.apsFactoryService.getFactoryConfig(factoryConfigReq);
-
-    List<ApsOrderGoodsStatusDate> updateList = new ArrayList<>();
-    List<ApsOrderGoodsStatusDate> insertList = new ArrayList<>();
-
-    if (Objects.isNull(apsGoods.getProduceProcessId())) {
-      useProcessPath(req.getId(), apsOrderGoods.getApsStatusId(), apsFactoryServiceFactoryConfig, apsGoods, updateList, insertList, true, req.getSchedulingDate());
-    } else {
-      useMakeProcess(req.getId(), apsOrderGoods.getApsStatusId(), apsFactoryServiceFactoryConfig, apsGoods, updateList, insertList, true,
-          req.getSchedulingDate().atTime(LocalTime.MIN));
-    }
-    LocalDate max = getExpFinishDate(updateList, insertList);
-    this.update(new LambdaUpdateWrapper<ApsOrder>().eq(BaseEntity::getId, req.getId()).set(ApsOrder::getExpectedMakeFinishDate, max)
-        .set(ApsOrder::getSchedulingDate, req.getSchedulingDate()));
-    this.apsOrderGoodsStatusDateService.updateBatchById(updateList);
-    this.apsOrderGoodsStatusDateService.saveBatch(insertList);
+    this.update(new LambdaUpdateWrapper<ApsOrder>().set(ApsOrder::getSchedulingDate, req.getSchedulingDate()).eq(BaseEntity::getId, req.getId()));
     return new ApsOrderUpdateSchedulingDateRes();
   }
 
