@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_goods_bom_total")
-public class ApsSchedulingGoodsBomTotal extends BaseEntity {
+public class ApsSchedulingGoodsBomTotal extends BaseEntity<ApsSchedulingGoodsBomTotal> {
 
   /***
    *  排产版本 ID

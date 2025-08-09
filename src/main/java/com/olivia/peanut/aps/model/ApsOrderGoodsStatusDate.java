@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_order_goods_status_date")
-public class ApsOrderGoodsStatusDate extends BaseEntity {
+public class ApsOrderGoodsStatusDate extends BaseEntity<ApsOrderGoodsStatusDate> {
 
   private Long orderId;
   /***

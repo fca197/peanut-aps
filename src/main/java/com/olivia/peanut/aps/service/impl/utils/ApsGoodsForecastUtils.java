@@ -199,7 +199,7 @@ public class ApsGoodsForecastUtils {
 
     cellStyle.setDataFormat(format.getFormat(numberFormatPatten));
 
-    List<List<ApsGoodsSaleItem>> listList = ListUtils.cartesianProductAlt(allApsSaleItemList);
+    List<List<ApsGoodsSaleItem>> listList = ListUtils.cartesianProduct(allApsSaleItemList);
     String sheetName = allApsSaleItemList.stream()
         .map(t -> t.getFirst().getParentSaleConfig().getSaleName())
         .distinct().collect(Collectors.joining("-"));

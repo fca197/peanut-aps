@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_bom_group")
-public class ApsBomGroup extends BaseEntity {
+public class ApsBomGroup extends BaseEntity<ApsBomGroup> {
 
   /***
    *  组编码

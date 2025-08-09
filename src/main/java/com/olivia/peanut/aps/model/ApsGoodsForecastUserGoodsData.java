@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods_forecast_user_goods_data")
-public class ApsGoodsForecastUserGoodsData extends BaseEntity {
+public class ApsGoodsForecastUserGoodsData extends BaseEntity<ApsGoodsForecastUserGoodsData> {
 
   private Long forecastId;
   @TableField(value = "year")

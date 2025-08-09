@@ -14,7 +14,7 @@ import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.ApsProduceProcessItemService;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
-import com.olivia.peanut.aps.utils.model.ShiftItemVo;
+import com.olivia.peanut.aps.utils.bom.model.ShiftItemVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
 import com.olivia.peanut.base.model.Shift;
 import com.olivia.peanut.base.model.ShiftItem;

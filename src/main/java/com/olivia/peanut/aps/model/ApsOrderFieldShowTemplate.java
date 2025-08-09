@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_order_field_show_template", autoResultMap = true)
-public class ApsOrderFieldShowTemplate extends BaseEntity {
+public class ApsOrderFieldShowTemplate extends BaseEntity<ApsOrderFieldShowTemplate> {
 
   /***
    *  模板编号

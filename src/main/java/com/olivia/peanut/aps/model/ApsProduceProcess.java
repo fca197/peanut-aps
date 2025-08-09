@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_produce_process")
-public class ApsProduceProcess extends BaseEntity {
+public class ApsProduceProcess extends BaseEntity<ApsProduceProcess> {
 
   private Long factoryId;
   /***

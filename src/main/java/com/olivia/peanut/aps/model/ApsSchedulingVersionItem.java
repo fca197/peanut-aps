@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_version_item")
-public class ApsSchedulingVersionItem extends BaseEntity {
+public class ApsSchedulingVersionItem extends BaseEntity<ApsSchedulingVersionItem> {
 
   private Long schedulingVersionId;
   private Long orderId;

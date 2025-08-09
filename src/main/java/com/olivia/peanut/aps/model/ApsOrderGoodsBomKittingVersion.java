@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_order_goods_bom_kitting_version", autoResultMap = true)
-public class ApsOrderGoodsBomKittingVersion extends BaseEntity {
+public class ApsOrderGoodsBomKittingVersion extends BaseEntity<ApsOrderGoodsBomKittingVersion> {
 
   @TableField("aps_order_goods_bom_kitting_template_id")
   private Long apsOrderGoodsBomKittingTemplateId;

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_project_config")
-public class ApsProjectConfig extends BaseEntity {
+public class ApsProjectConfig extends BaseEntity<ApsProjectConfig> {
 
   private String saleCode;
   private String saleName;

@@ -20,8 +20,7 @@ public class SelectOrder2HistoryReq {
   public void setTenantId(Long tenantId) {
     this.tenantId = tenantId;
     if (Objects.nonNull(this.tenantId)) {
-      LoginUserContext.setContextThreadLocal(
-          LoginUserContext.getLoginUser().setTenantId(this.tenantId));
+      LoginUserContext.setLoginUser(LoginUserContext.getLoginUser().setTenantId(this.tenantId));
     }
   }
 

@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_goods_forecast_user_sale_group_data", autoResultMap = true)
-public class ApsGoodsForecastUserSaleGroupData extends BaseEntity {
+public class ApsGoodsForecastUserSaleGroupData extends BaseEntity<ApsGoodsForecastUserSaleGroupData> {
 
   @TableField("forecast_id")
   private Long forecastId;

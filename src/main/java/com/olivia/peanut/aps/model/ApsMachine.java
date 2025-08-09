@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_machine")
-public class ApsMachine extends BaseEntity {
+public class ApsMachine extends BaseEntity<ApsMachine> {
 
   /***
    *  机器编号

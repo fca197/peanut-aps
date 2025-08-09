@@ -38,7 +38,6 @@ public class APSBootstrapApplication {
 //    TypeHandlerRegistry
 
     AviatorEvaluator.getInstance().setOption(Options.OPTIMIZE_LEVEL, AviatorEvaluator.COMPILE);
-
     MDCUtils.clear();
   }
 
@@ -48,12 +47,11 @@ public class APSBootstrapApplication {
     MDCUtils.initMdc();
     try {
       log.info(">>>>>>>  APSBootstrapApplication  start  >>>>>>>");
-
       SpringApplication.run(APSBootstrapApplication.class, args);
       log.info(">>>>>>>  APSBootstrapApplication  start success >>>>>>>");
-      ServiceNotice.start();
+      ServiceNotice.notifyStart();
     } catch (Exception e) {
-      ServiceNotice.errorStop(e);
+      ServiceNotice.notifyErrorStop(e);
     }
 
     MDCUtils.clear();

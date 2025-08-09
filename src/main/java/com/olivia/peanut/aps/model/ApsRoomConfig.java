@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_room_config")
-public class ApsRoomConfig extends BaseEntity {
+public class ApsRoomConfig extends BaseEntity<ApsRoomConfig> {
 
   private Long roomId;
   private Long sectionId;

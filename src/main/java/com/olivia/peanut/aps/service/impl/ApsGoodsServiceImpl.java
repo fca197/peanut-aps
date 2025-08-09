@@ -1,7 +1,5 @@
 package com.olivia.peanut.aps.service.impl;
 
-import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.eq;
-import static com.olivia.sdk.utils.model.LambdaQueryUtilSelectType.likeRight;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.base.MPJBaseServiceImpl;
@@ -18,6 +16,7 @@ import com.olivia.sdk.service.SetNameService;
 import com.olivia.sdk.utils.$;
 import com.olivia.sdk.utils.DynamicsPage;
 import com.olivia.sdk.utils.LambdaQueryUtil;
+import com.olivia.sdk.utils.model.LambdaQueryUtilSelectType;
 import jakarta.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -107,8 +106,8 @@ public class ApsGoodsServiceImpl extends MPJBaseServiceImpl<ApsGoodsMapper, ApsG
   private MPJLambdaWrapper<ApsGoods> getWrapper(ApsGoodsDto obj) {
     MPJLambdaWrapper<ApsGoods> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, eq, ApsGoods::getFactoryId);
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, likeRight, ApsGoods::getGoodsName,
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, LambdaQueryUtilSelectType.EQ, ApsGoods::getFactoryId);
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoods.class, LambdaQueryUtilSelectType.LIKE_RIGHT, ApsGoods::getGoodsName,
         ApsGoods::getGoodsRemark);
 
     q.orderByDesc(ApsGoods::getId);

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_process_path_room")
-public class ApsProcessPathRoom extends BaseEntity {
+public class ApsProcessPathRoom extends BaseEntity<ApsProcessPathRoom> {
 
   private Long processPathId;
   private Long roomId;

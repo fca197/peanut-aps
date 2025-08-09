@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_scheduling_version", autoResultMap = true)
-public class ApsSchedulingVersion extends BaseEntity {
+public class ApsSchedulingVersion extends BaseEntity<ApsSchedulingVersion> {
 
   private String schedulingVersionNo;
   private String schedulingVersionName;

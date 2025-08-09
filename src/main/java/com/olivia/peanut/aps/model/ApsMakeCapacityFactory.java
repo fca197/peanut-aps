@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_make_capacity_factory")
-public class ApsMakeCapacityFactory extends BaseEntity {
+public class ApsMakeCapacityFactory extends BaseEntity<ApsMakeCapacityFactory> {
 
   private Long factoryId;
   private Long makeCapacityQuantity;

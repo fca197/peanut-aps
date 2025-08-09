@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_process_path")
-public class ApsProcessPath extends BaseEntity {
+public class ApsProcessPath extends BaseEntity<ApsProcessPath> {
 
   private String processPathCode;
   private String processPathName;

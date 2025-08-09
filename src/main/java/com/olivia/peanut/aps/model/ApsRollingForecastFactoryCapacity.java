@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_rolling_forecast_factory_capacity")
-public class ApsRollingForecastFactoryCapacity extends BaseEntity {
+public class ApsRollingForecastFactoryCapacity extends BaseEntity<ApsRollingForecastFactoryCapacity> {
 
   /***
    *  工厂ID

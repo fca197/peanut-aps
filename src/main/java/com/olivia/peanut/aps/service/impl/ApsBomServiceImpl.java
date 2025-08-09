@@ -95,7 +95,7 @@ public class ApsBomServiceImpl extends MPJBaseServiceImpl<ApsBomMapper, ApsBom> 
         ApsBomGroup apsBomGroup = apsBomGroupService.getById(obj.getGroupId());
         if (Objects.nonNull(apsBomGroup)) {
           List<Long> idList = this.apsBomGroupService.list(
-                  new LambdaQueryWrapper<ApsBomGroup>().select(BaseEntity::getId)
+                  new LambdaQueryWrapper<ApsBomGroup>().select(ApsBomGroup::getId)
                       .likeRight(ApsBomGroup::getPathId, apsBomGroup.getPathId())).stream()
               .map(BaseEntity::getId).toList();
           if (CollUtil.isNotEmpty(idList)) {

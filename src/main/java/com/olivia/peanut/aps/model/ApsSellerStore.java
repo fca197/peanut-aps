@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_seller_store")
-public class ApsSellerStore extends BaseEntity {
+public class ApsSellerStore extends BaseEntity<ApsSellerStore> {
 
   /***
    *  销售门店编码

@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_day_config")
-public class ApsSchedulingDayConfig extends BaseEntity {
+public class ApsSchedulingDayConfig extends BaseEntity<ApsSchedulingDayConfig> {
 
   /***
    *  工厂ID

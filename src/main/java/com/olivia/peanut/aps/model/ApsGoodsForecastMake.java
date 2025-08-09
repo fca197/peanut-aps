@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods_forecast_make")
-public class ApsGoodsForecastMake extends BaseEntity {
+public class ApsGoodsForecastMake extends BaseEntity<ApsGoodsForecastMake> {
 
   private Long forecastMainId;
   private Long goodsId;

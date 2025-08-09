@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods_bom_buy_plan_item")
-public class ApsGoodsBomBuyPlanItem extends BaseEntity {
+public class ApsGoodsBomBuyPlanItem extends BaseEntity<ApsGoodsBomBuyPlanItem> {
 
   public static final String fieldName = "bomUseDay";
   /***

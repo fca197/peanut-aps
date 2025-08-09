@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_issue_item")
-public class ApsSchedulingIssueItem extends BaseEntity {
+public class ApsSchedulingIssueItem extends BaseEntity<ApsSchedulingIssueItem> {
 
 
   private Long schedulingVersionId;

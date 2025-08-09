@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //
 @TableName("aps_workshop_section")
-public class ApsWorkshopSection extends BaseEntity {
+public class ApsWorkshopSection extends BaseEntity<ApsWorkshopSection> {
 
 
   /***

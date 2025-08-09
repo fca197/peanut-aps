@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_order_goods_bom_kitting_version_order", autoResultMap = true)
-public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity {
+public class ApsOrderGoodsBomKittingVersionOrder extends BaseEntity<ApsOrderGoodsBomKittingVersionOrder> {
 
   public static final int FIELD_COUNT = 20;
   /***

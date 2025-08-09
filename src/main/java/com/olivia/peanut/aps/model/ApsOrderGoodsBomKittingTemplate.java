@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_order_goods_bom_kitting_template", autoResultMap = true)
-public class ApsOrderGoodsBomKittingTemplate extends BaseEntity {
+public class ApsOrderGoodsBomKittingTemplate extends BaseEntity<ApsOrderGoodsBomKittingTemplate> {
 
   /***
    *  模板编号

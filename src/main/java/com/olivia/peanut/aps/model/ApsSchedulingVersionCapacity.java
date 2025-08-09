@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_version_capacity")
-public class ApsSchedulingVersionCapacity extends BaseEntity {
+public class ApsSchedulingVersionCapacity extends BaseEntity<ApsSchedulingVersionCapacity> {
 
   private Long schedulingVersionId;
   private LocalDate currentDay;

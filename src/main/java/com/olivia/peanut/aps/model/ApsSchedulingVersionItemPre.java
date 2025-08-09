@@ -22,7 +22,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName(value = "aps_scheduling_version_item_pre", autoResultMap = true)
-public class ApsSchedulingVersionItemPre extends BaseEntity {
+public class ApsSchedulingVersionItemPre extends BaseEntity<ApsSchedulingVersionItemPre> {
 
   /***
    *  排产版本ID

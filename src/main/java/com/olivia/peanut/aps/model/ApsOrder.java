@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_order")
-public class ApsOrder extends BaseEntity {
+public class ApsOrder extends BaseEntity<ApsOrder> {
 
   @FieldExt(fieldName = "订单号")
   private String orderNo;

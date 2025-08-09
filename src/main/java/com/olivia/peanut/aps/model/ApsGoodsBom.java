@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods_bom")
-public class ApsGoodsBom extends BaseEntity {
+public class ApsGoodsBom extends BaseEntity<ApsGoodsBom> {
 
   // 商品ID
   private Long goodsId;

@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods_bom_buy_plan")
-public class ApsGoodsBomBuyPlan extends BaseEntity {
+public class ApsGoodsBomBuyPlan extends BaseEntity<ApsGoodsBomBuyPlan> {
 
   /***
    *  计划名称

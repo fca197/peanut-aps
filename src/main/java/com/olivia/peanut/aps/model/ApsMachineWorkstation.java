@@ -19,7 +19,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_machine_workstation")
-public class ApsMachineWorkstation extends BaseEntity {
+public class ApsMachineWorkstation extends BaseEntity<ApsMachineWorkstation> {
 
   /***
    *  工作站编号

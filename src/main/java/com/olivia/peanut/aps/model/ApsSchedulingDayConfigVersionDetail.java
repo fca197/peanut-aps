@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_day_config_version_detail")
-public class ApsSchedulingDayConfigVersionDetail extends BaseEntity {
+public class ApsSchedulingDayConfigVersionDetail extends BaseEntity<ApsSchedulingDayConfigVersionDetail> {
 
   private Long schedulingDayId;
   /***

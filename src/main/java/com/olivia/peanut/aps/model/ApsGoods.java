@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_goods")
-public class ApsGoods extends BaseEntity {
+public class ApsGoods extends BaseEntity<ApsGoods> {
 
   private Long factoryId;
   private String goodsName;

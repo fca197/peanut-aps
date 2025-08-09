@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_sale_config")
-public class ApsSaleConfig extends BaseEntity {
+public class ApsSaleConfig extends BaseEntity<ApsSaleConfig> {
 
   private Long parentId;
   private String saleCode;

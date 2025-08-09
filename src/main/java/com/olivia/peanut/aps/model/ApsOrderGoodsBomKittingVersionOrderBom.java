@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_order_goods_bom_kitting_version_order_bom")
-public class ApsOrderGoodsBomKittingVersionOrderBom extends BaseEntity {
+public class ApsOrderGoodsBomKittingVersionOrderBom extends BaseEntity<ApsOrderGoodsBomKittingVersionOrder> {
 
   /***
    *  齐套版本id

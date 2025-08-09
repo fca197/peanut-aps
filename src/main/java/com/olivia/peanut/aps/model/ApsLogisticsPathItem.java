@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_logistics_path_item")
-public class ApsLogisticsPathItem extends BaseEntity {
+public class ApsLogisticsPathItem extends BaseEntity<ApsLogisticsPathItem> {
 
   /***
    *  物流路径id

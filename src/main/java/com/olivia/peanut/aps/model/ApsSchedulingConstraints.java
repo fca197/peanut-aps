@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_scheduling_constraints")
-public class ApsSchedulingConstraints extends BaseEntity {
+public class ApsSchedulingConstraints extends BaseEntity<ApsSchedulingConstraints> {
 
   private String constraintsNo;
   private String constraintsName;

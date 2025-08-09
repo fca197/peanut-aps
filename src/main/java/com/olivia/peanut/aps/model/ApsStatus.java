@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @Setter
 //@SuppressWarnings("serial")
 @TableName("aps_status")
-public class ApsStatus extends BaseEntity {
+public class ApsStatus extends BaseEntity<ApsStatus> {
 
   private String statusCode;
   private String statusName;
