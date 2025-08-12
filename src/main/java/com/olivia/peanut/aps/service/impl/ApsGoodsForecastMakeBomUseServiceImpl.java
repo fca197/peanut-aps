@@ -31,8 +31,7 @@ public class ApsGoodsForecastMakeBomUseServiceImpl extends MPJBaseServiceImpl<Ap
     ApsGoodsForecastMakeBomUseService {
 
 
-  public @Override ApsGoodsForecastMakeBomUseQueryListRes queryList(
-      ApsGoodsForecastMakeBomUseQueryListReq req) {
+  public @Override ApsGoodsForecastMakeBomUseQueryListRes queryList(ApsGoodsForecastMakeBomUseQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMakeBomUse> q = getWrapper(req.getData());
     List<ApsGoodsForecastMakeBomUse> list = this.list(q);
@@ -46,8 +45,7 @@ public class ApsGoodsForecastMakeBomUseServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeBomUseExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeBomUseExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMakeBomUse> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -87,8 +85,7 @@ public class ApsGoodsForecastMakeBomUseServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  private MPJLambdaWrapper<ApsGoodsForecastMakeBomUse> getWrapper(
-      ApsGoodsForecastMakeBomUseDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastMakeBomUse> getWrapper(ApsGoodsForecastMakeBomUseDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastMakeBomUse> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

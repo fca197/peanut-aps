@@ -34,16 +34,14 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
    * insert
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionInsertRes insert(
-      ApsOrderGoodsBomKittingVersionInsertReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionInsertRes insert(ApsOrderGoodsBomKittingVersionInsertReq req) {
     ApsOrderGoodsBomKittingVersion apsOrderGoodsBomKittingVersion = INSTANCE.insertReq(req);
     this.apsOrderGoodsBomKittingVersionService.save(apsOrderGoodsBomKittingVersion);
     return new ApsOrderGoodsBomKittingVersionInsertRes().setCount(1);
   }
 
   @Override
-  public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(
-      CreateSchedulingKittingVersion req) {
+  public ApsOrderGoodsBomKittingVersionInsertRes createSchedulingKittingVersion(CreateSchedulingKittingVersion req) {
     return this.apsOrderGoodsBomKittingVersionCreateService.createSchedulingKittingVersion(req);
   }
 
@@ -51,8 +49,7 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsBomKittingVersionDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionDeleteByIdListRes deleteByIdList(ApsOrderGoodsBomKittingVersionDeleteByIdListReq req) {
     apsOrderGoodsBomKittingVersionService.removeByIds(req.getIdList());
     return new ApsOrderGoodsBomKittingVersionDeleteByIdListRes();
   }
@@ -61,8 +58,7 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
    * queryList
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionQueryListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionQueryListRes queryList(ApsOrderGoodsBomKittingVersionQueryListReq req) {
     return apsOrderGoodsBomKittingVersionService.queryList(req);
   }
 
@@ -70,32 +66,25 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
    * updateById
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionUpdateByIdRes updateById(
-      ApsOrderGoodsBomKittingVersionUpdateByIdReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionUpdateByIdRes updateById(ApsOrderGoodsBomKittingVersionUpdateByIdReq req) {
     apsOrderGoodsBomKittingVersionService.updateById(INSTANCE.updateReq(req));
     return new ApsOrderGoodsBomKittingVersionUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
     return apsOrderGoodsBomKittingVersionService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
-    DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> page = queryPageList(
-        req);
+  public @Override void queryPageListExport(ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
+    DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes.class, list,
-        "齐套检查版本");
+    PoiExcelUtil.export(ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes.class, list, "齐套检查版本");
   }
 
-  public @Override ApsOrderGoodsBomKittingVersionImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsBomKittingVersionImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsBomKittingVersionImportListener(),
+  public @Override ApsOrderGoodsBomKittingVersionImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsBomKittingVersionImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsBomKittingVersionImportListener(),
         ApsOrderGoodsBomKittingVersionImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsBomKittingVersion> readList = INSTANCE.importReq(reqList);
@@ -104,12 +93,8 @@ public class ApsOrderGoodsBomKittingVersionApiImpl implements ApsOrderGoodsBomKi
     return new ApsOrderGoodsBomKittingVersionImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsBomKittingVersionQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsBomKittingVersionQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion>(
-        ApsOrderGoodsBomKittingVersion.class)
-        .selectAll(ApsOrderGoodsBomKittingVersion.class)
-        .in(ApsOrderGoodsBomKittingVersion::getId, req.getIdList());
+  public @Override ApsOrderGoodsBomKittingVersionQueryByIdListRes queryByIdListRes(ApsOrderGoodsBomKittingVersionQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion>(ApsOrderGoodsBomKittingVersion.class).selectAll(ApsOrderGoodsBomKittingVersion.class).in(ApsOrderGoodsBomKittingVersion::getId, req.getIdList());
     List<ApsOrderGoodsBomKittingVersion> list = this.apsOrderGoodsBomKittingVersionService.list(q);
     List<ApsOrderGoodsBomKittingVersionDto> dataList = INSTANCE.queryListRes(list);
     this.apsOrderGoodsBomKittingVersionService.setName(dataList);

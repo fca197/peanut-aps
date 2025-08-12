@@ -39,16 +39,14 @@ public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper
     MPJLambdaWrapper<ApsBomGroup> q = getWrapper(req.getData());
     List<ApsBomGroup> list = this.list(q);
 
-    List<ApsBomGroupDto> dataList = list.stream().map(t -> $.copy(t, ApsBomGroupDto.class))
-        .collect(Collectors.toList());
+    List<ApsBomGroupDto> dataList = list.stream().map(t -> $.copy(t, ApsBomGroupDto.class)).collect(Collectors.toList());
 //   //  this.setName(dataList);
     ((ApsBomGroupService) AopContext.currentProxy()).setName(dataList);
     return new ApsBomGroupQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(
-      ApsBomGroupExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(ApsBomGroupExportQueryPageListReq req) {
 
     DynamicsPage<ApsBomGroup> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -57,8 +55,7 @@ public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper
     List<ApsBomGroupExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsBomGroup> list = this.page(page, q);
-      IPage<ApsBomGroupExportQueryPageListInfoRes> dataList = list.convert(
-          t -> $.copy(t, ApsBomGroupExportQueryPageListInfoRes.class));
+      IPage<ApsBomGroupExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsBomGroupExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsBomGroupExportQueryPageListInfoRes.class);
@@ -66,8 +63,7 @@ public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsBomGroupExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
-        ApsBomGroupExportQueryPageListInfoRes.class);
+    List<ApsBomGroupExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsBomGroupExportQueryPageListInfoRes.class);
 //   // this.setName(listInfoRes);
     ((ApsBomGroupService) AopContext.currentProxy()).setName(listInfoRes);
 
@@ -87,8 +83,7 @@ public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper
       ApsBomGroup parentApsBomGroup = this.getById(req.getParentId());
       bomGroup.setPathId(parentApsBomGroup.getPathId() + "/" + req.getId());
       String newPathId = bomGroup.getPathId();
-      List<ApsBomGroup> apsBomGroupList = this.list(
-          new LambdaQueryWrapper<ApsBomGroup>().likeRight(ApsBomGroup::getPathId, oldPathId));
+      List<ApsBomGroup> apsBomGroupList = this.list(new LambdaQueryWrapper<ApsBomGroup>().likeRight(ApsBomGroup::getPathId, oldPathId));
       apsBomGroupList.forEach(t -> t.setPathId(t.getPathId().replace(oldPathId, newPathId)));
       apsBomGroupList.add(bomGroup);
       this.updateBatchById(apsBomGroupList);
@@ -112,8 +107,7 @@ public class ApsBomGroupServiceImpl extends MPJBaseServiceImpl<ApsBomGroupMapper
   private MPJLambdaWrapper<ApsBomGroup> getWrapper(ApsBomGroupDto obj) {
     MPJLambdaWrapper<ApsBomGroup> q = new MPJLambdaWrapper<>();
 
-    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsBomGroup.class, ApsBomGroup::getPathId,
-        ApsBomGroup::getGroupName,//
+    LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsBomGroup.class, ApsBomGroup::getPathId, ApsBomGroup::getGroupName,//
         ApsBomGroup::getPathId, ApsBomGroup::getGroupCode);
 
     q.orderByDesc(ApsBomGroup::getId);

@@ -45,8 +45,7 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
    * insert
    *
    */
-  public @Override ApsGoodsForecastMainSaleDataInsertRes insert(
-      ApsGoodsForecastMainSaleDataInsertReq req) {
+  public @Override ApsGoodsForecastMainSaleDataInsertRes insert(ApsGoodsForecastMainSaleDataInsertReq req) {
     this.apsGoodsForecastMainSaleDataService.save($.copy(req, ApsGoodsForecastMainSaleData.class));
     return new ApsGoodsForecastMainSaleDataInsertRes().setCount(1);
   }
@@ -55,8 +54,7 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastMainSaleDataDeleteByIdListRes deleteByIdList(
-      ApsGoodsForecastMainSaleDataDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastMainSaleDataDeleteByIdListRes deleteByIdList(ApsGoodsForecastMainSaleDataDeleteByIdListReq req) {
     apsGoodsForecastMainSaleDataService.removeByIds(req.getIdList());
     return new ApsGoodsForecastMainSaleDataDeleteByIdListRes();
   }
@@ -65,8 +63,7 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
    * queryList
    *
    */
-  public @Override ApsGoodsForecastMainSaleDataQueryListRes queryList(
-      ApsGoodsForecastMainSaleDataQueryListReq req) {
+  public @Override ApsGoodsForecastMainSaleDataQueryListRes queryList(ApsGoodsForecastMainSaleDataQueryListReq req) {
     return apsGoodsForecastMainSaleDataService.queryList(req);
   }
 
@@ -74,51 +71,38 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
    * updateById
    *
    */
-  public @Override ApsGoodsForecastMainSaleDataUpdateByIdRes updateById(
-      ApsGoodsForecastMainSaleDataUpdateByIdReq req) {
+  public @Override ApsGoodsForecastMainSaleDataUpdateByIdRes updateById(ApsGoodsForecastMainSaleDataUpdateByIdReq req) {
     apsGoodsForecastMainSaleDataService.updateById($.copy(req, ApsGoodsForecastMainSaleData.class));
     return new ApsGoodsForecastMainSaleDataUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
     return apsGoodsForecastMainSaleDataService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
+  public @Override void queryPageListExport(ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
     DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes.class, listInfoRes,
-        "");
+    List<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsGoodsForecastMainSaleDataImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastMainSaleDataImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsForecastMainSaleDataImportListener(),
+  public @Override ApsGoodsForecastMainSaleDataImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsGoodsForecastMainSaleDataImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastMainSaleDataImportListener(),
         ApsGoodsForecastMainSaleDataImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastMainSaleData> readList = $.copyList(reqList,
-        ApsGoodsForecastMainSaleData.class);
+    List<ApsGoodsForecastMainSaleData> readList = $.copyList(reqList, ApsGoodsForecastMainSaleData.class);
     boolean bool = apsGoodsForecastMainSaleDataService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsGoodsForecastMainSaleDataImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastMainSaleDataQueryByIdListRes queryByIdListRes(
-      ApsGoodsForecastMainSaleDataQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecastMainSaleData> q = new MPJLambdaWrapper<ApsGoodsForecastMainSaleData>(
-        ApsGoodsForecastMainSaleData.class)
-        .selectAll(ApsGoodsForecastMainSaleData.class)
-        .in(ApsGoodsForecastMainSaleData::getId, req.getIdList());
+  public @Override ApsGoodsForecastMainSaleDataQueryByIdListRes queryByIdListRes(ApsGoodsForecastMainSaleDataQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecastMainSaleData> q = new MPJLambdaWrapper<ApsGoodsForecastMainSaleData>(ApsGoodsForecastMainSaleData.class).selectAll(ApsGoodsForecastMainSaleData.class).in(ApsGoodsForecastMainSaleData::getId, req.getIdList());
     List<ApsGoodsForecastMainSaleData> list = this.apsGoodsForecastMainSaleDataService.list(q);
-    List<ApsGoodsForecastMainSaleDataDto> dataList = $.copyList(list,
-        ApsGoodsForecastMainSaleDataDto.class);
+    List<ApsGoodsForecastMainSaleDataDto> dataList = $.copyList(list, ApsGoodsForecastMainSaleDataDto.class);
     return new ApsGoodsForecastMainSaleDataQueryByIdListRes().setDataList(dataList);
   }
 
@@ -138,8 +122,7 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
         headerList.add(DateUtil.format(instance.getTime(), DatePattern.NORM_MONTH_FORMAT));
       });
     } else {
-      List<YearMonth> monthList = DateUtils.getMonthList(req.getDateRange().getFirst(),
-          req.getDateRange().get(1));
+      List<YearMonth> monthList = DateUtils.getMonthList(req.getDateRange().getFirst(), req.getDateRange().get(1));
       monthList.stream().mapToInt(YearMonth::getYear).distinct().forEach(yearSet::add);
       headerList.addAll(monthList.stream().map(YearMonth::toString).toList());
     }
@@ -147,11 +130,9 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
     log.info("yearSet:{}", headerList);
 
     Map<String, Map<Integer, ApsGoodsForecastMainSaleData>> mainSaleDataMap = this.apsGoodsForecastMainSaleDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMainSaleData>()
-                .eq(ApsGoodsForecastMainSaleData::getGoodsId, req.getId())
-                .in(ApsGoodsForecastMainSaleData::getYear, yearSet))
-        .stream().collect(Collectors.groupingBy(ApsGoodsForecastMainSaleData::getSaleConfigCode,
-            Collectors.toMap(ApsGoodsForecastMainSaleData::getYear, Function.identity())));
+            new LambdaQueryWrapper<ApsGoodsForecastMainSaleData>().eq(ApsGoodsForecastMainSaleData::getGoodsId, req.getId())
+                .in(ApsGoodsForecastMainSaleData::getYear, yearSet)).stream()
+        .collect(Collectors.groupingBy(ApsGoodsForecastMainSaleData::getSaleConfigCode, Collectors.toMap(ApsGoodsForecastMainSaleData::getYear, Function.identity())));
 
     List<GetDataByGoodsIdRes> dataList = new ArrayList<>();
     mainSaleDataMap.forEach((code, v) -> {
@@ -172,9 +153,7 @@ public class ApsGoodsForecastMainSaleDataApiImpl implements ApsGoodsForecastMain
 //    dataList.add(new GetDataByGoodsIdRes().setSaleCode("合计"));
     dataList.sort(Comparator.comparing(GetDataByGoodsIdRes::getSaleCode));
 //    headerList.add("销售特征值");
-    List<Header> list = headerList.stream()
-        .map(m -> new Header().setFieldName(m).setShowName(m).setWidth(200))
-        .collect(Collectors.toList());
+    List<Header> list = headerList.stream().map(m -> new Header().setFieldName(m).setShowName(m).setWidth(200)).collect(Collectors.toList());
     list.addFirst(new Header().setFieldName("saleCode").setShowName("销售特征值").setWidth(200));
     return dynamicsPage.setDataList(dataList).setHeaderList(list);
   }

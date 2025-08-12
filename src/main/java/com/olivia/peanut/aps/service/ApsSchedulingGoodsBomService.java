@@ -16,8 +16,7 @@ public interface ApsSchedulingGoodsBomService extends MPJBaseService<ApsScheduli
 
   ApsSchedulingGoodsBomQueryListRes queryList(ApsSchedulingGoodsBomQueryListReq req);
 
-  DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingGoodsBomDto> apsSchedulingGoodsBomDtoList);

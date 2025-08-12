@@ -16,13 +16,11 @@ public interface ApsGoodsSaleProjectConfigService extends MPJBaseService<ApsGood
 
   ApsGoodsSaleProjectConfigQueryListRes queryList(ApsGoodsSaleProjectConfigQueryListReq req);
 
-  DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsSaleProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(ApsGoodsSaleProjectConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsSaleProjectConfigDto> apsGoodsSaleProjectConfigDtoList);
 
-  ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(
-      ApsGoodsSaleProjectConfigSale2ProjectReq req);
+  ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(ApsGoodsSaleProjectConfigSale2ProjectReq req);
 }
 

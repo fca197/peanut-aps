@@ -41,8 +41,7 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsBomBuyPlanDeleteByIdListRes deleteByIdList(
-      ApsGoodsBomBuyPlanDeleteByIdListReq req) {
+  public @Override ApsGoodsBomBuyPlanDeleteByIdListRes deleteByIdList(ApsGoodsBomBuyPlanDeleteByIdListReq req) {
     apsGoodsBomBuyPlanService.removeByIds(req.getIdList());
     return new ApsGoodsBomBuyPlanDeleteByIdListRes();
   }
@@ -65,8 +64,7 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsBomBuyPlanExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomBuyPlanExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanExportQueryPageListReq req) {
     return apsGoodsBomBuyPlanService.queryPageList(req);
   }
 
@@ -80,8 +78,7 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
         "BOM 购买计划");
   }
 
-  public @Override ApsGoodsBomBuyPlanImportRes importData(
-      @RequestParam("file") MultipartFile file) {
+  public @Override ApsGoodsBomBuyPlanImportRes importData(@RequestParam("file") MultipartFile file) {
     noImpl();
     List<ApsGoodsBomBuyPlanImportReq> reqList = PoiExcelUtil.readData(file,
         new ApsGoodsBomBuyPlanImportListener(), ApsGoodsBomBuyPlanImportReq.class);
@@ -92,10 +89,8 @@ public class ApsGoodsBomBuyPlanApiImpl implements ApsGoodsBomBuyPlanApi {
     return new ApsGoodsBomBuyPlanImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsBomBuyPlanQueryByIdListRes queryByIdListRes(
-      ApsGoodsBomBuyPlanQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsBomBuyPlan> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlan>(
-        ApsGoodsBomBuyPlan.class)
+  public @Override ApsGoodsBomBuyPlanQueryByIdListRes queryByIdListRes(ApsGoodsBomBuyPlanQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsBomBuyPlan> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlan>(ApsGoodsBomBuyPlan.class)
         .selectAll(ApsGoodsBomBuyPlan.class).in(ApsGoodsBomBuyPlan::getId, req.getIdList());
     List<ApsGoodsBomBuyPlan> list = this.apsGoodsBomBuyPlanService.list(q);
     List<ApsGoodsBomBuyPlanDto> dataList = $.copyList(list, ApsGoodsBomBuyPlanDto.class);

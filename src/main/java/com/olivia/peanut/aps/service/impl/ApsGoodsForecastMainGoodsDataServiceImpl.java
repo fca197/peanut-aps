@@ -28,8 +28,7 @@ public class ApsGoodsForecastMainGoodsDataServiceImpl extends MPJBaseServiceImpl
     ApsGoodsForecastMainGoodsDataService {
 
 
-  public @Override ApsGoodsForecastMainGoodsDataQueryListRes queryList(
-      ApsGoodsForecastMainGoodsDataQueryListReq req) {
+  public @Override ApsGoodsForecastMainGoodsDataQueryListRes queryList(ApsGoodsForecastMainGoodsDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMainGoodsData> q = getWrapper(req.getData());
     List<ApsGoodsForecastMainGoodsData> list = this.list(q);
@@ -41,8 +40,7 @@ public class ApsGoodsForecastMainGoodsDataServiceImpl extends MPJBaseServiceImpl
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastMainGoodsDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainGoodsDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainGoodsDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainGoodsDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMainGoodsData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -78,8 +76,7 @@ public class ApsGoodsForecastMainGoodsDataServiceImpl extends MPJBaseServiceImpl
 
 
   @SuppressWarnings(Str.UN_CHECKED)
-  private MPJLambdaWrapper<ApsGoodsForecastMainGoodsData> getWrapper(
-      ApsGoodsForecastMainGoodsDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastMainGoodsData> getWrapper(ApsGoodsForecastMainGoodsDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastMainGoodsData> q = new MPJLambdaWrapper<>();
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsForecastMainGoodsData.class,
         ApsGoodsForecastMainGoodsData::getGoodsId, ApsGoodsForecastMainGoodsData::getYear,

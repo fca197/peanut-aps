@@ -37,8 +37,7 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
   SetNameService setNameService;
 
 
-  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(
-      ApsSchedulingVersionItemPreQueryListReq req) {
+  public @Override ApsSchedulingVersionItemPreQueryListRes queryList(ApsSchedulingVersionItemPreQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = getWrapper(req.getData());
     List<ApsSchedulingVersionItemPre> list = this.list(q);
@@ -49,8 +48,7 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionItemPreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionItemPreExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionItemPre> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -82,8 +80,7 @@ public class ApsSchedulingVersionItemPreServiceImpl extends MPJBaseServiceImpl<A
 
 
   @SuppressWarnings("unchecked")
-  private MPJLambdaWrapper<ApsSchedulingVersionItemPre> getWrapper(
-      ApsSchedulingVersionItemPreDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingVersionItemPre> getWrapper(ApsSchedulingVersionItemPreDto obj) {
     MPJLambdaWrapper<ApsSchedulingVersionItemPre> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionItemPre.class

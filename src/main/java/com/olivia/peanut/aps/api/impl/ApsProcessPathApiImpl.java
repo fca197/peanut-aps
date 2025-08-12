@@ -40,8 +40,7 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
    * deleteByIds
    *
    */
-  public @Override ApsProcessPathDeleteByIdListRes deleteByIdList(
-      ApsProcessPathDeleteByIdListReq req) {
+  public @Override ApsProcessPathDeleteByIdListRes deleteByIdList(ApsProcessPathDeleteByIdListReq req) {
     apsProcessPathService.removeByIds(req.getIdList());
     return new ApsProcessPathDeleteByIdListRes();
   }
@@ -64,8 +63,7 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
 
   }
 
-  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
-      ApsProcessPathExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(ApsProcessPathExportQueryPageListReq req) {
     return apsProcessPathService.queryPageList(req);
   }
 
@@ -88,8 +86,7 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
     return new ApsProcessPathImportRes().setCount(c);
   }
 
-  public @Override ApsProcessPathQueryByIdListRes queryByIdListRes(
-      ApsProcessPathQueryByIdListReq req) {
+  public @Override ApsProcessPathQueryByIdListRes queryByIdListRes(ApsProcessPathQueryByIdListReq req) {
     MPJLambdaWrapper<ApsProcessPath> q = new MPJLambdaWrapper<ApsProcessPath>(ApsProcessPath.class)
         .selectAll(ApsProcessPath.class).in(ApsProcessPath::getId, req.getIdList());
     List<ApsProcessPath> list = this.apsProcessPathService.list(q);

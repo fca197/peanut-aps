@@ -35,12 +35,9 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    *
    */
   public @Override ApsGoodsForecastInsertRes insert(ApsGoodsForecastInsertReq req) {
-    String ms = JSON.toJSONString(
-        DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream()
-            .map(YearMonth::toString).toList());
+    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
     req.setMonths(ms);
-    this.apsGoodsForecastService.save($.copy(req, ApsGoodsForecast.class)
-        .setForecastStatus(ForecastStatusEnum.TO_UPLOAD.getCode()));
+    this.apsGoodsForecastService.save($.copy(req, ApsGoodsForecast.class).setForecastStatus(ForecastStatusEnum.TO_UPLOAD.getCode()));
     return new ApsGoodsForecastInsertRes().setCount(1);
   }
 
@@ -48,8 +45,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastDeleteByIdListRes deleteByIdList(
-      ApsGoodsForecastDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastDeleteByIdListRes deleteByIdList(ApsGoodsForecastDeleteByIdListReq req) {
     apsGoodsForecastService.removeByIds(req.getIdList());
     return new ApsGoodsForecastDeleteByIdListRes();
   }
@@ -68,9 +64,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
    */
   public @Override ApsGoodsForecastUpdateByIdRes updateById(ApsGoodsForecastUpdateByIdReq req) {
 
-    String ms = JSON.toJSONString(
-        DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream()
-            .map(YearMonth::toString).toList());
+    String ms = JSON.toJSONString(DateUtils.getMonthList(req.getForecastBeginDate(), req.getForecastEndDate()).stream().map(YearMonth::toString).toList());
     req.setMonths(ms);
     ApsGoodsForecast forecast = $.copy(req, ApsGoodsForecast.class);
     apsGoodsForecastService.updateById(forecast);
@@ -78,8 +72,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastExportQueryPageListReq req) {
     return apsGoodsForecastService.queryPageList(req);
   }
 
@@ -87,14 +80,12 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
     DynamicsPage<ApsGoodsForecastExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsForecastExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsForecastExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsGoodsForecastImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsForecastImportListenerAbstract(), ApsGoodsForecastImportReq.class);
+    List<ApsGoodsForecastImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastImportListenerAbstract(), ApsGoodsForecastImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsForecast> readList = $.copyList(reqList, ApsGoodsForecast.class);
     boolean bool = apsGoodsForecastService.saveBatch(readList);
@@ -102,10 +93,8 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
     return new ApsGoodsForecastImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastQueryByIdListRes queryByIdListRes(
-      ApsGoodsForecastQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecast> q = new MPJLambdaWrapper<ApsGoodsForecast>(
-        ApsGoodsForecast.class).selectAll(ApsGoodsForecast.class)
+  public @Override ApsGoodsForecastQueryByIdListRes queryByIdListRes(ApsGoodsForecastQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecast> q = new MPJLambdaWrapper<ApsGoodsForecast>(ApsGoodsForecast.class).selectAll(ApsGoodsForecast.class)
         .in(ApsGoodsForecast::getId, req.getIdList());
     List<ApsGoodsForecast> list = this.apsGoodsForecastService.list(q);
     List<ApsGoodsForecastDto> dataList = $.copyList(list, ApsGoodsForecastDto.class);
@@ -118,8 +107,7 @@ public class ApsGoodsForecastApiImpl implements ApsGoodsForecastApi {
   }
 
   @Override
-  public UploadTemplateRes uploadTemplate(@PathVariable("id") Long id,
-      MultipartFile multipartFile) {
+  public UploadTemplateRes uploadTemplate(@PathVariable("id") Long id, MultipartFile multipartFile) {
     try {
       return this.apsGoodsForecastService.uploadTemplate(id, multipartFile);
     } catch (Exception e) {

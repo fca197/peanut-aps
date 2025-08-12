@@ -64,8 +64,7 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
   @Transactional
   public void updateById(ApsProduceProcessUpdateByIdReq req) {
     ApsProduceProcess produceProcess = $.copy(req, ApsProduceProcess.class);
-    this.apsProduceProcessItemService.remove(new LambdaQueryWrapper<ApsProduceProcessItem>().eq(
-        ApsProduceProcessItem::getProduceProcessId, req.getId()));
+    this.apsProduceProcessItemService.remove(new LambdaQueryWrapper<ApsProduceProcessItem>().eq(ApsProduceProcessItem::getProduceProcessId, req.getId()));
     List<ApsProduceProcessItem> processItemList = req.getProduceProcessItemDtoList().stream()
         .map(t -> $.copy(t, ApsProduceProcessItem.class)).toList();
     processItemList.forEach(
@@ -86,8 +85,7 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
   }
 
 
-  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(
-      ApsProduceProcessExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(ApsProduceProcessExportQueryPageListReq req) {
 
     DynamicsPage<ApsProduceProcess> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -120,8 +118,7 @@ public class ApsProduceProcessServiceImpl extends MPJBaseServiceImpl<ApsProduceP
       return;
     }
     Map<Long, List<ApsProduceProcessItem>> listMap = this.apsProduceProcessItemService.list(
-            new LambdaQueryWrapper<ApsProduceProcessItem>().in(
-                ApsProduceProcessItem::getProduceProcessId,
+            new LambdaQueryWrapper<ApsProduceProcessItem>().in(ApsProduceProcessItem::getProduceProcessId,
                 list.stream().map(BaseEntityDto::getId).collect(Collectors.toSet()))).stream()
         .collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
     list.forEach(t -> t.setProduceProcessItemDtoList(

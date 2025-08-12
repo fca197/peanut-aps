@@ -2,6 +2,7 @@ package com.olivia.peanut.aps.converter;
 
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersionDetailMachine.*;
 import com.olivia.peanut.aps.model.ApsSchedulingDayConfigVersionDetailMachine;
+import com.olivia.peanut.aps.utils.process.entity.ProduceOrderMachine;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -21,5 +22,7 @@ public interface ApsSchedulingDayConfigVersionDetailMachineConverter {
   List<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingDayConfigVersionDetailMachine> list);
 
   List<ApsSchedulingDayConfigVersionDetailMachine> importReq(List<ApsSchedulingDayConfigVersionDetailMachineImportReq> reqList);
+
+  ApsSchedulingDayConfigVersionDetailMachine machine(ProduceOrderMachine machine);
 }
 

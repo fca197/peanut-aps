@@ -36,8 +36,7 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends MPJBaseServiceImp
   SetNameService setNameService;
 
 
-  public @Override ApsOrderGoodsBomKittingVersionQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionQueryListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionQueryListRes queryList(ApsOrderGoodsBomKittingVersionQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> q = getWrapper(req.getData());
     List<ApsOrderGoodsBomKittingVersion> list = this.list(q);
@@ -48,8 +47,7 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends MPJBaseServiceImp
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomKittingVersionExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsBomKittingVersion> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -83,8 +81,7 @@ public class ApsOrderGoodsBomKittingVersionServiceImpl extends MPJBaseServiceImp
 
 
   @SuppressWarnings("unchecked")
-  private MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> getWrapper(
-      ApsOrderGoodsBomKittingVersionDto obj) {
+  private MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> getWrapper(ApsOrderGoodsBomKittingVersionDto obj) {
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersion> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsOrderGoodsBomKittingVersion.class,

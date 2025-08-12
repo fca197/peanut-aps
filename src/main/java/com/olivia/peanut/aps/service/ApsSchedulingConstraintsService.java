@@ -16,8 +16,7 @@ public interface ApsSchedulingConstraintsService extends MPJBaseService<ApsSched
 
   ApsSchedulingConstraintsQueryListRes queryList(ApsSchedulingConstraintsQueryListReq req);
 
-  DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingConstraintsExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(ApsSchedulingConstraintsExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingConstraintsDto> apsSchedulingConstraintsDtoList);

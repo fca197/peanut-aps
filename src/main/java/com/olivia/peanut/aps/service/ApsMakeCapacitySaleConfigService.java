@@ -16,8 +16,7 @@ public interface ApsMakeCapacitySaleConfigService extends MPJBaseService<ApsMake
 
   ApsMakeCapacitySaleConfigQueryListRes queryList(ApsMakeCapacitySaleConfigQueryListReq req);
 
-  DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacitySaleConfigExportQueryPageListReq req);
+  DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(ApsMakeCapacitySaleConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsMakeCapacitySaleConfigDto> apsMakeCapacitySaleConfigDtoList);

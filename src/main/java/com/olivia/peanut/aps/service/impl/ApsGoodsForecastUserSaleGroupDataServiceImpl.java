@@ -38,8 +38,7 @@ public class ApsGoodsForecastUserSaleGroupDataServiceImpl extends
   SetNameService setNameService;
 
 
-  public @Override ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(
-      ApsGoodsForecastUserSaleGroupDataQueryListReq req) {
+  public @Override ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(ApsGoodsForecastUserSaleGroupDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> q = getWrapper(req.getData());
     List<ApsGoodsForecastUserSaleGroupData> list = this.list(q);
@@ -50,8 +49,7 @@ public class ApsGoodsForecastUserSaleGroupDataServiceImpl extends
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastUserSaleGroupData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -83,8 +81,7 @@ public class ApsGoodsForecastUserSaleGroupDataServiceImpl extends
 
 
   @SuppressWarnings("unchecked")
-  private MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> getWrapper(
-      ApsGoodsForecastUserSaleGroupDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> getWrapper(ApsGoodsForecastUserSaleGroupDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsForecastUserSaleGroupData.class

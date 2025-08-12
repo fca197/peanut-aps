@@ -28,8 +28,7 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
     ApsSchedulingVersionLimitService {
 
 
-  public @Override ApsSchedulingVersionLimitQueryListRes queryList(
-      ApsSchedulingVersionLimitQueryListReq req) {
+  public @Override ApsSchedulingVersionLimitQueryListRes queryList(ApsSchedulingVersionLimitQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionLimit> q = getWrapper(req.getData());
     List<ApsSchedulingVersionLimit> list = this.list(q);
@@ -41,8 +40,7 @@ public class ApsSchedulingVersionLimitServiceImpl extends MPJBaseServiceImpl<Aps
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionLimitExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionLimitExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionLimit> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

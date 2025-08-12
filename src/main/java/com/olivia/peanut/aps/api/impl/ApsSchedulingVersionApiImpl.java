@@ -44,8 +44,7 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingVersionDeleteByIdListRes deleteByIdList(
-      ApsSchedulingVersionDeleteByIdListReq req) {
+  public @Override ApsSchedulingVersionDeleteByIdListRes deleteByIdList(ApsSchedulingVersionDeleteByIdListReq req) {
     apsSchedulingVersionService.removeByIds(req.getIdList());
     return new ApsSchedulingVersionDeleteByIdListRes();
   }
@@ -54,8 +53,7 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
    * queryList
    *
    */
-  public @Override ApsSchedulingVersionQueryListRes queryList(
-      ApsSchedulingVersionQueryListReq req) {
+  public @Override ApsSchedulingVersionQueryListRes queryList(ApsSchedulingVersionQueryListReq req) {
     return apsSchedulingVersionService.queryList(req);
   }
 
@@ -63,15 +61,13 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
    * updateById
    *
    */
-  public @Override ApsSchedulingVersionUpdateByIdRes updateById(
-      ApsSchedulingVersionUpdateByIdReq req) {
+  public @Override ApsSchedulingVersionUpdateByIdRes updateById(ApsSchedulingVersionUpdateByIdReq req) {
     apsSchedulingVersionService.updateById($.copy(req, ApsSchedulingVersion.class));
     return new ApsSchedulingVersionUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionExportQueryPageListReq req) {
     return apsSchedulingVersionService.queryPageList(req);
   }
 
@@ -79,15 +75,12 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
     DynamicsPage<ApsSchedulingVersionExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingVersionExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingVersionExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingVersionExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingVersionExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingVersionExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingVersionImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingVersionImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingVersionImportListener(), ApsSchedulingVersionImportReq.class);
+  public @Override ApsSchedulingVersionImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingVersionImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingVersionImportListener(), ApsSchedulingVersionImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingVersion> readList = $.copyList(reqList, ApsSchedulingVersion.class);
     boolean bool = apsSchedulingVersionService.saveBatch(readList);
@@ -95,11 +88,9 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
     return new ApsSchedulingVersionImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingVersionQueryByIdListRes queryByIdListRes(
-      ApsSchedulingVersionQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingVersion> q = new MPJLambdaWrapper<ApsSchedulingVersion>(
-        ApsSchedulingVersion.class)
-        .selectAll(ApsSchedulingVersion.class).in(ApsSchedulingVersion::getId, req.getIdList());
+  public @Override ApsSchedulingVersionQueryByIdListRes queryByIdListRes(ApsSchedulingVersionQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingVersion> q = new MPJLambdaWrapper<ApsSchedulingVersion>(ApsSchedulingVersion.class).selectAll(ApsSchedulingVersion.class)
+        .in(ApsSchedulingVersion::getId, req.getIdList());
     List<ApsSchedulingVersion> list = this.apsSchedulingVersionService.list(q);
     List<ApsSchedulingVersionDto> dataList = $.copyList(list, ApsSchedulingVersionDto.class);
     this.apsSchedulingVersionService.setName(dataList);
@@ -107,26 +98,22 @@ public class ApsSchedulingVersionApiImpl implements ApsSchedulingVersionApi {
   }
 
   @Override
-  public ApsSchedulingVersionUseConstraintsRes useConstraints(
-      ApsSchedulingVersionUseConstraintsReq req) {
+  public ApsSchedulingVersionUseConstraintsRes useConstraints(ApsSchedulingVersionUseConstraintsReq req) {
     return this.apsSchedulingVersionService.useConstraints(req);
   }
 
   @Override
-  public ApsSchedulingVersionUseMakeCapacityRes useMakeCapacity(
-      ApsSchedulingVersionUseMakeCapacityReq req) {
+  public ApsSchedulingVersionUseMakeCapacityRes useMakeCapacity(ApsSchedulingVersionUseMakeCapacityReq req) {
     return this.apsSchedulingVersionService.useMakeCapacity(req);
   }
 
   @Override
-  public DynamicsPage<ApsSchedulingVersionUseConstraintsResultRes> useConstraintsResult(
-      ApsSchedulingVersionUseConstraintsResultReq req) {
+  public DynamicsPage<ApsSchedulingVersionUseConstraintsResultRes> useConstraintsResult(ApsSchedulingVersionUseConstraintsResultReq req) {
     return this.apsSchedulingVersionService.useConstraintsResult(req);
   }
 
   @Override
-  public DynamicsPage<ApsSchedulingVersionUseMakeCapacityResultRes> useMakeCapacityResult(
-      ApsSchedulingVersionUseMakeCapacityResultReq req) {
+  public DynamicsPage<ApsSchedulingVersionUseMakeCapacityResultRes> useMakeCapacityResult(ApsSchedulingVersionUseMakeCapacityResultReq req) {
     return this.apsSchedulingVersionService.useMakeCapacityResult(req);
   }
 

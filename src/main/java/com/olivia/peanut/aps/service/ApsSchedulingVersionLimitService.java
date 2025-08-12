@@ -16,8 +16,7 @@ public interface ApsSchedulingVersionLimitService extends MPJBaseService<ApsSche
 
   ApsSchedulingVersionLimitQueryListRes queryList(ApsSchedulingVersionLimitQueryListReq req);
 
-  DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionLimitExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionLimitExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionLimitExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingVersionLimitDto> apsSchedulingVersionLimitDtoList);

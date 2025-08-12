@@ -62,8 +62,7 @@ public class ApsMachineApiImpl implements ApsMachineApi {
 
   }
 
-  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(
-      ApsMachineExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(ApsMachineExportQueryPageListReq req) {
     return apsMachineService.queryPageList(req);
   }
 

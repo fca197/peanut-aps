@@ -41,8 +41,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineUtils {
     }
   }
 
-  private static void setData2WorkBook(
-      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req,
+  private static void setData2WorkBook(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req,
       List<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> list,
       SXSSFWorkbook workbook) {
     if (CollUtil.isEmpty(list)) {
@@ -125,11 +124,9 @@ public class ApsSchedulingDayConfigVersionDetailMachineUtils {
       List<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> ml = machineMap.getOrDefault(
           machine.getId(), List.of());
       Map<Long, List<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes>> machineTimeStemOrderMap =
-          ml.stream().collect(Collectors.groupingBy(
-              ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes::getCellIndex,
+          ml.stream().collect(Collectors.groupingBy(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes::getCellIndex,
               Collectors.collectingAndThen(Collectors.toList(), a -> a.stream().sorted(
-                      Comparator.comparing(
-                          ApsSchedulingDayConfigVersionDetailMachineDto::getBeginDateTime))
+                      Comparator.comparing(ApsSchedulingDayConfigVersionDetailMachineDto::getBeginDateTime))
                   .collect(Collectors.toList()))));
 
       log.info("write excel {} ml {} {}", machineName, ml.size(),
@@ -190,8 +187,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineUtils {
     }
   }
 
-  private static long getTimeIndex(
-      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req,
+  private static long getTimeIndex(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req,
       LocalDateTime localDateTime) {
     return localDateTime.toEpochSecond(ZoneOffset.of(Str.OFFSET_ID)) / req.getTimeSpan();
   }

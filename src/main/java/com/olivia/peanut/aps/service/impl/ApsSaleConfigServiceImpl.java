@@ -37,15 +37,13 @@ public class ApsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsSaleConfigMa
     MPJLambdaWrapper<ApsSaleConfig> q = getWrapper(req.getData());
     List<ApsSaleConfig> list = this.list(q);
 
-    List<ApsSaleConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsSaleConfigDto.class))
-        .collect(Collectors.toList());
+    List<ApsSaleConfigDto> dataList = list.stream().map(t -> $.copy(t, ApsSaleConfigDto.class)).collect(Collectors.toList());
 
     return new ApsSaleConfigQueryListRes().setDataList(dataList);
   }
 
 
-  public @Override DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsSaleConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsSaleConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsSaleConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -54,8 +52,7 @@ public class ApsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsSaleConfigMa
     List<ApsSaleConfigExportQueryPageListInfoRes> records;
     if (Boolean.TRUE.equals(req.getQueryPage())) {
       IPage<ApsSaleConfig> list = this.page(page, q);
-      IPage<ApsSaleConfigExportQueryPageListInfoRes> dataList = list.convert(
-          t -> $.copy(t, ApsSaleConfigExportQueryPageListInfoRes.class));
+      IPage<ApsSaleConfigExportQueryPageListInfoRes> dataList = list.convert(t -> $.copy(t, ApsSaleConfigExportQueryPageListInfoRes.class));
       records = dataList.getRecords();
     } else {
       records = $.copyList(this.list(q), ApsSaleConfigExportQueryPageListInfoRes.class);
@@ -63,8 +60,7 @@ public class ApsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsSaleConfigMa
 
     // 类型转换，  更换枚举 等操作
 
-    List<ApsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records,
-        ApsSaleConfigExportQueryPageListInfoRes.class);
+    List<ApsSaleConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(records, ApsSaleConfigExportQueryPageListInfoRes.class);
     ((ApsSaleConfigService) AopContext.currentProxy()).setName(listInfoRes);
     return DynamicsPage.init(page, listInfoRes);
   }
@@ -75,11 +71,8 @@ public class ApsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsSaleConfigMa
       return;
     }
     apsSaleConfigDtoList.sort(Comparator.comparing(ApsSaleConfigDto::getSaleCode));
-    List<? extends ApsSaleConfigDto> parentList = apsSaleConfigDtoList.stream()
-        .filter(t -> Objects.equals(t.getParentId(), 0L)).toList();
-    parentList.forEach(p -> p.setChildren(
-        apsSaleConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId()))
-            .toList()));
+    List<? extends ApsSaleConfigDto> parentList = apsSaleConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), 0L)).toList();
+    parentList.forEach(p -> p.setChildren(apsSaleConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId())).toList()));
     apsSaleConfigDtoList.removeIf(t -> !Objects.equals(t.getParentId(), 0L));
   }
 
@@ -90,12 +83,9 @@ public class ApsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsSaleConfigMa
     MPJLambdaWrapper<ApsSaleConfig> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
-      q.eq(StringUtils.isNoneBlank(obj.getSaleCode()), ApsSaleConfig::getSaleCode,
-              obj.getSaleCode())
-          .eq(StringUtils.isNoneBlank(obj.getSaleName()), ApsSaleConfig::getSaleName,
-              obj.getSaleName())
-          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsSaleConfig::getSupplierStatus,
-              obj.getSupplierStatus())
+      q.eq(StringUtils.isNoneBlank(obj.getSaleCode()), ApsSaleConfig::getSaleCode, obj.getSaleCode())
+          .eq(StringUtils.isNoneBlank(obj.getSaleName()), ApsSaleConfig::getSaleName, obj.getSaleName())
+          .eq(Objects.nonNull(obj.getSupplierStatus()), ApsSaleConfig::getSupplierStatus, obj.getSupplierStatus())
           .eq(Objects.nonNull(obj.getIsValue()), ApsSaleConfig::getIsValue, obj.getIsValue())
 
       ;

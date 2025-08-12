@@ -16,8 +16,7 @@ public interface ApsProduceProcessItemService extends MPJBaseService<ApsProduceP
 
   ApsProduceProcessItemQueryListRes queryList(ApsProduceProcessItemQueryListReq req);
 
-  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(
-      ApsProduceProcessItemExportQueryPageListReq req);
+  DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(ApsProduceProcessItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsProduceProcessItemDto> apsProduceProcessItemDtoList);

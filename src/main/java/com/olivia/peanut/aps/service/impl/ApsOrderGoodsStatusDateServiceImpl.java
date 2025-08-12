@@ -37,8 +37,7 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(
-      ApsOrderGoodsStatusDateQueryListReq req) {
+  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(ApsOrderGoodsStatusDateQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsStatusDate> q = getWrapper(req.getData());
     List<ApsOrderGoodsStatusDate> list = this.list(q);
@@ -52,8 +51,7 @@ public class ApsOrderGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<ApsOr
   }
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsStatusDateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsStatusDateExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsStatusDate> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

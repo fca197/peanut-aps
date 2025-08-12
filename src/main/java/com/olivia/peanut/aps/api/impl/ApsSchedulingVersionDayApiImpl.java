@@ -40,8 +40,7 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingVersionDayDeleteByIdListRes deleteByIdList(
-      ApsSchedulingVersionDayDeleteByIdListReq req) {
+  public @Override ApsSchedulingVersionDayDeleteByIdListRes deleteByIdList(ApsSchedulingVersionDayDeleteByIdListReq req) {
     apsSchedulingVersionDayService.removeByIds(req.getIdList());
     return new ApsSchedulingVersionDayDeleteByIdListRes();
   }
@@ -50,8 +49,7 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * queryList
    *
    */
-  public @Override ApsSchedulingVersionDayQueryListRes queryList(
-      ApsSchedulingVersionDayQueryListReq req) {
+  public @Override ApsSchedulingVersionDayQueryListRes queryList(ApsSchedulingVersionDayQueryListReq req) {
     return apsSchedulingVersionDayService.queryList(req);
   }
 
@@ -59,15 +57,13 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
    * updateById
    *
    */
-  public @Override ApsSchedulingVersionDayUpdateByIdRes updateById(
-      ApsSchedulingVersionDayUpdateByIdReq req) {
+  public @Override ApsSchedulingVersionDayUpdateByIdRes updateById(ApsSchedulingVersionDayUpdateByIdReq req) {
     apsSchedulingVersionDayService.updateById($.copy(req, ApsSchedulingVersionDay.class));
     return new ApsSchedulingVersionDayUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionDayExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionDayExportQueryPageListReq req) {
     return apsSchedulingVersionDayService.queryPageList(req);
   }
 
@@ -75,15 +71,12 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
     DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingVersionDayExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingVersionDayExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingVersionDayExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionDayExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingVersionDayExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingVersionDayExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingVersionDayImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingVersionDayImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingVersionDayImportListener(), ApsSchedulingVersionDayImportReq.class);
+  public @Override ApsSchedulingVersionDayImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingVersionDayImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingVersionDayImportListener(), ApsSchedulingVersionDayImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingVersionDay> readList = $.copyList(reqList, ApsSchedulingVersionDay.class);
     boolean bool = apsSchedulingVersionDayService.saveBatch(readList);
@@ -91,11 +84,8 @@ public class ApsSchedulingVersionDayApiImpl implements ApsSchedulingVersionDayAp
     return new ApsSchedulingVersionDayImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingVersionDayQueryByIdListRes queryByIdListRes(
-      ApsSchedulingVersionDayQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingVersionDay> q = new MPJLambdaWrapper<ApsSchedulingVersionDay>(
-        ApsSchedulingVersionDay.class)
-        .selectAll(ApsSchedulingVersionDay.class)
+  public @Override ApsSchedulingVersionDayQueryByIdListRes queryByIdListRes(ApsSchedulingVersionDayQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingVersionDay> q = new MPJLambdaWrapper<ApsSchedulingVersionDay>(ApsSchedulingVersionDay.class).selectAll(ApsSchedulingVersionDay.class)
         .in(ApsSchedulingVersionDay::getId, req.getIdList());
     List<ApsSchedulingVersionDay> list = this.apsSchedulingVersionDayService.list(q);
     List<ApsSchedulingVersionDayDto> dataList = $.copyList(list, ApsSchedulingVersionDayDto.class);

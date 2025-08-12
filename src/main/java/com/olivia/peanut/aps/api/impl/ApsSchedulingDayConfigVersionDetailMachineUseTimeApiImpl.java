@@ -31,8 +31,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineUseTimeApiImpl implements
    * insert
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertRes insert(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertRes insert(ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertReq req) {
     this.apsSchedulingDayConfigVersionDetailMachineUseTimeService.save(
         $.copy(req, ApsSchedulingDayConfigVersionDetailMachineUseTime.class));
     return new ApsSchedulingDayConfigVersionDetailMachineUseTimeInsertRes().setCount(1);
@@ -42,8 +41,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineUseTimeApiImpl implements
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeDeleteByIdListRes deleteByIdList(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeDeleteByIdListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeDeleteByIdListRes deleteByIdList(ApsSchedulingDayConfigVersionDetailMachineUseTimeDeleteByIdListReq req) {
     apsSchedulingDayConfigVersionDetailMachineUseTimeService.removeByIds(req.getIdList());
     return new ApsSchedulingDayConfigVersionDetailMachineUseTimeDeleteByIdListRes();
   }
@@ -52,8 +50,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineUseTimeApiImpl implements
    * queryList
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryListRes queryList(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryListRes queryList(ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryListReq req) {
     return apsSchedulingDayConfigVersionDetailMachineUseTimeService.queryList(req);
   }
 
@@ -61,29 +58,25 @@ public class ApsSchedulingDayConfigVersionDetailMachineUseTimeApiImpl implements
    * updateById
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdRes updateById(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdRes updateById(ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdReq req) {
     apsSchedulingDayConfigVersionDetailMachineUseTimeService.updateById(
         $.copy(req, ApsSchedulingDayConfigVersionDetailMachineUseTime.class));
     return new ApsSchedulingDayConfigVersionDetailMachineUseTimeUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListReq req) {
     return apsSchedulingDayConfigVersionDetailMachineUseTimeService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListReq req) {
+  public @Override void queryPageListExport(ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListReq req) {
     DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> page = queryPageList(
         req);
     List<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes> listInfoRes = $.copyList(
         list, ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(
-        ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes.class,
+    PoiExcelUtil.export(ApsSchedulingDayConfigVersionDetailMachineUseTimeExportQueryPageListInfoRes.class,
         listInfoRes, "排程结果机器使用率");
   }
 
@@ -100,10 +93,8 @@ public class ApsSchedulingDayConfigVersionDetailMachineUseTimeApiImpl implements
     return new ApsSchedulingDayConfigVersionDetailMachineUseTimeImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryByIdListRes queryByIdListRes(
-      ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachineUseTime> q = new MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachineUseTime>(
-        ApsSchedulingDayConfigVersionDetailMachineUseTime.class)
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryByIdListRes queryByIdListRes(ApsSchedulingDayConfigVersionDetailMachineUseTimeQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachineUseTime> q = new MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachineUseTime>(ApsSchedulingDayConfigVersionDetailMachineUseTime.class)
         .selectAll(ApsSchedulingDayConfigVersionDetailMachineUseTime.class)
         .in(ApsSchedulingDayConfigVersionDetailMachineUseTime::getId, req.getIdList());
     List<ApsSchedulingDayConfigVersionDetailMachineUseTime> list = this.apsSchedulingDayConfigVersionDetailMachineUseTimeService.list(

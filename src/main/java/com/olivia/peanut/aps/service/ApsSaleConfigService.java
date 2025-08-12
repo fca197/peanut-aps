@@ -16,8 +16,7 @@ public interface ApsSaleConfigService extends MPJBaseService<ApsSaleConfig> {
 
   ApsSaleConfigQueryListRes queryList(ApsSaleConfigQueryListReq req);
 
-  DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsSaleConfigExportQueryPageListReq req);
+  DynamicsPage<ApsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsSaleConfigExportQueryPageListReq req);
 
   void setName(List<? extends ApsSaleConfigDto> apsSaleConfigDtoList);
 }

@@ -31,8 +31,7 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
    * insert
    *
    */
-  public @Override ApsOrderFieldShowTemplateInsertRes insert(
-      ApsOrderFieldShowTemplateInsertReq req) {
+  public @Override ApsOrderFieldShowTemplateInsertRes insert(ApsOrderFieldShowTemplateInsertReq req) {
     ApsOrderFieldShowTemplate apsOrderFieldShowTemplate = INSTANCE.insertReq(req);
     this.apsOrderFieldShowTemplateService.save(apsOrderFieldShowTemplate);
     return new ApsOrderFieldShowTemplateInsertRes().setCount(1);
@@ -42,8 +41,7 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
    * deleteByIds
    *
    */
-  public @Override ApsOrderFieldShowTemplateDeleteByIdListRes deleteByIdList(
-      ApsOrderFieldShowTemplateDeleteByIdListReq req) {
+  public @Override ApsOrderFieldShowTemplateDeleteByIdListRes deleteByIdList(ApsOrderFieldShowTemplateDeleteByIdListReq req) {
     apsOrderFieldShowTemplateService.removeByIds(req.getIdList());
     return new ApsOrderFieldShowTemplateDeleteByIdListRes();
   }
@@ -52,8 +50,7 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
    * queryList
    *
    */
-  public @Override ApsOrderFieldShowTemplateQueryListRes queryList(
-      ApsOrderFieldShowTemplateQueryListReq req) {
+  public @Override ApsOrderFieldShowTemplateQueryListRes queryList(ApsOrderFieldShowTemplateQueryListReq req) {
     return apsOrderFieldShowTemplateService.queryList(req);
   }
 
@@ -61,15 +58,13 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
    * updateById
    *
    */
-  public @Override ApsOrderFieldShowTemplateUpdateByIdRes updateById(
-      ApsOrderFieldShowTemplateUpdateByIdReq req) {
+  public @Override ApsOrderFieldShowTemplateUpdateByIdRes updateById(ApsOrderFieldShowTemplateUpdateByIdReq req) {
     apsOrderFieldShowTemplateService.updateById(INSTANCE.updateReq(req));
     return new ApsOrderFieldShowTemplateUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderFieldShowTemplateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(ApsOrderFieldShowTemplateExportQueryPageListReq req) {
     return apsOrderFieldShowTemplateService.queryPageList(req);
   }
 
@@ -77,14 +72,12 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
     DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsOrderFieldShowTemplateExportQueryPageListInfoRes.class, list,
-        "订单显示模板");
+    PoiExcelUtil.export(ApsOrderFieldShowTemplateExportQueryPageListInfoRes.class, list, "订单显示模板");
   }
 
-  public @Override ApsOrderFieldShowTemplateImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderFieldShowTemplateImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderFieldShowTemplateImportListener(), ApsOrderFieldShowTemplateImportReq.class);
+  public @Override ApsOrderFieldShowTemplateImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderFieldShowTemplateImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderFieldShowTemplateImportListener(),
+        ApsOrderFieldShowTemplateImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderFieldShowTemplate> readList = INSTANCE.importReq(reqList);
     boolean bool = apsOrderFieldShowTemplateService.saveBatch(readList);
@@ -92,12 +85,8 @@ public class ApsOrderFieldShowTemplateApiImpl implements ApsOrderFieldShowTempla
     return new ApsOrderFieldShowTemplateImportRes().setCount(c);
   }
 
-  public @Override ApsOrderFieldShowTemplateQueryByIdListRes queryByIdListRes(
-      ApsOrderFieldShowTemplateQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderFieldShowTemplate> q = new MPJLambdaWrapper<ApsOrderFieldShowTemplate>(
-        ApsOrderFieldShowTemplate.class)
-        .selectAll(ApsOrderFieldShowTemplate.class)
-        .in(ApsOrderFieldShowTemplate::getId, req.getIdList());
+  public @Override ApsOrderFieldShowTemplateQueryByIdListRes queryByIdListRes(ApsOrderFieldShowTemplateQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderFieldShowTemplate> q = new MPJLambdaWrapper<ApsOrderFieldShowTemplate>(ApsOrderFieldShowTemplate.class).selectAll(ApsOrderFieldShowTemplate.class).in(ApsOrderFieldShowTemplate::getId, req.getIdList());
     List<ApsOrderFieldShowTemplate> list = this.apsOrderFieldShowTemplateService.list(q);
     List<ApsOrderFieldShowTemplateDto> dataList = INSTANCE.queryListRes(list);
     this.apsOrderFieldShowTemplateService.setName(dataList);

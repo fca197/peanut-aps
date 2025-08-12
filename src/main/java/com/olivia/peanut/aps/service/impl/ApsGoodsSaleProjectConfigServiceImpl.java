@@ -67,8 +67,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
   @Resource
   ApsProjectConfigService apsProjectConfigService;
 
-  public @Override ApsGoodsSaleProjectConfigQueryListRes queryList(
-      ApsGoodsSaleProjectConfigQueryListReq req) {
+  public @Override ApsGoodsSaleProjectConfigQueryListRes queryList(ApsGoodsSaleProjectConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsSaleProjectConfig> q = getWrapper(req.getData());
     List<ApsGoodsSaleProjectConfig> list = this.list(q);
@@ -81,8 +80,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
     return new ApsGoodsSaleProjectConfigQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsSaleProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsSaleProjectConfigExportQueryPageListInfoRes> queryPageList(ApsGoodsSaleProjectConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsSaleProjectConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -110,8 +108,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
 
   @Override
   @SneakyThrows(value = {ExecutionException.class})
-  public ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(
-      ApsGoodsSaleProjectConfigSale2ProjectReq req) {
+  public ApsGoodsSaleProjectConfigSale2ProjectRes sale2project(ApsGoodsSaleProjectConfigSale2ProjectReq req) {
     String reqJson = JSON.toJSONString(req);
     log.info("Sale2Project req {}", reqJson);
     Map<String, ApsSaleConfig> apsSaleConfigMap = saleConfigSaleCodeCache.get("",
@@ -124,8 +121,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
 
     Map<Long, List<ApsGoodsSaleProjectConfig>> projectConfigMap = apsGoodsSaleProjectConfigCache.get(
         req.getGoodsId(), () -> this.list(
-                new LambdaQueryWrapper<ApsGoodsSaleProjectConfig>().eq(
-                        ApsGoodsSaleProjectConfig::getGoodsId, req.getGoodsId())
+                new LambdaQueryWrapper<ApsGoodsSaleProjectConfig>().eq(ApsGoodsSaleProjectConfig::getGoodsId, req.getGoodsId())
                     .ne(ApsGoodsSaleProjectConfig::getQuantity, 0)).stream()
             .collect(Collectors.groupingBy(
                 t -> saleConfigIdMap.getOrDefault(t.getSaleConfigId(), new ApsSaleConfig())
@@ -146,8 +142,7 @@ public class ApsGoodsSaleProjectConfigServiceImpl extends MPJBaseServiceImpl<Aps
       saleConfigList.forEach(saleCode -> {
         log.info("SaleCode:{}", saleCode);
         ApsSaleConfig apsSaleConfig = apsSaleConfigMap.get(saleCode);
-        List<ApsGoodsSaleProjectConfig> goodsSaleProjectConfigList = projectConfigMap.get(
-            apsSaleConfig.getId());
+        List<ApsGoodsSaleProjectConfig> goodsSaleProjectConfigList = projectConfigMap.get(apsSaleConfig.getId());
         if (CollUtil.isEmpty(goodsSaleProjectConfigList)) {
           log.warn("sale2project  goodsSaleProjectConfigList is null {} ", apsSaleConfig.getId());
           return;

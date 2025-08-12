@@ -16,8 +16,7 @@ public interface ApsProjectConfigService extends MPJBaseService<ApsProjectConfig
 
   ApsProjectConfigQueryListRes queryList(ApsProjectConfigQueryListReq req);
 
-  DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsProjectConfigExportQueryPageListReq req);
+  DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsProjectConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsProjectConfigDto> apsProjectConfigDtoList);

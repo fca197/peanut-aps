@@ -16,8 +16,7 @@ public interface ApsOrderGoodsSaleHistoryService extends MPJBaseService<ApsOrder
 
   ApsOrderGoodsSaleHistoryQueryListRes queryList(ApsOrderGoodsSaleHistoryQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsSaleHistoryExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsSaleHistoryExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsSaleHistoryExportQueryPageListReq req);
 
   SelectOrder2HistoryRes selectOrder2History(SelectOrder2HistoryReq req);
 

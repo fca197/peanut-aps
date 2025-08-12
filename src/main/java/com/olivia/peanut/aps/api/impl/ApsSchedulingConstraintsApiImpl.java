@@ -40,8 +40,7 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(
-      ApsSchedulingConstraintsDeleteByIdListReq req) {
+  public @Override ApsSchedulingConstraintsDeleteByIdListRes deleteByIdList(ApsSchedulingConstraintsDeleteByIdListReq req) {
     apsSchedulingConstraintsService.removeByIds(req.getIdList());
     return new ApsSchedulingConstraintsDeleteByIdListRes();
   }
@@ -50,8 +49,7 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * queryList
    *
    */
-  public @Override ApsSchedulingConstraintsQueryListRes queryList(
-      ApsSchedulingConstraintsQueryListReq req) {
+  public @Override ApsSchedulingConstraintsQueryListRes queryList(ApsSchedulingConstraintsQueryListReq req) {
     return apsSchedulingConstraintsService.queryList(req);
   }
 
@@ -59,15 +57,13 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
    * updateById
    *
    */
-  public @Override ApsSchedulingConstraintsUpdateByIdRes updateById(
-      ApsSchedulingConstraintsUpdateByIdReq req) {
+  public @Override ApsSchedulingConstraintsUpdateByIdRes updateById(ApsSchedulingConstraintsUpdateByIdReq req) {
     apsSchedulingConstraintsService.updateById($.copy(req, ApsSchedulingConstraints.class));
     return new ApsSchedulingConstraintsUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingConstraintsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(ApsSchedulingConstraintsExportQueryPageListReq req) {
     return apsSchedulingConstraintsService.queryPageList(req);
   }
 
@@ -75,15 +71,12 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
     DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingConstraintsExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingConstraintsExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingConstraintsExportQueryPageListInfoRes.class);
+    List<ApsSchedulingConstraintsExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingConstraintsExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingConstraintsExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingConstraintsImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingConstraintsImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingConstraintsImportListener(), ApsSchedulingConstraintsImportReq.class);
+  public @Override ApsSchedulingConstraintsImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingConstraintsImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingConstraintsImportListener(), ApsSchedulingConstraintsImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingConstraints> readList = $.copyList(reqList, ApsSchedulingConstraints.class);
     boolean bool = apsSchedulingConstraintsService.saveBatch(readList);
@@ -91,15 +84,11 @@ public class ApsSchedulingConstraintsApiImpl implements ApsSchedulingConstraints
     return new ApsSchedulingConstraintsImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(
-      ApsSchedulingConstraintsQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingConstraints> q = new MPJLambdaWrapper<>(
-        ApsSchedulingConstraints.class)
-        .selectAll(ApsSchedulingConstraints.class)
+  public @Override ApsSchedulingConstraintsQueryByIdListRes queryByIdListRes(ApsSchedulingConstraintsQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingConstraints> q = new MPJLambdaWrapper<>(ApsSchedulingConstraints.class).selectAll(ApsSchedulingConstraints.class)
         .in(ApsSchedulingConstraints::getId, req.getIdList());
     List<ApsSchedulingConstraints> list = this.apsSchedulingConstraintsService.list(q);
-    List<ApsSchedulingConstraintsDto> dataList = $.copyList(list,
-        ApsSchedulingConstraintsDto.class);
+    List<ApsSchedulingConstraintsDto> dataList = $.copyList(list, ApsSchedulingConstraintsDto.class);
     this.apsSchedulingConstraintsService.setName(dataList);
     return new ApsSchedulingConstraintsQueryByIdListRes().setDataList(dataList);
   }

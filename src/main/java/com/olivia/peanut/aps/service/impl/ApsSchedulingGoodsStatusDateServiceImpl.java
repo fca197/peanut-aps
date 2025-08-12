@@ -31,8 +31,7 @@ public class ApsSchedulingGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<
     ApsSchedulingGoodsStatusDateService {
 
 
-  public @Override ApsSchedulingGoodsStatusDateQueryListRes queryList(
-      ApsSchedulingGoodsStatusDateQueryListReq req) {
+  public @Override ApsSchedulingGoodsStatusDateQueryListRes queryList(ApsSchedulingGoodsStatusDateQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingGoodsStatusDate> q = getWrapper(req.getData());
     List<ApsSchedulingGoodsStatusDate> list = this.list(q);
@@ -46,8 +45,7 @@ public class ApsSchedulingGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsStatusDateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsStatusDateExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingGoodsStatusDate> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -87,8 +85,7 @@ public class ApsSchedulingGoodsStatusDateServiceImpl extends MPJBaseServiceImpl<
   }
 
 
-  private MPJLambdaWrapper<ApsSchedulingGoodsStatusDate> getWrapper(
-      ApsSchedulingGoodsStatusDateDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingGoodsStatusDate> getWrapper(ApsSchedulingGoodsStatusDateDto obj) {
     MPJLambdaWrapper<ApsSchedulingGoodsStatusDate> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

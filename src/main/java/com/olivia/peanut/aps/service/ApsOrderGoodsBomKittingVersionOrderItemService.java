@@ -14,11 +14,9 @@ import java.util.List;
  */
 public interface ApsOrderGoodsBomKittingVersionOrderItemService extends MPJBaseService<ApsOrderGoodsBomKittingVersionOrderBom> {
 
-  ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req);
+  ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req);
 
 
   void setName(

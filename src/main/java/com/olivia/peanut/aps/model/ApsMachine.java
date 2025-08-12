@@ -45,7 +45,7 @@ public class ApsMachine extends BaseEntity<ApsMachine> {
    *  最大功率
    */
   @TableField("max_power")
-  private BigDecimal maxPower;
+  private Integer maxPower;
   /***
    *  排序索引
    */

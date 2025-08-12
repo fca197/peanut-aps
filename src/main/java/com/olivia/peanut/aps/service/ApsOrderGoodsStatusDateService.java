@@ -16,8 +16,7 @@ public interface ApsOrderGoodsStatusDateService extends MPJBaseService<ApsOrderG
 
   ApsOrderGoodsStatusDateQueryListRes queryList(ApsOrderGoodsStatusDateQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsStatusDateExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsStatusDateExportQueryPageListReq req);
 
   List<ApsOrderGoodsStatusDate> listByOrderIdGoodsId(Long orderId, Long goodsId);
 

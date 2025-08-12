@@ -16,16 +16,13 @@ public interface ApsSchedulingGoodsBomTotalService extends MPJBaseService<ApsSch
 
   ApsSchedulingGoodsBomTotalQueryListRes queryList(ApsSchedulingGoodsBomTotalQueryListReq req);
 
-  DynamicsPage<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsBomTotalExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomTotalExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingGoodsBomTotalDto> apsSchedulingGoodsBomTotalDtoList);
 
-  DynamicsPage<ApsSchedulingGoodsBomTotalQueryBomTotalRes> queryBomTotal(
-      ApsSchedulingGoodsBomTotalQueryBomTotalReq req);
+  DynamicsPage<ApsSchedulingGoodsBomTotalQueryBomTotalRes> queryBomTotal(ApsSchedulingGoodsBomTotalQueryBomTotalReq req);
 
-  ApsSchedulingGoodsBomTotalCreateBomBuyPlanRes createBomBuyPlan(
-      ApsSchedulingGoodsBomTotalCreateBomBuyPlanReq req);
+  ApsSchedulingGoodsBomTotalCreateBomBuyPlanRes createBomBuyPlan(ApsSchedulingGoodsBomTotalCreateBomBuyPlanReq req);
 }
 

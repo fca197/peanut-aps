@@ -40,8 +40,7 @@ public class ApsRoomConfigServiceImpl extends MPJBaseServiceImpl<ApsRoomConfigMa
   }
 
 
-  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(
-      ApsRoomConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(ApsRoomConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsRoomConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

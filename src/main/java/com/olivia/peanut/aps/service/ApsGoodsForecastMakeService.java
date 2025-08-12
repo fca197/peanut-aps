@@ -16,23 +16,19 @@ public interface ApsGoodsForecastMakeService extends MPJBaseService<ApsGoodsFore
 
   ApsGoodsForecastMakeQueryListRes queryList(ApsGoodsForecastMakeQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsForecastMakeDto> apsGoodsForecastMakeDtoList);
 
   ApsGoodsForecastMakeInsertRes save(ApsGoodsForecastMakeInsertReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req);
+  DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(ApsGoodsForecastMakeQueryDataByIdReq req);
 
   ApsGoodsForecastMakeDeployRes deploy(ApsGoodsForecastMakeDeployReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req);
+  DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(ApsGoodsForecastMakeQueryDataByIdReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(
-      ApsGoodsForecastMakeQueryUseBomByIdReq req);
+  DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(ApsGoodsForecastMakeQueryUseBomByIdReq req);
 }
 

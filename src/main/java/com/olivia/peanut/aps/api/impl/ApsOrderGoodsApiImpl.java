@@ -40,8 +40,7 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsDeleteByIdListRes deleteByIdList(ApsOrderGoodsDeleteByIdListReq req) {
     apsOrderGoodsService.removeByIds(req.getIdList());
     return new ApsOrderGoodsDeleteByIdListRes();
   }
@@ -64,8 +63,7 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsExportQueryPageListReq req) {
     return apsOrderGoodsService.queryPageList(req);
   }
 
@@ -88,8 +86,7 @@ public class ApsOrderGoodsApiImpl implements ApsOrderGoodsApi {
     return new ApsOrderGoodsImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsQueryByIdListReq req) {
+  public @Override ApsOrderGoodsQueryByIdListRes queryByIdListRes(ApsOrderGoodsQueryByIdListReq req) {
     MPJLambdaWrapper<ApsOrderGoods> q = new MPJLambdaWrapper<ApsOrderGoods>(ApsOrderGoods.class)
         .selectAll(ApsOrderGoods.class).in(ApsOrderGoods::getId, req.getIdList());
     List<ApsOrderGoods> list = this.apsOrderGoodsService.list(q);

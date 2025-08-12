@@ -31,10 +31,10 @@ import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.impl.po.BomUseDate;
 import com.olivia.peanut.aps.service.impl.po.ProjectConfig;
 import com.olivia.peanut.aps.utils.bom.BomUtils;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathVo;
-import com.olivia.peanut.aps.utils.bom.model.ShiftItemVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathVo;
+import com.olivia.peanut.aps.utils.process.entity.ShiftItemVo;
 import com.olivia.peanut.base.model.Shift;
 import com.olivia.peanut.base.model.ShiftItem;
 import com.olivia.peanut.base.service.CalendarService;
@@ -128,8 +128,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     return useBomList;
   }
 
-  public @Override ApsGoodsForecastMakeQueryListRes queryList(
-      ApsGoodsForecastMakeQueryListReq req) {
+  public @Override ApsGoodsForecastMakeQueryListRes queryList(ApsGoodsForecastMakeQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMake> q = getWrapper(req.getData());
     List<ApsGoodsForecastMake> list = this.list(q);
@@ -142,8 +141,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     return new ApsGoodsForecastMakeQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMake> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -189,8 +187,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     $.assertTrueCanIgnoreException(CollUtil.isNotEmpty(apsProcessPathQueryListRes.getDataList())
         && apsProcessPathQueryListRes.getDataList().size() == 1, "未找到对应的工厂的工艺路径");
     Map<String, List<ApsGoodsForecastMainSaleData>> monthDataMap = apsGoodsForecastMainSaleDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMainSaleData>().eq(
-                ApsGoodsForecastMainSaleData::getForecastMainId, forecastMain.getId())).stream()
+            new LambdaQueryWrapper<ApsGoodsForecastMainSaleData>().eq(ApsGoodsForecastMainSaleData::getForecastMainId, forecastMain.getId())).stream()
         .collect(Collectors.groupingBy(t -> t.getYear() + ""));
     List<WeekInfo> weekInfoListAll = calendarService.getWeekList(forecastMain.getFactoryId(),
         req.getForecastMakeMonthBeginDate(), req.getForecastMakeMonthEndDate());
@@ -272,8 +269,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
       });
     });
 
-    ArrayList<ApsGoodsForecastMakeSaleData> insertList = new ArrayList<>(
-        apsGoodsForecastMakeSaleDataMap.values());
+    ArrayList<ApsGoodsForecastMakeSaleData> insertList = new ArrayList<>(apsGoodsForecastMakeSaleDataMap.values());
     insertList.sort(Comparator.comparing(ApsGoodsForecastMakeSaleData::getSaleConfigCode));
     insertList.forEach(t -> t.setMakeMonthId(id).setFactoryId(forecastMain.getFactoryId())
         .setGoodsId(forecastMain.getGoodsId()));
@@ -433,8 +429,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
     $.assertTrueCanIgnoreException(FALSE.equals(forecastMake.getIsDeploy()),
         "该预测信息已发布，请勿重复发布");
     Map<String, ApsGoodsForecastMakeSaleData> yearDataMap = this.apsGoodsForecastMakeSaleDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMakeSaleData>().eq(
-                ApsGoodsForecastMakeSaleData::getMakeMonthId, req.getId())).stream()
+            new LambdaQueryWrapper<ApsGoodsForecastMakeSaleData>().eq(ApsGoodsForecastMakeSaleData::getMakeMonthId, req.getId())).stream()
         .collect(Collectors.toMap(t -> t.getYear() + "-" + t.getSaleConfigCode(), f -> f));
 
     ApsGoodsForecastMainMake mainMake = this.apsGoodsForecastMainMakeService.getOne(
@@ -477,8 +472,7 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
         .collect(Collectors.toSet());
     // 已存在的年份
     List<ApsGoodsForecastMainMakeSaleData> mainMakeSaleDataList = this.apsGoodsForecastMainMakeSaleDataService.list(
-        new LambdaQueryWrapper<ApsGoodsForecastMainMakeSaleData>().in(
-                ApsGoodsForecastMainMakeSaleData::getYear, ySet)
+        new LambdaQueryWrapper<ApsGoodsForecastMainMakeSaleData>().in(ApsGoodsForecastMainMakeSaleData::getYear, ySet)
             .eq(ApsGoodsForecastMainMakeSaleData::getGoodsId, forecastMake.getGoodsId()));
     mainMakeSaleDataList.stream()
         .collect(Collectors.groupingBy(ApsGoodsForecastMainMakeSaleData::getYear))
@@ -513,13 +507,11 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(ApsGoodsForecastMakeQueryDataByIdReq req) {
     ApsGoodsForecastMake forecastMake = this.getById(req.getId());
     $.requireNonNullCanIgnoreException(forecastMake, "未找到对应的预测信息");
     Map<Integer, List<ApsGoodsForecastMakeSaleData>> saleMap = this.apsGoodsForecastMakeSaleDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMakeSaleData>().eq(
-                ApsGoodsForecastMakeSaleData::getMakeMonthId, req.getId())).stream()
+            new LambdaQueryWrapper<ApsGoodsForecastMakeSaleData>().eq(ApsGoodsForecastMakeSaleData::getMakeMonthId, req.getId())).stream()
         .collect(Collectors.groupingBy(ApsGoodsForecastMakeSaleData::getYear));
     List<WeekInfo> weekInfoList = this.calendarService.getWeekList(forecastMake.getFactoryId(),
         forecastMake.getForecastMakeMonthBeginDate(), forecastMake.getForecastMakeMonthEndDate());
@@ -563,14 +555,12 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(ApsGoodsForecastMakeQueryDataByIdReq req) {
 
     ApsGoodsForecastMake forecastMake = this.getById(req.getId());
     $.requireNonNullCanIgnoreException(forecastMake, "未找到对应的预测信息");
     Map<Long, List<ApsGoodsForecastMakeProjectData>> saleMap = this.apsGoodsForecastMakeProjectDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMakeProjectData>().eq(
-                ApsGoodsForecastMakeProjectData::getMakeMonthId, req.getId())).stream()
+            new LambdaQueryWrapper<ApsGoodsForecastMakeProjectData>().eq(ApsGoodsForecastMakeProjectData::getMakeMonthId, req.getId())).stream()
         .collect(Collectors.groupingBy(ApsGoodsForecastMakeProjectData::getYear));
     List<WeekInfo> weekInfoList = this.calendarService.getWeekList(forecastMake.getFactoryId(),
         forecastMake.getForecastMakeMonthBeginDate(), forecastMake.getForecastMakeMonthEndDate());
@@ -616,13 +606,11 @@ public class ApsGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<ApsGoods
   // 以下为私有对象封装
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(
-      ApsGoodsForecastMakeQueryUseBomByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(ApsGoodsForecastMakeQueryUseBomByIdReq req) {
     ApsGoodsForecastMake forecastMake = this.getById(req.getId());
     $.requireNonNullCanIgnoreException(forecastMake, "未找到对应的预测信息");
     List<ApsGoodsForecastMakeBomUse> makeBomUseList = this.apsGoodsForecastMakeBomUseService.list(
-        new LambdaQueryWrapper<ApsGoodsForecastMakeBomUse>().eq(
-            ApsGoodsForecastMakeBomUse::getMakeMonthId, req.getId()));
+        new LambdaQueryWrapper<ApsGoodsForecastMakeBomUse>().eq(ApsGoodsForecastMakeBomUse::getMakeMonthId, req.getId()));
     Map<Long, List<ApsGoodsForecastMakeBomUse>> saleMap = makeBomUseList.stream()
         .collect(Collectors.groupingBy(ApsGoodsForecastMakeBomUse::getYear));
     List<WeekInfo> weekInfoList = this.calendarService.getWeekList(forecastMake.getFactoryId(),

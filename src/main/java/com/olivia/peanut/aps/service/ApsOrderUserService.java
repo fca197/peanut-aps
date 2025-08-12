@@ -16,8 +16,7 @@ public interface ApsOrderUserService extends MPJBaseService<ApsOrderUser> {
 
   ApsOrderUserQueryListRes queryList(ApsOrderUserQueryListReq req);
 
-  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
-      ApsOrderUserExportQueryPageListReq req);
+  DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(ApsOrderUserExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderUserDto> apsOrderUserDtoList);

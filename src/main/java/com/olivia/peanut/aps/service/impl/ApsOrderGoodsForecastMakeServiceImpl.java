@@ -32,8 +32,7 @@ public class ApsOrderGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<Aps
     ApsOrderGoodsForecastMakeService {
 
 
-  public @Override ApsOrderGoodsForecastMakeQueryListRes queryList(
-      ApsOrderGoodsForecastMakeQueryListReq req) {
+  public @Override ApsOrderGoodsForecastMakeQueryListRes queryList(ApsOrderGoodsForecastMakeQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsForecastMake> q = getWrapper(req.getData());
     List<ApsOrderGoodsForecastMake> list = this.list(q);
@@ -47,8 +46,7 @@ public class ApsOrderGoodsForecastMakeServiceImpl extends MPJBaseServiceImpl<Aps
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsForecastMakeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsForecastMakeExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsForecastMake> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

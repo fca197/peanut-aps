@@ -54,8 +54,7 @@ public class ApsGoodsForecastMainMakeServiceImpl extends MPJBaseServiceImpl<ApsG
 
   // 以下为私有对象封装
 
-  public @Override ApsGoodsForecastMainMakeQueryListRes queryList(
-      ApsGoodsForecastMainMakeQueryListReq req) {
+  public @Override ApsGoodsForecastMainMakeQueryListRes queryList(ApsGoodsForecastMainMakeQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMainMake> q = getWrapper(req.getData());
     List<ApsGoodsForecastMainMake> list = this.list(q);
@@ -68,8 +67,7 @@ public class ApsGoodsForecastMainMakeServiceImpl extends MPJBaseServiceImpl<ApsG
     return new ApsGoodsForecastMainMakeQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainMakeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainMakeExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMainMake> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -140,12 +138,10 @@ public class ApsGoodsForecastMainMakeServiceImpl extends MPJBaseServiceImpl<ApsG
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(
-      ApsGoodsForecastMainMakeQueryDataByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(ApsGoodsForecastMainMakeQueryDataByIdReq req) {
     ApsGoodsForecastMainMake mainMake = this.getById(req.getId());
     Map<String, List<ApsGoodsForecastMainMakeSaleData>> dataList = apsGoodsForecastMainMakeSaleDataService.list(
-            new LambdaQueryWrapper<ApsGoodsForecastMainMakeSaleData>().eq(
-                ApsGoodsForecastMainMakeSaleData::getMainMakeId, req.getId())).stream()
+            new LambdaQueryWrapper<ApsGoodsForecastMainMakeSaleData>().eq(ApsGoodsForecastMainMakeSaleData::getMainMakeId, req.getId())).stream()
         .collect(Collectors.groupingBy(ApsGoodsForecastMainMakeSaleData::getSaleConfigCode));
 
     List<WeekInfo> weekInfoList;

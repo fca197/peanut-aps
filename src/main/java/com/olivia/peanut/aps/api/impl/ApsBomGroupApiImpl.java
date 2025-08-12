@@ -71,8 +71,7 @@ public class ApsBomGroupApiImpl implements ApsBomGroupApi {
 
   }
 
-  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(
-      ApsBomGroupExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(ApsBomGroupExportQueryPageListReq req) {
     return apsBomGroupService.queryPageList(req);
   }
 

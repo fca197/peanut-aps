@@ -50,8 +50,7 @@ public class ApsOrderGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsOrderGood
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsBom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

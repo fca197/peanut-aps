@@ -56,7 +56,7 @@ public class ApsProduceProcessItemDto extends BaseEntityDto {
   /***
    *  最大功率
    */
-  private BigDecimal maxPower;
+  private Integer maxPower;
   /***
    *  工厂ID
    */

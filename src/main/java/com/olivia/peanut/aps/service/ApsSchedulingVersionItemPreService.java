@@ -16,8 +16,7 @@ public interface ApsSchedulingVersionItemPreService extends MPJBaseService<ApsSc
 
   ApsSchedulingVersionItemPreQueryListRes queryList(ApsSchedulingVersionItemPreQueryListReq req);
 
-  DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionItemPreExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionItemPreExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionItemPreExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingVersionItemPreDto> apsSchedulingVersionItemPreDtoList);

@@ -16,8 +16,7 @@ public interface ApsRollingForecastOrderItemService extends MPJBaseService<ApsRo
 
   ApsRollingForecastOrderItemQueryListRes queryList(ApsRollingForecastOrderItemQueryListReq req);
 
-  DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastOrderItemExportQueryPageListReq req);
+  DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(ApsRollingForecastOrderItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsRollingForecastOrderItemDto> apsRollingForecastOrderItemDtoList);

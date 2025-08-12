@@ -27,8 +27,7 @@ public class ApsGoodsForecastComputeSaleDataServiceImpl extends MPJBaseServiceIm
     ApsGoodsForecastComputeSaleDataService {
 
 
-  public @Override ApsGoodsForecastComputeSaleDataQueryListRes queryList(
-      ApsGoodsForecastComputeSaleDataQueryListReq req) {
+  public @Override ApsGoodsForecastComputeSaleDataQueryListRes queryList(ApsGoodsForecastComputeSaleDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> q = getWrapper(req.getData());
     List<ApsGoodsForecastComputeSaleData> list = this.list(q);
@@ -40,8 +39,7 @@ public class ApsGoodsForecastComputeSaleDataServiceImpl extends MPJBaseServiceIm
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastComputeSaleData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -77,8 +75,7 @@ public class ApsGoodsForecastComputeSaleDataServiceImpl extends MPJBaseServiceIm
 
 
   @SuppressWarnings(Str.UN_CHECKED)
-  private MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> getWrapper(
-      ApsGoodsForecastComputeSaleDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> getWrapper(ApsGoodsForecastComputeSaleDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsGoodsForecastComputeSaleData.class //

@@ -46,7 +46,7 @@ public class ApsMachineWorkstationItem extends BaseEntity<ApsMachineWorkstationI
    *  最大功率
    */
   @TableField("max_power")
-  private BigDecimal maxPower;
+  private Integer maxPower;
   /***
    *  工厂ID
    */

@@ -39,8 +39,7 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingGoodsBomDeleteByIdListRes deleteByIdList(
-      ApsSchedulingGoodsBomDeleteByIdListReq req) {
+  public @Override ApsSchedulingGoodsBomDeleteByIdListRes deleteByIdList(ApsSchedulingGoodsBomDeleteByIdListReq req) {
     apsSchedulingGoodsBomService.removeByIds(req.getIdList());
     return new ApsSchedulingGoodsBomDeleteByIdListRes();
   }
@@ -49,8 +48,7 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * queryList
    *
    */
-  public @Override ApsSchedulingGoodsBomQueryListRes queryList(
-      ApsSchedulingGoodsBomQueryListReq req) {
+  public @Override ApsSchedulingGoodsBomQueryListRes queryList(ApsSchedulingGoodsBomQueryListReq req) {
     return apsSchedulingGoodsBomService.queryList(req);
   }
 
@@ -58,15 +56,13 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
    * updateById
    *
    */
-  public @Override ApsSchedulingGoodsBomUpdateByIdRes updateById(
-      ApsSchedulingGoodsBomUpdateByIdReq req) {
+  public @Override ApsSchedulingGoodsBomUpdateByIdRes updateById(ApsSchedulingGoodsBomUpdateByIdReq req) {
     apsSchedulingGoodsBomService.updateById($.copy(req, ApsSchedulingGoodsBom.class));
     return new ApsSchedulingGoodsBomUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomExportQueryPageListReq req) {
     return apsSchedulingGoodsBomService.queryPageList(req);
   }
 
@@ -74,16 +70,12 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
     DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingGoodsBomExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingGoodsBomExportQueryPageListInfoRes.class, listInfoRes,
-        "订单商品零件表");
+    List<ApsSchedulingGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingGoodsBomExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingGoodsBomExportQueryPageListInfoRes.class, listInfoRes, "订单商品零件表");
   }
 
-  public @Override ApsSchedulingGoodsBomImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingGoodsBomImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingGoodsBomImportListener(), ApsSchedulingGoodsBomImportReq.class);
+  public @Override ApsSchedulingGoodsBomImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingGoodsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingGoodsBomImportListener(), ApsSchedulingGoodsBomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingGoodsBom> readList = $.copyList(reqList, ApsSchedulingGoodsBom.class);
     boolean bool = apsSchedulingGoodsBomService.saveBatch(readList);
@@ -91,11 +83,9 @@ public class ApsSchedulingGoodsBomApiImpl implements ApsSchedulingGoodsBomApi {
     return new ApsSchedulingGoodsBomImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingGoodsBomQueryByIdListRes queryByIdListRes(
-      ApsSchedulingGoodsBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingGoodsBom> q = new MPJLambdaWrapper<ApsSchedulingGoodsBom>(
-        ApsSchedulingGoodsBom.class)
-        .selectAll(ApsSchedulingGoodsBom.class).in(ApsSchedulingGoodsBom::getId, req.getIdList());
+  public @Override ApsSchedulingGoodsBomQueryByIdListRes queryByIdListRes(ApsSchedulingGoodsBomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingGoodsBom> q = new MPJLambdaWrapper<ApsSchedulingGoodsBom>(ApsSchedulingGoodsBom.class).selectAll(ApsSchedulingGoodsBom.class)
+        .in(ApsSchedulingGoodsBom::getId, req.getIdList());
     List<ApsSchedulingGoodsBom> list = this.apsSchedulingGoodsBomService.list(q);
     List<ApsSchedulingGoodsBomDto> dataList = $.copyList(list, ApsSchedulingGoodsBomDto.class);
     this.apsSchedulingGoodsBomService.setName(dataList);

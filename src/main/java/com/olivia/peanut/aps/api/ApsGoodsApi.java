@@ -3,6 +3,7 @@ package com.olivia.peanut.aps.api;
 
 import com.olivia.peanut.aps.api.entity.apsGoods.*;
 import com.olivia.sdk.ann.InsertCheck;
+import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.validation.Valid;
@@ -43,15 +44,13 @@ public interface ApsGoodsApi {
    * 根据ID 更新
    */
   @PostMapping("/apsGoods/updateById")
-  ApsGoodsUpdateByIdRes updateById(
-      @RequestBody @Validated(UpdateCheck.class) ApsGoodsUpdateByIdReq req);
+  ApsGoodsUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsGoodsUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsGoods/queryPageList")
-  DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(
-      @RequestBody @Valid ApsGoodsExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsGoodsExportQueryPageListReq req);
 
   /**
    * 导出

@@ -47,7 +47,7 @@ public class ApsMachineWorkstationItemDto extends BaseEntityDto {
    */
   //  @JSONField(label = "maxPower")
   // @NotNull(message = "最大功率不能为空", groups = {InsertCheck.class, UpdateCheck.class})
-  private BigDecimal maxPower;
+  private Integer maxPower;
 
   /***
    *  工厂ID

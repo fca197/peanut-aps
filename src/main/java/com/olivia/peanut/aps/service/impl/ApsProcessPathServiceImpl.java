@@ -59,8 +59,7 @@ public class ApsProcessPathServiceImpl extends MPJBaseServiceImpl<ApsProcessPath
     return new ApsProcessPathQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
-      ApsProcessPathExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(ApsProcessPathExportQueryPageListReq req) {
 
     DynamicsPage<ApsProcessPath> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -91,9 +90,8 @@ public class ApsProcessPathServiceImpl extends MPJBaseServiceImpl<ApsProcessPath
     if (CollUtil.isEmpty(apsProcessPathDtoList)) {
       return;
     }
-    Map<Long, String> factoryMap = factoryService.listByIds(
-            apsProcessPathDtoList.stream().map(ApsProcessPathDto::getFactoryId)
-                .collect(Collectors.toList())).stream()
+    Map<Long, String> factoryMap = factoryService.listByIds(apsProcessPathDtoList.stream().map(ApsProcessPathDto::getFactoryId)
+            .collect(Collectors.toList())).stream()
         .collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
 
     List<Runnable> runnableList = new ArrayList<>();

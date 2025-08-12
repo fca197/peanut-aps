@@ -40,8 +40,7 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
    * deleteByIds
    *
    */
-  public @Override ApsProcessPathRoomDeleteByIdListRes deleteByIdList(
-      ApsProcessPathRoomDeleteByIdListReq req) {
+  public @Override ApsProcessPathRoomDeleteByIdListRes deleteByIdList(ApsProcessPathRoomDeleteByIdListReq req) {
     apsProcessPathRoomService.removeByIds(req.getIdList());
     return new ApsProcessPathRoomDeleteByIdListRes();
   }
@@ -64,8 +63,7 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
 
   }
 
-  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(
-      ApsProcessPathRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(ApsProcessPathRoomExportQueryPageListReq req) {
     return apsProcessPathRoomService.queryPageList(req);
   }
 
@@ -73,15 +71,12 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
     DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProcessPathRoomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProcessPathRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsProcessPathRoomExportQueryPageListInfoRes.class);
+    List<ApsProcessPathRoomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProcessPathRoomExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsProcessPathRoomExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsProcessPathRoomImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsProcessPathRoomImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsProcessPathRoomImportListener(), ApsProcessPathRoomImportReq.class);
+  public @Override ApsProcessPathRoomImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsProcessPathRoomImportReq> reqList = PoiExcelUtil.readData(file, new ApsProcessPathRoomImportListener(), ApsProcessPathRoomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProcessPathRoom> readList = $.copyList(reqList, ApsProcessPathRoom.class);
     boolean bool = apsProcessPathRoomService.saveBatch(readList);
@@ -89,11 +84,9 @@ public class ApsProcessPathRoomApiImpl implements ApsProcessPathRoomApi {
     return new ApsProcessPathRoomImportRes().setCount(c);
   }
 
-  public @Override ApsProcessPathRoomQueryByIdListRes queryByIdListRes(
-      ApsProcessPathRoomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProcessPathRoom> q = new MPJLambdaWrapper<ApsProcessPathRoom>(
-        ApsProcessPathRoom.class)
-        .selectAll(ApsProcessPathRoom.class).in(ApsProcessPathRoom::getId, req.getIdList());
+  public @Override ApsProcessPathRoomQueryByIdListRes queryByIdListRes(ApsProcessPathRoomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProcessPathRoom> q = new MPJLambdaWrapper<ApsProcessPathRoom>(ApsProcessPathRoom.class).selectAll(ApsProcessPathRoom.class)
+        .in(ApsProcessPathRoom::getId, req.getIdList());
     List<ApsProcessPathRoom> list = this.apsProcessPathRoomService.list(q);
     List<ApsProcessPathRoomDto> dataList = $.copyList(list, ApsProcessPathRoomDto.class);
     return new ApsProcessPathRoomQueryByIdListRes().setDataList(dataList);

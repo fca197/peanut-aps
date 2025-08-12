@@ -45,8 +45,7 @@ public class ApsMakeCapacityGoodsServiceImpl extends MPJBaseServiceImpl<ApsMakeC
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsMakeCapacityGoodsQueryListRes queryList(
-      ApsMakeCapacityGoodsQueryListReq req) {
+  public @Override ApsMakeCapacityGoodsQueryListRes queryList(ApsMakeCapacityGoodsQueryListReq req) {
 
     MPJLambdaWrapper<ApsMakeCapacityGoods> q = getWrapper(req.getData());
     List<ApsMakeCapacityGoods> list = this.list(q);
@@ -61,8 +60,7 @@ public class ApsMakeCapacityGoodsServiceImpl extends MPJBaseServiceImpl<ApsMakeC
 
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacityGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(ApsMakeCapacityGoodsExportQueryPageListReq req) {
 
     DynamicsPage<ApsMakeCapacityGoods> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

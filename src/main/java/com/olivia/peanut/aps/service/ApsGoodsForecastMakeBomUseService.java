@@ -16,8 +16,7 @@ public interface ApsGoodsForecastMakeBomUseService extends MPJBaseService<ApsGoo
 
   ApsGoodsForecastMakeBomUseQueryListRes queryList(ApsGoodsForecastMakeBomUseQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMakeBomUseExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeBomUseExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsForecastMakeBomUseDto> apsGoodsForecastMakeBomUseDtoList);

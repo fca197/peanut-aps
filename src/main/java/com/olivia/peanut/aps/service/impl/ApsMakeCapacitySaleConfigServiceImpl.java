@@ -42,8 +42,7 @@ public class ApsMakeCapacitySaleConfigServiceImpl extends MPJBaseServiceImpl<Aps
   @Resource
   ApsSaleConfigService apsSaleConfigService;
 
-  public @Override ApsMakeCapacitySaleConfigQueryListRes queryList(
-      ApsMakeCapacitySaleConfigQueryListReq req) {
+  public @Override ApsMakeCapacitySaleConfigQueryListRes queryList(ApsMakeCapacitySaleConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsMakeCapacitySaleConfig> q = getWrapper(req.getData());
     List<ApsMakeCapacitySaleConfig> list = this.list(q);
@@ -56,8 +55,7 @@ public class ApsMakeCapacitySaleConfigServiceImpl extends MPJBaseServiceImpl<Aps
     return new ApsMakeCapacitySaleConfigQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacitySaleConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMakeCapacitySaleConfigExportQueryPageListInfoRes> queryPageList(ApsMakeCapacitySaleConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsMakeCapacitySaleConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -152,9 +150,8 @@ public class ApsMakeCapacitySaleConfigServiceImpl extends MPJBaseServiceImpl<Aps
     if (CollUtil.isEmpty(apsMakeCapacitySaleConfigDtoList)) {
       return;
     }
-    Map<Long, String> snMap = apsSaleConfigService.listByIds(
-            apsMakeCapacitySaleConfigDtoList.stream()
-                .map(ApsMakeCapacitySaleConfigDto::getSaleConfigId).collect(Collectors.toSet()))
+    Map<Long, String> snMap = apsSaleConfigService.listByIds(apsMakeCapacitySaleConfigDtoList.stream()
+            .map(ApsMakeCapacitySaleConfigDto::getSaleConfigId).collect(Collectors.toSet()))
         .stream()
         .collect(Collectors.toMap(BaseEntity::getId, ApsSaleConfig::getSaleName));
     apsMakeCapacitySaleConfigDtoList.forEach(

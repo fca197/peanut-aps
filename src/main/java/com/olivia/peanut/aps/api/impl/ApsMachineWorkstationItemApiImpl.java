@@ -31,8 +31,7 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
    * insert
    *
    */
-  public @Override ApsMachineWorkstationItemInsertRes insert(
-      ApsMachineWorkstationItemInsertReq req) {
+  public @Override ApsMachineWorkstationItemInsertRes insert(ApsMachineWorkstationItemInsertReq req) {
     ApsMachineWorkstationItem apsMachineWorkstationItem = INSTANCE.insertReq(req);
     this.apsMachineWorkstationItemService.save(apsMachineWorkstationItem);
     return new ApsMachineWorkstationItemInsertRes().setCount(1);
@@ -42,8 +41,7 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
    * deleteByIds
    *
    */
-  public @Override ApsMachineWorkstationItemDeleteByIdListRes deleteByIdList(
-      ApsMachineWorkstationItemDeleteByIdListReq req) {
+  public @Override ApsMachineWorkstationItemDeleteByIdListRes deleteByIdList(ApsMachineWorkstationItemDeleteByIdListReq req) {
     apsMachineWorkstationItemService.removeByIds(req.getIdList());
     return new ApsMachineWorkstationItemDeleteByIdListRes();
   }
@@ -52,8 +50,7 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
    * queryList
    *
    */
-  public @Override ApsMachineWorkstationItemQueryListRes queryList(
-      ApsMachineWorkstationItemQueryListReq req) {
+  public @Override ApsMachineWorkstationItemQueryListRes queryList(ApsMachineWorkstationItemQueryListReq req) {
     return apsMachineWorkstationItemService.queryList(req);
   }
 
@@ -61,15 +58,13 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
    * updateById
    *
    */
-  public @Override ApsMachineWorkstationItemUpdateByIdRes updateById(
-      ApsMachineWorkstationItemUpdateByIdReq req) {
+  public @Override ApsMachineWorkstationItemUpdateByIdRes updateById(ApsMachineWorkstationItemUpdateByIdReq req) {
     apsMachineWorkstationItemService.updateById(INSTANCE.updateReq(req));
     return new ApsMachineWorkstationItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(
-      ApsMachineWorkstationItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(ApsMachineWorkstationItemExportQueryPageListReq req) {
     return apsMachineWorkstationItemService.queryPageList(req);
   }
 
@@ -77,14 +72,12 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
     DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsMachineWorkstationItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsMachineWorkstationItemExportQueryPageListInfoRes.class, list,
-        "aps 生产机器 工作站机器配置");
+    PoiExcelUtil.export(ApsMachineWorkstationItemExportQueryPageListInfoRes.class, list, "aps 生产机器 工作站机器配置");
   }
 
-  public @Override ApsMachineWorkstationItemImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsMachineWorkstationItemImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsMachineWorkstationItemImportListener(), ApsMachineWorkstationItemImportReq.class);
+  public @Override ApsMachineWorkstationItemImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsMachineWorkstationItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsMachineWorkstationItemImportListener(),
+        ApsMachineWorkstationItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsMachineWorkstationItem> readList = INSTANCE.importReq(reqList);
     boolean bool = apsMachineWorkstationItemService.saveBatch(readList);
@@ -92,12 +85,8 @@ public class ApsMachineWorkstationItemApiImpl implements ApsMachineWorkstationIt
     return new ApsMachineWorkstationItemImportRes().setCount(c);
   }
 
-  public @Override ApsMachineWorkstationItemQueryByIdListRes queryByIdListRes(
-      ApsMachineWorkstationItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsMachineWorkstationItem> q = new MPJLambdaWrapper<ApsMachineWorkstationItem>(
-        ApsMachineWorkstationItem.class)
-        .selectAll(ApsMachineWorkstationItem.class)
-        .in(ApsMachineWorkstationItem::getId, req.getIdList());
+  public @Override ApsMachineWorkstationItemQueryByIdListRes queryByIdListRes(ApsMachineWorkstationItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsMachineWorkstationItem> q = new MPJLambdaWrapper<ApsMachineWorkstationItem>(ApsMachineWorkstationItem.class).selectAll(ApsMachineWorkstationItem.class).in(ApsMachineWorkstationItem::getId, req.getIdList());
     List<ApsMachineWorkstationItem> list = this.apsMachineWorkstationItemService.list(q);
     List<ApsMachineWorkstationItemDto> dataList = INSTANCE.queryListRes(list);
     this.apsMachineWorkstationItemService.setName(dataList);

@@ -16,8 +16,7 @@ public interface ApsGoodsBomService extends MPJBaseService<ApsGoodsBom> {
 
   ApsGoodsBomQueryListRes queryList(ApsGoodsBomQueryListReq req);
 
-  DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsBomExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(ApsGoodsBomExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsBomDto> apsGoodsBomDtoList);

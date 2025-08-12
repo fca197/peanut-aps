@@ -16,22 +16,18 @@ public interface ApsSchedulingVersionService extends MPJBaseService<ApsSchedulin
 
   ApsSchedulingVersionQueryListRes queryList(ApsSchedulingVersionQueryListReq req);
 
-  DynamicsPage<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingVersionExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingVersionDto> apsSchedulingVersionDtoList);
 
   ApsSchedulingVersionUseConstraintsRes useConstraints(ApsSchedulingVersionUseConstraintsReq req);
 
-  ApsSchedulingVersionUseMakeCapacityRes useMakeCapacity(
-      ApsSchedulingVersionUseMakeCapacityReq req);
+  ApsSchedulingVersionUseMakeCapacityRes useMakeCapacity(ApsSchedulingVersionUseMakeCapacityReq req);
 
-  DynamicsPage<ApsSchedulingVersionUseConstraintsResultRes> useConstraintsResult(
-      ApsSchedulingVersionUseConstraintsResultReq req);
+  DynamicsPage<ApsSchedulingVersionUseConstraintsResultRes> useConstraintsResult(ApsSchedulingVersionUseConstraintsResultReq req);
 
-  DynamicsPage<ApsSchedulingVersionUseMakeCapacityResultRes> useMakeCapacityResult(
-      ApsSchedulingVersionUseMakeCapacityResultReq req);
+  DynamicsPage<ApsSchedulingVersionUseMakeCapacityResultRes> useMakeCapacityResult(ApsSchedulingVersionUseMakeCapacityResultReq req);
 
   ApsSchedulingVersionFinishRes finish(ApsSchedulingVersionFinishReq req);
 }

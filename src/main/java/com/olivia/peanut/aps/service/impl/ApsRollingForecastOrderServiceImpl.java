@@ -18,9 +18,9 @@ import com.olivia.peanut.aps.service.*;
 import com.olivia.peanut.aps.service.pojo.FactoryCapacityDay;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathVo;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.service.SetNameService;
@@ -62,8 +62,7 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsRollingForecastOrderQueryListRes queryList(
-      ApsRollingForecastOrderQueryListReq req) {
+  public @Override ApsRollingForecastOrderQueryListRes queryList(ApsRollingForecastOrderQueryListReq req) {
 
     MPJLambdaWrapper<ApsRollingForecastOrder> q = getWrapper(req.getData());
     List<ApsRollingForecastOrder> list = this.list(q);
@@ -74,8 +73,7 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
     return new ApsRollingForecastOrderQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastOrderExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(ApsRollingForecastOrderExportQueryPageListReq req) {
 
     DynamicsPage<ApsRollingForecastOrder> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -162,7 +160,7 @@ public class ApsRollingForecastOrderServiceImpl extends MPJBaseServiceImpl<ApsRo
           return;
         }
         for (int i = 0; i < t.getCapacity() && CollUtil.isNotEmpty(apsOrdersTmp); i++) {
-          ApsOrder currApsOrder = apsOrdersTmp.remove(0);
+          ApsOrder currApsOrder = apsOrdersTmp.removeFirst();
           insertList.add(new ApsRollingForecastOrderItem().setFactoryId(req.getFactoryId())//
               .setForecastId(forecastId).setGoodsStatusId(statusId).setOrderId(currApsOrder.getId())
               .setStatusBeginDate(t.getLocalDate()));

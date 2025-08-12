@@ -83,15 +83,13 @@ public class ApsSchedulingDayConfigServiceImpl extends MPJBaseServiceImpl<ApsSch
       req.setSchedulingDayConfigItemDtoList(List.of());
     }
     this.apsSchedulingDayConfigItemService.remove(
-        new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().eq(
-            ApsSchedulingDayConfigItem::getSchedulingDayId, reqId));
+        new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().eq(ApsSchedulingDayConfigItem::getSchedulingDayId, reqId));
     this.apsSchedulingDayConfigItemService.saveBatch(
         $.copyList(req.getSchedulingDayConfigItemDtoList(), ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigUpdateByIdRes();
   }
 
-  public @Override ApsSchedulingDayConfigQueryListRes queryList(
-      ApsSchedulingDayConfigQueryListReq req) {
+  public @Override ApsSchedulingDayConfigQueryListRes queryList(ApsSchedulingDayConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingDayConfig> q = getWrapper(req.getData());
     List<ApsSchedulingDayConfig> list = this.list(q);
@@ -102,8 +100,7 @@ public class ApsSchedulingDayConfigServiceImpl extends MPJBaseServiceImpl<ApsSch
     return new ApsSchedulingDayConfigQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingDayConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -135,8 +132,7 @@ public class ApsSchedulingDayConfigServiceImpl extends MPJBaseServiceImpl<ApsSch
     if (CollUtil.isNotEmpty(apsSchedulingDayConfigDtoList)) {
 
       LinkedHashMap<Long, List<ApsSchedulingDayConfigItem>> itemMap = apsSchedulingDayConfigItemService.list(
-              new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().in(
-                  ApsSchedulingDayConfigItem::getSchedulingDayId,
+              new LambdaQueryWrapper<ApsSchedulingDayConfigItem>().in(ApsSchedulingDayConfigItem::getSchedulingDayId,
                   apsSchedulingDayConfigDtoList.stream().map(BaseEntityDto::getId).toList()))
           .stream().collect(Collectors.groupingBy(ApsSchedulingDayConfigItem::getSchedulingDayId,
               LinkedHashMap::new, Collectors.toList()));

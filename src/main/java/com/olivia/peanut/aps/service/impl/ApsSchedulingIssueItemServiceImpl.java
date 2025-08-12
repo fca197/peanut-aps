@@ -72,8 +72,7 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
     return new ApsSchedulingIssueItemInsertRes().setCount(issueItemList.size());
   }
 
-  public @Override ApsSchedulingIssueItemQueryListRes queryList(
-      ApsSchedulingIssueItemQueryListReq req) {
+  public @Override ApsSchedulingIssueItemQueryListRes queryList(ApsSchedulingIssueItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingIssueItem> q = getWrapper(req.getData());
     List<ApsSchedulingIssueItem> list = this.list(q);
@@ -85,8 +84,7 @@ public class ApsSchedulingIssueItemServiceImpl extends MPJBaseServiceImpl<ApsSch
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingIssueItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingIssueItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingIssueItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingIssueItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

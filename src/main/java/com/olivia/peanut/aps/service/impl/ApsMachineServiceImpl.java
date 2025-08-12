@@ -51,8 +51,7 @@ public class ApsMachineServiceImpl extends MPJBaseServiceImpl<ApsMachineMapper, 
   }
 
 
-  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(
-      ApsMachineExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(ApsMachineExportQueryPageListReq req) {
 
     DynamicsPage<ApsMachine> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

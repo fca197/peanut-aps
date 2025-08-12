@@ -16,8 +16,7 @@ public interface ApsMachineWorkstationItemService extends MPJBaseService<ApsMach
 
   ApsMachineWorkstationItemQueryListRes queryList(ApsMachineWorkstationItemQueryListReq req);
 
-  DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(
-      ApsMachineWorkstationItemExportQueryPageListReq req);
+  DynamicsPage<ApsMachineWorkstationItemExportQueryPageListInfoRes> queryPageList(ApsMachineWorkstationItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsMachineWorkstationItemDto> apsMachineWorkstationItemDtoList);

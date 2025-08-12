@@ -39,8 +39,7 @@ public class ApsOrderGoodsStatusDateApiImpl implements ApsOrderGoodsStatusDateAp
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsStatusDateDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsStatusDateDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsStatusDateDeleteByIdListRes deleteByIdList(ApsOrderGoodsStatusDateDeleteByIdListReq req) {
     apsOrderGoodsStatusDateService.removeByIds(req.getIdList());
     return new ApsOrderGoodsStatusDateDeleteByIdListRes();
   }
@@ -49,8 +48,7 @@ public class ApsOrderGoodsStatusDateApiImpl implements ApsOrderGoodsStatusDateAp
    * queryList
    *
    */
-  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(
-      ApsOrderGoodsStatusDateQueryListReq req) {
+  public @Override ApsOrderGoodsStatusDateQueryListRes queryList(ApsOrderGoodsStatusDateQueryListReq req) {
     return apsOrderGoodsStatusDateService.queryList(req);
   }
 
@@ -58,15 +56,13 @@ public class ApsOrderGoodsStatusDateApiImpl implements ApsOrderGoodsStatusDateAp
    * updateById
    *
    */
-  public @Override ApsOrderGoodsStatusDateUpdateByIdRes updateById(
-      ApsOrderGoodsStatusDateUpdateByIdReq req) {
+  public @Override ApsOrderGoodsStatusDateUpdateByIdRes updateById(ApsOrderGoodsStatusDateUpdateByIdReq req) {
     apsOrderGoodsStatusDateService.updateById($.copy(req, ApsOrderGoodsStatusDate.class));
     return new ApsOrderGoodsStatusDateUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsStatusDateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsStatusDateExportQueryPageListReq req) {
     return apsOrderGoodsStatusDateService.queryPageList(req);
   }
 
@@ -74,16 +70,12 @@ public class ApsOrderGoodsStatusDateApiImpl implements ApsOrderGoodsStatusDateAp
     DynamicsPage<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class, listInfoRes,
-        "订单商品状态表");
+    List<ApsOrderGoodsStatusDateExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsOrderGoodsStatusDateExportQueryPageListInfoRes.class, listInfoRes, "订单商品状态表");
   }
 
-  public @Override ApsOrderGoodsStatusDateImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsStatusDateImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsStatusDateImportListener(), ApsOrderGoodsStatusDateImportReq.class);
+  public @Override ApsOrderGoodsStatusDateImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsStatusDateImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsStatusDateImportListener(), ApsOrderGoodsStatusDateImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsStatusDate> readList = $.copyList(reqList, ApsOrderGoodsStatusDate.class);
     boolean bool = apsOrderGoodsStatusDateService.saveBatch(readList);
@@ -91,11 +83,8 @@ public class ApsOrderGoodsStatusDateApiImpl implements ApsOrderGoodsStatusDateAp
     return new ApsOrderGoodsStatusDateImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsStatusDateQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsStatusDateQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsStatusDate> q = new MPJLambdaWrapper<ApsOrderGoodsStatusDate>(
-        ApsOrderGoodsStatusDate.class)
-        .selectAll(ApsOrderGoodsStatusDate.class)
+  public @Override ApsOrderGoodsStatusDateQueryByIdListRes queryByIdListRes(ApsOrderGoodsStatusDateQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsStatusDate> q = new MPJLambdaWrapper<ApsOrderGoodsStatusDate>(ApsOrderGoodsStatusDate.class).selectAll(ApsOrderGoodsStatusDate.class)
         .in(ApsOrderGoodsStatusDate::getId, req.getIdList());
     List<ApsOrderGoodsStatusDate> list = this.apsOrderGoodsStatusDateService.list(q);
     List<ApsOrderGoodsStatusDateDto> dataList = $.copyList(list, ApsOrderGoodsStatusDateDto.class);

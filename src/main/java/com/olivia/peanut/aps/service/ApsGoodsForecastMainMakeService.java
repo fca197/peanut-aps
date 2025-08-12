@@ -16,13 +16,11 @@ public interface ApsGoodsForecastMainMakeService extends MPJBaseService<ApsGoods
 
   ApsGoodsForecastMainMakeQueryListRes queryList(ApsGoodsForecastMainMakeQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainMakeExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMainMakeExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainMakeExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsForecastMainMakeDto> apsGoodsForecastMainMakeDtoList);
 
-  DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(
-      ApsGoodsForecastMainMakeQueryDataByIdReq req);
+  DynamicsPage<ApsGoodsForecastMainMakeQueryDataByIdRes> queryDataById(ApsGoodsForecastMainMakeQueryDataByIdReq req);
 }
 

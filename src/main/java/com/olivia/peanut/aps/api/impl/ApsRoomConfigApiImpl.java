@@ -40,8 +40,7 @@ public class ApsRoomConfigApiImpl implements ApsRoomConfigApi {
    * deleteByIds
    *
    */
-  public @Override ApsRoomConfigDeleteByIdListRes deleteByIdList(
-      ApsRoomConfigDeleteByIdListReq req) {
+  public @Override ApsRoomConfigDeleteByIdListRes deleteByIdList(ApsRoomConfigDeleteByIdListReq req) {
     apsRoomConfigService.removeByIds(req.getIdList());
     return new ApsRoomConfigDeleteByIdListRes();
   }
@@ -64,8 +63,7 @@ public class ApsRoomConfigApiImpl implements ApsRoomConfigApi {
 
   }
 
-  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(
-      ApsRoomConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(ApsRoomConfigExportQueryPageListReq req) {
     return apsRoomConfigService.queryPageList(req);
   }
 
@@ -73,14 +71,12 @@ public class ApsRoomConfigApiImpl implements ApsRoomConfigApi {
     DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsRoomConfigExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsRoomConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsRoomConfigExportQueryPageListInfoRes.class);
+    List<ApsRoomConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsRoomConfigExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsRoomConfigExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsRoomConfigImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsRoomConfigImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsRoomConfigImportListener(), ApsRoomConfigImportReq.class);
+    List<ApsRoomConfigImportReq> reqList = PoiExcelUtil.readData(file, new ApsRoomConfigImportListener(), ApsRoomConfigImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsRoomConfig> readList = $.copyList(reqList, ApsRoomConfig.class);
     boolean bool = apsRoomConfigService.saveBatch(readList);
@@ -88,10 +84,8 @@ public class ApsRoomConfigApiImpl implements ApsRoomConfigApi {
     return new ApsRoomConfigImportRes().setCount(c);
   }
 
-  public @Override ApsRoomConfigQueryByIdListRes queryByIdListRes(
-      ApsRoomConfigQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsRoomConfig> q = new MPJLambdaWrapper<ApsRoomConfig>(ApsRoomConfig.class)
-        .selectAll(ApsRoomConfig.class).in(ApsRoomConfig::getId, req.getIdList());
+  public @Override ApsRoomConfigQueryByIdListRes queryByIdListRes(ApsRoomConfigQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsRoomConfig> q = new MPJLambdaWrapper<ApsRoomConfig>(ApsRoomConfig.class).selectAll(ApsRoomConfig.class).in(ApsRoomConfig::getId, req.getIdList());
     List<ApsRoomConfig> list = this.apsRoomConfigService.list(q);
     List<ApsRoomConfigDto> dataList = $.copyList(list, ApsRoomConfigDto.class);
     return new ApsRoomConfigQueryByIdListRes().setDataList(dataList);

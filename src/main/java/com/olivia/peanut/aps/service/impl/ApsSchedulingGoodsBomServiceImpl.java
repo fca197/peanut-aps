@@ -37,8 +37,7 @@ public class ApsSchedulingGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsSche
   SetNameService setNameService;
 
 
-  public @Override ApsSchedulingGoodsBomQueryListRes queryList(
-      ApsSchedulingGoodsBomQueryListReq req) {
+  public @Override ApsSchedulingGoodsBomQueryListRes queryList(ApsSchedulingGoodsBomQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingGoodsBom> q = getWrapper(req.getData());
     List<ApsSchedulingGoodsBom> list = this.list(q);
@@ -50,8 +49,7 @@ public class ApsSchedulingGoodsBomServiceImpl extends MPJBaseServiceImpl<ApsSche
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingGoodsBomExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingGoodsBom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

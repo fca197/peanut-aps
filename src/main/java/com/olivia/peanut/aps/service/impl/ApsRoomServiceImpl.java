@@ -58,8 +58,7 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
     return new ApsRoomQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(
-      ApsRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(ApsRoomExportQueryPageListReq req) {
 
     DynamicsPage<ApsRoom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -90,8 +89,7 @@ public class ApsRoomServiceImpl extends MPJBaseServiceImpl<ApsRoomMapper, ApsRoo
     if (CollUtil.isEmpty(apsRoomDtoList)) {
       return;
     }
-    Map<Long, String> factoryMap = factoryService.listByIds(
-            apsRoomDtoList.stream().map(ApsRoomDto::getFactoryId).toList()).stream()
+    Map<Long, String> factoryMap = factoryService.listByIds(apsRoomDtoList.stream().map(ApsRoomDto::getFactoryId).toList()).stream()
         .collect(Collectors.toMap(Factory::getId, Factory::getFactoryName));
     List<Runnable> runnableList = new ArrayList<>();
     apsRoomDtoList.forEach(t -> {

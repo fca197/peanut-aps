@@ -16,8 +16,7 @@ public interface ApsBomGroupService extends MPJBaseService<ApsBomGroup> {
 
   ApsBomGroupQueryListRes queryList(ApsBomGroupQueryListReq req);
 
-  DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(
-      ApsBomGroupExportQueryPageListReq req);
+  DynamicsPage<ApsBomGroupExportQueryPageListInfoRes> queryPageList(ApsBomGroupExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsBomGroupDto> apsBomGroupDtoList);

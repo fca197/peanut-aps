@@ -35,8 +35,7 @@ public class ApsRollingForecastOrderItemServiceImpl extends MPJBaseServiceImpl<A
   BaseTableHeaderService tableHeaderService;
 
 
-  public @Override ApsRollingForecastOrderItemQueryListRes queryList(
-      ApsRollingForecastOrderItemQueryListReq req) {
+  public @Override ApsRollingForecastOrderItemQueryListRes queryList(ApsRollingForecastOrderItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsRollingForecastOrderItem> q = getWrapper(req.getData());
     List<ApsRollingForecastOrderItem> list = this.list(q);
@@ -48,8 +47,7 @@ public class ApsRollingForecastOrderItemServiceImpl extends MPJBaseServiceImpl<A
   }
 
 
-  public @Override DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastOrderItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRollingForecastOrderItemExportQueryPageListInfoRes> queryPageList(ApsRollingForecastOrderItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsRollingForecastOrderItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -87,8 +85,7 @@ public class ApsRollingForecastOrderItemServiceImpl extends MPJBaseServiceImpl<A
   }
 
 
-  private MPJLambdaWrapper<ApsRollingForecastOrderItem> getWrapper(
-      ApsRollingForecastOrderItemDto obj) {
+  private MPJLambdaWrapper<ApsRollingForecastOrderItem> getWrapper(ApsRollingForecastOrderItemDto obj) {
     MPJLambdaWrapper<ApsRollingForecastOrderItem> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

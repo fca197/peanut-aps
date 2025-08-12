@@ -39,8 +39,7 @@ public class ApsSellerStoreApiImpl implements ApsSellerStoreApi {
    * deleteByIds
    *
    */
-  public @Override ApsSellerStoreDeleteByIdListRes deleteByIdList(
-      ApsSellerStoreDeleteByIdListReq req) {
+  public @Override ApsSellerStoreDeleteByIdListRes deleteByIdList(ApsSellerStoreDeleteByIdListReq req) {
     apsSellerStoreService.removeByIds(req.getIdList());
     return new ApsSellerStoreDeleteByIdListRes();
   }
@@ -63,8 +62,7 @@ public class ApsSellerStoreApiImpl implements ApsSellerStoreApi {
 
   }
 
-  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(
-      ApsSellerStoreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(ApsSellerStoreExportQueryPageListReq req) {
     return apsSellerStoreService.queryPageList(req);
   }
 
@@ -72,14 +70,12 @@ public class ApsSellerStoreApiImpl implements ApsSellerStoreApi {
     DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSellerStoreExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSellerStoreExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSellerStoreExportQueryPageListInfoRes.class);
+    List<ApsSellerStoreExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSellerStoreExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSellerStoreExportQueryPageListInfoRes.class, listInfoRes, "aps销售门店");
   }
 
   public @Override ApsSellerStoreImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsSellerStoreImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSellerStoreImportListener(), ApsSellerStoreImportReq.class);
+    List<ApsSellerStoreImportReq> reqList = PoiExcelUtil.readData(file, new ApsSellerStoreImportListener(), ApsSellerStoreImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSellerStore> readList = $.copyList(reqList, ApsSellerStore.class);
     boolean bool = apsSellerStoreService.saveBatch(readList);
@@ -87,10 +83,9 @@ public class ApsSellerStoreApiImpl implements ApsSellerStoreApi {
     return new ApsSellerStoreImportRes().setCount(c);
   }
 
-  public @Override ApsSellerStoreQueryByIdListRes queryByIdListRes(
-      ApsSellerStoreQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSellerStore> q = new MPJLambdaWrapper<ApsSellerStore>(ApsSellerStore.class)
-        .selectAll(ApsSellerStore.class).in(ApsSellerStore::getId, req.getIdList());
+  public @Override ApsSellerStoreQueryByIdListRes queryByIdListRes(ApsSellerStoreQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSellerStore> q = new MPJLambdaWrapper<ApsSellerStore>(ApsSellerStore.class).selectAll(ApsSellerStore.class)
+        .in(ApsSellerStore::getId, req.getIdList());
     List<ApsSellerStore> list = this.apsSellerStoreService.list(q);
     List<ApsSellerStoreDto> dataList = $.copyList(list, ApsSellerStoreDto.class);
     this.apsSellerStoreService.setName(dataList);

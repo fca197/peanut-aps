@@ -62,8 +62,7 @@ public class ApsRoomApiImpl implements ApsRoomApi {
 
   }
 
-  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(
-      ApsRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRoomExportQueryPageListInfoRes> queryPageList(ApsRoomExportQueryPageListReq req) {
     return apsRoomService.queryPageList(req);
   }
 

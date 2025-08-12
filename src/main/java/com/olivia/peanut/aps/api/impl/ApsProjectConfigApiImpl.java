@@ -40,8 +40,7 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
    * deleteByIds
    *
    */
-  public @Override ApsProjectConfigDeleteByIdListRes deleteByIdList(
-      ApsProjectConfigDeleteByIdListReq req) {
+  public @Override ApsProjectConfigDeleteByIdListRes deleteByIdList(ApsProjectConfigDeleteByIdListReq req) {
     apsProjectConfigService.removeByIds(req.getIdList());
     return new ApsProjectConfigDeleteByIdListRes();
   }
@@ -64,8 +63,7 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
 
   }
 
-  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsProjectConfigExportQueryPageListReq req) {
     return apsProjectConfigService.queryPageList(req);
   }
 
@@ -73,14 +71,12 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
     DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProjectConfigExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsProjectConfigExportQueryPageListInfoRes.class);
+    List<ApsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProjectConfigExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsProjectConfigExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsProjectConfigImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsProjectConfigImportListener(), ApsProjectConfigImportReq.class);
+    List<ApsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file, new ApsProjectConfigImportListener(), ApsProjectConfigImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProjectConfig> readList = $.copyList(reqList, ApsProjectConfig.class);
     boolean bool = apsProjectConfigService.saveBatch(readList);
@@ -88,11 +84,9 @@ public class ApsProjectConfigApiImpl implements ApsProjectConfigApi {
     return new ApsProjectConfigImportRes().setCount(c);
   }
 
-  public @Override ApsProjectConfigQueryByIdListRes queryByIdListRes(
-      ApsProjectConfigQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProjectConfig> q = new MPJLambdaWrapper<ApsProjectConfig>(
-        ApsProjectConfig.class)
-        .selectAll(ApsProjectConfig.class).in(ApsProjectConfig::getId, req.getIdList());
+  public @Override ApsProjectConfigQueryByIdListRes queryByIdListRes(ApsProjectConfigQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProjectConfig> q = new MPJLambdaWrapper<ApsProjectConfig>(ApsProjectConfig.class).selectAll(ApsProjectConfig.class)
+        .in(ApsProjectConfig::getId, req.getIdList());
     List<ApsProjectConfig> list = this.apsProjectConfigService.list(q);
     List<ApsProjectConfigDto> dataList = $.copyList(list, ApsProjectConfigDto.class);
     return new ApsProjectConfigQueryByIdListRes().setDataList(dataList);

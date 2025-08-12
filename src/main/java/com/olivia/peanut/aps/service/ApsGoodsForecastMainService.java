@@ -16,8 +16,7 @@ public interface ApsGoodsForecastMainService extends MPJBaseService<ApsGoodsFore
 
   ApsGoodsForecastMainQueryListRes queryList(ApsGoodsForecastMainQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsForecastMainDto> apsGoodsForecastMainDtoList);

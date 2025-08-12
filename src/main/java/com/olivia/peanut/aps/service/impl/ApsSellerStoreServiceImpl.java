@@ -51,8 +51,7 @@ public class ApsSellerStoreServiceImpl extends MPJBaseServiceImpl<ApsSellerStore
     return new ApsSellerStoreQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(
-      ApsSellerStoreExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(ApsSellerStoreExportQueryPageListReq req) {
 
     DynamicsPage<ApsSellerStore> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

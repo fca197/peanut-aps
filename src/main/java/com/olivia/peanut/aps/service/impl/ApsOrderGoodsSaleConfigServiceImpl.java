@@ -31,8 +31,7 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
     ApsOrderGoodsSaleConfigService {
 
 
-  public @Override ApsOrderGoodsSaleConfigQueryListRes queryList(
-      ApsOrderGoodsSaleConfigQueryListReq req) {
+  public @Override ApsOrderGoodsSaleConfigQueryListRes queryList(ApsOrderGoodsSaleConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsSaleConfig> q = getWrapper(req.getData());
     List<ApsOrderGoodsSaleConfig> list = this.list(q);
@@ -46,8 +45,7 @@ public class ApsOrderGoodsSaleConfigServiceImpl extends MPJBaseServiceImpl<ApsOr
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsSaleConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsSaleConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsSaleConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

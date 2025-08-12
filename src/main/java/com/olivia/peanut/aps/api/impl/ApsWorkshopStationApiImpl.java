@@ -39,8 +39,7 @@ public class ApsWorkshopStationApiImpl implements ApsWorkshopStationApi {
    * deleteByIds
    *
    */
-  public @Override WorkshopStationDeleteByIdListRes deleteByIdList(
-      WorkshopStationDeleteByIdListReq req) {
+  public @Override WorkshopStationDeleteByIdListRes deleteByIdList(WorkshopStationDeleteByIdListReq req) {
     apsWorkshopStationService.removeByIds(req.getIdList());
     return new WorkshopStationDeleteByIdListRes();
   }
@@ -63,8 +62,7 @@ public class ApsWorkshopStationApiImpl implements ApsWorkshopStationApi {
 
   }
 
-  public @Override DynamicsPage<WorkshopStationExportQueryPageListInfoRes> queryPageList(
-      WorkshopStationExportQueryPageListReq req) {
+  public @Override DynamicsPage<WorkshopStationExportQueryPageListInfoRes> queryPageList(WorkshopStationExportQueryPageListReq req) {
     return apsWorkshopStationService.queryPageList(req);
   }
 
@@ -72,14 +70,12 @@ public class ApsWorkshopStationApiImpl implements ApsWorkshopStationApi {
     DynamicsPage<WorkshopStationExportQueryPageListInfoRes> page = queryPageList(req);
     List<WorkshopStationExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<WorkshopStationExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        WorkshopStationExportQueryPageListInfoRes.class);
+    List<WorkshopStationExportQueryPageListInfoRes> listInfoRes = $.copyList(list, WorkshopStationExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(WorkshopStationExportQueryPageListInfoRes.class, listInfoRes, "工位信息");
   }
 
   public @Override WorkshopStationImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<WorkshopStationImportReq> reqList = PoiExcelUtil.readData(file,
-        new WorkshopStationImportListener(), WorkshopStationImportReq.class);
+    List<WorkshopStationImportReq> reqList = PoiExcelUtil.readData(file, new WorkshopStationImportListener(), WorkshopStationImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsWorkshopStation> readList = $.copyList(reqList, ApsWorkshopStation.class);
     boolean bool = apsWorkshopStationService.saveBatch(readList);
@@ -87,14 +83,11 @@ public class ApsWorkshopStationApiImpl implements ApsWorkshopStationApi {
     return new WorkshopStationImportRes().setCount(c);
   }
 
-  public @Override WorkshopStationQueryByIdListRes queryByIdListRes(
-      WorkshopStationQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsWorkshopStation> q = new MPJLambdaWrapper<ApsWorkshopStation>(
-        ApsWorkshopStation.class)
-        .selectAll(ApsWorkshopStation.class).in(ApsWorkshopStation::getId, req.getIdList());
+  public @Override WorkshopStationQueryByIdListRes queryByIdListRes(WorkshopStationQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsWorkshopStation> q = new MPJLambdaWrapper<ApsWorkshopStation>(ApsWorkshopStation.class).selectAll(ApsWorkshopStation.class)
+        .in(ApsWorkshopStation::getId, req.getIdList());
     List<ApsWorkshopStation> list = this.apsWorkshopStationService.list(q);
-    List<WorkshopStationQueryByIdListRes.Info> dataList = $.copyList(list,
-        WorkshopStationQueryByIdListRes.Info.class);
+    List<WorkshopStationQueryByIdListRes.Info> dataList = $.copyList(list, WorkshopStationQueryByIdListRes.Info.class);
     return new WorkshopStationQueryByIdListRes().setDataList(dataList);
   }
 }

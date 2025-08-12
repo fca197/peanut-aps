@@ -39,8 +39,7 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
    * deleteByIds
    *
    */
-  public @Override ApsProduceProcessDeleteByIdListRes deleteByIdList(
-      ApsProduceProcessDeleteByIdListReq req) {
+  public @Override ApsProduceProcessDeleteByIdListRes deleteByIdList(ApsProduceProcessDeleteByIdListReq req) {
     apsProduceProcessService.removeByIds(req.getIdList());
     return new ApsProduceProcessDeleteByIdListRes();
   }
@@ -63,8 +62,7 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
 
   }
 
-  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(
-      ApsProduceProcessExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> queryPageList(ApsProduceProcessExportQueryPageListReq req) {
     return apsProduceProcessService.queryPageList(req);
   }
 
@@ -72,15 +70,12 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
     DynamicsPage<ApsProduceProcessExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsProduceProcessExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsProduceProcessExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsProduceProcessExportQueryPageListInfoRes.class, listInfoRes,
-        "aps 生产路径");
+    List<ApsProduceProcessExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsProduceProcessExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsProduceProcessExportQueryPageListInfoRes.class, listInfoRes, "aps 生产路径");
   }
 
   public @Override ApsProduceProcessImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsProduceProcessImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsProduceProcessImportListener(), ApsProduceProcessImportReq.class);
+    List<ApsProduceProcessImportReq> reqList = PoiExcelUtil.readData(file, new ApsProduceProcessImportListener(), ApsProduceProcessImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsProduceProcess> readList = $.copyList(reqList, ApsProduceProcess.class);
     boolean bool = apsProduceProcessService.saveBatch(readList);
@@ -88,11 +83,9 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
     return new ApsProduceProcessImportRes().setCount(c);
   }
 
-  public @Override ApsProduceProcessQueryByIdListRes queryByIdListRes(
-      ApsProduceProcessQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsProduceProcess> q = new MPJLambdaWrapper<ApsProduceProcess>(
-        ApsProduceProcess.class)
-        .selectAll(ApsProduceProcess.class).in(ApsProduceProcess::getId, req.getIdList());
+  public @Override ApsProduceProcessQueryByIdListRes queryByIdListRes(ApsProduceProcessQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsProduceProcess> q = new MPJLambdaWrapper<ApsProduceProcess>(ApsProduceProcess.class).selectAll(ApsProduceProcess.class)
+        .in(ApsProduceProcess::getId, req.getIdList());
     List<ApsProduceProcess> list = this.apsProduceProcessService.list(q);
     List<ApsProduceProcessDto> dataList = $.copyList(list, ApsProduceProcessDto.class);
     this.apsProduceProcessService.setName(dataList);

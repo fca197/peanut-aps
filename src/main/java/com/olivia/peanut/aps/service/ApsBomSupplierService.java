@@ -16,8 +16,7 @@ public interface ApsBomSupplierService extends MPJBaseService<ApsBomSupplier> {
 
   ApsBomSupplierQueryListRes queryList(ApsBomSupplierQueryListReq req);
 
-  DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(
-      ApsBomSupplierExportQueryPageListReq req);
+  DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(ApsBomSupplierExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsBomSupplierDto> apsBomSupplierDtoList);

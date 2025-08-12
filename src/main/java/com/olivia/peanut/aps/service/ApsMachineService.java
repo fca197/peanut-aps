@@ -16,8 +16,7 @@ public interface ApsMachineService extends MPJBaseService<ApsMachine> {
 
   ApsMachineQueryListRes queryList(ApsMachineQueryListReq req);
 
-  DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(
-      ApsMachineExportQueryPageListReq req);
+  DynamicsPage<ApsMachineExportQueryPageListInfoRes> queryPageList(ApsMachineExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsMachineDto> apsMachineDtoList);

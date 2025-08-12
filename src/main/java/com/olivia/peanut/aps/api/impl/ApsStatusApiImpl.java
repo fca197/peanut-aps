@@ -65,8 +65,7 @@ public class ApsStatusApiImpl implements ApsStatusApi {
 
   }
 
-  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
-      ApsStatusExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req) {
     return apsStatusService.queryPageList(req);
   }
 

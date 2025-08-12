@@ -42,8 +42,7 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
 
   private void checkStationHasBom(ApsGoodsBomDto req) {
     long count = this.apsGoodsBomService.count(
-        new LambdaQueryWrapper<ApsGoodsBom>().eq(ApsGoodsBom::getBomId, req.getBomId())
-            .eq(ApsGoodsBom::getBomUseWorkStation, req.getBomUseWorkStation()));
+        new LambdaQueryWrapper<ApsGoodsBom>().eq(ApsGoodsBom::getBomId, req.getBomId()).eq(ApsGoodsBom::getBomUseWorkStation, req.getBomUseWorkStation()));
     $.assertTrueCanIgnoreException(count > 0, "该工位已存在当前零件");
   }
 
@@ -75,8 +74,7 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> queryPageList(ApsGoodsBomExportQueryPageListReq req) {
     return apsGoodsBomService.queryPageList(req);
   }
 
@@ -84,14 +82,12 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
     DynamicsPage<ApsGoodsBomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsBomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsBomExportQueryPageListInfoRes.class);
+    List<ApsGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsBomExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsBomExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsGoodsBomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsGoodsBomImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsBomImportListener(), ApsGoodsBomImportReq.class);
+    List<ApsGoodsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsBomImportListener(), ApsGoodsBomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsBom> readList = $.copyList(reqList, ApsGoodsBom.class);
     boolean bool = apsGoodsBomService.saveBatch(readList);
@@ -100,8 +96,7 @@ public class ApsGoodsBomApiImpl implements ApsGoodsBomApi {
   }
 
   public @Override ApsGoodsBomQueryByIdListRes queryByIdListRes(ApsGoodsBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<ApsGoodsBom>(
-        ApsGoodsBom.class).selectAll(ApsGoodsBom.class).in(ApsGoodsBom::getId, req.getIdList());
+    MPJLambdaWrapper<ApsGoodsBom> q = new MPJLambdaWrapper<ApsGoodsBom>(ApsGoodsBom.class).selectAll(ApsGoodsBom.class).in(ApsGoodsBom::getId, req.getIdList());
     List<ApsGoodsBom> list = this.apsGoodsBomService.list(q);
     List<ApsGoodsBomDto> dataList = $.copyList(list, ApsGoodsBomDto.class);
     return new ApsGoodsBomQueryByIdListRes().setDataList(dataList);

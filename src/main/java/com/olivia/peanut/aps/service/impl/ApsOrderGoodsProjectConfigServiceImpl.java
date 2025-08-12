@@ -31,8 +31,7 @@ public class ApsOrderGoodsProjectConfigServiceImpl extends MPJBaseServiceImpl<Ap
     ApsOrderGoodsProjectConfigService {
 
 
-  public @Override ApsOrderGoodsProjectConfigQueryListRes queryList(
-      ApsOrderGoodsProjectConfigQueryListReq req) {
+  public @Override ApsOrderGoodsProjectConfigQueryListRes queryList(ApsOrderGoodsProjectConfigQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsProjectConfig> q = getWrapper(req.getData());
     List<ApsOrderGoodsProjectConfig> list = this.list(q);
@@ -46,8 +45,7 @@ public class ApsOrderGoodsProjectConfigServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsProjectConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsProjectConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -88,8 +86,7 @@ public class ApsOrderGoodsProjectConfigServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  private MPJLambdaWrapper<ApsOrderGoodsProjectConfig> getWrapper(
-      ApsOrderGoodsProjectConfigDto obj) {
+  private MPJLambdaWrapper<ApsOrderGoodsProjectConfig> getWrapper(ApsOrderGoodsProjectConfigDto obj) {
     MPJLambdaWrapper<ApsOrderGoodsProjectConfig> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

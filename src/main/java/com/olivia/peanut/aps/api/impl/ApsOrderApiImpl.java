@@ -64,8 +64,7 @@ public class ApsOrderApiImpl implements ApsOrderApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList(
-      ApsOrderExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList(ApsOrderExportQueryPageListReq req) {
     return apsOrderService.queryPageList(req);
   }
 
@@ -105,6 +104,11 @@ public class ApsOrderApiImpl implements ApsOrderApi {
   @Override
   public ApsOrderBatchInsertRes batchInsert(ApsOrderBatchInsertReq req) {
     return apsOrderService.saveBatch(req);
+  }
+
+  @Override
+  public ApsOrderDeleteAllRes deleteAll(ApsOrderDeleteAllReq req) {
+    return apsOrderService.deleteAll(req);
   }
 
   @Override

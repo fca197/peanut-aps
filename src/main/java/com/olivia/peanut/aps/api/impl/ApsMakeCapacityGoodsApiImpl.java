@@ -40,8 +40,7 @@ public class ApsMakeCapacityGoodsApiImpl implements ApsMakeCapacityGoodsApi {
    * deleteByIds
    *
    */
-  public @Override ApsMakeCapacityGoodsDeleteByIdListRes deleteByIdList(
-      ApsMakeCapacityGoodsDeleteByIdListReq req) {
+  public @Override ApsMakeCapacityGoodsDeleteByIdListRes deleteByIdList(ApsMakeCapacityGoodsDeleteByIdListReq req) {
     apsMakeCapacityGoodsService.removeByIds(req.getIdList());
     return new ApsMakeCapacityGoodsDeleteByIdListRes();
   }
@@ -50,8 +49,7 @@ public class ApsMakeCapacityGoodsApiImpl implements ApsMakeCapacityGoodsApi {
    * queryList
    *
    */
-  public @Override ApsMakeCapacityGoodsQueryListRes queryList(
-      ApsMakeCapacityGoodsQueryListReq req) {
+  public @Override ApsMakeCapacityGoodsQueryListRes queryList(ApsMakeCapacityGoodsQueryListReq req) {
     return apsMakeCapacityGoodsService.queryList(req);
   }
 
@@ -59,15 +57,13 @@ public class ApsMakeCapacityGoodsApiImpl implements ApsMakeCapacityGoodsApi {
    * updateById
    *
    */
-  public @Override ApsMakeCapacityGoodsUpdateByIdRes updateById(
-      ApsMakeCapacityGoodsUpdateByIdReq req) {
+  public @Override ApsMakeCapacityGoodsUpdateByIdRes updateById(ApsMakeCapacityGoodsUpdateByIdReq req) {
     apsMakeCapacityGoodsService.updateById($.copy(req, ApsMakeCapacityGoods.class));
     return new ApsMakeCapacityGoodsUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacityGoodsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(ApsMakeCapacityGoodsExportQueryPageListReq req) {
     return apsMakeCapacityGoodsService.queryPageList(req);
   }
 
@@ -75,15 +71,12 @@ public class ApsMakeCapacityGoodsApiImpl implements ApsMakeCapacityGoodsApi {
     DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsMakeCapacityGoodsExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsMakeCapacityGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsMakeCapacityGoodsExportQueryPageListInfoRes.class);
+    List<ApsMakeCapacityGoodsExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsMakeCapacityGoodsExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsMakeCapacityGoodsExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsMakeCapacityGoodsImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsMakeCapacityGoodsImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsMakeCapacityGoodsImportListener(), ApsMakeCapacityGoodsImportReq.class);
+  public @Override ApsMakeCapacityGoodsImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsMakeCapacityGoodsImportReq> reqList = PoiExcelUtil.readData(file, new ApsMakeCapacityGoodsImportListener(), ApsMakeCapacityGoodsImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsMakeCapacityGoods> readList = $.copyList(reqList, ApsMakeCapacityGoods.class);
     boolean bool = apsMakeCapacityGoodsService.saveBatch(readList);
@@ -91,11 +84,9 @@ public class ApsMakeCapacityGoodsApiImpl implements ApsMakeCapacityGoodsApi {
     return new ApsMakeCapacityGoodsImportRes().setCount(c);
   }
 
-  public @Override ApsMakeCapacityGoodsQueryByIdListRes queryByIdListRes(
-      ApsMakeCapacityGoodsQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsMakeCapacityGoods> q = new MPJLambdaWrapper<ApsMakeCapacityGoods>(
-        ApsMakeCapacityGoods.class)
-        .selectAll(ApsMakeCapacityGoods.class).in(ApsMakeCapacityGoods::getId, req.getIdList());
+  public @Override ApsMakeCapacityGoodsQueryByIdListRes queryByIdListRes(ApsMakeCapacityGoodsQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsMakeCapacityGoods> q = new MPJLambdaWrapper<ApsMakeCapacityGoods>(ApsMakeCapacityGoods.class).selectAll(ApsMakeCapacityGoods.class)
+        .in(ApsMakeCapacityGoods::getId, req.getIdList());
     List<ApsMakeCapacityGoods> list = this.apsMakeCapacityGoodsService.list(q);
     List<ApsMakeCapacityGoodsDto> dataList = $.copyList(list, ApsMakeCapacityGoodsDto.class);
     this.apsMakeCapacityGoodsService.setName(dataList);

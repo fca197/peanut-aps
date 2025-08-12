@@ -37,8 +37,7 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsGoodsForecastMainQueryListRes queryList(
-      ApsGoodsForecastMainQueryListReq req) {
+  public @Override ApsGoodsForecastMainQueryListRes queryList(ApsGoodsForecastMainQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMain> q = getWrapper(req.getData());
     List<ApsGoodsForecastMain> list = this.list(q);
@@ -50,8 +49,7 @@ public class ApsGoodsForecastMainServiceImpl extends MPJBaseServiceImpl<ApsGoods
     return new ApsGoodsForecastMainQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMain> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

@@ -16,8 +16,7 @@ public interface ApsMakeCapacityGoodsService extends MPJBaseService<ApsMakeCapac
 
   ApsMakeCapacityGoodsQueryListRes queryList(ApsMakeCapacityGoodsQueryListReq req);
 
-  DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacityGoodsExportQueryPageListReq req);
+  DynamicsPage<ApsMakeCapacityGoodsExportQueryPageListInfoRes> queryPageList(ApsMakeCapacityGoodsExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsMakeCapacityGoodsDto> apsMakeCapacityGoodsDtoList);

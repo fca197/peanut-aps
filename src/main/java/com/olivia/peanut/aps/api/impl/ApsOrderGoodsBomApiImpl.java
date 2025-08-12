@@ -39,8 +39,7 @@ public class ApsOrderGoodsBomApiImpl implements ApsOrderGoodsBomApi {
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsBomDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsBomDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsBomDeleteByIdListRes deleteByIdList(ApsOrderGoodsBomDeleteByIdListReq req) {
     apsOrderGoodsBomService.removeByIds(req.getIdList());
     return new ApsOrderGoodsBomDeleteByIdListRes();
   }
@@ -63,8 +62,7 @@ public class ApsOrderGoodsBomApiImpl implements ApsOrderGoodsBomApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomExportQueryPageListReq req) {
     return apsOrderGoodsBomService.queryPageList(req);
   }
 
@@ -72,15 +70,12 @@ public class ApsOrderGoodsBomApiImpl implements ApsOrderGoodsBomApi {
     DynamicsPage<ApsOrderGoodsBomExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsBomExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsOrderGoodsBomExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsOrderGoodsBomExportQueryPageListInfoRes.class, listInfoRes,
-        "订单商品零件表");
+    List<ApsOrderGoodsBomExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsBomExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsOrderGoodsBomExportQueryPageListInfoRes.class, listInfoRes, "订单商品零件表");
   }
 
   public @Override ApsOrderGoodsBomImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsBomImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsBomImportListener(), ApsOrderGoodsBomImportReq.class);
+    List<ApsOrderGoodsBomImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsBomImportListener(), ApsOrderGoodsBomImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsBom> readList = $.copyList(reqList, ApsOrderGoodsBom.class);
     boolean bool = apsOrderGoodsBomService.saveBatch(readList);
@@ -88,11 +83,9 @@ public class ApsOrderGoodsBomApiImpl implements ApsOrderGoodsBomApi {
     return new ApsOrderGoodsBomImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsBomQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsBom> q = new MPJLambdaWrapper<ApsOrderGoodsBom>(
-        ApsOrderGoodsBom.class)
-        .selectAll(ApsOrderGoodsBom.class).in(ApsOrderGoodsBom::getId, req.getIdList());
+  public @Override ApsOrderGoodsBomQueryByIdListRes queryByIdListRes(ApsOrderGoodsBomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsBom> q = new MPJLambdaWrapper<ApsOrderGoodsBom>(ApsOrderGoodsBom.class).selectAll(ApsOrderGoodsBom.class)
+        .in(ApsOrderGoodsBom::getId, req.getIdList());
     List<ApsOrderGoodsBom> list = this.apsOrderGoodsBomService.list(q);
     List<ApsOrderGoodsBomDto> dataList = $.copyList(list, ApsOrderGoodsBomDto.class);
     this.apsOrderGoodsBomService.setName(dataList);

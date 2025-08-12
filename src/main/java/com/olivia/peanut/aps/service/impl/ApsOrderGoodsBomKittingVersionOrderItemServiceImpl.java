@@ -36,8 +36,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
   SetNameService setNameService;
 
 
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> q = getWrapper(req.getData());
     List<ApsOrderGoodsBomKittingVersionOrderBom> list = this.list(q);
@@ -81,8 +80,7 @@ public class ApsOrderGoodsBomKittingVersionOrderItemServiceImpl extends
 
 
   @SuppressWarnings("unchecked")
-  private MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> getWrapper(
-      ApsOrderGoodsBomKittingVersionOrderBomDto obj) {
+  private MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> getWrapper(ApsOrderGoodsBomKittingVersionOrderBomDto obj) {
     MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsOrderGoodsBomKittingVersionOrderBom.class

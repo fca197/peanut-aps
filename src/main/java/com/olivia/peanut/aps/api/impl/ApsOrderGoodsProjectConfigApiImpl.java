@@ -31,8 +31,7 @@ public class ApsOrderGoodsProjectConfigApiImpl implements ApsOrderGoodsProjectCo
    * insert
    *
    */
-  public @Override ApsOrderGoodsProjectConfigInsertRes insert(
-      ApsOrderGoodsProjectConfigInsertReq req) {
+  public @Override ApsOrderGoodsProjectConfigInsertRes insert(ApsOrderGoodsProjectConfigInsertReq req) {
     this.apsOrderGoodsProjectConfigService.save($.copy(req, ApsOrderGoodsProjectConfig.class));
     return new ApsOrderGoodsProjectConfigInsertRes().setCount(1);
   }
@@ -41,8 +40,7 @@ public class ApsOrderGoodsProjectConfigApiImpl implements ApsOrderGoodsProjectCo
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsProjectConfigDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsProjectConfigDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsProjectConfigDeleteByIdListRes deleteByIdList(ApsOrderGoodsProjectConfigDeleteByIdListReq req) {
     apsOrderGoodsProjectConfigService.removeByIds(req.getIdList());
     return new ApsOrderGoodsProjectConfigDeleteByIdListRes();
   }
@@ -51,8 +49,7 @@ public class ApsOrderGoodsProjectConfigApiImpl implements ApsOrderGoodsProjectCo
    * queryList
    *
    */
-  public @Override ApsOrderGoodsProjectConfigQueryListRes queryList(
-      ApsOrderGoodsProjectConfigQueryListReq req) {
+  public @Override ApsOrderGoodsProjectConfigQueryListRes queryList(ApsOrderGoodsProjectConfigQueryListReq req) {
     return apsOrderGoodsProjectConfigService.queryList(req);
   }
 
@@ -60,15 +57,13 @@ public class ApsOrderGoodsProjectConfigApiImpl implements ApsOrderGoodsProjectCo
    * updateById
    *
    */
-  public @Override ApsOrderGoodsProjectConfigUpdateByIdRes updateById(
-      ApsOrderGoodsProjectConfigUpdateByIdReq req) {
+  public @Override ApsOrderGoodsProjectConfigUpdateByIdRes updateById(ApsOrderGoodsProjectConfigUpdateByIdReq req) {
     apsOrderGoodsProjectConfigService.updateById($.copy(req, ApsOrderGoodsProjectConfig.class));
     return new ApsOrderGoodsProjectConfigUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsProjectConfigExportQueryPageListReq req) {
     return apsOrderGoodsProjectConfigService.queryPageList(req);
   }
 
@@ -76,33 +71,24 @@ public class ApsOrderGoodsProjectConfigApiImpl implements ApsOrderGoodsProjectCo
     DynamicsPage<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsOrderGoodsProjectConfigExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsOrderGoodsProjectConfigExportQueryPageListInfoRes.class, listInfoRes,
-        "");
+    List<ApsOrderGoodsProjectConfigExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsProjectConfigExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsOrderGoodsProjectConfigExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsOrderGoodsProjectConfigImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsProjectConfigImportListener(), ApsOrderGoodsProjectConfigImportReq.class);
+  public @Override ApsOrderGoodsProjectConfigImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsProjectConfigImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsProjectConfigImportListener(),
+        ApsOrderGoodsProjectConfigImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsProjectConfig> readList = $.copyList(reqList,
-        ApsOrderGoodsProjectConfig.class);
+    List<ApsOrderGoodsProjectConfig> readList = $.copyList(reqList, ApsOrderGoodsProjectConfig.class);
     boolean bool = apsOrderGoodsProjectConfigService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsOrderGoodsProjectConfigImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsProjectConfigQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsProjectConfigQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsProjectConfig> q = new MPJLambdaWrapper<ApsOrderGoodsProjectConfig>(
-        ApsOrderGoodsProjectConfig.class)
-        .selectAll(ApsOrderGoodsProjectConfig.class)
-        .in(ApsOrderGoodsProjectConfig::getId, req.getIdList());
+  public @Override ApsOrderGoodsProjectConfigQueryByIdListRes queryByIdListRes(ApsOrderGoodsProjectConfigQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsProjectConfig> q = new MPJLambdaWrapper<ApsOrderGoodsProjectConfig>(ApsOrderGoodsProjectConfig.class).selectAll(ApsOrderGoodsProjectConfig.class).in(ApsOrderGoodsProjectConfig::getId, req.getIdList());
     List<ApsOrderGoodsProjectConfig> list = this.apsOrderGoodsProjectConfigService.list(q);
-    List<ApsOrderGoodsProjectConfigDto> dataList = $.copyList(list,
-        ApsOrderGoodsProjectConfigDto.class);
+    List<ApsOrderGoodsProjectConfigDto> dataList = $.copyList(list, ApsOrderGoodsProjectConfigDto.class);
     this.apsOrderGoodsProjectConfigService.setName(dataList);
     return new ApsOrderGoodsProjectConfigQueryByIdListRes().setDataList(dataList);
   }

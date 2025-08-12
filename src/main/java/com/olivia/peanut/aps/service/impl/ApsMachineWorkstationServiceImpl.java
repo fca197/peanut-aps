@@ -49,8 +49,7 @@ public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMach
   ApsMachineWorkstationItemService apsMachineWorkstationItemService;
 
 
-  public @Override ApsMachineWorkstationQueryListRes queryList(
-      ApsMachineWorkstationQueryListReq req) {
+  public @Override ApsMachineWorkstationQueryListRes queryList(ApsMachineWorkstationQueryListReq req) {
 
     MPJLambdaWrapper<ApsMachineWorkstation> q = getWrapper(req.getData());
     List<ApsMachineWorkstation> list = this.list(q);
@@ -61,8 +60,7 @@ public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMach
   }
 
 
-  public @Override DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(
-      ApsMachineWorkstationExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(ApsMachineWorkstationExportQueryPageListReq req) {
 
     DynamicsPage<ApsMachineWorkstation> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -91,8 +89,7 @@ public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMach
     apsMachineWorkstation.setId(id);
     $.requireNonNullCanIgnoreException(req.getMachineWorkstationItemDtoList(), "机器不能为空");
     List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
-        .stream().map(
-            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
+        .stream().map(ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
         .peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
         .toList();
     this.save(apsMachineWorkstation);
@@ -106,14 +103,12 @@ public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMach
     ApsMachineWorkstation apsMachineWorkstation = INSTANCE.updateReq(req);
     Long id = apsMachineWorkstation.getId();
     List<ApsMachineWorkstationItem> workstationItemList = req.getMachineWorkstationItemDtoList()
-        .stream().map(
-            ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
+        .stream().map(ApsMachineWorkstationItemConverter.INSTANCE::dto2Entity)
         .peek(t -> t.setMachineWorkstationId(id).setId(IdWorker.getId()))
         .toList();
 
     this.apsMachineWorkstationItemService.remove(
-        new LambdaQueryWrapper<ApsMachineWorkstationItem>().eq(
-            ApsMachineWorkstationItem::getMachineWorkstationId, id));
+        new LambdaQueryWrapper<ApsMachineWorkstationItem>().eq(ApsMachineWorkstationItem::getMachineWorkstationId, id));
     this.apsMachineWorkstationItemService.saveBatch(workstationItemList);
     this.updateById(apsMachineWorkstation);
   }
@@ -133,8 +128,7 @@ public class ApsMachineWorkstationServiceImpl extends MPJBaseServiceImpl<ApsMach
         List<ApsMachineWorkstationItem> workstationItemList = apsMachineMap.getOrDefault(
             item.getId(),
             List.of());
-        item.setMachineWorkstationItemDtoList(
-            ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(workstationItemList));
+        item.setMachineWorkstationItemDtoList(ApsMachineWorkstationItemConverter.INSTANCE.queryListRes(workstationItemList));
       });
     }
     setNameService.setName(list, SetNamePojoUtils.FACTORY, SetNamePojoUtils.OP_USER_NAME);

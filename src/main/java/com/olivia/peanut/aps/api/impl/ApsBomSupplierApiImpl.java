@@ -39,8 +39,7 @@ public class ApsBomSupplierApiImpl implements ApsBomSupplierApi {
    * deleteByIds
    *
    */
-  public @Override ApsBomSupplierDeleteByIdListRes deleteByIdList(
-      ApsBomSupplierDeleteByIdListReq req) {
+  public @Override ApsBomSupplierDeleteByIdListRes deleteByIdList(ApsBomSupplierDeleteByIdListReq req) {
     apsBomSupplierService.removeByIds(req.getIdList());
     return new ApsBomSupplierDeleteByIdListRes();
   }
@@ -63,8 +62,7 @@ public class ApsBomSupplierApiImpl implements ApsBomSupplierApi {
 
   }
 
-  public @Override DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(
-      ApsBomSupplierExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> queryPageList(ApsBomSupplierExportQueryPageListReq req) {
     return apsBomSupplierService.queryPageList(req);
   }
 
@@ -72,14 +70,12 @@ public class ApsBomSupplierApiImpl implements ApsBomSupplierApi {
     DynamicsPage<ApsBomSupplierExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsBomSupplierExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsBomSupplierExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsBomSupplierExportQueryPageListInfoRes.class);
+    List<ApsBomSupplierExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsBomSupplierExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsBomSupplierExportQueryPageListInfoRes.class, listInfoRes, "供应商表");
   }
 
   public @Override ApsBomSupplierImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsBomSupplierImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsBomSupplierImportListener(), ApsBomSupplierImportReq.class);
+    List<ApsBomSupplierImportReq> reqList = PoiExcelUtil.readData(file, new ApsBomSupplierImportListener(), ApsBomSupplierImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsBomSupplier> readList = $.copyList(reqList, ApsBomSupplier.class);
     boolean bool = apsBomSupplierService.saveBatch(readList);
@@ -87,10 +83,9 @@ public class ApsBomSupplierApiImpl implements ApsBomSupplierApi {
     return new ApsBomSupplierImportRes().setCount(c);
   }
 
-  public @Override ApsBomSupplierQueryByIdListRes queryByIdListRes(
-      ApsBomSupplierQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsBomSupplier> q = new MPJLambdaWrapper<ApsBomSupplier>(ApsBomSupplier.class)
-        .selectAll(ApsBomSupplier.class).in(ApsBomSupplier::getId, req.getIdList());
+  public @Override ApsBomSupplierQueryByIdListRes queryByIdListRes(ApsBomSupplierQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsBomSupplier> q = new MPJLambdaWrapper<ApsBomSupplier>(ApsBomSupplier.class).selectAll(ApsBomSupplier.class)
+        .in(ApsBomSupplier::getId, req.getIdList());
     List<ApsBomSupplier> list = this.apsBomSupplierService.list(q);
     List<ApsBomSupplierDto> dataList = $.copyList(list, ApsBomSupplierDto.class);
     this.apsBomSupplierService.setName(dataList);

@@ -45,8 +45,7 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
   }
 
 
-  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(
-      ApsProjectConfigExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProjectConfigExportQueryPageListInfoRes> queryPageList(ApsProjectConfigExportQueryPageListReq req) {
 
     DynamicsPage<ApsProjectConfig> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -82,9 +81,8 @@ public class ApsProjectConfigServiceImpl extends MPJBaseServiceImpl<ApsProjectCo
     List<? extends ApsProjectConfigDto> parentList = apsProjectConfigDtoList.stream()
         .filter(t -> Objects.equals(t.getParentId(), 0L)).toList();
     parentList.forEach(p ->
-        p.setChildren(
-            apsProjectConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId()))
-                .toList())
+        p.setChildren(apsProjectConfigDtoList.stream().filter(t -> Objects.equals(t.getParentId(), p.getId()))
+            .toList())
     );
     apsProjectConfigDtoList.removeIf(t -> !Objects.equals(t.getParentId(), 0L));
 

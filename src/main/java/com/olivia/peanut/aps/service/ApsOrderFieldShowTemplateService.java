@@ -16,8 +16,7 @@ public interface ApsOrderFieldShowTemplateService extends MPJBaseService<ApsOrde
 
   ApsOrderFieldShowTemplateQueryListRes queryList(ApsOrderFieldShowTemplateQueryListReq req);
 
-  DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderFieldShowTemplateExportQueryPageListReq req);
+  DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(ApsOrderFieldShowTemplateExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderFieldShowTemplateDto> apsOrderFieldShowTemplateDtoList);

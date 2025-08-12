@@ -29,8 +29,7 @@ public class ApsSchedulingVersionDayServiceImpl extends MPJBaseServiceImpl<ApsSc
     ApsSchedulingVersionDayService {
 
 
-  public @Override ApsSchedulingVersionDayQueryListRes queryList(
-      ApsSchedulingVersionDayQueryListReq req) {
+  public @Override ApsSchedulingVersionDayQueryListRes queryList(ApsSchedulingVersionDayQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionDay> q = getWrapper(req.getData());
     List<ApsSchedulingVersionDay> list = this.list(q);
@@ -44,8 +43,7 @@ public class ApsSchedulingVersionDayServiceImpl extends MPJBaseServiceImpl<ApsSc
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionDayExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionDayExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionDayExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionDay> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

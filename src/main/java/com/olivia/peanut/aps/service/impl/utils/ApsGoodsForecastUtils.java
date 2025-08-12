@@ -31,8 +31,7 @@ public class ApsGoodsForecastUtils {
 
   @SneakyThrows
   public static void downloadTemplate(Long id) {
-    ApsGoodsForecastService apsGoodsForecastService = SpringUtil.getBean(
-        ApsGoodsForecastService.class);
+    ApsGoodsForecastService apsGoodsForecastService = SpringUtil.getBean(ApsGoodsForecastService.class);
     ApsGoodsForecast goodsForecast = apsGoodsForecastService.getById(id);
     $.requireNonNullCanIgnoreException(goodsForecast, "未找到数据");
 
@@ -40,8 +39,7 @@ public class ApsGoodsForecastUtils {
     @Cleanup SXSSFWorkbook workbook = new SXSSFWorkbook();
     ApsGoodsService goodsService = SpringUtil.getBean(ApsGoodsService.class);
 
-    ApsGoodsSaleItemService goodsSaleItemService = SpringUtil.getBean(
-        ApsGoodsSaleItemService.class);
+    ApsGoodsSaleItemService goodsSaleItemService = SpringUtil.getBean(ApsGoodsSaleItemService.class);
     @Cleanup ServletOutputStream outputStream = response.getOutputStream();
     workbook.setCompressTempFiles(true);
     Map<CellStyleEnum, CellStyle> styleMap = PoiExcelUtil.createStyles(workbook);

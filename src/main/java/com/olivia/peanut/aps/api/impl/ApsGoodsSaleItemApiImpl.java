@@ -42,8 +42,7 @@ public class ApsGoodsSaleItemApiImpl implements ApsGoodsSaleItemApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsSaleItemDeleteByIdListRes deleteByIdList(
-      ApsGoodsSaleItemDeleteByIdListReq req) {
+  public @Override ApsGoodsSaleItemDeleteByIdListRes deleteByIdList(ApsGoodsSaleItemDeleteByIdListReq req) {
     apsGoodsSaleItemService.removeByIds(req.getIdList());
     return new ApsGoodsSaleItemDeleteByIdListRes();
   }
@@ -66,8 +65,7 @@ public class ApsGoodsSaleItemApiImpl implements ApsGoodsSaleItemApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsSaleItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(ApsGoodsSaleItemExportQueryPageListReq req) {
     return apsGoodsSaleItemService.queryPageList(req);
   }
 
@@ -75,14 +73,12 @@ public class ApsGoodsSaleItemApiImpl implements ApsGoodsSaleItemApi {
     DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsSaleItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsSaleItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsSaleItemExportQueryPageListInfoRes.class);
+    List<ApsGoodsSaleItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsSaleItemExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsSaleItemExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
   public @Override ApsGoodsSaleItemImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsGoodsSaleItemImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsSaleItemImportListener(), ApsGoodsSaleItemImportReq.class);
+    List<ApsGoodsSaleItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsSaleItemImportListener(), ApsGoodsSaleItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsSaleItem> readList = $.copyList(reqList, ApsGoodsSaleItem.class);
     boolean bool = apsGoodsSaleItemService.saveBatch(readList);
@@ -90,10 +86,8 @@ public class ApsGoodsSaleItemApiImpl implements ApsGoodsSaleItemApi {
     return new ApsGoodsSaleItemImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsSaleItemQueryByIdListRes queryByIdListRes(
-      ApsGoodsSaleItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsSaleItem> q = new MPJLambdaWrapper<ApsGoodsSaleItem>(
-        ApsGoodsSaleItem.class).selectAll(ApsGoodsSaleItem.class)
+  public @Override ApsGoodsSaleItemQueryByIdListRes queryByIdListRes(ApsGoodsSaleItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsSaleItem> q = new MPJLambdaWrapper<ApsGoodsSaleItem>(ApsGoodsSaleItem.class).selectAll(ApsGoodsSaleItem.class)
         .in(ApsGoodsSaleItem::getId, req.getIdList());
     List<ApsGoodsSaleItem> list = this.apsGoodsSaleItemService.list(q);
     List<ApsGoodsSaleItemDto> dataList = $.copyList(list, ApsGoodsSaleItemDto.class);
@@ -103,27 +97,22 @@ public class ApsGoodsSaleItemApiImpl implements ApsGoodsSaleItemApi {
   @Override
   public UpdateForecastRes updateForecast(UpdateForecastReq req) {
     List<ApsGoodsSaleItem> saleItemList = this.apsGoodsSaleItemService.list(
-        new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId,
-            req.getGoodsId()).eq(ApsGoodsSaleItem::getSaleConfigId, req.getSaleConfigId()));
+        new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId, req.getGoodsId()).eq(ApsGoodsSaleItem::getSaleConfigId, req.getSaleConfigId()));
     $.assertTrueCanIgnoreException(CollUtil.isNotEmpty(saleItemList), "没有该记录");
     $.assertTrueCanIgnoreException(saleItemList.size() == 1, "没有该记录或有多条记录");
     this.apsGoodsSaleItemService.update(
-        new LambdaUpdateWrapper<ApsGoodsSaleItem>().eq(BaseEntity::getId,
-                saleItemList.getFirst().getId())
-            .set(ApsGoodsSaleItem::getUseForecast, req.getUseForecast()));
+        new LambdaUpdateWrapper<ApsGoodsSaleItem>().eq(BaseEntity::getId, saleItemList.getFirst().getId()).set(ApsGoodsSaleItem::getUseForecast, req.getUseForecast()));
     return new UpdateForecastRes();
   }
 
   @Override
   public UpdateSaleConfigRes updateSaleConfig(UpdateSaleConfigReq req) {
     this.apsGoodsSaleItemService.remove(
-        new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId,
-            req.getGoodsId()).eq(ApsGoodsSaleItem::getSaleConfigId, req.getSaleConfigId()));
+        new LambdaQueryWrapper<ApsGoodsSaleItem>().eq(ApsGoodsSaleItem::getGoodsId, req.getGoodsId()).eq(ApsGoodsSaleItem::getSaleConfigId, req.getSaleConfigId()));
     if (Boolean.TRUE.equals(req.getIsAdd())) {
       ApsGoodsSaleItem saleItem = new ApsGoodsSaleItem();
       saleItem.setId(IdWorker.getId());
-      saleItem.setGoodsId(req.getGoodsId()).setUseForecast(0)
-          .setSaleConfigId(req.getSaleConfigId());
+      saleItem.setGoodsId(req.getGoodsId()).setUseForecast(0).setSaleConfigId(req.getSaleConfigId());
       this.apsGoodsSaleItemService.save(saleItem);
       return new UpdateSaleConfigRes().setId(saleItem.getId());
     }

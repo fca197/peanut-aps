@@ -1,8 +1,10 @@
 package com.olivia.peanut.aps.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
+import com.olivia.peanut.aps.api.entity.apsOrder.ApsOrderDeleteAllReq;
 import com.olivia.peanut.aps.model.ApsOrder;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * (ApsOrder)表数据库访问层

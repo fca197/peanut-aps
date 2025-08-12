@@ -29,9 +29,6 @@ import com.olivia.peanut.aps.service.impl.po.OrderGoods;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.bom.model.ApsGoodsBomVo;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo.Info;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.capacity.MakeCapacityUtils;
 import com.olivia.peanut.aps.utils.capacity.model.Limit;
 import com.olivia.peanut.aps.utils.capacity.model.Limit.LimitTypeEnum;
@@ -41,6 +38,9 @@ import com.olivia.peanut.aps.utils.constrained.model.ConstrainedResult;
 import com.olivia.peanut.aps.utils.constrained.model.sub.ConstrainedContent;
 import com.olivia.peanut.aps.utils.constrained.model.sub.constrained.FieldConfig;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo.Info;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathVo;
 import com.olivia.peanut.base.model.CalendarDay;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.CalendarDayService;
@@ -556,7 +556,7 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
       List<Runnable> runnableList = getBomRunList(schedulingVersion, apsSchedulingVersionCapacityList, goodsMap, apsProcessPathDtoMap, factoryWeekListMap,
           dayWorkSecondMap, goodsBomMap, apsSchedulingGoodsBomList, apsOrderGoodsStatusDateList);
 
-      Boolean schedulingBom = RunUtils.run("scheduling bom " + req.getId(), runnableList);
+      boolean schedulingBom = RunUtils.run("scheduling bom " + req.getId(), runnableList);
       $.assertTrueCanIgnoreException(schedulingBom, "零件计算失败");
     }
 

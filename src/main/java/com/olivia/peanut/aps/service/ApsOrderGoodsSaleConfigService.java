@@ -16,8 +16,7 @@ public interface ApsOrderGoodsSaleConfigService extends MPJBaseService<ApsOrderG
 
   ApsOrderGoodsSaleConfigQueryListRes queryList(ApsOrderGoodsSaleConfigQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsSaleConfigExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsSaleConfigExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsSaleConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderGoodsSaleConfigDto> apsOrderGoodsSaleConfigDtoList);

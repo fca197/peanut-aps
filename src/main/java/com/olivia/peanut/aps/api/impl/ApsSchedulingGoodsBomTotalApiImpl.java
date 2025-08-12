@@ -25,15 +25,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApsSchedulingGoodsBomTotalApiImpl implements ApsSchedulingGoodsBomTotalApi {
 
 
-  private @Autowired
-  ApsSchedulingGoodsBomTotalService apsSchedulingGoodsBomTotalService;
+  private @Autowired ApsSchedulingGoodsBomTotalService apsSchedulingGoodsBomTotalService;
 
   /****
    * insert
    *
    */
-  public @Override ApsSchedulingGoodsBomTotalInsertRes insert(
-      ApsSchedulingGoodsBomTotalInsertReq req) {
+  public @Override ApsSchedulingGoodsBomTotalInsertRes insert(ApsSchedulingGoodsBomTotalInsertReq req) {
     this.apsSchedulingGoodsBomTotalService.save($.copy(req, ApsSchedulingGoodsBomTotal.class));
     return new ApsSchedulingGoodsBomTotalInsertRes().setCount(1);
   }
@@ -42,8 +40,7 @@ public class ApsSchedulingGoodsBomTotalApiImpl implements ApsSchedulingGoodsBomT
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingGoodsBomTotalDeleteByIdListRes deleteByIdList(
-      ApsSchedulingGoodsBomTotalDeleteByIdListReq req) {
+  public @Override ApsSchedulingGoodsBomTotalDeleteByIdListRes deleteByIdList(ApsSchedulingGoodsBomTotalDeleteByIdListReq req) {
     apsSchedulingGoodsBomTotalService.removeByIds(req.getIdList());
     return new ApsSchedulingGoodsBomTotalDeleteByIdListRes();
   }
@@ -52,8 +49,7 @@ public class ApsSchedulingGoodsBomTotalApiImpl implements ApsSchedulingGoodsBomT
    * queryList
    *
    */
-  public @Override ApsSchedulingGoodsBomTotalQueryListRes queryList(
-      ApsSchedulingGoodsBomTotalQueryListReq req) {
+  public @Override ApsSchedulingGoodsBomTotalQueryListRes queryList(ApsSchedulingGoodsBomTotalQueryListReq req) {
     return apsSchedulingGoodsBomTotalService.queryList(req);
   }
 
@@ -61,15 +57,13 @@ public class ApsSchedulingGoodsBomTotalApiImpl implements ApsSchedulingGoodsBomT
    * updateById
    *
    */
-  public @Override ApsSchedulingGoodsBomTotalUpdateByIdRes updateById(
-      ApsSchedulingGoodsBomTotalUpdateByIdReq req) {
+  public @Override ApsSchedulingGoodsBomTotalUpdateByIdRes updateById(ApsSchedulingGoodsBomTotalUpdateByIdReq req) {
     apsSchedulingGoodsBomTotalService.updateById($.copy(req, ApsSchedulingGoodsBomTotal.class));
     return new ApsSchedulingGoodsBomTotalUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsBomTotalExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsBomTotalExportQueryPageListReq req) {
     return apsSchedulingGoodsBomTotalService.queryPageList(req);
   }
 
@@ -77,46 +71,35 @@ public class ApsSchedulingGoodsBomTotalApiImpl implements ApsSchedulingGoodsBomT
     DynamicsPage<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes.class, listInfoRes,
-        "订单商品零件汇总表");
+    List<ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingGoodsBomTotalExportQueryPageListInfoRes.class, listInfoRes, "订单商品零件汇总表");
   }
 
-  public @Override ApsSchedulingGoodsBomTotalImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingGoodsBomTotalImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingGoodsBomTotalImportListener(), ApsSchedulingGoodsBomTotalImportReq.class);
+  public @Override ApsSchedulingGoodsBomTotalImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingGoodsBomTotalImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingGoodsBomTotalImportListener(),
+        ApsSchedulingGoodsBomTotalImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingGoodsBomTotal> readList = $.copyList(reqList,
-        ApsSchedulingGoodsBomTotal.class);
+    List<ApsSchedulingGoodsBomTotal> readList = $.copyList(reqList, ApsSchedulingGoodsBomTotal.class);
     boolean bool = apsSchedulingGoodsBomTotalService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsSchedulingGoodsBomTotalImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingGoodsBomTotalQueryByIdListRes queryByIdListRes(
-      ApsSchedulingGoodsBomTotalQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingGoodsBomTotal> q = new MPJLambdaWrapper<ApsSchedulingGoodsBomTotal>(
-        ApsSchedulingGoodsBomTotal.class)
-        .selectAll(ApsSchedulingGoodsBomTotal.class)
-        .in(ApsSchedulingGoodsBomTotal::getId, req.getIdList());
+  public @Override ApsSchedulingGoodsBomTotalQueryByIdListRes queryByIdListRes(ApsSchedulingGoodsBomTotalQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingGoodsBomTotal> q = new MPJLambdaWrapper<ApsSchedulingGoodsBomTotal>(ApsSchedulingGoodsBomTotal.class).selectAll(ApsSchedulingGoodsBomTotal.class).in(ApsSchedulingGoodsBomTotal::getId, req.getIdList());
     List<ApsSchedulingGoodsBomTotal> list = this.apsSchedulingGoodsBomTotalService.list(q);
-    List<ApsSchedulingGoodsBomTotalDto> dataList = $.copyList(list,
-        ApsSchedulingGoodsBomTotalDto.class);
+    List<ApsSchedulingGoodsBomTotalDto> dataList = $.copyList(list, ApsSchedulingGoodsBomTotalDto.class);
     this.apsSchedulingGoodsBomTotalService.setName(dataList);
     return new ApsSchedulingGoodsBomTotalQueryByIdListRes().setDataList(dataList);
   }
 
   @Override
-  public DynamicsPage<ApsSchedulingGoodsBomTotalQueryBomTotalRes> queryBomTotal(
-      ApsSchedulingGoodsBomTotalQueryBomTotalReq req) {
+  public DynamicsPage<ApsSchedulingGoodsBomTotalQueryBomTotalRes> queryBomTotal(ApsSchedulingGoodsBomTotalQueryBomTotalReq req) {
     return this.apsSchedulingGoodsBomTotalService.queryBomTotal(req);
   }
 
   @Override
-  public ApsSchedulingGoodsBomTotalCreateBomBuyPlanRes createBomBuyPlan(
-      ApsSchedulingGoodsBomTotalCreateBomBuyPlanReq req) {
+  public ApsSchedulingGoodsBomTotalCreateBomBuyPlanRes createBomBuyPlan(ApsSchedulingGoodsBomTotalCreateBomBuyPlanReq req) {
     return this.apsSchedulingGoodsBomTotalService.createBomBuyPlan(req);
   }
 }

@@ -16,8 +16,7 @@ public interface ApsRoomConfigService extends MPJBaseService<ApsRoomConfig> {
 
   ApsRoomConfigQueryListRes queryList(ApsRoomConfigQueryListReq req);
 
-  DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(
-      ApsRoomConfigExportQueryPageListReq req);
+  DynamicsPage<ApsRoomConfigExportQueryPageListInfoRes> queryPageList(ApsRoomConfigExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsRoomConfigDto> apsRoomConfigDtoList);

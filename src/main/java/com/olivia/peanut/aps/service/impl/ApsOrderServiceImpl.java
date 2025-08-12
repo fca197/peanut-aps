@@ -3,6 +3,7 @@ package com.olivia.peanut.aps.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -23,22 +24,17 @@ import com.olivia.peanut.aps.api.entity.apsOrderUser.ApsOrderUserDto;
 import com.olivia.peanut.aps.api.entity.apsProcessPath.ApsProcessPathDto;
 import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListInfoRes;
 import com.olivia.peanut.aps.api.entity.apsProjectConfig.ApsProjectConfigExportQueryPageListReq;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListInfoRes;
-import com.olivia.peanut.aps.api.entity.apsSaleConfig.ApsSaleConfigExportQueryPageListReq;
 import com.olivia.peanut.aps.mapper.ApsOrderMapper;
 import com.olivia.peanut.aps.model.*;
 import com.olivia.peanut.aps.service.*;
+import com.olivia.peanut.aps.service.impl.po.ApsOrderConfig;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
 import com.olivia.peanut.aps.utils.bom.BomUtils;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathInfo.Info;
-import com.olivia.peanut.aps.utils.bom.model.ApsProcessPathVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
 import com.olivia.peanut.aps.utils.process.ProduceStatusUtils;
-import com.olivia.peanut.aps.utils.process.entity.ApsProduceProcessItemPojo;
-import com.olivia.peanut.aps.utils.process.entity.ComputeStatusReq;
-import com.olivia.peanut.aps.utils.process.entity.ComputeStatusRes;
+import com.olivia.peanut.aps.utils.process.entity.*;
+import com.olivia.peanut.aps.utils.process.entity.ApsProcessPathInfo.Info;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.FactoryService;
 import com.olivia.peanut.portal.api.entity.BaseEntityDto;
@@ -66,6 +62,7 @@ import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -237,9 +234,10 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
     List<Long> idList = new ArrayList<>();
     List<String> orderNoList = new ArrayList<>();
-    List<ApsGoods> goodsList = this.apsGoodsService.list();
-    List<ApsSaleConfigExportQueryPageListInfoRes> saleConfigList = apsSaleConfigService.queryPageList(new ApsSaleConfigExportQueryPageListReq().setQueryPage(false))
-        .getDataList();
+
+    List<ApsGoods> goodsList = this.apsGoodsService.list(
+        new LambdaQueryWrapper<ApsGoods>().isNull(Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProduceProcessId)
+            .isNull(!Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProduceProcessId));
     List<ApsOrderGoodsSaleConfig> insertSaleConfigList = new ArrayList<>();
     List<ApsOrderGoods> apsOrderGoodList = new ArrayList<>();
     List<ApsOrder> apsOrderList = new ArrayList<>();
@@ -602,6 +600,15 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
   public OrderFieldListRes orderFieldList(OrderFieldListReq req) {
     return new OrderFieldListRes().setDataList(FieldUtils.getFieldExtList(ApsOrder.class));
   }
+
+
+  @Override
+  public ApsOrderDeleteAllRes deleteAll(ApsOrderDeleteAllReq req) {
+    JdbcTemplate jdbcTemplate = SpringUtil.getBean(JdbcTemplate.class);
+    jdbcTemplate.execute(ApsOrderConfig.DELETE_ORDER_ALL);
+    return new ApsOrderDeleteAllRes();
+  }
+
   // 以下为私有对象封装
 
   @SetUserName

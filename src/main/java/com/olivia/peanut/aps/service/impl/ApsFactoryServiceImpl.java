@@ -14,8 +14,8 @@ import com.olivia.peanut.aps.service.ApsProcessPathService;
 import com.olivia.peanut.aps.service.ApsProduceProcessItemService;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigReq;
 import com.olivia.peanut.aps.service.pojo.FactoryConfigRes;
-import com.olivia.peanut.aps.utils.bom.model.ShiftItemVo;
 import com.olivia.peanut.aps.utils.process.ProcessUtils;
+import com.olivia.peanut.aps.utils.process.entity.ShiftItemVo;
 import com.olivia.peanut.base.model.Shift;
 import com.olivia.peanut.base.model.ShiftItem;
 import com.olivia.peanut.base.service.CalendarService;
@@ -178,8 +178,7 @@ public class ApsFactoryServiceImpl implements ApsFactoryService {
       if (CollUtil.isNotEmpty(req.getApsProduceProcessIdList())) {
         runnableList.add(() -> {
           Map<Long, List<ApsProduceProcessItem>> apsProduceProcessItemMap = apsProduceProcessItemService.list(
-                  new LambdaQueryWrapper<ApsProduceProcessItem>().in(
-                      ApsProduceProcessItem::getProduceProcessId, req.getApsProduceProcessIdList()))
+                  new LambdaQueryWrapper<ApsProduceProcessItem>().in(ApsProduceProcessItem::getProduceProcessId, req.getApsProduceProcessIdList()))
               .stream().collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
           res.setApsProduceProcessItemMap(apsProduceProcessItemMap);
         });

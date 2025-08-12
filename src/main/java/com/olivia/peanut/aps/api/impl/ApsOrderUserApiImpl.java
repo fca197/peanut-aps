@@ -63,8 +63,7 @@ public class ApsOrderUserApiImpl implements ApsOrderUserApi {
 
   }
 
-  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
-      ApsOrderUserExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(ApsOrderUserExportQueryPageListReq req) {
     return apsOrderUserService.queryPageList(req);
   }
 

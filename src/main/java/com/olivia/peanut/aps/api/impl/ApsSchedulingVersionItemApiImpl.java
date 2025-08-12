@@ -40,8 +40,7 @@ public class ApsSchedulingVersionItemApiImpl implements ApsSchedulingVersionItem
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingVersionItemDeleteByIdListRes deleteByIdList(
-      ApsSchedulingVersionItemDeleteByIdListReq req) {
+  public @Override ApsSchedulingVersionItemDeleteByIdListRes deleteByIdList(ApsSchedulingVersionItemDeleteByIdListReq req) {
     apsSchedulingVersionItemService.removeByIds(req.getIdList());
     return new ApsSchedulingVersionItemDeleteByIdListRes();
   }
@@ -50,8 +49,7 @@ public class ApsSchedulingVersionItemApiImpl implements ApsSchedulingVersionItem
    * queryList
    *
    */
-  public @Override ApsSchedulingVersionItemQueryListRes queryList(
-      ApsSchedulingVersionItemQueryListReq req) {
+  public @Override ApsSchedulingVersionItemQueryListRes queryList(ApsSchedulingVersionItemQueryListReq req) {
     return apsSchedulingVersionItemService.queryList(req);
   }
 
@@ -59,15 +57,13 @@ public class ApsSchedulingVersionItemApiImpl implements ApsSchedulingVersionItem
    * updateById
    *
    */
-  public @Override ApsSchedulingVersionItemUpdateByIdRes updateById(
-      ApsSchedulingVersionItemUpdateByIdReq req) {
+  public @Override ApsSchedulingVersionItemUpdateByIdRes updateById(ApsSchedulingVersionItemUpdateByIdReq req) {
     apsSchedulingVersionItemService.updateById($.copy(req, ApsSchedulingVersionItem.class));
     return new ApsSchedulingVersionItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionItemExportQueryPageListReq req) {
     return apsSchedulingVersionItemService.queryPageList(req);
   }
 
@@ -75,15 +71,12 @@ public class ApsSchedulingVersionItemApiImpl implements ApsSchedulingVersionItem
     DynamicsPage<ApsSchedulingVersionItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingVersionItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingVersionItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingVersionItemExportQueryPageListInfoRes.class);
+    List<ApsSchedulingVersionItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingVersionItemExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsSchedulingVersionItemExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsSchedulingVersionItemImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingVersionItemImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingVersionItemImportListener(), ApsSchedulingVersionItemImportReq.class);
+  public @Override ApsSchedulingVersionItemImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingVersionItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingVersionItemImportListener(), ApsSchedulingVersionItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsSchedulingVersionItem> readList = $.copyList(reqList, ApsSchedulingVersionItem.class);
     boolean bool = apsSchedulingVersionItemService.saveBatch(readList);
@@ -91,15 +84,10 @@ public class ApsSchedulingVersionItemApiImpl implements ApsSchedulingVersionItem
     return new ApsSchedulingVersionItemImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingVersionItemQueryByIdListRes queryByIdListRes(
-      ApsSchedulingVersionItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingVersionItem> q = new MPJLambdaWrapper<ApsSchedulingVersionItem>(
-        ApsSchedulingVersionItem.class)
-        .selectAll(ApsSchedulingVersionItem.class)
-        .in(ApsSchedulingVersionItem::getId, req.getIdList());
+  public @Override ApsSchedulingVersionItemQueryByIdListRes queryByIdListRes(ApsSchedulingVersionItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingVersionItem> q = new MPJLambdaWrapper<ApsSchedulingVersionItem>(ApsSchedulingVersionItem.class).selectAll(ApsSchedulingVersionItem.class).in(ApsSchedulingVersionItem::getId, req.getIdList());
     List<ApsSchedulingVersionItem> list = this.apsSchedulingVersionItemService.list(q);
-    List<ApsSchedulingVersionItemDto> dataList = $.copyList(list,
-        ApsSchedulingVersionItemDto.class);
+    List<ApsSchedulingVersionItemDto> dataList = $.copyList(list, ApsSchedulingVersionItemDto.class);
     this.apsSchedulingVersionItemService.setName(dataList);
     return new ApsSchedulingVersionItemQueryByIdListRes().setDataList(dataList);
   }

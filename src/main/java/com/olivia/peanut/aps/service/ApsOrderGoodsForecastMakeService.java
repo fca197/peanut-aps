@@ -16,8 +16,7 @@ public interface ApsOrderGoodsForecastMakeService extends MPJBaseService<ApsOrde
 
   ApsOrderGoodsForecastMakeQueryListRes queryList(ApsOrderGoodsForecastMakeQueryListReq req);
 
-  DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsForecastMakeExportQueryPageListReq req);
+  DynamicsPage<ApsOrderGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsForecastMakeExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsOrderGoodsForecastMakeDto> apsOrderGoodsForecastMakeDtoList);

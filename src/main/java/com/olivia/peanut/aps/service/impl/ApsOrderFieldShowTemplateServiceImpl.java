@@ -35,8 +35,7 @@ public class ApsOrderFieldShowTemplateServiceImpl extends MPJBaseServiceImpl<Aps
   SetNameService setNameService;
 
 
-  public @Override ApsOrderFieldShowTemplateQueryListRes queryList(
-      ApsOrderFieldShowTemplateQueryListReq req) {
+  public @Override ApsOrderFieldShowTemplateQueryListRes queryList(ApsOrderFieldShowTemplateQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderFieldShowTemplate> q = getWrapper(req.getData());
     List<ApsOrderFieldShowTemplate> list = this.list(q);
@@ -47,8 +46,7 @@ public class ApsOrderFieldShowTemplateServiceImpl extends MPJBaseServiceImpl<Aps
   }
 
 
-  public @Override DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderFieldShowTemplateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderFieldShowTemplateExportQueryPageListInfoRes> queryPageList(ApsOrderFieldShowTemplateExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderFieldShowTemplate> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

@@ -14,4 +14,5 @@ public class ApsOrderBatchInsertReq {
 
   private int createCount;
 
+  private Integer isProcessMake;
 }

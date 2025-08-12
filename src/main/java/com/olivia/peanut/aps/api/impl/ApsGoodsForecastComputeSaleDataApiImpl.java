@@ -31,10 +31,8 @@ public class ApsGoodsForecastComputeSaleDataApiImpl implements ApsGoodsForecastC
    * insert
    *
    */
-  public @Override ApsGoodsForecastComputeSaleDataInsertRes insert(
-      ApsGoodsForecastComputeSaleDataInsertReq req) {
-    this.apsGoodsForecastComputeSaleDataService.save(
-        $.copy(req, ApsGoodsForecastComputeSaleData.class));
+  public @Override ApsGoodsForecastComputeSaleDataInsertRes insert(ApsGoodsForecastComputeSaleDataInsertReq req) {
+    this.apsGoodsForecastComputeSaleDataService.save($.copy(req, ApsGoodsForecastComputeSaleData.class));
     return new ApsGoodsForecastComputeSaleDataInsertRes().setCount(1);
   }
 
@@ -42,8 +40,7 @@ public class ApsGoodsForecastComputeSaleDataApiImpl implements ApsGoodsForecastC
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastComputeSaleDataDeleteByIdListRes deleteByIdList(
-      ApsGoodsForecastComputeSaleDataDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastComputeSaleDataDeleteByIdListRes deleteByIdList(ApsGoodsForecastComputeSaleDataDeleteByIdListReq req) {
     apsGoodsForecastComputeSaleDataService.removeByIds(req.getIdList());
     return new ApsGoodsForecastComputeSaleDataDeleteByIdListRes();
   }
@@ -52,8 +49,7 @@ public class ApsGoodsForecastComputeSaleDataApiImpl implements ApsGoodsForecastC
    * queryList
    *
    */
-  public @Override ApsGoodsForecastComputeSaleDataQueryListRes queryList(
-      ApsGoodsForecastComputeSaleDataQueryListReq req) {
+  public @Override ApsGoodsForecastComputeSaleDataQueryListRes queryList(ApsGoodsForecastComputeSaleDataQueryListReq req) {
     return apsGoodsForecastComputeSaleDataService.queryList(req);
   }
 
@@ -61,54 +57,38 @@ public class ApsGoodsForecastComputeSaleDataApiImpl implements ApsGoodsForecastC
    * updateById
    *
    */
-  public @Override ApsGoodsForecastComputeSaleDataUpdateByIdRes updateById(
-      ApsGoodsForecastComputeSaleDataUpdateByIdReq req) {
-    apsGoodsForecastComputeSaleDataService.updateById(
-        $.copy(req, ApsGoodsForecastComputeSaleData.class));
+  public @Override ApsGoodsForecastComputeSaleDataUpdateByIdRes updateById(ApsGoodsForecastComputeSaleDataUpdateByIdReq req) {
+    apsGoodsForecastComputeSaleDataService.updateById($.copy(req, ApsGoodsForecastComputeSaleData.class));
     return new ApsGoodsForecastComputeSaleDataUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
     return apsGoodsForecastComputeSaleDataService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
-    DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> page = queryPageList(
-        req);
+  public @Override void queryPageListExport(ApsGoodsForecastComputeSaleDataExportQueryPageListReq req) {
+    DynamicsPage<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes.class,
-        listInfoRes, "");
+    List<ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsGoodsForecastComputeSaleDataExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsGoodsForecastComputeSaleDataImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastComputeSaleDataImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsForecastComputeSaleDataImportListener(),
+  public @Override ApsGoodsForecastComputeSaleDataImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsGoodsForecastComputeSaleDataImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastComputeSaleDataImportListener(),
         ApsGoodsForecastComputeSaleDataImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastComputeSaleData> readList = $.copyList(reqList,
-        ApsGoodsForecastComputeSaleData.class);
+    List<ApsGoodsForecastComputeSaleData> readList = $.copyList(reqList, ApsGoodsForecastComputeSaleData.class);
     boolean bool = apsGoodsForecastComputeSaleDataService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsGoodsForecastComputeSaleDataImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastComputeSaleDataQueryByIdListRes queryByIdListRes(
-      ApsGoodsForecastComputeSaleDataQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> q = new MPJLambdaWrapper<ApsGoodsForecastComputeSaleData>(
-        ApsGoodsForecastComputeSaleData.class)
-        .selectAll(ApsGoodsForecastComputeSaleData.class)
-        .in(ApsGoodsForecastComputeSaleData::getId, req.getIdList());
-    List<ApsGoodsForecastComputeSaleData> list = this.apsGoodsForecastComputeSaleDataService.list(
-        q);
-    List<ApsGoodsForecastComputeSaleDataDto> dataList = $.copyList(list,
-        ApsGoodsForecastComputeSaleDataDto.class);
+  public @Override ApsGoodsForecastComputeSaleDataQueryByIdListRes queryByIdListRes(ApsGoodsForecastComputeSaleDataQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecastComputeSaleData> q = new MPJLambdaWrapper<ApsGoodsForecastComputeSaleData>(ApsGoodsForecastComputeSaleData.class).selectAll(ApsGoodsForecastComputeSaleData.class).in(ApsGoodsForecastComputeSaleData::getId, req.getIdList());
+    List<ApsGoodsForecastComputeSaleData> list = this.apsGoodsForecastComputeSaleDataService.list(q);
+    List<ApsGoodsForecastComputeSaleDataDto> dataList = $.copyList(list, ApsGoodsForecastComputeSaleDataDto.class);
     return new ApsGoodsForecastComputeSaleDataQueryByIdListRes().setDataList(dataList);
   }
 }

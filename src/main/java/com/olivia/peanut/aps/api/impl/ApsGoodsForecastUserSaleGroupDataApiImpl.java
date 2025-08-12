@@ -32,8 +32,7 @@ public class ApsGoodsForecastUserSaleGroupDataApiImpl implements
    * insert
    *
    */
-  public @Override ApsGoodsForecastUserSaleGroupDataInsertRes insert(
-      ApsGoodsForecastUserSaleGroupDataInsertReq req) {
+  public @Override ApsGoodsForecastUserSaleGroupDataInsertRes insert(ApsGoodsForecastUserSaleGroupDataInsertReq req) {
     ApsGoodsForecastUserSaleGroupData apsGoodsForecastUserSaleGroupData = INSTANCE.insertReq(req);
     this.apsGoodsForecastUserSaleGroupDataService.save(apsGoodsForecastUserSaleGroupData);
     return new ApsGoodsForecastUserSaleGroupDataInsertRes().setCount(1);
@@ -43,8 +42,7 @@ public class ApsGoodsForecastUserSaleGroupDataApiImpl implements
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastUserSaleGroupDataDeleteByIdListRes deleteByIdList(
-      ApsGoodsForecastUserSaleGroupDataDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastUserSaleGroupDataDeleteByIdListRes deleteByIdList(ApsGoodsForecastUserSaleGroupDataDeleteByIdListReq req) {
     apsGoodsForecastUserSaleGroupDataService.removeByIds(req.getIdList());
     return new ApsGoodsForecastUserSaleGroupDataDeleteByIdListRes();
   }
@@ -53,8 +51,7 @@ public class ApsGoodsForecastUserSaleGroupDataApiImpl implements
    * queryList
    *
    */
-  public @Override ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(
-      ApsGoodsForecastUserSaleGroupDataQueryListReq req) {
+  public @Override ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(ApsGoodsForecastUserSaleGroupDataQueryListReq req) {
     return apsGoodsForecastUserSaleGroupDataService.queryList(req);
   }
 
@@ -62,20 +59,17 @@ public class ApsGoodsForecastUserSaleGroupDataApiImpl implements
    * updateById
    *
    */
-  public @Override ApsGoodsForecastUserSaleGroupDataUpdateByIdRes updateById(
-      ApsGoodsForecastUserSaleGroupDataUpdateByIdReq req) {
+  public @Override ApsGoodsForecastUserSaleGroupDataUpdateByIdRes updateById(ApsGoodsForecastUserSaleGroupDataUpdateByIdReq req) {
     apsGoodsForecastUserSaleGroupDataService.updateById(INSTANCE.updateReq(req));
     return new ApsGoodsForecastUserSaleGroupDataUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
     return apsGoodsForecastUserSaleGroupDataService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
+  public @Override void queryPageListExport(ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req) {
     DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> page = queryPageList(
         req);
     List<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> list = page.getDataList();
@@ -96,10 +90,8 @@ public class ApsGoodsForecastUserSaleGroupDataApiImpl implements
     return new ApsGoodsForecastUserSaleGroupDataImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastUserSaleGroupDataQueryByIdListRes queryByIdListRes(
-      ApsGoodsForecastUserSaleGroupDataQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> q = new MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData>(
-        ApsGoodsForecastUserSaleGroupData.class)
+  public @Override ApsGoodsForecastUserSaleGroupDataQueryByIdListRes queryByIdListRes(ApsGoodsForecastUserSaleGroupDataQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData> q = new MPJLambdaWrapper<ApsGoodsForecastUserSaleGroupData>(ApsGoodsForecastUserSaleGroupData.class)
         .selectAll(ApsGoodsForecastUserSaleGroupData.class)
         .in(ApsGoodsForecastUserSaleGroupData::getId, req.getIdList());
     List<ApsGoodsForecastUserSaleGroupData> list = this.apsGoodsForecastUserSaleGroupDataService.list(

@@ -43,8 +43,7 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
    * deleteByIds
    *
    */
-  public @Override ApsMachineWorkstationDeleteByIdListRes deleteByIdList(
-      ApsMachineWorkstationDeleteByIdListReq req) {
+  public @Override ApsMachineWorkstationDeleteByIdListRes deleteByIdList(ApsMachineWorkstationDeleteByIdListReq req) {
     apsMachineWorkstationService.removeByIds(req.getIdList());
     return new ApsMachineWorkstationDeleteByIdListRes();
   }
@@ -53,8 +52,7 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
    * queryList
    *
    */
-  public @Override ApsMachineWorkstationQueryListRes queryList(
-      ApsMachineWorkstationQueryListReq req) {
+  public @Override ApsMachineWorkstationQueryListRes queryList(ApsMachineWorkstationQueryListReq req) {
     return apsMachineWorkstationService.queryList(req);
   }
 
@@ -62,15 +60,13 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
    * updateById
    *
    */
-  public @Override ApsMachineWorkstationUpdateByIdRes updateById(
-      ApsMachineWorkstationUpdateByIdReq req) {
+  public @Override ApsMachineWorkstationUpdateByIdRes updateById(ApsMachineWorkstationUpdateByIdReq req) {
     apsMachineWorkstationService.updateById(req);
     return new ApsMachineWorkstationUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(
-      ApsMachineWorkstationExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(ApsMachineWorkstationExportQueryPageListReq req) {
     return apsMachineWorkstationService.queryPageList(req);
   }
 
@@ -78,14 +74,11 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
     DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsMachineWorkstationExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsMachineWorkstationExportQueryPageListInfoRes.class, list,
-        "aps 生产机器 工作站");
+    PoiExcelUtil.export(ApsMachineWorkstationExportQueryPageListInfoRes.class, list, "aps 生产机器 工作站");
   }
 
-  public @Override ApsMachineWorkstationImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsMachineWorkstationImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsMachineWorkstationImportListener(), ApsMachineWorkstationImportReq.class);
+  public @Override ApsMachineWorkstationImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsMachineWorkstationImportReq> reqList = PoiExcelUtil.readData(file, new ApsMachineWorkstationImportListener(), ApsMachineWorkstationImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsMachineWorkstation> readList = INSTANCE.importReq(reqList);
     boolean bool = apsMachineWorkstationService.saveBatch(readList);
@@ -93,11 +86,9 @@ public class ApsMachineWorkstationApiImpl implements ApsMachineWorkstationApi {
     return new ApsMachineWorkstationImportRes().setCount(c);
   }
 
-  public @Override ApsMachineWorkstationQueryByIdListRes queryByIdListRes(
-      ApsMachineWorkstationQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsMachineWorkstation> q = new MPJLambdaWrapper<ApsMachineWorkstation>(
-        ApsMachineWorkstation.class)
-        .selectAll(ApsMachineWorkstation.class).in(ApsMachineWorkstation::getId, req.getIdList());
+  public @Override ApsMachineWorkstationQueryByIdListRes queryByIdListRes(ApsMachineWorkstationQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsMachineWorkstation> q = new MPJLambdaWrapper<ApsMachineWorkstation>(ApsMachineWorkstation.class).selectAll(ApsMachineWorkstation.class)
+        .in(ApsMachineWorkstation::getId, req.getIdList());
     List<ApsMachineWorkstation> list = this.apsMachineWorkstationService.list(q);
     List<ApsMachineWorkstationDto> dataList = INSTANCE.queryListRes(list);
     this.apsMachineWorkstationService.setName(dataList);

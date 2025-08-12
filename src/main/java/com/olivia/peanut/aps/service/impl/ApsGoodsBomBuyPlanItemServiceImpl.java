@@ -48,8 +48,7 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   @Resource
   ApsBomSupplierService apsBomSupplierService;
 
-  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(
-      ApsGoodsBomBuyPlanItemQueryListReq req) {
+  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(ApsGoodsBomBuyPlanItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> q = getWrapper(req.getData());
     List<ApsGoodsBomBuyPlanItem> list = this.list(q);
@@ -62,8 +61,7 @@ public class ApsGoodsBomBuyPlanItemServiceImpl extends MPJBaseServiceImpl<ApsGoo
   }
 
 
-  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsBomBuyPlanItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

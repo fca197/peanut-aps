@@ -32,11 +32,9 @@ public class ApsOrderGoodsBomKittingVersionOrderBomApiImpl implements
    * insert
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomInsertRes insert(
-      ApsOrderGoodsBomKittingVersionOrderBomInsertReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomInsertRes insert(ApsOrderGoodsBomKittingVersionOrderBomInsertReq req) {
     ApsOrderGoodsBomKittingVersionOrderBom apsOrderGoodsBomKittingVersionOrderBom = INSTANCE.insertReq(req);
-    this.apsOrderGoodsBomKittingVersionOrderItemService.save(
-        apsOrderGoodsBomKittingVersionOrderBom);
+    this.apsOrderGoodsBomKittingVersionOrderItemService.save(apsOrderGoodsBomKittingVersionOrderBom);
     return new ApsOrderGoodsBomKittingVersionOrderBomInsertRes().setCount(1);
   }
 
@@ -44,8 +42,7 @@ public class ApsOrderGoodsBomKittingVersionOrderBomApiImpl implements
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsBomKittingVersionOrderBomDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomDeleteByIdListRes deleteByIdList(ApsOrderGoodsBomKittingVersionOrderBomDeleteByIdListReq req) {
     apsOrderGoodsBomKittingVersionOrderItemService.removeByIds(req.getIdList());
     return new ApsOrderGoodsBomKittingVersionOrderBomDeleteByIdListRes();
   }
@@ -54,8 +51,7 @@ public class ApsOrderGoodsBomKittingVersionOrderBomApiImpl implements
    * queryList
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(
-      ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryListRes queryList(ApsOrderGoodsBomKittingVersionOrderBomQueryListReq req) {
     return apsOrderGoodsBomKittingVersionOrderItemService.queryList(req);
   }
 
@@ -63,20 +59,17 @@ public class ApsOrderGoodsBomKittingVersionOrderBomApiImpl implements
    * updateById
    *
    */
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdRes updateById(
-      ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq req) {
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdRes updateById(ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdReq req) {
     apsOrderGoodsBomKittingVersionOrderItemService.updateById(INSTANCE.updateReq(req));
     return new ApsOrderGoodsBomKittingVersionOrderBomUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req) {
     return apsOrderGoodsBomKittingVersionOrderItemService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req) {
+  public @Override void queryPageListExport(ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListReq req) {
     DynamicsPage<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> page = queryPageList(
         req);
     List<ApsOrderGoodsBomKittingVersionOrderBomExportQueryPageListInfoRes> list = page.getDataList();
@@ -97,10 +90,8 @@ public class ApsOrderGoodsBomKittingVersionOrderBomApiImpl implements
     return new ApsOrderGoodsBomKittingVersionOrderBomImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsBomKittingVersionOrderBomQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom>(
-        ApsOrderGoodsBomKittingVersionOrderBom.class)
+  public @Override ApsOrderGoodsBomKittingVersionOrderBomQueryByIdListRes queryByIdListRes(ApsOrderGoodsBomKittingVersionOrderBomQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingVersionOrderBom>(ApsOrderGoodsBomKittingVersionOrderBom.class)
         .selectAll(ApsOrderGoodsBomKittingVersionOrderBom.class)
         .in(ApsOrderGoodsBomKittingVersionOrderBom::getId, req.getIdList());
     List<ApsOrderGoodsBomKittingVersionOrderBom> list = this.apsOrderGoodsBomKittingVersionOrderItemService.list(

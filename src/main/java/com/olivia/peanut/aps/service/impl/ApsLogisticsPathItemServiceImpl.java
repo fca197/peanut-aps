@@ -36,8 +36,7 @@ public class ApsLogisticsPathItemServiceImpl extends MPJBaseServiceImpl<ApsLogis
   BaseTableHeaderService tableHeaderService;
 
 
-  public @Override ApsLogisticsPathItemQueryListRes queryList(
-      ApsLogisticsPathItemQueryListReq req) {
+  public @Override ApsLogisticsPathItemQueryListRes queryList(ApsLogisticsPathItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsLogisticsPathItem> q = getWrapper(req.getData());
     List<ApsLogisticsPathItem> list = this.list(q);
@@ -49,8 +48,7 @@ public class ApsLogisticsPathItemServiceImpl extends MPJBaseServiceImpl<ApsLogis
   }
 
 
-  public @Override DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(
-      ApsLogisticsPathItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsLogisticsPathItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

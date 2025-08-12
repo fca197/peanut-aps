@@ -39,8 +39,7 @@ public class ApsGoodsBomBuyPlanItemApiImpl implements ApsGoodsBomBuyPlanItemApi 
    * deleteByIds
    *
    */
-  public @Override ApsGoodsBomBuyPlanItemDeleteByIdListRes deleteByIdList(
-      ApsGoodsBomBuyPlanItemDeleteByIdListReq req) {
+  public @Override ApsGoodsBomBuyPlanItemDeleteByIdListRes deleteByIdList(ApsGoodsBomBuyPlanItemDeleteByIdListReq req) {
     apsGoodsBomBuyPlanItemService.removeByIds(req.getIdList());
     return new ApsGoodsBomBuyPlanItemDeleteByIdListRes();
   }
@@ -49,8 +48,7 @@ public class ApsGoodsBomBuyPlanItemApiImpl implements ApsGoodsBomBuyPlanItemApi 
    * queryList
    *
    */
-  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(
-      ApsGoodsBomBuyPlanItemQueryListReq req) {
+  public @Override ApsGoodsBomBuyPlanItemQueryListRes queryList(ApsGoodsBomBuyPlanItemQueryListReq req) {
     return apsGoodsBomBuyPlanItemService.queryList(req);
   }
 
@@ -58,15 +56,13 @@ public class ApsGoodsBomBuyPlanItemApiImpl implements ApsGoodsBomBuyPlanItemApi 
    * updateById
    *
    */
-  public @Override ApsGoodsBomBuyPlanItemUpdateByIdRes updateById(
-      ApsGoodsBomBuyPlanItemUpdateByIdReq req) {
+  public @Override ApsGoodsBomBuyPlanItemUpdateByIdRes updateById(ApsGoodsBomBuyPlanItemUpdateByIdReq req) {
     apsGoodsBomBuyPlanItemService.updateById($.copy(req, ApsGoodsBomBuyPlanItem.class));
     return new ApsGoodsBomBuyPlanItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> queryPageList(ApsGoodsBomBuyPlanItemExportQueryPageListReq req) {
     return apsGoodsBomBuyPlanItemService.queryPageList(req);
   }
 
@@ -74,16 +70,12 @@ public class ApsGoodsBomBuyPlanItemApiImpl implements ApsGoodsBomBuyPlanItemApi 
     DynamicsPage<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class, listInfoRes,
-        "BOM 购买清单");
+    List<ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsGoodsBomBuyPlanItemExportQueryPageListInfoRes.class, listInfoRes, "BOM 购买清单");
   }
 
-  public @Override ApsGoodsBomBuyPlanItemImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsGoodsBomBuyPlanItemImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsBomBuyPlanItemImportListener(), ApsGoodsBomBuyPlanItemImportReq.class);
+  public @Override ApsGoodsBomBuyPlanItemImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsGoodsBomBuyPlanItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsBomBuyPlanItemImportListener(), ApsGoodsBomBuyPlanItemImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsBomBuyPlanItem> readList = $.copyList(reqList, ApsGoodsBomBuyPlanItem.class);
     boolean bool = apsGoodsBomBuyPlanItemService.saveBatch(readList);
@@ -91,11 +83,9 @@ public class ApsGoodsBomBuyPlanItemApiImpl implements ApsGoodsBomBuyPlanItemApi 
     return new ApsGoodsBomBuyPlanItemImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsBomBuyPlanItemQueryByIdListRes queryByIdListRes(
-      ApsGoodsBomBuyPlanItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlanItem>(
-        ApsGoodsBomBuyPlanItem.class)
-        .selectAll(ApsGoodsBomBuyPlanItem.class).in(ApsGoodsBomBuyPlanItem::getId, req.getIdList());
+  public @Override ApsGoodsBomBuyPlanItemQueryByIdListRes queryByIdListRes(ApsGoodsBomBuyPlanItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsBomBuyPlanItem> q = new MPJLambdaWrapper<ApsGoodsBomBuyPlanItem>(ApsGoodsBomBuyPlanItem.class).selectAll(ApsGoodsBomBuyPlanItem.class)
+        .in(ApsGoodsBomBuyPlanItem::getId, req.getIdList());
     List<ApsGoodsBomBuyPlanItem> list = this.apsGoodsBomBuyPlanItemService.list(q);
     List<ApsGoodsBomBuyPlanItemDto> dataList = $.copyList(list, ApsGoodsBomBuyPlanItemDto.class);
     this.apsGoodsBomBuyPlanItemService.setName(dataList);

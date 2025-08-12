@@ -44,8 +44,7 @@ public class ApsMakeCapacityFactoryServiceImpl extends MPJBaseServiceImpl<ApsMak
   @Resource
   SetNameService setNameService;
 
-  public @Override ApsMakeCapacityFactoryQueryListRes queryList(
-      ApsMakeCapacityFactoryQueryListReq req) {
+  public @Override ApsMakeCapacityFactoryQueryListRes queryList(ApsMakeCapacityFactoryQueryListReq req) {
 
     MPJLambdaWrapper<ApsMakeCapacityFactory> q = getWrapper(req.getData());
     List<ApsMakeCapacityFactory> list = this.list(q);
@@ -60,8 +59,7 @@ public class ApsMakeCapacityFactoryServiceImpl extends MPJBaseServiceImpl<ApsMak
 
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsMakeCapacityFactoryExportQueryPageListInfoRes> queryPageList(
-      ApsMakeCapacityFactoryExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsMakeCapacityFactoryExportQueryPageListInfoRes> queryPageList(ApsMakeCapacityFactoryExportQueryPageListReq req) {
 
     DynamicsPage<ApsMakeCapacityFactory> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

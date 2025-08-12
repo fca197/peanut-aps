@@ -16,8 +16,7 @@ public interface ApsSchedulingGoodsStatusDateService extends MPJBaseService<ApsS
 
   ApsSchedulingGoodsStatusDateQueryListRes queryList(ApsSchedulingGoodsStatusDateQueryListReq req);
 
-  DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingGoodsStatusDateExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingGoodsStatusDateExportQueryPageListInfoRes> queryPageList(ApsSchedulingGoodsStatusDateExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSchedulingGoodsStatusDateDto> apsSchedulingGoodsStatusDateDtoList);

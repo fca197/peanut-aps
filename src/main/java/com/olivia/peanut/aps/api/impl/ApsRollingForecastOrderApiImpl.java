@@ -38,8 +38,7 @@ public class ApsRollingForecastOrderApiImpl implements ApsRollingForecastOrderAp
    * deleteByIds
    *
    */
-  public @Override ApsRollingForecastOrderDeleteByIdListRes deleteByIdList(
-      ApsRollingForecastOrderDeleteByIdListReq req) {
+  public @Override ApsRollingForecastOrderDeleteByIdListRes deleteByIdList(ApsRollingForecastOrderDeleteByIdListReq req) {
     apsRollingForecastOrderService.removeByIds(req.getIdList());
     return new ApsRollingForecastOrderDeleteByIdListRes();
   }
@@ -48,8 +47,7 @@ public class ApsRollingForecastOrderApiImpl implements ApsRollingForecastOrderAp
    * queryList
    *
    */
-  public @Override ApsRollingForecastOrderQueryListRes queryList(
-      ApsRollingForecastOrderQueryListReq req) {
+  public @Override ApsRollingForecastOrderQueryListRes queryList(ApsRollingForecastOrderQueryListReq req) {
     return apsRollingForecastOrderService.queryList(req);
   }
 
@@ -57,16 +55,14 @@ public class ApsRollingForecastOrderApiImpl implements ApsRollingForecastOrderAp
    * updateById
    *
    */
-  public @Override ApsRollingForecastOrderUpdateByIdRes updateById(
-      ApsRollingForecastOrderUpdateByIdReq req) {
+  public @Override ApsRollingForecastOrderUpdateByIdRes updateById(ApsRollingForecastOrderUpdateByIdReq req) {
     RunUtils.noImpl();
     apsRollingForecastOrderService.updateById($.copy(req, ApsRollingForecastOrder.class));
     return new ApsRollingForecastOrderUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastOrderExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> queryPageList(ApsRollingForecastOrderExportQueryPageListReq req) {
     return apsRollingForecastOrderService.queryPageList(req);
   }
 
@@ -74,16 +70,12 @@ public class ApsRollingForecastOrderApiImpl implements ApsRollingForecastOrderAp
     DynamicsPage<ApsRollingForecastOrderExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsRollingForecastOrderExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsRollingForecastOrderExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsRollingForecastOrderExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsRollingForecastOrderExportQueryPageListInfoRes.class, listInfoRes,
-        "滚动预测");
+    List<ApsRollingForecastOrderExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsRollingForecastOrderExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsRollingForecastOrderExportQueryPageListInfoRes.class, listInfoRes, "滚动预测");
   }
 
-  public @Override ApsRollingForecastOrderImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsRollingForecastOrderImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsRollingForecastOrderImportListener(), ApsRollingForecastOrderImportReq.class);
+  public @Override ApsRollingForecastOrderImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsRollingForecastOrderImportReq> reqList = PoiExcelUtil.readData(file, new ApsRollingForecastOrderImportListener(), ApsRollingForecastOrderImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsRollingForecastOrder> readList = $.copyList(reqList, ApsRollingForecastOrder.class);
     boolean bool = apsRollingForecastOrderService.saveBatch(readList);
@@ -91,11 +83,8 @@ public class ApsRollingForecastOrderApiImpl implements ApsRollingForecastOrderAp
     return new ApsRollingForecastOrderImportRes().setCount(c);
   }
 
-  public @Override ApsRollingForecastOrderQueryByIdListRes queryByIdListRes(
-      ApsRollingForecastOrderQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsRollingForecastOrder> q = new MPJLambdaWrapper<ApsRollingForecastOrder>(
-        ApsRollingForecastOrder.class)
-        .selectAll(ApsRollingForecastOrder.class)
+  public @Override ApsRollingForecastOrderQueryByIdListRes queryByIdListRes(ApsRollingForecastOrderQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsRollingForecastOrder> q = new MPJLambdaWrapper<ApsRollingForecastOrder>(ApsRollingForecastOrder.class).selectAll(ApsRollingForecastOrder.class)
         .in(ApsRollingForecastOrder::getId, req.getIdList());
     List<ApsRollingForecastOrder> list = this.apsRollingForecastOrderService.list(q);
     List<ApsRollingForecastOrderDto> dataList = $.copyList(list, ApsRollingForecastOrderDto.class);

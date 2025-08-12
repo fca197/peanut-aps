@@ -16,21 +16,17 @@ public interface ApsSchedulingDayConfigVersionService extends MPJBaseService<Aps
 
   ApsSchedulingDayConfigVersionInsertRes save(ApsSchedulingDayConfigVersionInsertReq req);
 
-  ApsSchedulingDayConfigVersionQueryListRes queryList(
-      ApsSchedulingDayConfigVersionQueryListReq req);
+  ApsSchedulingDayConfigVersionQueryListRes queryList(ApsSchedulingDayConfigVersionQueryListReq req);
 
-  DynamicsPage<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigVersionExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionExportQueryPageListReq req);
 
 
   void setName(
       List<? extends ApsSchedulingDayConfigVersionDto> apsSchedulingDayConfigVersionDtoList);
 
-  ApsSchedulingDayConfigVersionDetailListRes detailList(
-      ApsSchedulingDayConfigVersionDetailListReq req);
+  ApsSchedulingDayConfigVersionDetailListRes detailList(ApsSchedulingDayConfigVersionDetailListReq req);
 
-  ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(
-      ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
+  ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
 
   CanSchedulingOrderListRes canSchedulingOrderList(CanSchedulingOrderListReq req);
 

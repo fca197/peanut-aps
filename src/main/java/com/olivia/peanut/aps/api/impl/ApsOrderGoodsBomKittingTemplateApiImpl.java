@@ -31,8 +31,7 @@ public class ApsOrderGoodsBomKittingTemplateApiImpl implements ApsOrderGoodsBomK
    * insert
    *
    */
-  public @Override ApsOrderGoodsBomKittingTemplateInsertRes insert(
-      ApsOrderGoodsBomKittingTemplateInsertReq req) {
+  public @Override ApsOrderGoodsBomKittingTemplateInsertRes insert(ApsOrderGoodsBomKittingTemplateInsertReq req) {
     ApsOrderGoodsBomKittingTemplate apsOrderGoodsBomKittingTemplate = INSTANCE.insertReq(req);
     this.apsOrderGoodsBomKittingTemplateService.save(apsOrderGoodsBomKittingTemplate);
     return new ApsOrderGoodsBomKittingTemplateInsertRes().setCount(1);
@@ -42,8 +41,7 @@ public class ApsOrderGoodsBomKittingTemplateApiImpl implements ApsOrderGoodsBomK
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsBomKittingTemplateDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsBomKittingTemplateDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsBomKittingTemplateDeleteByIdListRes deleteByIdList(ApsOrderGoodsBomKittingTemplateDeleteByIdListReq req) {
     apsOrderGoodsBomKittingTemplateService.removeByIds(req.getIdList());
     return new ApsOrderGoodsBomKittingTemplateDeleteByIdListRes();
   }
@@ -52,8 +50,7 @@ public class ApsOrderGoodsBomKittingTemplateApiImpl implements ApsOrderGoodsBomK
    * queryList
    *
    */
-  public @Override ApsOrderGoodsBomKittingTemplateQueryListRes queryList(
-      ApsOrderGoodsBomKittingTemplateQueryListReq req) {
+  public @Override ApsOrderGoodsBomKittingTemplateQueryListRes queryList(ApsOrderGoodsBomKittingTemplateQueryListReq req) {
     return apsOrderGoodsBomKittingTemplateService.queryList(req);
   }
 
@@ -61,32 +58,25 @@ public class ApsOrderGoodsBomKittingTemplateApiImpl implements ApsOrderGoodsBomK
    * updateById
    *
    */
-  public @Override ApsOrderGoodsBomKittingTemplateUpdateByIdRes updateById(
-      ApsOrderGoodsBomKittingTemplateUpdateByIdReq req) {
+  public @Override ApsOrderGoodsBomKittingTemplateUpdateByIdRes updateById(ApsOrderGoodsBomKittingTemplateUpdateByIdReq req) {
     apsOrderGoodsBomKittingTemplateService.updateById(INSTANCE.updateReq(req));
     return new ApsOrderGoodsBomKittingTemplateUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsBomKittingTemplateExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsBomKittingTemplateExportQueryPageListReq req) {
     return apsOrderGoodsBomKittingTemplateService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsOrderGoodsBomKittingTemplateExportQueryPageListReq req) {
-    DynamicsPage<ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes> page = queryPageList(
-        req);
+  public @Override void queryPageListExport(ApsOrderGoodsBomKittingTemplateExportQueryPageListReq req) {
+    DynamicsPage<ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    PoiExcelUtil.export(ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes.class, list,
-        "齐套模板");
+    PoiExcelUtil.export(ApsOrderGoodsBomKittingTemplateExportQueryPageListInfoRes.class, list, "齐套模板");
   }
 
-  public @Override ApsOrderGoodsBomKittingTemplateImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsBomKittingTemplateImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsBomKittingTemplateImportListener(),
+  public @Override ApsOrderGoodsBomKittingTemplateImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsBomKittingTemplateImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsBomKittingTemplateImportListener(),
         ApsOrderGoodsBomKittingTemplateImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsBomKittingTemplate> readList = INSTANCE.importReq(reqList);
@@ -95,14 +85,9 @@ public class ApsOrderGoodsBomKittingTemplateApiImpl implements ApsOrderGoodsBomK
     return new ApsOrderGoodsBomKittingTemplateImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsBomKittingTemplateQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsBomKittingTemplateQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsBomKittingTemplate> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingTemplate>(
-        ApsOrderGoodsBomKittingTemplate.class)
-        .selectAll(ApsOrderGoodsBomKittingTemplate.class)
-        .in(ApsOrderGoodsBomKittingTemplate::getId, req.getIdList());
-    List<ApsOrderGoodsBomKittingTemplate> list = this.apsOrderGoodsBomKittingTemplateService.list(
-        q);
+  public @Override ApsOrderGoodsBomKittingTemplateQueryByIdListRes queryByIdListRes(ApsOrderGoodsBomKittingTemplateQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsBomKittingTemplate> q = new MPJLambdaWrapper<ApsOrderGoodsBomKittingTemplate>(ApsOrderGoodsBomKittingTemplate.class).selectAll(ApsOrderGoodsBomKittingTemplate.class).in(ApsOrderGoodsBomKittingTemplate::getId, req.getIdList());
+    List<ApsOrderGoodsBomKittingTemplate> list = this.apsOrderGoodsBomKittingTemplateService.list(q);
     List<ApsOrderGoodsBomKittingTemplateDto> dataList = INSTANCE.queryListRes(list);
     this.apsOrderGoodsBomKittingTemplateService.setName(dataList);
     return new ApsOrderGoodsBomKittingTemplateQueryByIdListRes().setDataList(dataList);

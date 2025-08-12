@@ -46,8 +46,7 @@ public class ApsOrderUserServiceImpl extends MPJBaseServiceImpl<ApsOrderUserMapp
   }
 
 
-  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(
-      ApsOrderUserExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderUserExportQueryPageListInfoRes> queryPageList(ApsOrderUserExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderUser> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

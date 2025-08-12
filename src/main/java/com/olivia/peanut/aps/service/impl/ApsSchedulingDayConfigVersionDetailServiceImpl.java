@@ -37,8 +37,7 @@ public class ApsSchedulingDayConfigVersionDetailServiceImpl extends
   BaseTableHeaderService tableHeaderService;
 
 
-  public @Override ApsSchedulingDayConfigVersionDetailQueryListRes queryList(
-      ApsSchedulingDayConfigVersionDetailQueryListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailQueryListRes queryList(ApsSchedulingDayConfigVersionDetailQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetail> q = getWrapper(req.getData());
     List<ApsSchedulingDayConfigVersionDetail> list = this.list(q);
@@ -90,8 +89,7 @@ public class ApsSchedulingDayConfigVersionDetailServiceImpl extends
   }
 
 
-  private MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetail> getWrapper(
-      ApsSchedulingDayConfigVersionDetailDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetail> getWrapper(ApsSchedulingDayConfigVersionDetailDto obj) {
     MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetail> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

@@ -16,8 +16,7 @@ public interface ApsLogisticsPathItemService extends MPJBaseService<ApsLogistics
 
   ApsLogisticsPathItemQueryListRes queryList(ApsLogisticsPathItemQueryListReq req);
 
-  DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(
-      ApsLogisticsPathItemExportQueryPageListReq req);
+  DynamicsPage<ApsLogisticsPathItemExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsLogisticsPathItemDto> apsLogisticsPathItemDtoList);

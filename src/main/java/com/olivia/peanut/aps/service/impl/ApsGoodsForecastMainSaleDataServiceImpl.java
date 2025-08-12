@@ -30,8 +30,7 @@ public class ApsGoodsForecastMainSaleDataServiceImpl extends MPJBaseServiceImpl<
     ApsGoodsForecastMainSaleDataService {
 
 
-  public @Override ApsGoodsForecastMainSaleDataQueryListRes queryList(
-      ApsGoodsForecastMainSaleDataQueryListReq req) {
+  public @Override ApsGoodsForecastMainSaleDataQueryListRes queryList(ApsGoodsForecastMainSaleDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMainSaleData> q = getWrapper(req.getData());
     List<ApsGoodsForecastMainSaleData> list = this.list(q);
@@ -43,8 +42,7 @@ public class ApsGoodsForecastMainSaleDataServiceImpl extends MPJBaseServiceImpl<
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMainSaleDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMainSaleDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMainSaleData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -79,8 +77,7 @@ public class ApsGoodsForecastMainSaleDataServiceImpl extends MPJBaseServiceImpl<
   // 以下为私有对象封装
 
 
-  private MPJLambdaWrapper<ApsGoodsForecastMainSaleData> getWrapper(
-      ApsGoodsForecastMainSaleDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastMainSaleData> getWrapper(ApsGoodsForecastMainSaleDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastMainSaleData> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

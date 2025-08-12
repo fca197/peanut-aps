@@ -55,8 +55,7 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
 
   // 以下为私有对象封装
 
-  public @Override ApsRollingForecastFactoryCapacityQueryListRes queryList(
-      ApsRollingForecastFactoryCapacityQueryListReq req) {
+  public @Override ApsRollingForecastFactoryCapacityQueryListRes queryList(ApsRollingForecastFactoryCapacityQueryListReq req) {
 
     MPJLambdaWrapper<ApsRollingForecastFactoryCapacity> q = getWrapper(req.getData());
     List<ApsRollingForecastFactoryCapacity> list = this.list(q);
@@ -68,8 +67,7 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
     return new ApsRollingForecastFactoryCapacityQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastFactoryCapacityExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(ApsRollingForecastFactoryCapacityExportQueryPageListReq req) {
 
     DynamicsPage<ApsRollingForecastFactoryCapacity> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -109,8 +107,7 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
 
   @Override
   @Transactional
-  public ApsRollingForecastFactoryCapacityInsertRes save(
-      ApsRollingForecastFactoryCapacityInsertReq req) {
+  public ApsRollingForecastFactoryCapacityInsertRes save(ApsRollingForecastFactoryCapacityInsertReq req) {
 
 //    req.setCapacityList(req.getCapacityList().stream().sorted(Comparator.comparing(ApsRollingForecastFactoryCapacityDtoInfo::getBeginTime)).toList());
 
@@ -212,8 +209,7 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
     return dayList;
   }
 
-  private MPJLambdaWrapper<ApsRollingForecastFactoryCapacity> getWrapper(
-      ApsRollingForecastFactoryCapacityDto obj) {
+  private MPJLambdaWrapper<ApsRollingForecastFactoryCapacity> getWrapper(ApsRollingForecastFactoryCapacityDto obj) {
     MPJLambdaWrapper<ApsRollingForecastFactoryCapacity> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {
@@ -223,8 +219,7 @@ public class ApsRollingForecastFactoryCapacityServiceImpl extends
       LambdaQueryUtil.lambdaQueryWrapper(q, copy, ApsRollingForecastFactoryCapacity::getFactoryId);
     }
     q.orderByDesc(ApsRollingForecastFactoryCapacity::getId);
-    List<SFunction<ApsRollingForecastFactoryCapacity, ?>> columns = List.of(
-        ApsRollingForecastFactoryCapacity::getYear, ApsRollingForecastFactoryCapacity::getMonth);
+    List<SFunction<ApsRollingForecastFactoryCapacity, ?>> columns = List.of(ApsRollingForecastFactoryCapacity::getYear, ApsRollingForecastFactoryCapacity::getMonth);
     q.orderByDesc(columns);
     return q;
 

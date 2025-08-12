@@ -16,11 +16,9 @@ import java.util.List;
  */
 public interface ApsRollingForecastFactoryCapacityService extends MPJBaseService<ApsRollingForecastFactoryCapacity> {
 
-  ApsRollingForecastFactoryCapacityQueryListRes queryList(
-      ApsRollingForecastFactoryCapacityQueryListReq req);
+  ApsRollingForecastFactoryCapacityQueryListRes queryList(ApsRollingForecastFactoryCapacityQueryListReq req);
 
-  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(
-      ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
+  DynamicsPage<ApsRollingForecastFactoryCapacityExportQueryPageListInfoRes> queryPageList(ApsRollingForecastFactoryCapacityExportQueryPageListReq req);
 
 
   void setName(

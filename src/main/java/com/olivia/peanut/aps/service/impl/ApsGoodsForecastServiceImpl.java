@@ -456,7 +456,7 @@ public class ApsGoodsForecastServiceImpl extends MPJBaseServiceImpl<ApsGoodsFore
         });
 
         DivisionRes divisionRes = ApsForecastUtils.division(value, groupList, List.of());
-        RunUtils.run("计算结果 " + req.getId(), () -> {
+        RunUtils.asyncRun("计算结果 " + req.getId(), () -> {
           log.info("req compute count {} groupList:{}", value, JSON.toJSONString(groupList));
           log.info("ret compute divisionRes {}", JSON.toJSONString(divisionRes));
         });

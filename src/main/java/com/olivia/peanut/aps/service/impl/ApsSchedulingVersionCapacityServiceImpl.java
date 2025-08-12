@@ -29,8 +29,7 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
     ApsSchedulingVersionCapacityService {
 
 
-  public @Override ApsSchedulingVersionCapacityQueryListRes queryList(
-      ApsSchedulingVersionCapacityQueryListReq req) {
+  public @Override ApsSchedulingVersionCapacityQueryListRes queryList(ApsSchedulingVersionCapacityQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingVersionCapacity> q = getWrapper(req.getData());
     List<ApsSchedulingVersionCapacity> list = this.list(q);
@@ -44,8 +43,7 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingVersionCapacityExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingVersionCapacityExportQueryPageListInfoRes> queryPageList(ApsSchedulingVersionCapacityExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingVersionCapacity> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -86,8 +84,7 @@ public class ApsSchedulingVersionCapacityServiceImpl extends MPJBaseServiceImpl<
 
 
   @SuppressWarnings(Str.UN_CHECKED)
-  private MPJLambdaWrapper<ApsSchedulingVersionCapacity> getWrapper(
-      ApsSchedulingVersionCapacityDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingVersionCapacity> getWrapper(ApsSchedulingVersionCapacityDto obj) {
     MPJLambdaWrapper<ApsSchedulingVersionCapacity> q = new MPJLambdaWrapper<>();
 
     LambdaQueryUtil.lambdaQueryWrapper(q, obj, ApsSchedulingVersionCapacity.class,

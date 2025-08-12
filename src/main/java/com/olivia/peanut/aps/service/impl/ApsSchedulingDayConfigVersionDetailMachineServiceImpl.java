@@ -40,8 +40,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineServiceImpl extends
   SetNameService setNameService;
 
 
-  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
-      ApsSchedulingDayConfigVersionDetailMachineQueryListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(ApsSchedulingDayConfigVersionDetailMachineQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> q = getWrapper(req.getData());
     List<ApsSchedulingDayConfigVersionDetailMachine> list = this.list(q);
@@ -105,8 +104,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineServiceImpl extends
   }
 
 
-  private MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> getWrapper(
-      ApsSchedulingDayConfigVersionDetailMachineDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> getWrapper(ApsSchedulingDayConfigVersionDetailMachineDto obj) {
     MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

@@ -40,8 +40,7 @@ public class ApsOrderGoodsHistoryApiImpl implements ApsOrderGoodsHistoryApi {
    * deleteByIds
    *
    */
-  public @Override ApsOrderGoodsHistoryDeleteByIdListRes deleteByIdList(
-      ApsOrderGoodsHistoryDeleteByIdListReq req) {
+  public @Override ApsOrderGoodsHistoryDeleteByIdListRes deleteByIdList(ApsOrderGoodsHistoryDeleteByIdListReq req) {
     RunUtils.noImpl();
     apsOrderGoodsHistoryService.removeByIds(req.getIdList());
     return new ApsOrderGoodsHistoryDeleteByIdListRes();
@@ -51,8 +50,7 @@ public class ApsOrderGoodsHistoryApiImpl implements ApsOrderGoodsHistoryApi {
    * queryList
    *
    */
-  public @Override ApsOrderGoodsHistoryQueryListRes queryList(
-      ApsOrderGoodsHistoryQueryListReq req) {
+  public @Override ApsOrderGoodsHistoryQueryListRes queryList(ApsOrderGoodsHistoryQueryListReq req) {
     return apsOrderGoodsHistoryService.queryList(req);
   }
 
@@ -60,16 +58,14 @@ public class ApsOrderGoodsHistoryApiImpl implements ApsOrderGoodsHistoryApi {
    * updateById
    *
    */
-  public @Override ApsOrderGoodsHistoryUpdateByIdRes updateById(
-      ApsOrderGoodsHistoryUpdateByIdReq req) {
+  public @Override ApsOrderGoodsHistoryUpdateByIdRes updateById(ApsOrderGoodsHistoryUpdateByIdReq req) {
     RunUtils.noImpl();
     apsOrderGoodsHistoryService.updateById($.copy(req, ApsOrderGoodsHistory.class));
     return new ApsOrderGoodsHistoryUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsHistoryExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsHistoryExportQueryPageListReq req) {
     return apsOrderGoodsHistoryService.queryPageList(req);
   }
 
@@ -77,16 +73,12 @@ public class ApsOrderGoodsHistoryApiImpl implements ApsOrderGoodsHistoryApi {
     DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsOrderGoodsHistoryExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsOrderGoodsHistoryExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsOrderGoodsHistoryExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsOrderGoodsHistoryExportQueryPageListInfoRes.class, listInfoRes,
-        "历史订单记录");
+    List<ApsOrderGoodsHistoryExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsOrderGoodsHistoryExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsOrderGoodsHistoryExportQueryPageListInfoRes.class, listInfoRes, "历史订单记录");
   }
 
-  public @Override ApsOrderGoodsHistoryImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsOrderGoodsHistoryImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsOrderGoodsHistoryImportListener(), ApsOrderGoodsHistoryImportReq.class);
+  public @Override ApsOrderGoodsHistoryImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsOrderGoodsHistoryImportReq> reqList = PoiExcelUtil.readData(file, new ApsOrderGoodsHistoryImportListener(), ApsOrderGoodsHistoryImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsOrderGoodsHistory> readList = $.copyList(reqList, ApsOrderGoodsHistory.class);
     boolean bool = apsOrderGoodsHistoryService.saveBatch(readList);
@@ -94,11 +86,9 @@ public class ApsOrderGoodsHistoryApiImpl implements ApsOrderGoodsHistoryApi {
     return new ApsOrderGoodsHistoryImportRes().setCount(c);
   }
 
-  public @Override ApsOrderGoodsHistoryQueryByIdListRes queryByIdListRes(
-      ApsOrderGoodsHistoryQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsOrderGoodsHistory> q = new MPJLambdaWrapper<ApsOrderGoodsHistory>(
-        ApsOrderGoodsHistory.class)
-        .selectAll(ApsOrderGoodsHistory.class).in(ApsOrderGoodsHistory::getId, req.getIdList());
+  public @Override ApsOrderGoodsHistoryQueryByIdListRes queryByIdListRes(ApsOrderGoodsHistoryQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsOrderGoodsHistory> q = new MPJLambdaWrapper<ApsOrderGoodsHistory>(ApsOrderGoodsHistory.class).selectAll(ApsOrderGoodsHistory.class)
+        .in(ApsOrderGoodsHistory::getId, req.getIdList());
     List<ApsOrderGoodsHistory> list = this.apsOrderGoodsHistoryService.list(q);
     List<ApsOrderGoodsHistoryDto> dataList = $.copyList(list, ApsOrderGoodsHistoryDto.class);
     this.apsOrderGoodsHistoryService.setName(dataList);

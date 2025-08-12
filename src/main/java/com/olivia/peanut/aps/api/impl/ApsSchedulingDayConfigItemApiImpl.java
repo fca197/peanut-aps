@@ -30,8 +30,7 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * insert
    *
    */
-  public @Override ApsSchedulingDayConfigItemInsertRes insert(
-      ApsSchedulingDayConfigItemInsertReq req) {
+  public @Override ApsSchedulingDayConfigItemInsertRes insert(ApsSchedulingDayConfigItemInsertReq req) {
     this.apsSchedulingDayConfigItemService.save($.copy(req, ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigItemInsertRes().setCount(1);
   }
@@ -40,8 +39,7 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(
-      ApsSchedulingDayConfigItemDeleteByIdListReq req) {
+  public @Override ApsSchedulingDayConfigItemDeleteByIdListRes deleteByIdList(ApsSchedulingDayConfigItemDeleteByIdListReq req) {
     apsSchedulingDayConfigItemService.removeByIds(req.getIdList());
     return new ApsSchedulingDayConfigItemDeleteByIdListRes();
   }
@@ -50,8 +48,7 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * queryList
    *
    */
-  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(
-      ApsSchedulingDayConfigItemQueryListReq req) {
+  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(ApsSchedulingDayConfigItemQueryListReq req) {
     return apsSchedulingDayConfigItemService.queryList(req);
   }
 
@@ -59,15 +56,13 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
    * updateById
    *
    */
-  public @Override ApsSchedulingDayConfigItemUpdateByIdRes updateById(
-      ApsSchedulingDayConfigItemUpdateByIdReq req) {
+  public @Override ApsSchedulingDayConfigItemUpdateByIdRes updateById(ApsSchedulingDayConfigItemUpdateByIdReq req) {
     apsSchedulingDayConfigItemService.updateById($.copy(req, ApsSchedulingDayConfigItem.class));
     return new ApsSchedulingDayConfigItemUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigItemExportQueryPageListReq req) {
     return apsSchedulingDayConfigItemService.queryPageList(req);
   }
 
@@ -75,33 +70,24 @@ public class ApsSchedulingDayConfigItemApiImpl implements ApsSchedulingDayConfig
     DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class, listInfoRes,
-        "排程版本配置表");
+    List<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsSchedulingDayConfigItemExportQueryPageListInfoRes.class, listInfoRes, "排程版本配置表");
   }
 
-  public @Override ApsSchedulingDayConfigItemImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsSchedulingDayConfigItemImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsSchedulingDayConfigItemImportListener(), ApsSchedulingDayConfigItemImportReq.class);
+  public @Override ApsSchedulingDayConfigItemImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsSchedulingDayConfigItemImportReq> reqList = PoiExcelUtil.readData(file, new ApsSchedulingDayConfigItemImportListener(),
+        ApsSchedulingDayConfigItemImportReq.class);
     // 类型转换，  更换枚举 等操作
-    List<ApsSchedulingDayConfigItem> readList = $.copyList(reqList,
-        ApsSchedulingDayConfigItem.class);
+    List<ApsSchedulingDayConfigItem> readList = $.copyList(reqList, ApsSchedulingDayConfigItem.class);
     boolean bool = apsSchedulingDayConfigItemService.saveBatch(readList);
     int c = bool ? readList.size() : 0;
     return new ApsSchedulingDayConfigItemImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(
-      ApsSchedulingDayConfigItemQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = new MPJLambdaWrapper<ApsSchedulingDayConfigItem>(
-        ApsSchedulingDayConfigItem.class)
-        .selectAll(ApsSchedulingDayConfigItem.class)
-        .in(ApsSchedulingDayConfigItem::getId, req.getIdList());
+  public @Override ApsSchedulingDayConfigItemQueryByIdListRes queryByIdListRes(ApsSchedulingDayConfigItemQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = new MPJLambdaWrapper<ApsSchedulingDayConfigItem>(ApsSchedulingDayConfigItem.class).selectAll(ApsSchedulingDayConfigItem.class).in(ApsSchedulingDayConfigItem::getId, req.getIdList());
     List<ApsSchedulingDayConfigItem> list = this.apsSchedulingDayConfigItemService.list(q);
-    List<ApsSchedulingDayConfigItemDto> dataList = $.copyList(list,
-        ApsSchedulingDayConfigItemDto.class);
+    List<ApsSchedulingDayConfigItemDto> dataList = $.copyList(list, ApsSchedulingDayConfigItemDto.class);
     this.apsSchedulingDayConfigItemService.setName(dataList);
     return new ApsSchedulingDayConfigItemQueryByIdListRes().setDataList(dataList);
   }

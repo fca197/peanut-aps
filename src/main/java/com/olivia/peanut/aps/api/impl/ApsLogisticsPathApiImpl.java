@@ -51,8 +51,7 @@ public class ApsLogisticsPathApiImpl implements ApsLogisticsPathApi {
    * deleteByIds
    *
    */
-  public @Override ApsLogisticsPathDeleteByIdListRes deleteByIdList(
-      ApsLogisticsPathDeleteByIdListReq req) {
+  public @Override ApsLogisticsPathDeleteByIdListRes deleteByIdList(ApsLogisticsPathDeleteByIdListReq req) {
     apsLogisticsPathService.removeByIds(req.getIdList());
     return new ApsLogisticsPathDeleteByIdListRes();
   }
@@ -75,8 +74,7 @@ public class ApsLogisticsPathApiImpl implements ApsLogisticsPathApi {
 
   }
 
-  public @Override DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(
-      ApsLogisticsPathExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathExportQueryPageListReq req) {
     return apsLogisticsPathService.queryPageList(req);
   }
 
@@ -84,15 +82,12 @@ public class ApsLogisticsPathApiImpl implements ApsLogisticsPathApi {
     DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsLogisticsPathExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsLogisticsPathExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsLogisticsPathExportQueryPageListInfoRes.class);
-    PoiExcelUtil.export(ApsLogisticsPathExportQueryPageListInfoRes.class, listInfoRes,
-        "物流路径表");
+    List<ApsLogisticsPathExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsLogisticsPathExportQueryPageListInfoRes.class);
+    PoiExcelUtil.export(ApsLogisticsPathExportQueryPageListInfoRes.class, listInfoRes, "物流路径表");
   }
 
   public @Override ApsLogisticsPathImportRes importData(@RequestParam("file") MultipartFile file) {
-    List<ApsLogisticsPathImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsLogisticsPathImportListener(), ApsLogisticsPathImportReq.class);
+    List<ApsLogisticsPathImportReq> reqList = PoiExcelUtil.readData(file, new ApsLogisticsPathImportListener(), ApsLogisticsPathImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsLogisticsPath> readList = $.copyList(reqList, ApsLogisticsPath.class);
     boolean bool = apsLogisticsPathService.saveBatch(readList);
@@ -100,21 +95,17 @@ public class ApsLogisticsPathApiImpl implements ApsLogisticsPathApi {
     return new ApsLogisticsPathImportRes().setCount(c);
   }
 
-  public @Override ApsLogisticsPathQueryByIdListRes queryByIdListRes(
-      ApsLogisticsPathQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsLogisticsPath> q = new MPJLambdaWrapper<>(ApsLogisticsPath.class).selectAll(
-        ApsLogisticsPath.class).in(ApsLogisticsPath::getId, req.getIdList());
+  public @Override ApsLogisticsPathQueryByIdListRes queryByIdListRes(ApsLogisticsPathQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsLogisticsPath> q = new MPJLambdaWrapper<>(ApsLogisticsPath.class).selectAll(ApsLogisticsPath.class).in(ApsLogisticsPath::getId, req.getIdList());
     List<ApsLogisticsPath> list = this.apsLogisticsPathService.list(q);
     List<ApsLogisticsPathDto> dataList = $.copyList(list, ApsLogisticsPathDto.class);
     this.apsLogisticsPathService.setName(dataList);
     if (CollUtil.isNotEmpty(dataList)) {
       Map<Long, List<ApsLogisticsPathItem>> itemMap = this.apsLogisticsPathItemService.list(
-              new LambdaQueryWrapper<ApsLogisticsPathItem>().in(
-                  ApsLogisticsPathItem::getLogisticsPathId,
-                  dataList.stream().map(BaseEntityDto::getId).collect(Collectors.toList())))
-          .stream().collect(Collectors.groupingBy(ApsLogisticsPathItem::getLogisticsPathId));
-      dataList.forEach(t -> t.setApsLogisticsPathItemList(
-          $.copyList(itemMap.get(t.getId()), ApsLogisticsPathItemDto.class)));
+              new LambdaQueryWrapper<ApsLogisticsPathItem>().in(ApsLogisticsPathItem::getLogisticsPathId,
+                  dataList.stream().map(BaseEntityDto::getId).collect(Collectors.toList()))).stream()
+          .collect(Collectors.groupingBy(ApsLogisticsPathItem::getLogisticsPathId));
+      dataList.forEach(t -> t.setApsLogisticsPathItemList($.copyList(itemMap.get(t.getId()), ApsLogisticsPathItemDto.class)));
     }
 
     return new ApsLogisticsPathQueryByIdListRes().setDataList(dataList);

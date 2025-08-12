@@ -32,8 +32,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineApiImpl implements
    * insert
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineInsertRes insert(
-      ApsSchedulingDayConfigVersionDetailMachineInsertReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineInsertRes insert(ApsSchedulingDayConfigVersionDetailMachineInsertReq req) {
     this.apsSchedulingDayConfigVersionDetailMachineService.save(
         $.copy(req, ApsSchedulingDayConfigVersionDetailMachine.class));
     return new ApsSchedulingDayConfigVersionDetailMachineInsertRes().setCount(1);
@@ -43,8 +42,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineApiImpl implements
    * deleteByIds
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes deleteByIdList(
-      ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes deleteByIdList(ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListReq req) {
     apsSchedulingDayConfigVersionDetailMachineService.removeByIds(req.getIdList());
     return new ApsSchedulingDayConfigVersionDetailMachineDeleteByIdListRes();
   }
@@ -53,8 +51,7 @@ public class ApsSchedulingDayConfigVersionDetailMachineApiImpl implements
    * queryList
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
-      ApsSchedulingDayConfigVersionDetailMachineQueryListReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(ApsSchedulingDayConfigVersionDetailMachineQueryListReq req) {
     return apsSchedulingDayConfigVersionDetailMachineService.queryList(req);
   }
 
@@ -62,21 +59,18 @@ public class ApsSchedulingDayConfigVersionDetailMachineApiImpl implements
    * updateById
    *
    */
-  public @Override ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes updateById(
-      ApsSchedulingDayConfigVersionDetailMachineUpdateByIdReq req) {
+  public @Override ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes updateById(ApsSchedulingDayConfigVersionDetailMachineUpdateByIdReq req) {
     apsSchedulingDayConfigVersionDetailMachineService.updateById(
         $.copy(req, ApsSchedulingDayConfigVersionDetailMachine.class));
     return new ApsSchedulingDayConfigVersionDetailMachineUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req) {
     return apsSchedulingDayConfigVersionDetailMachineService.queryPageList(req);
   }
 
-  public @Override void queryPageListExport(
-      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req) {
+  public @Override void queryPageListExport(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req) {
     req.setQueryPage(false);
     DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> page = queryPageList(
         req);
@@ -101,10 +95,8 @@ public class ApsSchedulingDayConfigVersionDetailMachineApiImpl implements
     return new ApsSchedulingDayConfigVersionDetailMachineImportRes().setCount(c);
   }
 
-  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryByIdListRes queryByIdListRes(
-      ApsSchedulingDayConfigVersionDetailMachineQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> q = new MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine>(
-        ApsSchedulingDayConfigVersionDetailMachine.class)
+  public @Override ApsSchedulingDayConfigVersionDetailMachineQueryByIdListRes queryByIdListRes(ApsSchedulingDayConfigVersionDetailMachineQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine> q = new MPJLambdaWrapper<ApsSchedulingDayConfigVersionDetailMachine>(ApsSchedulingDayConfigVersionDetailMachine.class)
         .selectAll(ApsSchedulingDayConfigVersionDetailMachine.class)
         .in(ApsSchedulingDayConfigVersionDetailMachine::getId, req.getIdList());
     List<ApsSchedulingDayConfigVersionDetailMachine> list = this.apsSchedulingDayConfigVersionDetailMachineService.list(

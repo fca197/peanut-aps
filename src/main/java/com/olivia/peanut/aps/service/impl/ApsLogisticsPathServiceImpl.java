@@ -87,8 +87,7 @@ public class ApsLogisticsPathServiceImpl extends MPJBaseServiceImpl<ApsLogistics
 
   // 以下为私有对象封装
 
-  public @Override DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(
-      ApsLogisticsPathExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsLogisticsPathExportQueryPageListInfoRes> queryPageList(ApsLogisticsPathExportQueryPageListReq req) {
 
     DynamicsPage<ApsLogisticsPath> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

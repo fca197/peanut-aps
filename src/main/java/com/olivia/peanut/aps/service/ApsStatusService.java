@@ -16,8 +16,7 @@ public interface ApsStatusService extends MPJBaseService<ApsStatus> {
 
   ApsStatusQueryListRes queryList(ApsStatusQueryListReq req);
 
-  DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
-      ApsStatusExportQueryPageListReq req);
+  DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsStatusDto> apsStatusDtoList);

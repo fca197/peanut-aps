@@ -39,8 +39,7 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
    * deleteByIds
    *
    */
-  public @Override ApsGoodsForecastMakeDeleteByIdListRes deleteByIdList(
-      ApsGoodsForecastMakeDeleteByIdListReq req) {
+  public @Override ApsGoodsForecastMakeDeleteByIdListRes deleteByIdList(ApsGoodsForecastMakeDeleteByIdListReq req) {
     apsGoodsForecastMakeService.removeByIds(req.getIdList());
     return new ApsGoodsForecastMakeDeleteByIdListRes();
   }
@@ -49,8 +48,7 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
    * queryList
    *
    */
-  public @Override ApsGoodsForecastMakeQueryListRes queryList(
-      ApsGoodsForecastMakeQueryListReq req) {
+  public @Override ApsGoodsForecastMakeQueryListRes queryList(ApsGoodsForecastMakeQueryListReq req) {
     return apsGoodsForecastMakeService.queryList(req);
   }
 
@@ -58,15 +56,13 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
    * updateById
    *
    */
-  public @Override ApsGoodsForecastMakeUpdateByIdRes updateById(
-      ApsGoodsForecastMakeUpdateByIdReq req) {
+  public @Override ApsGoodsForecastMakeUpdateByIdRes updateById(ApsGoodsForecastMakeUpdateByIdReq req) {
     apsGoodsForecastMakeService.updateById($.copy(req, ApsGoodsForecastMake.class));
     return new ApsGoodsForecastMakeUpdateByIdRes();
 
   }
 
-  public @Override DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeExportQueryPageListReq req) {
     return apsGoodsForecastMakeService.queryPageList(req);
   }
 
@@ -74,15 +70,12 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
     DynamicsPage<ApsGoodsForecastMakeExportQueryPageListInfoRes> page = queryPageList(req);
     List<ApsGoodsForecastMakeExportQueryPageListInfoRes> list = page.getDataList();
     // 类型转换，  更换枚举 等操作
-    List<ApsGoodsForecastMakeExportQueryPageListInfoRes> listInfoRes = $.copyList(list,
-        ApsGoodsForecastMakeExportQueryPageListInfoRes.class);
+    List<ApsGoodsForecastMakeExportQueryPageListInfoRes> listInfoRes = $.copyList(list, ApsGoodsForecastMakeExportQueryPageListInfoRes.class);
     PoiExcelUtil.export(ApsGoodsForecastMakeExportQueryPageListInfoRes.class, listInfoRes, "");
   }
 
-  public @Override ApsGoodsForecastMakeImportRes importData(
-      @RequestParam("file") MultipartFile file) {
-    List<ApsGoodsForecastMakeImportReq> reqList = PoiExcelUtil.readData(file,
-        new ApsGoodsForecastMakeImportListener(), ApsGoodsForecastMakeImportReq.class);
+  public @Override ApsGoodsForecastMakeImportRes importData(@RequestParam("file") MultipartFile file) {
+    List<ApsGoodsForecastMakeImportReq> reqList = PoiExcelUtil.readData(file, new ApsGoodsForecastMakeImportListener(), ApsGoodsForecastMakeImportReq.class);
     // 类型转换，  更换枚举 等操作
     List<ApsGoodsForecastMake> readList = $.copyList(reqList, ApsGoodsForecastMake.class);
     boolean bool = apsGoodsForecastMakeService.saveBatch(readList);
@@ -90,11 +83,9 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
     return new ApsGoodsForecastMakeImportRes().setCount(c);
   }
 
-  public @Override ApsGoodsForecastMakeQueryByIdListRes queryByIdListRes(
-      ApsGoodsForecastMakeQueryByIdListReq req) {
-    MPJLambdaWrapper<ApsGoodsForecastMake> q = new MPJLambdaWrapper<ApsGoodsForecastMake>(
-        ApsGoodsForecastMake.class)
-        .selectAll(ApsGoodsForecastMake.class).in(ApsGoodsForecastMake::getId, req.getIdList());
+  public @Override ApsGoodsForecastMakeQueryByIdListRes queryByIdListRes(ApsGoodsForecastMakeQueryByIdListReq req) {
+    MPJLambdaWrapper<ApsGoodsForecastMake> q = new MPJLambdaWrapper<ApsGoodsForecastMake>(ApsGoodsForecastMake.class).selectAll(ApsGoodsForecastMake.class)
+        .in(ApsGoodsForecastMake::getId, req.getIdList());
     List<ApsGoodsForecastMake> list = this.apsGoodsForecastMakeService.list(q);
     List<ApsGoodsForecastMakeDto> dataList = $.copyList(list, ApsGoodsForecastMakeDto.class);
     this.apsGoodsForecastMakeService.setName(dataList);
@@ -102,21 +93,18 @@ public class ApsGoodsForecastMakeApiImpl implements ApsGoodsForecastMakeApi {
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryDataById(ApsGoodsForecastMakeQueryDataByIdReq req) {
     return this.apsGoodsForecastMakeService.queryDataById(req);
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(
-      ApsGoodsForecastMakeQueryDataByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryDataByIdRes> queryProjectDataById(ApsGoodsForecastMakeQueryDataByIdReq req) {
     return this.apsGoodsForecastMakeService.queryProjectDataById(req);
 
   }
 
   @Override
-  public DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(
-      ApsGoodsForecastMakeQueryUseBomByIdReq req) {
+  public DynamicsPage<ApsGoodsForecastMakeQueryUseBomByIdRes> queryBomUseDataById(ApsGoodsForecastMakeQueryUseBomByIdReq req) {
     return this.apsGoodsForecastMakeService.queryBomUseDataById(req);
   }
 

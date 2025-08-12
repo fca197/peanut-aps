@@ -36,8 +36,7 @@ public class ApsSchedulingDayConfigItemServiceImpl extends MPJBaseServiceImpl<Ap
   BaseTableHeaderService tableHeaderService;
 
 
-  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(
-      ApsSchedulingDayConfigItemQueryListReq req) {
+  public @Override ApsSchedulingDayConfigItemQueryListRes queryList(ApsSchedulingDayConfigItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = getWrapper(req.getData());
     List<ApsSchedulingDayConfigItem> list = this.list(q);
@@ -49,8 +48,7 @@ public class ApsSchedulingDayConfigItemServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingDayConfigItemExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingDayConfigItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -88,8 +86,7 @@ public class ApsSchedulingDayConfigItemServiceImpl extends MPJBaseServiceImpl<Ap
   }
 
 
-  private MPJLambdaWrapper<ApsSchedulingDayConfigItem> getWrapper(
-      ApsSchedulingDayConfigItemDto obj) {
+  private MPJLambdaWrapper<ApsSchedulingDayConfigItem> getWrapper(ApsSchedulingDayConfigItemDto obj) {
     MPJLambdaWrapper<ApsSchedulingDayConfigItem> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

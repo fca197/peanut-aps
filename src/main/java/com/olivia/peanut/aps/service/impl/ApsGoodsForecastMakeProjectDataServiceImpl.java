@@ -32,8 +32,7 @@ public class ApsGoodsForecastMakeProjectDataServiceImpl extends MPJBaseServiceIm
     ApsGoodsForecastMakeProjectDataService {
 
 
-  public @Override ApsGoodsForecastMakeProjectDataQueryListRes queryList(
-      ApsGoodsForecastMakeProjectDataQueryListReq req) {
+  public @Override ApsGoodsForecastMakeProjectDataQueryListRes queryList(ApsGoodsForecastMakeProjectDataQueryListReq req) {
 
     MPJLambdaWrapper<ApsGoodsForecastMakeProjectData> q = getWrapper(req.getData());
     List<ApsGoodsForecastMakeProjectData> list = this.list(q);
@@ -47,8 +46,7 @@ public class ApsGoodsForecastMakeProjectDataServiceImpl extends MPJBaseServiceIm
   }
 
 
-  public @Override DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastMakeProjectDataExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsGoodsForecastMakeProjectDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastMakeProjectDataExportQueryPageListReq req) {
 
     DynamicsPage<ApsGoodsForecastMakeProjectData> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
@@ -88,8 +86,7 @@ public class ApsGoodsForecastMakeProjectDataServiceImpl extends MPJBaseServiceIm
   }
 
 
-  private MPJLambdaWrapper<ApsGoodsForecastMakeProjectData> getWrapper(
-      ApsGoodsForecastMakeProjectDataDto obj) {
+  private MPJLambdaWrapper<ApsGoodsForecastMakeProjectData> getWrapper(ApsGoodsForecastMakeProjectDataDto obj) {
     MPJLambdaWrapper<ApsGoodsForecastMakeProjectData> q = new MPJLambdaWrapper<>();
 
     if (Objects.nonNull(obj)) {

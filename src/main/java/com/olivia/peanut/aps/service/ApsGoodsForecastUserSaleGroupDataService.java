@@ -14,11 +14,9 @@ import java.util.List;
  */
 public interface ApsGoodsForecastUserSaleGroupDataService extends MPJBaseService<ApsGoodsForecastUserSaleGroupData> {
 
-  ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(
-      ApsGoodsForecastUserSaleGroupDataQueryListReq req);
+  ApsGoodsForecastUserSaleGroupDataQueryListRes queryList(ApsGoodsForecastUserSaleGroupDataQueryListReq req);
 
-  DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsForecastUserSaleGroupDataExportQueryPageListInfoRes> queryPageList(ApsGoodsForecastUserSaleGroupDataExportQueryPageListReq req);
 
 
   void setName(

@@ -16,8 +16,7 @@ public interface ApsProcessPathService extends MPJBaseService<ApsProcessPath> {
 
   ApsProcessPathQueryListRes queryList(ApsProcessPathQueryListReq req);
 
-  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
-      ApsProcessPathExportQueryPageListReq req);
+  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(ApsProcessPathExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsProcessPathDto> apsProcessPathDtoList);

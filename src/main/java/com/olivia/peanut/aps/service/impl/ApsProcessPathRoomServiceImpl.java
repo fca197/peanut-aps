@@ -41,8 +41,7 @@ public class ApsProcessPathRoomServiceImpl extends MPJBaseServiceImpl<ApsProcess
   }
 
 
-  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(
-      ApsProcessPathRoomExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProcessPathRoomExportQueryPageListInfoRes> queryPageList(ApsProcessPathRoomExportQueryPageListReq req) {
 
     DynamicsPage<ApsProcessPathRoom> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

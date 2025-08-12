@@ -16,8 +16,7 @@ public interface ApsSellerStoreService extends MPJBaseService<ApsSellerStore> {
 
   ApsSellerStoreQueryListRes queryList(ApsSellerStoreQueryListReq req);
 
-  DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(
-      ApsSellerStoreExportQueryPageListReq req);
+  DynamicsPage<ApsSellerStoreExportQueryPageListInfoRes> queryPageList(ApsSellerStoreExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsSellerStoreDto> apsSellerStoreDtoList);

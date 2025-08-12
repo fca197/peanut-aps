@@ -46,8 +46,7 @@ public class ApsStatusServiceImpl extends MPJBaseServiceImpl<ApsStatusMapper, Ap
   }
 
 
-  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(
-      ApsStatusExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsStatusExportQueryPageListInfoRes> queryPageList(ApsStatusExportQueryPageListReq req) {
 
     DynamicsPage<ApsStatus> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

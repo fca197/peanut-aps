@@ -2,10 +2,12 @@ package com.olivia.peanut.aps.api;
 
 
 import com.olivia.peanut.aps.api.entity.apsOrder.*;
+import com.olivia.peanut.aps.model.ApsOrder;
 import com.olivia.sdk.ann.InsertCheck;
 import com.olivia.sdk.ann.UpdateCheck;
 import com.olivia.sdk.utils.DynamicsPage;
 import jakarta.validation.Valid;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +25,9 @@ public interface ApsOrderApi {
 
   @PostMapping("/apsOrder/batchInsert")
   ApsOrderBatchInsertRes batchInsert(@RequestBody @Validated(InsertCheck.class) ApsOrderBatchInsertReq req);
+
+  @PostMapping("/apsOrder/deleteAll")
+  ApsOrderDeleteAllRes deleteAll(@RequestBody @Valid ApsOrderDeleteAllReq  req);
 
   /**
    * 保存

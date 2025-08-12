@@ -14,11 +14,9 @@ import java.util.List;
  */
 public interface ApsSchedulingDayConfigVersionDetailMachineService extends MPJBaseService<ApsSchedulingDayConfigVersionDetailMachine> {
 
-  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(
-      ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
+  ApsSchedulingDayConfigVersionDetailMachineQueryListRes queryList(ApsSchedulingDayConfigVersionDetailMachineQueryListReq req);
 
-  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionDetailMachineExportQueryPageListReq req);
 
 
   void setName(

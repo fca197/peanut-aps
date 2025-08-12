@@ -16,9 +16,7 @@ public interface ApsOrderService extends MPJBaseService<ApsOrder> {
 
   ApsOrderQueryListRes queryList(ApsOrderQueryListReq req);
 
-  DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList(
-      ApsOrderExportQueryPageListReq req);
-
+  DynamicsPage<ApsOrderExportQueryPageListInfoRes> queryPageList( ApsOrderExportQueryPageListReq req);
 
   void setName(List<? extends ApsOrderDto> apsOrderDtoList);
 
@@ -41,5 +39,7 @@ public interface ApsOrderService extends MPJBaseService<ApsOrder> {
   FinishOrderTotalDayRes finishOrderTotalDay(FinishOrderTotalDayReq req);
 
   OrderFieldListRes orderFieldList(OrderFieldListReq req);
+
+  ApsOrderDeleteAllRes deleteAll(ApsOrderDeleteAllReq req);
 }
 

@@ -51,8 +51,7 @@ public class ApsSchedulingConstraintsServiceImpl extends MPJBaseServiceImpl<ApsS
         .map(t -> new Operator().setValue(t.getValue()).setName(t.getName())).toList();
   }
 
-  public @Override ApsSchedulingConstraintsQueryListRes queryList(
-      ApsSchedulingConstraintsQueryListReq req) {
+  public @Override ApsSchedulingConstraintsQueryListRes queryList(ApsSchedulingConstraintsQueryListReq req) {
 
     MPJLambdaWrapper<ApsSchedulingConstraints> q = getWrapper(req.getData());
     List<ApsSchedulingConstraints> list = this.list(q);
@@ -65,8 +64,7 @@ public class ApsSchedulingConstraintsServiceImpl extends MPJBaseServiceImpl<ApsS
     return new ApsSchedulingConstraintsQueryListRes().setDataList(dataList);
   }
 
-  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(
-      ApsSchedulingConstraintsExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsSchedulingConstraintsExportQueryPageListInfoRes> queryPageList(ApsSchedulingConstraintsExportQueryPageListReq req) {
 
     DynamicsPage<ApsSchedulingConstraints> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

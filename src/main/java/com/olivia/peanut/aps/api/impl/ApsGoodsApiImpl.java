@@ -9,6 +9,7 @@ import com.olivia.peanut.aps.api.impl.listener.ApsGoodsImportListener;
 import com.olivia.peanut.aps.model.ApsGoods;
 import com.olivia.peanut.aps.service.ApsGoodsService;
 import com.olivia.sdk.ann.Oplog;
+import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.utils.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +76,8 @@ public class ApsGoodsApiImpl implements ApsGoodsApi {
 
   }
 
-  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsExportQueryPageListReq req) {
+//  @RedissonLockAnn(lockBizKeyFlag = "xxx")
+  public @Override DynamicsPage<ApsGoodsExportQueryPageListInfoRes> queryPageList(ApsGoodsExportQueryPageListReq req) {
     return apsGoodsService.queryPageList(req);
   }
 

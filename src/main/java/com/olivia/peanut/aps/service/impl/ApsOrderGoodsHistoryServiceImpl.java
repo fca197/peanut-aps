@@ -54,8 +54,7 @@ public class ApsOrderGoodsHistoryServiceImpl extends MPJBaseServiceImpl<ApsOrder
   @Resource
   ApsGoodsService apsGoodsService;
 
-  public @Override ApsOrderGoodsHistoryQueryListRes queryList(
-      ApsOrderGoodsHistoryQueryListReq req) {
+  public @Override ApsOrderGoodsHistoryQueryListRes queryList(ApsOrderGoodsHistoryQueryListReq req) {
 
     MPJLambdaWrapper<ApsOrderGoodsHistory> q = getWrapper(req.getData());
     List<ApsOrderGoodsHistory> list = this.list(q);
@@ -67,8 +66,7 @@ public class ApsOrderGoodsHistoryServiceImpl extends MPJBaseServiceImpl<ApsOrder
   }
 
 
-  public @Override DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(
-      ApsOrderGoodsHistoryExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsOrderGoodsHistoryExportQueryPageListInfoRes> queryPageList(ApsOrderGoodsHistoryExportQueryPageListReq req) {
 
     DynamicsPage<ApsOrderGoodsHistory> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());

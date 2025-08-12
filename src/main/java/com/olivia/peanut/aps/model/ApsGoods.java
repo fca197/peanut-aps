@@ -20,11 +20,26 @@ import lombok.experimental.Accessors;
 @TableName("aps_goods")
 public class ApsGoods extends BaseEntity<ApsGoods> {
 
+  /***
+   * 工厂ID
+   */
   private Long factoryId;
+  /***
+   * 商品名称
+   */
   private String goodsName;
+  /***
+   * 备注
+   */
   private String goodsRemark;
 
+  /***
+   * 工艺路径Id
+   */
   private Long processPathId;
+  /***
+   * 制造路径ID
+   */
   private Long produceProcessId;
 
 }

@@ -16,8 +16,7 @@ public interface ApsGoodsSaleItemService extends MPJBaseService<ApsGoodsSaleItem
 
   ApsGoodsSaleItemQueryListRes queryList(ApsGoodsSaleItemQueryListReq req);
 
-  DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(
-      ApsGoodsSaleItemExportQueryPageListReq req);
+  DynamicsPage<ApsGoodsSaleItemExportQueryPageListInfoRes> queryPageList(ApsGoodsSaleItemExportQueryPageListReq req);
 
 
   void setName(List<? extends ApsGoodsSaleItemDto> apsGoodsSaleItemDtoList);

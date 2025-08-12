@@ -37,8 +37,7 @@ public class ApsProduceProcessItemServiceImpl extends MPJBaseServiceImpl<ApsProd
   SetNameService setNameService;
 
 
-  public @Override ApsProduceProcessItemQueryListRes queryList(
-      ApsProduceProcessItemQueryListReq req) {
+  public @Override ApsProduceProcessItemQueryListRes queryList(ApsProduceProcessItemQueryListReq req) {
 
     MPJLambdaWrapper<ApsProduceProcessItem> q = getWrapper(req.getData());
     List<ApsProduceProcessItem> list = this.list(q);
@@ -50,8 +49,7 @@ public class ApsProduceProcessItemServiceImpl extends MPJBaseServiceImpl<ApsProd
   }
 
 
-  public @Override DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(
-      ApsProduceProcessItemExportQueryPageListReq req) {
+  public @Override DynamicsPage<ApsProduceProcessItemExportQueryPageListInfoRes> queryPageList(ApsProduceProcessItemExportQueryPageListReq req) {
 
     DynamicsPage<ApsProduceProcessItem> page = new DynamicsPage<>();
     page.setCurrent(req.getPageNum()).setSize(req.getPageSize());
