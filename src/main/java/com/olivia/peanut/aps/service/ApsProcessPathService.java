@@ -24,5 +24,7 @@ public interface ApsProcessPathService extends MPJBaseService<ApsProcessPath> {
   ApsProcessPathInsertRes save(ApsProcessPathInsertReq req);
 
   void updateById(ApsProcessPathUpdateByIdReq req);
+
+  ApsProcessPathInsertRes copyApsProcessPath(ApsProcessPathCopyReq req);
 }
 

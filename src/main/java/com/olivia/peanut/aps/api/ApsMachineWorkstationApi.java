@@ -25,36 +25,31 @@ public interface ApsMachineWorkstationApi {
    * 保存 aps 生产机器 工作站
    */
   @PostMapping("/apsMachineWorkstation/insert")
-  ApsMachineWorkstationInsertRes insert(
-      @RequestBody @Validated(InsertCheck.class) ApsMachineWorkstationInsertReq req);
+  ApsMachineWorkstationInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsMachineWorkstationInsertReq req);
 
   /**
    * 根据ID 删除 aps 生产机器 工作站
    */
   @PostMapping("/apsMachineWorkstation/deleteByIdList")
-  ApsMachineWorkstationDeleteByIdListRes deleteByIdList(
-      @RequestBody @Valid ApsMachineWorkstationDeleteByIdListReq req);
+  ApsMachineWorkstationDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsMachineWorkstationDeleteByIdListReq req);
 
   /**
    * 查询 aps 生产机器 工作站
    */
   @PostMapping("/apsMachineWorkstation/queryList")
-  ApsMachineWorkstationQueryListRes queryList(
-      @RequestBody @Valid ApsMachineWorkstationQueryListReq req);
+  ApsMachineWorkstationQueryListRes queryList(@RequestBody @Valid ApsMachineWorkstationQueryListReq req);
 
   /**
    * 根据ID 更新 aps 生产机器 工作站
    */
   @PostMapping("/apsMachineWorkstation/updateById")
-  ApsMachineWorkstationUpdateByIdRes updateById(
-      @RequestBody @Validated(UpdateCheck.class) ApsMachineWorkstationUpdateByIdReq req);
+  ApsMachineWorkstationUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsMachineWorkstationUpdateByIdReq req);
 
   /**
    * 分页查询 aps 生产机器 工作站
    */
   @PostMapping("/apsMachineWorkstation/queryPageList")
-  DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(
-      @RequestBody @Valid ApsMachineWorkstationExportQueryPageListReq req);
+  DynamicsPage<ApsMachineWorkstationExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsMachineWorkstationExportQueryPageListReq req);
 
   /**
    * 导出 aps 生产机器 工作站
@@ -73,8 +68,7 @@ public interface ApsMachineWorkstationApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsMachineWorkstation/queryByIdList")
-  ApsMachineWorkstationQueryByIdListRes queryByIdListRes(
-      @RequestBody @Valid ApsMachineWorkstationQueryByIdListReq req);
+  ApsMachineWorkstationQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsMachineWorkstationQueryByIdListReq req);
 
 
 }

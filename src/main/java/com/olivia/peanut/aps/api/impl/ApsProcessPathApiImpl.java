@@ -36,6 +36,11 @@ public class ApsProcessPathApiImpl implements ApsProcessPathApi {
 
   }
 
+  @Override
+  public ApsProcessPathInsertRes copyApsProcessPath(ApsProcessPathCopyReq req) {
+    return this.apsProcessPathService.copyApsProcessPath(req);
+  }
+
   /****
    * deleteByIds
    *

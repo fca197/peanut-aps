@@ -236,8 +236,8 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
     List<String> orderNoList = new ArrayList<>();
 
     List<ApsGoods> goodsList = this.apsGoodsService.list(
-        new LambdaQueryWrapper<ApsGoods>().isNull(Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProduceProcessId)
-            .isNull(!Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProduceProcessId));
+        new LambdaQueryWrapper<ApsGoods>().isNotNull(Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProduceProcessId)
+            .isNotNull(!Objects.equals(req.getIsProcessMake(), 1), ApsGoods::getProcessPathId));
     List<ApsOrderGoodsSaleConfig> insertSaleConfigList = new ArrayList<>();
     List<ApsOrderGoods> apsOrderGoodList = new ArrayList<>();
     List<ApsOrder> apsOrderList = new ArrayList<>();
@@ -422,7 +422,7 @@ public class ApsOrderServiceImpl extends MPJBaseServiceImpl<ApsOrderMapper, ApsO
 
     LocalDate now = LocalDate.now();
     Long factoryId = orderGoods.getFactoryId();
-    FactoryConfigReq factoryConfigReq = new FactoryConfigReq().setFactoryId(factoryId).setQueryDefaultProcessPath(Objects.nonNull(apsGoods.getProcessPathId()))
+    FactoryConfigReq factoryConfigReq = new FactoryConfigReq().setFactoryId(factoryId)
         .setWeekBeginDate(now).setWeekEndDate(now.plusDays(peanutProperties.getOrderStatusUpdateNeedDayCount())).setGetWeek(Boolean.TRUE).setGetShift(Boolean.TRUE)
         .setNowDateTime(LocalDateTime.now());
     if (Objects.nonNull(apsGoods.getProduceProcessId())) {

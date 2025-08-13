@@ -21,5 +21,7 @@ public interface ApsRoomConverter {
   List<ApsRoomExportQueryPageListInfoRes> queryPageListRes(List<ApsRoom> list);
 
   List<ApsRoom> importReq(List<ApsRoomImportReq> reqList);
+
+  ApsRoom copyApsRoom(ApsRoom apsRoom);
 }
 

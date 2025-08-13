@@ -21,8 +21,7 @@ public interface ApsSchedulingDayConfigVersionService extends MPJBaseService<Aps
   DynamicsPage<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageList(ApsSchedulingDayConfigVersionExportQueryPageListReq req);
 
 
-  void setName(
-      List<? extends ApsSchedulingDayConfigVersionDto> apsSchedulingDayConfigVersionDtoList);
+  void setName(List<? extends ApsSchedulingDayConfigVersionDto> apsSchedulingDayConfigVersionDtoList);
 
   ApsSchedulingDayConfigVersionDetailListRes detailList(ApsSchedulingDayConfigVersionDetailListReq req);
 

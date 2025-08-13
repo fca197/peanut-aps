@@ -101,8 +101,8 @@ public class ApsRollingForecastOrderItemApiImpl implements ApsRollingForecastOrd
     Map<Long, String> statusIdNameMap = apsStatusService.list().stream().collect(Collectors.toMap(BaseEntity::getId, ApsStatus::getStatusName));
     Long factoryId = forecastOrder.getFactoryId();
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
-        new FactoryConfigReq().setGetPathDefault(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE).setFactoryId(factoryId));
-    ApsProcessPathDto defaultApsProcessPathDto = factoryConfig.getDefaultApsProcessPathDto();
+        new FactoryConfigReq().setGetPathDefault(Boolean.TRUE).setFactoryId(factoryId));
+    ApsProcessPathDto defaultApsProcessPathDto = factoryConfig.getProcessPathDtoMap().values().stream().filter(t->Objects.equals(t.getIsDefault(),Boolean.TRUE)).findAny().orElseThrow();
     List<Long> statusBetween = ProcessUtils.getStatusBetween($.copy(defaultApsProcessPathDto, ApsProcessPathVo.class), forecastOrder.getBeginStatusId(),
         forecastOrder.getEndStatusId());
 

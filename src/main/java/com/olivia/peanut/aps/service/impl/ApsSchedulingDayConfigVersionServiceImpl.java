@@ -139,8 +139,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     }
     itemList.forEach(item -> {
       ApsSchedulingVersionItemPre itemPre = new ApsSchedulingVersionItemPre().setOldScheduleDate(item.getCurrentDay());
-      itemPre.setSchedulingVersionId(id).setCurrentDay(schedulingDate).setGoodsId(item.getGoodsId()).setOrderNo(item.getOrderNo()).setOrderId(item.getOrderId())
-          .setNumberIndex(atomicInteger.getAndIncrement()).setFactoryId(item.getFactoryId()).setShowField(MapSub.of()).setLegacyOrder(bool);
+      itemPre.setSchedulingVersionId(id).setCurrentDay(schedulingDate).setUrgencyLevel(item.getUrgencyLevel()).setGoodsId(item.getGoodsId()).setOrderNo(item.getOrderNo())
+          .setOrderId(item.getOrderId()).setNumberIndex(atomicInteger.getAndIncrement()).setFactoryId(item.getFactoryId()).setShowField(MapSub.of()).setLegacyOrder(bool);
       apsSchedulingVersionItemPreList.add(itemPre);
     });
   }
@@ -353,13 +353,13 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     Map<Long, ApsGoods> apsGoodsMap = apsGoodsList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
     List<ProduceOrder> produceOrderList = itemList.stream().map(t -> {
       List<ApsProduceProcessItem> apsProduceProcessItems = apsProduceProcessItemMap.get(apsGoodsMap.get(t.getGoodsId()).getProduceProcessId());
-      return new ProduceOrder().setOrderId(t.getOrderId()).setOrderMachineList(
+      return new ProduceOrder().setOrderId(t.getOrderId()).setUrgencyLevel(t.getUrgencyLevel()).setOrderMachineList(
           apsProduceProcessItems.stream().map(ApsProduceProcessItemConverter.INSTANCE::convertProduceOrderMachine).filter(Objects::nonNull)
-              .peek(w -> w.setOrderWorkId(IdWorker.getId())).toList());
+              .peek(w -> w.setOrderWorkId(IdWorker.getId()).setOrderId(t.getOrderId())).toList());
     }).toList();
     // 制造路径计算
-    ProduceProcessUtilsV2 processUtilsV2 = new ProduceProcessUtilsV2();
-    List<ProduceProcessComputeOrderResV2> processComputeOrderResV2List = processUtilsV2.schedule(
+
+    List<ProduceProcessComputeOrderResV2> processComputeOrderResV2List = new ProduceProcessUtilsV2().schedule(
         new ProduceProcessComputeReq().setProduceStartTime(LocalDateTime.now()).setProduceOrderList(produceOrderList));
 
     Map<Long, ProduceOrderMachine> produceOrderMachineMap = produceOrderList.stream().map(ProduceOrder::getOrderMachineList).flatMap(List::stream)
@@ -440,25 +440,24 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     List<ApsSchedulingDayConfigVersionDetailDto> tmpList = new ArrayList<>();
 
     FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
-        new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId()).setQueryDefaultProcessPath(Boolean.TRUE)
-            .setGetPathId(apsSchedulingDayConfig.getProcessId()));
+        new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId()).setGetPathId(apsSchedulingDayConfig.getProcessId()));
     List<List<Long>> headerList = new ArrayList<>();
 
-    factoryConfig.getDefaultApsProcessPathDto().getPathRoomList().forEach(room -> {
-      room.getApsRoomConfigList().forEach(roomStatus -> {
-        headerList.add(List.of(roomStatus.getRoomId(), roomStatus.getStatusId()));
-        String key = roomStatus.getRoomId() + "-" + roomStatus.getStatusId();
-        List<ApsSchedulingDayConfigVersionDetailDto> detailDtoList = orderRoomResMap.get(key);
-        if (CollUtil.isNotEmpty(detailDtoList)) {
-          tmpList.clear();
-          tmpList.addAll(detailDtoList);
-        }
-        tmpList.forEach(t -> {
-          t.setRoomId(roomStatus.getRoomId()).setStatusId(roomStatus.getStatusId());
-          versionDetails.add($.copy(t, ApsSchedulingDayConfigVersionDetailDto.class));
-        });
-      });
-    });
+//    factoryConfig.getDefaultApsProcessPathDto().getPathRoomList().forEach(room -> {
+//      room.getApsRoomConfigList().forEach(roomStatus -> {
+//        headerList.add(List.of(roomStatus.getRoomId(), roomStatus.getStatusId()));
+//        String key = roomStatus.getRoomId() + "-" + roomStatus.getStatusId();
+//        List<ApsSchedulingDayConfigVersionDetailDto> detailDtoList = orderRoomResMap.get(key);
+//        if (CollUtil.isNotEmpty(detailDtoList)) {
+//          tmpList.clear();
+//          tmpList.addAll(detailDtoList);
+//        }
+//        tmpList.forEach(t -> {
+//          t.setRoomId(roomStatus.getRoomId()).setStatusId(roomStatus.getStatusId());
+//          versionDetails.add($.copy(t, ApsSchedulingDayConfigVersionDetailDto.class));
+//        });
+//      });
+//    });
     tmpList.clear();
 
     versionDetails.forEach(t -> t.setSchedulingDayId(dayConfigVersion.getId()));

@@ -48,6 +48,7 @@ public class ApsSchedulingIssueItem extends BaseEntity<ApsSchedulingIssueItem> {
    */
   private Long factoryId;
 
+  private Integer urgencyLevel;
 
   @TableField(exist = false)
   private List<Long> projectConfigIdList;

@@ -68,5 +68,10 @@ public class ApsSchedulingVersionItemPre extends BaseEntity<ApsSchedulingVersion
   private String goodsName;
   private String factoryName;
 
+
+
+  private Integer urgencyLevel;
+
+
 }
 

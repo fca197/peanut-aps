@@ -25,51 +25,44 @@ public interface ApsSchedulingDayConfigVersionApi {
    * 保存 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/insert")
-  ApsSchedulingDayConfigVersionInsertRes insert(
-      @RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionInsertReq req);
+  ApsSchedulingDayConfigVersionInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsSchedulingDayConfigVersionInsertReq req);
 
   /**
    * 保存 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/canSchedulingOrderList")
-  CanSchedulingOrderListRes canSchedulingOrderList(
-      @RequestBody @Validated(InsertCheck.class) CanSchedulingOrderListReq req);
+  CanSchedulingOrderListRes canSchedulingOrderList(@RequestBody @Validated(InsertCheck.class) CanSchedulingOrderListReq req);
 
 
   /**
    * 根据ID 删除 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/deleteByIdList")
-  ApsSchedulingDayConfigVersionDeleteByIdListRes deleteByIdList(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionDeleteByIdListReq req);
+  ApsSchedulingDayConfigVersionDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsSchedulingDayConfigVersionDeleteByIdListReq req);
 
   /**
    * 查询 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/queryList")
-  ApsSchedulingDayConfigVersionQueryListRes queryList(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionQueryListReq req);
+  ApsSchedulingDayConfigVersionQueryListRes queryList(@RequestBody @Valid ApsSchedulingDayConfigVersionQueryListReq req);
 
   /**
    * 根据ID 更新 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/updateById")
-  ApsSchedulingDayConfigVersionUpdateByIdRes updateById(
-      @RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionUpdateByIdReq req);
+  ApsSchedulingDayConfigVersionUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsSchedulingDayConfigVersionUpdateByIdReq req);
 
   /**
    * 分页查询 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/queryPageList")
-  DynamicsPage<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageList(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionExportQueryPageListReq req);
+  DynamicsPage<ApsSchedulingDayConfigVersionExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsSchedulingDayConfigVersionExportQueryPageListReq req);
 
   /**
    * 导出 排程版本
    */
   @PostMapping("/apsSchedulingDayConfigVersion/exportQueryPageList")
-  void queryPageListExport(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionExportQueryPageListReq req);
+  void queryPageListExport(@RequestBody @Valid ApsSchedulingDayConfigVersionExportQueryPageListReq req);
 
   /**
    * 导入
@@ -82,28 +75,23 @@ public interface ApsSchedulingDayConfigVersionApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsSchedulingDayConfigVersion/queryByIdList")
-  ApsSchedulingDayConfigVersionQueryByIdListRes queryByIdListRes(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionQueryByIdListReq req);
+  ApsSchedulingDayConfigVersionQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsSchedulingDayConfigVersionQueryByIdListReq req);
 
   /***
    * detailList
    */
   @PostMapping("/apsSchedulingDayConfigVersion/detailList")
-  ApsSchedulingDayConfigVersionDetailListRes detailList(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionDetailListReq req);
+  ApsSchedulingDayConfigVersionDetailListRes detailList(@RequestBody @Valid ApsSchedulingDayConfigVersionDetailListReq req);
 
   // updateOrderSortIndex
   @PostMapping("/apsSchedulingDayConfigVersion/updateOrderSortIndex")
-  ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
+  ApsSchedulingDayConfigVersionUpdateOrderSortIndexRes updateOrderSortIndex(@RequestBody @Valid ApsSchedulingDayConfigVersionUpdateOrderSortIndexReq req);
 
   @PostMapping("/apsSchedulingDayConfigVersion/addOrder")
-  ApsSchedulingDayConfigVersionAddOrderRes addOrder(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionAddOrderReq req);
+  ApsSchedulingDayConfigVersionAddOrderRes addOrder(@RequestBody @Valid ApsSchedulingDayConfigVersionAddOrderReq req);
 
   @PostMapping("/apsSchedulingDayConfigVersion/export")
-  void apsSchedulingDayConfigVersionOrderExport(
-      @RequestBody @Valid ApsSchedulingDayConfigVersionOrderExportReq req);
+  void apsSchedulingDayConfigVersionOrderExport(@RequestBody @Valid ApsSchedulingDayConfigVersionOrderExportReq req);
 
   @PostMapping("/apsSchedulingDayConfigVersion/schedulingOrderList")
   void schedulingOrderList(@RequestBody @Valid ApsSchedulingDayConfigVersionDto req);

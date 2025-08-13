@@ -14,6 +14,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.base.MPJBaseServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
@@ -182,9 +183,9 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     return runnableList;
   }
 
-  private static void setCapacityWrapper(Boolean bool, LambdaQueryWrapper<? extends BaseEntity<?>> wrapper) {
+  private static <T extends BaseEntity<T>> void setCapacityWrapper(Boolean bool, LambdaQueryWrapper<T> wrapper, SFunction<T, Object> getIdFunction) {
     if (FALSE.equals(bool)) {
-      wrapper.eq(BaseEntity::getId, Long.MIN_VALUE);
+      wrapper.eq(getIdFunction, Long.MIN_VALUE);
     }
   }
 
@@ -366,15 +367,17 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     facortyList.forEach(f -> {
 
       FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
-          new FactoryConfigReq().setFactoryId(f.getId()).setGetShift(Boolean.TRUE).setGetWeek(Boolean.TRUE).setQueryDefaultProcessPath(Boolean.TRUE)
-              .setWeekBeginDate(nowDate).setWeekEndDate(lastDate.plusDays(schedulingVersion.getSchedulingDayCount())));
+          new FactoryConfigReq().setFactoryId(f.getId()).setGetShift(Boolean.TRUE).setGetWeek(Boolean.TRUE).setWeekBeginDate(nowDate)
+              .setWeekEndDate(lastDate.plusDays(schedulingVersion.getSchedulingDayCount())));
       log.info("add factory configuration {} name:{}", f.getId(), f.getFactoryName());
       factoryWeekListMap.put(f.getId(), factoryConfig.getWeekList());
       Long dayWorkSecond = factoryConfig.getDayWorkSecond();
       dayWorkSecondMap.put(f.getId(), dayWorkSecond);
       Map<Long, ApsProcessPathDto> pathDtoMap = factoryConfig.getProcessPathDtoMap();
-      log.info("Process {}: {}", f.getId(), toJSONString(pathDtoMap));
-      apsProcessPathDtoMap.putAll(pathDtoMap);
+      if (CollUtil.isNotEmpty(pathDtoMap)) {
+        log.info("Process {}: {}", f.getId(), toJSONString(pathDtoMap));
+        apsProcessPathDtoMap.putAll(pathDtoMap);
+      }
     });
 
     List<List<Integer>> ymList = localDateBetween.stream().map(t -> List.of(t.getYear(), t.getMonthValue())).distinct().toList();
@@ -383,16 +386,16 @@ public class ApsSchedulingVersionServiceImpl extends MPJBaseServiceImpl<ApsSched
     LambdaQueryWrapper<ApsMakeCapacitySaleConfig> configLambdaQueryWrapper = new LambdaQueryWrapper<>();
     LambdaQueryWrapper<CalendarDay> calendarDayLambdaQueryWrapper = new LambdaQueryWrapper<>();
     LambdaQueryWrapper<ApsMakeCapacityGoods> apsMakeCapacityGoodsWrapper = new LambdaQueryWrapper<>();
-    setCapacityWrapper(schedulingVersion.getUseFactoryMakeCapacity(), factoryUpdateWrapper);
-    setCapacityWrapper(schedulingVersion.getUseGoodsMakeCapacity(), apsMakeCapacityGoodsWrapper);
-    setCapacityWrapper(schedulingVersion.getUseSaleConfigMakeCapacity(), configLambdaQueryWrapper);
+    setCapacityWrapper(schedulingVersion.getUseFactoryMakeCapacity(), factoryUpdateWrapper, ApsMakeCapacityFactory::getId);
+    setCapacityWrapper(schedulingVersion.getUseGoodsMakeCapacity(), apsMakeCapacityGoodsWrapper, ApsMakeCapacityGoods::getId);
+    setCapacityWrapper(schedulingVersion.getUseSaleConfigMakeCapacity(), configLambdaQueryWrapper, ApsMakeCapacitySaleConfig::getId);
     // 工程配置 TODO： 待实现
 
     ymList.forEach(t -> {
-      factoryUpdateWrapper.or(r -> r.eq(ApsMakeCapacityFactory::getYear, t.getFirst()).eq(ApsMakeCapacityFactory::getMonth, t.get(1)));
       configLambdaQueryWrapper.or(r -> r.eq(ApsMakeCapacitySaleConfig::getYear, t.getFirst()).eq(ApsMakeCapacitySaleConfig::getMonth, t.get(1)));
       calendarDayLambdaQueryWrapper.or(r -> r.eq(CalendarDay::getDayYear, t.getFirst()).eq(CalendarDay::getDayMonth, t.get(1)));
       apsMakeCapacityGoodsWrapper.or(r -> r.eq(ApsMakeCapacityGoods::getYear, t.getFirst()).eq(ApsMakeCapacityGoods::getMonth, t.get(1)));
+      factoryUpdateWrapper.or(r -> r.eq(ApsMakeCapacityFactory::getYear, t.getFirst()).eq(ApsMakeCapacityFactory::getMonth, t.get(1)));
     });
     Map<String, CalendarDay> calendarDayMap = calendarDayService.list(calendarDayLambdaQueryWrapper).stream()
         .collect(Collectors.toMap(t -> t.getDayYear() + "-" + t.getDayMonth() + "-" + t.getFactoryId(), Function.identity()));

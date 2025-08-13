@@ -22,8 +22,7 @@ public class FactoryConfigRes {
   private String factoryName;
   private List<WeekInfo> weekList;
   private List<ShiftItem> shiftItemList;
-  //  private Map<Long, ApsProcessPathDto> pathDtoMap;
-  private ApsProcessPathDto defaultApsProcessPathDto;
+
   private Map<Long, ApsProcessPathDto> processPathDtoMap;
   /***
    * 当天剩余工作时长

@@ -25,15 +25,15 @@ public interface ApsProcessPathApi {
    * 保存
    */
   @PostMapping("/apsProcessPath/insert")
-  ApsProcessPathInsertRes insert(
-      @RequestBody @Validated(InsertCheck.class) ApsProcessPathInsertReq req);
+  ApsProcessPathInsertRes insert(@RequestBody @Validated(InsertCheck.class) ApsProcessPathInsertReq req);
+  @PostMapping("/apsProcessPath/copy")
+  ApsProcessPathInsertRes copyApsProcessPath(@RequestBody @Validated  ApsProcessPathCopyReq req);
 
   /**
    * 根据ID 删除
    */
   @PostMapping("/apsProcessPath/deleteByIdList")
-  ApsProcessPathDeleteByIdListRes deleteByIdList(
-      @RequestBody @Valid ApsProcessPathDeleteByIdListReq req);
+  ApsProcessPathDeleteByIdListRes deleteByIdList(@RequestBody @Valid ApsProcessPathDeleteByIdListReq req);
 
   /**
    * 查询
@@ -45,15 +45,13 @@ public interface ApsProcessPathApi {
    * 根据ID 更新
    */
   @PostMapping("/apsProcessPath/updateById")
-  ApsProcessPathUpdateByIdRes updateById(
-      @RequestBody @Validated(UpdateCheck.class) ApsProcessPathUpdateByIdReq req);
+  ApsProcessPathUpdateByIdRes updateById(@RequestBody @Validated(UpdateCheck.class) ApsProcessPathUpdateByIdReq req);
 
   /**
    * 分页查询
    */
   @PostMapping("/apsProcessPath/queryPageList")
-  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(
-      @RequestBody @Valid ApsProcessPathExportQueryPageListReq req);
+  DynamicsPage<ApsProcessPathExportQueryPageListInfoRes> queryPageList(@RequestBody @Valid ApsProcessPathExportQueryPageListReq req);
 
   /**
    * 导出
@@ -72,8 +70,7 @@ public interface ApsProcessPathApi {
    * 根据ID 批量查询
    */
   @PostMapping("/apsProcessPath/queryByIdList")
-  ApsProcessPathQueryByIdListRes queryByIdListRes(
-      @RequestBody @Valid ApsProcessPathQueryByIdListReq req);
+  ApsProcessPathQueryByIdListRes queryByIdListRes(@RequestBody @Valid ApsProcessPathQueryByIdListReq req);
 
 
 }

@@ -24,5 +24,7 @@ public interface ApsProduceProcessService extends MPJBaseService<ApsProduceProce
   void save(ApsProduceProcessInsertReq req);
 
   void updateById(ApsProduceProcessUpdateByIdReq req);
+
+  void copyProduceProcess(ApsProduceProcessCopyReq req);
 }
 

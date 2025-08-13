@@ -22,7 +22,6 @@ public class FactoryConfigReq {
   private LocalDate weekBeginDate;
   private LocalDate weekEndDate;
   private Boolean getShift;
-  private Boolean queryDefaultProcessPath;
   private Long getPathId;
   private Boolean getPathDefault;
   private List<Long> apsProduceProcessIdList;

@@ -35,6 +35,12 @@ public class ApsProduceProcessApiImpl implements ApsProduceProcessApi {
     return new ApsProduceProcessInsertRes().setCount(1);
   }
 
+  @Override
+  public ApsProduceProcessInsertRes copyProduceProcess(ApsProduceProcessCopyReq req) {
+    this.apsProduceProcessService.copyProduceProcess(req);
+    return new ApsProduceProcessInsertRes().setCount(1);
+  }
+
   /****
    * deleteByIds
    *
