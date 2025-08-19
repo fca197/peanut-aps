@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ApsSchedulingDayConfigVersionProductType {
-  MAKE("制造路径"), PROCESS("工艺路径");
+  MAKE("制造路径"),  //
+  PROCESS("工艺路径");
   private final String desc;
 }

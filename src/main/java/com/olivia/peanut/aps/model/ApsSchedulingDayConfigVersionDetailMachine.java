@@ -4,7 +4,6 @@ package com.olivia.peanut.aps.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.olivia.sdk.utils.BaseEntity;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
@@ -97,5 +96,10 @@ public class ApsSchedulingDayConfigVersionDetailMachine extends BaseEntity<ApsSc
    */
   @TableField("sort_index")
   private Long sortIndex;
+
+
+  private Long orderCreateIndex;
+  private Long orderStepIndex;
 }
+
 

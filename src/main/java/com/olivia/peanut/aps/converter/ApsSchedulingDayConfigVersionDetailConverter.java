@@ -21,5 +21,7 @@ public interface ApsSchedulingDayConfigVersionDetailConverter {
   List<ApsSchedulingDayConfigVersionDetailExportQueryPageListInfoRes> queryPageListRes(List<ApsSchedulingDayConfigVersionDetail> list);
 
   List<ApsSchedulingDayConfigVersionDetail> importReq(List<ApsSchedulingDayConfigVersionDetailImportReq> reqList);
+
+  List<ApsSchedulingDayConfigVersionDetail> dto2entity(List<com.olivia.peanut.aps.utils.scheduling.model.ApsSchedulingDayConfigVersionDetailDto> dto);
 }
 

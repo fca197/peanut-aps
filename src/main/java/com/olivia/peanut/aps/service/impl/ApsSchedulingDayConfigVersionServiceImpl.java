@@ -20,9 +20,7 @@ import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayC
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfig.ApsSchedulingDayConfigExportQueryPageListReq;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigItem.ApsSchedulingDayConfigItemDto;
 import com.olivia.peanut.aps.api.entity.apsSchedulingDayConfigVersion.*;
-import com.olivia.peanut.aps.converter.ApsProduceProcessItemConverter;
-import com.olivia.peanut.aps.converter.ApsSchedulingDayConfigVersionConverter;
-import com.olivia.peanut.aps.converter.ApsSchedulingDayConfigVersionDetailMachineConverter;
+import com.olivia.peanut.aps.converter.*;
 import com.olivia.peanut.aps.mapper.ApsSchedulingDayConfigVersionMapper;
 import com.olivia.peanut.aps.model.*;
 import com.olivia.peanut.aps.service.*;
@@ -35,6 +33,7 @@ import com.olivia.peanut.aps.utils.scheduling.model.*;
 import com.olivia.peanut.base.model.Factory;
 import com.olivia.peanut.base.service.BaseTableHeaderService;
 import com.olivia.peanut.base.service.FactoryService;
+import com.olivia.peanut.base.service.ShiftService;
 import com.olivia.peanut.util.SetNamePojoUtils;
 import com.olivia.sdk.ann.RedissonLockAnn;
 import com.olivia.sdk.model.KVEntity;
@@ -45,11 +44,10 @@ import com.olivia.sdk.utils.DynamicsPage.Header;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
@@ -121,15 +119,11 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
   ApsOrderService apsOrderService;
 
   @Resource
-  ApsOrderUserService apsOrderUserService;
-
-  @Resource
-  ApsSaleConfigService apsSaleConfigService;
-  @Resource
   FactoryService factoryService;
 
+
   @Resource
-  ApsOrderFieldService apsOrderFieldService;
+  ShiftService shiftService;
 
 
   private static void itemList2PreList(List<ApsSchedulingIssueItem> itemList, long id, AtomicInteger atomicInteger, Boolean bool,
@@ -242,8 +236,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
   }
 
 
-  private <T extends BaseEntity> void processFieldList(List<KVEntity> fieldList, List<ApsSchedulingVersionItemPre> itemPreList, List<T> entityList, Class<T> entityClass,
-      Function<T, Long> function, String key) {
+  private <T extends BaseEntity<T>> void processFieldList(List<KVEntity> fieldList, List<ApsSchedulingVersionItemPre> itemPreList, List<T> entityList,
+      Class<T> entityClass, Function<T, Long> function, String key) {
     Map<Long, T> entityMap = entityList.stream().collect(Collectors.toMap(function, Function.identity()));
     itemPreList.forEach(item -> {
       T entity = entityMap.get(item.getOrderId());
@@ -351,22 +345,27 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
                 apsProduceProcesses.stream().map(BaseEntity::getId).collect(Collectors.toSet()))).stream()
         .collect(Collectors.groupingBy(ApsProduceProcessItem::getProduceProcessId));
     Map<Long, ApsGoods> apsGoodsMap = apsGoodsList.stream().collect(Collectors.toMap(BaseEntity::getId, Function.identity()));
+    AtomicLong stepIndex = new AtomicLong();
     List<ProduceOrder> produceOrderList = itemList.stream().map(t -> {
       List<ApsProduceProcessItem> apsProduceProcessItems = apsProduceProcessItemMap.get(apsGoodsMap.get(t.getGoodsId()).getProduceProcessId());
+      stepIndex.set(1);
       return new ProduceOrder().setOrderId(t.getOrderId()).setUrgencyLevel(t.getUrgencyLevel()).setOrderMachineList(
           apsProduceProcessItems.stream().map(ApsProduceProcessItemConverter.INSTANCE::convertProduceOrderMachine).filter(Objects::nonNull)
-              .peek(w -> w.setOrderWorkId(IdWorker.getId()).setOrderId(t.getOrderId())).toList());
+              .peek(w -> w.setOrderWorkId(IdWorker.getId()).setOrderId(t.getOrderId()).setOrderStepIndex(stepIndex.getAndIncrement())).toList());
     }).toList();
     // 制造路径计算
 
-    List<ProduceProcessComputeOrderResV2> processComputeOrderResV2List = new ProduceProcessUtilsV2().schedule(
+    LocalTime shiftBeginTime = shiftService.queryByFactoryId(dayConfigVersion.getFactoryId()).getShiftItemList().getFirst().getBeginTime();
+
+    List<ProduceProcessComputeOrderResV2> processComputeOrderResV2List = ProduceProcessUtilsV2.schedule(
         new ProduceProcessComputeReq().setProduceStartTime(LocalDateTime.now()).setProduceOrderList(produceOrderList));
 
     Map<Long, ProduceOrderMachine> produceOrderMachineMap = produceOrderList.stream().map(ProduceOrder::getOrderMachineList).flatMap(List::stream)
         .collect(Collectors.toMap(ProduceOrderMachine::getOrderWorkId, Function.identity()));
     List<ApsSchedulingDayConfigVersionDetailMachine> detailMachineList = processComputeOrderResV2List.stream().map(
         t -> ApsSchedulingDayConfigVersionDetailMachineConverter.INSTANCE.machine(produceOrderMachineMap.get(t.getOrderWorkId()))
-            .setSchedulingDayId(dayConfigVersion.getId()).setBeginDateTime(t.getBeginLocalDateTime()).setEndDateTime(t.getEndLocalDateTime())).toList();
+            .setSchedulingDayId(dayConfigVersion.getId()).setBeginDateTime(dayConfigVersion.getSchedulingDay().atTime(shiftBeginTime))
+            .setEndDateTime(t.getEndLocalDateTime()).setOrderCreateIndex(t.getOrderCreateIndex())).toList();
 
     List<ApsSchedulingDayConfigVersionDetailMachineUseTime> machineUseTimeList = detailMachineList.stream()
         .collect(Collectors.groupingBy(ApsSchedulingDayConfigVersionDetailMachine::getMachineId)).entrySet().stream().map(
@@ -439,8 +438,8 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     List<ApsSchedulingDayConfigVersionDetailDto> tmpList = new ArrayList<>();
 
-    FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
-        new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId()).setGetPathId(apsSchedulingDayConfig.getProcessId()));
+//    FactoryConfigRes factoryConfig = apsFactoryService.getFactoryConfig(
+//        new FactoryConfigReq().setFactoryId(dayConfigVersion.getFactoryId()).setGetPathId(apsSchedulingDayConfig.getProcessId()));
     List<List<Long>> headerList = new ArrayList<>();
 
 //    factoryConfig.getDefaultApsProcessPathDto().getPathRoomList().forEach(room -> {
@@ -462,7 +461,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
 
     versionDetails.forEach(t -> t.setSchedulingDayId(dayConfigVersion.getId()));
     dayConfigVersion.setHeaderList(toJSONString(headerList));
-    this.apsSchedulingDayConfigVersionDetailService.saveBatch($.copyList(versionDetails, ApsSchedulingDayConfigVersionDetail.class));
+    this.apsSchedulingDayConfigVersionDetailService.saveBatch(ApsSchedulingDayConfigVersionDetailConverter.INSTANCE.dto2entity(versionDetails));
     this.updateById(dayConfigVersion);
   }
 
@@ -471,7 +470,7 @@ public class ApsSchedulingDayConfigVersionServiceImpl extends MPJBaseServiceImpl
     MPJLambdaWrapper<ApsSchedulingDayConfigVersion> q = getWrapper(req.getData());
     List<ApsSchedulingDayConfigVersion> list = this.list(q);
 
-    List<ApsSchedulingDayConfigVersionDto> dataList = list.stream().map(t -> $.copy(t, ApsSchedulingDayConfigVersionDto.class)).collect(Collectors.toList());
+    List<ApsSchedulingDayConfigVersionDto> dataList =   ApsSchedulingDayConfigVersionConverter.INSTANCE.queryListRes(list) ;//list.stream().map(t -> ApsSchedulingDayConfigVersionConverter.INSTANCE.insertReq(t)).collect(Collectors.toList());
     ((ApsSchedulingDayConfigVersionService) AopContext.currentProxy()).setName(dataList);
     return new ApsSchedulingDayConfigVersionQueryListRes().setDataList(dataList);
   }
