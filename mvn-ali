@@ -1,9 +1,5 @@
 export JAVA_HOME=/Users/wangbao/Library/Java/JavaVirtualMachines/corretto-21.0.7/Contents/Home
 
-#cp  pom-jm.xml ./pom.xml
-/Users/wangbao/soft/apache-maven-4.0.0-rc-1/bin/mvn  -Djava.home=$JAVA_HOME   \
--DskipTests clean package  -U  install  deploy -s ~/.m2/setting-peanut.xml
-#mvn  -v
 
-#/Users/wangbao/Library/Java/JavaVirtualMachines/corretto-17.0.8.1/Contents/Home/bin/java   -jar ./target/app.jar
-
+/Users/wangbao/soft/maven-mvnd-2.0.0-rc-3-darwin-aarch64/bin/mvnd.sh   -Djava.home=$JAVA_HOME   \
+-DskipTests clean package  -U  deploy  -s ~/.m2/setting-peanut.xml
